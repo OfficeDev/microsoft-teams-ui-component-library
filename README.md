@@ -1,7 +1,26 @@
+# Development
+
+To get started doing development, clone this repository. Then run the following:
+
+```
+yarn
+```
+
+You are now ready to start developing! This repository uses storybook for its inner loop development.
+
+```
+yarn start
+```
+
+Now open up your browser and go to:
+
+```
+http://localhost:3000
+```
 
 # Contributing
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
+This project welcomes contributions and suggestions. Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
 the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
 

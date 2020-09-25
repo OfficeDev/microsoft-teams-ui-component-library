@@ -1,0 +1,30 @@
+# Build project and storybook
+# Deploy Storybook to dev-int.teams.microsoft.com
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+pr: none
+
+trigger:
+  branches:
+    include:
+      - main
+      - feature/*
+  paths:
+    exclude:
+      - docs
+      - README.md
+      - SECURITY.md
+      - CODE_OF_CONDUCT.md
+
+pool:
+  name: Hosted
+  demands: azureps
+
+steps:
+  - task: AzurePowerShell@3
+    displayName: "Delete Blob"
+    inputs:
+      azureSubscription: "$(AzureSubscriptionName)"
+      ScriptPath: scripts/DeleteBlob.ps1
+      ScriptArguments: "-StorageAccountName $(StorageAccountName) -ContainerName $(ContainerName) -ResourceGroupName $(ResourceGroupName) -BlobName $(Build.SourceBranchName)"
+      azurePowerShellVersion: LatestVersion

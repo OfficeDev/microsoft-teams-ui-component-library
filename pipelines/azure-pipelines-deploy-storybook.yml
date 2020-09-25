@@ -1,0 +1,57 @@
+# Build project and storybook
+# Deploy Storybook to dev-int.teams.microsoft.com
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+pr: none
+
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    exclude:
+      - docs
+      - README.md
+      - SECURITY.md
+      - CODE_OF_CONDUCT.md
+
+pool:
+  name: Hosted
+  demands: azureps
+
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '10.x'
+    displayName: 'Install Node.js'
+
+  - script: "yarn"
+    displayName: "Install Dependencies"
+
+  - script: "yarn build"
+    displayName: "Build Project"
+
+  - script: "yarn test"
+    displayName: "Validate Tests"
+    enabled: false
+
+  - script: "yarn build:storybook"
+    displayName: "Build Storybook"
+
+  - task: AzureFileCopy@2
+    displayName: "Deploy Storybook to AzureBlob"
+    inputs:
+      SourcePath: "$(StorybookDist)"
+      azureSubscription: "$(AzureSubscriptionName)"
+      Destination: AzureBlob
+      storage: "$(StorageAccountName)"
+      ContainerName: "$(ContainerName)"
+      BlobPrefix: "$(DirectoryName)"
+
+  - task: AzurePowerShell@3
+    displayName: "Update Blob Cache Control and Content Type"
+    inputs:
+      azureSubscription: "$(AzureSubscriptionName)"
+      ScriptPath: scripts/UpdateBlobProperties.ps1
+      ScriptArguments: "-StorageAccountName $(StorageAccountName) -ContainerName $(ContainerName) -ResourceGroupName $(ResourceGroupName)"
+      azurePowerShellVersion: LatestVersion
