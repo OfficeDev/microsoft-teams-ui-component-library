@@ -352,3 +352,6 @@ MigrationBackup/
 # IDE files
 .idea
 *.iml
+
+# Built JS files
+lib

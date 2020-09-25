@@ -25,7 +25,8 @@
   "peerDependencies": {
     "@fluentui/react-icons-northstar": "^0.51.0",
     "@fluentui/react-northstar": "^0.51.0",
-    "react": "^16.8.0"
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
@@ -40,11 +41,12 @@
     "@storybook/addons": "^5.3.19",
     "@storybook/preset-typescript": "^3.0.0",
     "@storybook/react": "^5.3.19",
-    "@types/classnames": "^2.2.6",
+    "@types/classnames": "^2.2.10",
     "@types/jest": "^26.0.4",
-    "@types/lodash": "^4.14.159",
-    "@types/react": "^16.8.0",
-    "@types/react-dom": "^16.8.0",
+    "@types/lodash": "^4.14.158",
+    "@types/react": "^16.8.25",
+    "@types/react-dom": "^16.8.4",
+    "@types/react-is": "^16.7.1",
     "@typescript-eslint/eslint-plugin": "3.6.1",
     "autoprefixer": "^9.8.5",
     "babel-loader": "^8.1.0",
@@ -83,5 +85,8 @@
     "webpack": "~4.43.0",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0"
+  },
+  "resolutions": {
+    "@types/react": "^16.8.25"
   }
 }
