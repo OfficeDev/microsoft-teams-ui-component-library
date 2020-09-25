@@ -5,7 +5,7 @@
   "repository": "https://github.com/OfficeDev/microsoft-teams-ui-component-library.git",
   "license": "MIT",
   "author": "Ken Chau <kchau@microsoft.com>",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "build": "just-scripts build",
     "build:storybook": "just-scripts build:storybook",
@@ -52,6 +52,7 @@
     "babel-loader": "^8.1.0",
     "beachball": "^1.32.0",
     "chalk": "^4.1.0",
+    "cpx": "^1.5.0",
     "css-loader": "^3.6.0",
     "eslint": "7.2.0",
     "eslint-config-airbnb": "18.2.0",
