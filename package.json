@@ -1,8 +1,8 @@
 {
   "name": "@fluentui/teams",
-  "version": "0.1.0",
+  "version": "0.1.0-alpha.1",
   "description": "Teams components in the Fluent UI design language written in React",
-  "repository": "https://github.com/microsoft/fluentui-teams.git",
+  "repository": "https://github.com/OfficeDev/microsoft-teams-ui-component-library.git",
   "license": "MIT",
   "author": "Ken Chau <kchau@microsoft.com>",
   "main": "index.js",
@@ -18,7 +18,15 @@
     "start": "just-scripts start",
     "test": "just-scripts test"
   },
-  "dependencies": {},
+  "dependencies": {
+    "classnames": "^2.2.6",
+    "lodash": "^4.17.15"
+  },
+  "peerDependencies": {
+    "@fluentui/react-icons-northstar": "^0.51.0",
+    "@fluentui/react-northstar": "^0.51.0",
+    "react": "^16.8.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.10.5",
     "@fluentui/react-icons-northstar": "^0.51.0",
@@ -35,14 +43,13 @@
     "@types/classnames": "^2.2.10",
     "@types/jest": "^26.0.4",
     "@types/lodash": "^4.14.158",
-    "@types/react": "^16.9.43",
-    "@types/react-dom": "^16.9.8",
+    "@types/react": "^16.8.0",
+    "@types/react-dom": "^16.8.0",
     "@typescript-eslint/eslint-plugin": "3.6.1",
     "autoprefixer": "^9.8.5",
     "babel-loader": "^8.1.0",
     "beachball": "^1.32.0",
     "chalk": "^4.1.0",
-    "classnames": "^2.2.6",
     "css-loader": "^3.6.0",
     "eslint": "7.2.0",
     "eslint-config-airbnb": "18.2.0",
@@ -50,7 +57,6 @@
     "eslint-plugin-jsx-a11y": "6.3.0",
     "eslint-plugin-react": "7.20.0",
     "eslint-plugin-react-hooks": "4.0.0",
-    "fela": "^11.3.0",
     "file-loader": "^6.0.0",
     "fork-ts-checker-webpack-plugin": "^5.0.7",
     "html-webpack-plugin": "^4.3.0",
@@ -59,15 +65,14 @@
     "just-plop-helpers": "^1.1.2",
     "just-scripts": "^0.44.1",
     "lint-staged": "^10.2.11",
-    "lodash": "^4.17.19",
     "plop": "^2.7.1",
     "postcss": "^7.0.32",
     "postcss-loader": "^3.0.0",
     "prettier": "^2.0.5",
-    "react": "^16.13.1",
+    "react": "^16.8.0",
     "react-docgen-typescript": "^1.18.0",
-    "react-dom": "^16.13.1",
-    "react-is": "^16.13.1",
+    "react-dom": "^16.8.0",
+    "react-is": "^16.8.0",
     "storybook": "^5.3.19",
     "style-loader": "^1.2.1",
     "ts-jest": "^26.1.3",
@@ -78,13 +83,5 @@
     "webpack": "~4.43.0",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0"
-  },
-  "peerDependencies": {
-    "@fluentui/react-icons-northstar": "^0.50.0",
-    "@fluentui/react-northstar": "^0.50.0",
-    "classnames": "^2.2.6",
-    "fela": "^11.3.0",
-    "lodash": "^4.17.19",
-    "react": "^16.8.0"
   }
 }
