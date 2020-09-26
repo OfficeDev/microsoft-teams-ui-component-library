@@ -10,7 +10,8 @@ const copy = util.promisify(cpx.copy);
 
 task("build:tsc", tscTask());
 task("build:cp", async function () {
-  return await copy("./src/components/**/*.css", "./lib/components");
+  await copy("./src/components/**/*.css", "./lib/components");
+  await copy("./src/types/*", "./lib/types");
 });
 
 task("build", series("build:cp", "build:tsc"));

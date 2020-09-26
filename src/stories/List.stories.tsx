@@ -3,7 +3,7 @@ import { withKnobs, object, boolean } from "@storybook/addon-knobs";
 import List from "../components/List";
 import { withA11y } from "@storybook/addon-a11y";
 
-import { ThemeProvider } from "../lib/withTheme";
+import { StorybookThemeProvider } from "../lib/withTheme";
 
 export default {
   title: "List",
@@ -87,12 +87,12 @@ export const KitchenSink = () => {
     },
   };
   return (
-    <ThemeProvider>
+    <StorybookThemeProvider>
       <List
         truncate={boolean("Truncate", false, listKnobGroupID)}
         selectable={boolean("Selectable", true, listKnobGroupID)}
         {...object("Configuration", listConfig, listKnobGroupID)}
       />
-    </ThemeProvider>
+    </StorybookThemeProvider>
   );
 };

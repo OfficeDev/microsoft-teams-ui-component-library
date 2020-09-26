@@ -12,6 +12,8 @@ import {
   ComponentVariablesObject,
 } from "@fluentui/styles";
 
+import { teamsNextVariableAssignments, themes } from "../../lib/withTheme";
+
 export interface ITableThemeProps {
   globalTheme: ThemePrepared;
   children: ReactNode;
@@ -77,10 +79,14 @@ const getLocalTheme = (_themeKey: string): ThemeInput<any> => {
 };
 
 export const TableTheme = ({ globalTheme, children }: ITableThemeProps) => {
+  const mainTheme = globalTheme.siteVariables?.theme
+    ? globalTheme
+    : themes.teamsTheme;
   return (
     <FluentUIThemeProvider
       theme={mergeThemes(
-        globalTheme,
+        mainTheme,
+        teamsNextVariableAssignments,
         getLocalTheme(globalTheme.siteVariables.theme)
       )}
     >

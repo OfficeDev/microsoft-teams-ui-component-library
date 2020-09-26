@@ -61,7 +61,7 @@ const teamsNextThemeSiteVariables = {
   },
 };
 
-const teamsNextVariableAssignments = {
+export const teamsNextVariableAssignments = {
   componentStyles: {
     Box: {
       root: ({ variables }: ComponentVariablesObject) => ({
@@ -125,18 +125,15 @@ const teamsNextVariableAssignments = {
   },
 };
 
-const themes: { [themeKey: string]: ThemeInput<any> } = {
+export const themes: { [themeKey: string]: ThemeInput<any> } = {
   teamsTheme: mergeThemes(teamsTheme, {
     siteVariables: teamsNextThemeSiteVariables.teamsTheme,
-    ...teamsNextVariableAssignments,
   }),
   teamsDarkTheme: mergeThemes(teamsDarkTheme, {
     siteVariables: teamsNextThemeSiteVariables.teamsDarkTheme,
-    ...teamsNextVariableAssignments,
   }),
   teamsHighContrastTheme: mergeThemes(teamsHighContrastTheme, {
     siteVariables: teamsNextThemeSiteVariables.teamsHighContrastTheme,
-    ...teamsNextVariableAssignments,
   }),
 };
 
@@ -152,7 +149,7 @@ const themeKnob = () =>
     "Theme"
   );
 
-export const ThemeProvider = ({ children }: IThemeProviderProps) => {
+export const StorybookThemeProvider = ({ children }: IThemeProviderProps) => {
   return (
     <FluentUIThemeProvider
       theme={themes[themeKnob()]}

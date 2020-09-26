@@ -3,7 +3,7 @@ import { withKnobs, object, boolean } from "@storybook/addon-knobs";
 import Table from "../components/Table";
 import { withA11y } from "@storybook/addon-a11y";
 
-import { ThemeProvider } from "../lib/withTheme";
+import { StorybookThemeProvider } from "../lib/withTheme";
 
 export default {
   title: "Regular value components/Table",
@@ -80,12 +80,12 @@ export const KitchenSink = () => {
     },
   };
   return (
-    <ThemeProvider>
+    <StorybookThemeProvider>
       <Table
         truncate={boolean("Truncate", false, tableKnobGroupID)}
         selectable={boolean("Selectable", true, tableKnobGroupID)}
         {...object("Configuration", tableConfig, tableKnobGroupID)}
       />
-    </ThemeProvider>
+    </StorybookThemeProvider>
   );
 };

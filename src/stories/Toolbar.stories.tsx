@@ -3,7 +3,7 @@ import { withKnobs, object } from "@storybook/addon-knobs";
 import Toolbar from "../components/Toolbar";
 import { withA11y } from "@storybook/addon-a11y";
 
-import { ThemeProvider } from "../lib/withTheme";
+import { StorybookThemeProvider } from "../lib/withTheme";
 
 export default {
   title: "Regular value components/Toolbar",
@@ -70,11 +70,11 @@ export const KitchenSink = () => {
     find: true,
   };
   return (
-    <ThemeProvider>
+    <StorybookThemeProvider>
       <Toolbar
         {...object("Configuration", toolbarConfig, toolbarKnobGroupID)}
       />
-    </ThemeProvider>
+    </StorybookThemeProvider>
   );
 };
 
@@ -90,11 +90,11 @@ export const OnlyAFewActions = () => {
     find: false,
   };
   return (
-    <ThemeProvider>
+    <StorybookThemeProvider>
       <Toolbar
         {...object("Configuration", toolbarConfig, toolbarKnobGroupID)}
       />
-    </ThemeProvider>
+    </StorybookThemeProvider>
   );
 };
 
@@ -117,10 +117,10 @@ export const SingleSelectFilterAndFind = () => {
     find: true,
   };
   return (
-    <ThemeProvider>
+    <StorybookThemeProvider>
       <Toolbar
         {...object("Configuration", toolbarConfig, toolbarKnobGroupID)}
       />
-    </ThemeProvider>
+    </StorybookThemeProvider>
   );
 };

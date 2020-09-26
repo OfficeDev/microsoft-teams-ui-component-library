@@ -12,6 +12,8 @@ import {
   ComponentVariablesObject,
 } from "@fluentui/styles";
 
+import { teamsNextVariableAssignments, themes } from "../../lib/withTheme";
+
 export interface IToolbarThemeProps {
   globalTheme: ThemePrepared;
   children: ReactNode;
@@ -105,10 +107,14 @@ const getLocalTheme = (themeKey: string): ThemeInput<any> => {
 };
 
 export const ToolbarTheme = ({ globalTheme, children }: IToolbarThemeProps) => {
+  const mainTheme = globalTheme.siteVariables?.theme
+    ? globalTheme
+    : themes.teamsTheme;
   return (
     <FluentUIThemeProvider
       theme={mergeThemes(
-        globalTheme,
+        mainTheme,
+        teamsNextVariableAssignments,
         getLocalTheme(globalTheme.siteVariables.theme)
       )}
     >
