@@ -3,7 +3,7 @@ import { withKnobs, object } from "@storybook/addon-knobs";
 import Taskboard from "../components/Taskboard";
 import { withA11y } from "@storybook/addon-a11y";
 
-import { ThemeProvider } from "../lib/withTheme";
+import { StorybookThemeProvider } from "../lib/withTheme";
 
 export default {
   title: "Taskboard",
@@ -65,10 +65,10 @@ export const KitchenSink = () => {
   };
 
   return (
-    <ThemeProvider>
+    <StorybookThemeProvider>
       <Taskboard
         {...object("Configuration", taskboardConfig, taskboardKnobGroupID)}
       />
-    </ThemeProvider>
+    </StorybookThemeProvider>
   );
 };
