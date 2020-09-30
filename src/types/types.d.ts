@@ -7,3 +7,12 @@ export type TAction = {
 export type TActions = {
   [actionKey: string]: TAction;
 };
+
+export type TUser = {
+  image?: string;
+  name: string;
+};
+
+export type TUsers = {
+  [userKey: string]: TUser;
+};
