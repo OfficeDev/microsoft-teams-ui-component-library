@@ -354,4 +354,4 @@ MigrationBackup/
 *.iml
 
 # Built JS files
-lib
+/lib
