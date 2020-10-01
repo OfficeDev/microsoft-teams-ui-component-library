@@ -103,7 +103,7 @@ const EmptyState = ({
   <Box
     styles={{
       height: "100%",
-      border: `1px dashed ${siteVariables}`,
+      border: `1px dashed ${siteVariables.colors.grey["300"]}`,
     }}
   />
 );
