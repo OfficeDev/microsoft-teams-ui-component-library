@@ -377,6 +377,12 @@ export const teamsNextVariableAssignments = {
         fontWeight: variables.fontWeight,
       }),
     },
+    Flex: {
+      root: ({ variables }: ComponentVariablesObject) => ({
+        backgroundColor: variables.backgroundColor,
+        boxShadow: variables.elevation,
+      }),
+    },
     ToolbarItem: {
       root: ({ variables }: ComponentVariablesObject) => ({
         color: variables.color,

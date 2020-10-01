@@ -43,7 +43,7 @@ export type TFilters = ObjectShorthandCollection<TreeItemProps, never>;
 
 export interface IToolbarProps extends PropsOfElement<"div"> {
   actionGroups: TActionGroups;
-  filters: TFilters;
+  filters?: TFilters;
   find?: boolean;
   filtersSingleSelect?: boolean;
   onSelectedFiltersChange?: (selectedFilters: string[]) => string[];
@@ -297,7 +297,7 @@ export const Toolbar = (props: IToolbarProps) => {
                 paddingLeft: displayFindOnly ? "0" : "2.5rem",
               }}
             >
-              {!displayFindOnly && (
+              {!displayFindOnly && filters && (
                 <ToolbarFilter
                   layout={layout}
                   filters={filters}

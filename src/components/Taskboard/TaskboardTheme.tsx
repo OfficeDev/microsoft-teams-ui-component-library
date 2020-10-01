@@ -7,6 +7,8 @@ import {
 
 import { ThemePrepared, ThemeInput } from "@fluentui/styles";
 
+import { teamsNextVariableAssignments, themes } from "../../lib/withTheme";
+
 export interface ITaskboardThemeProps {
   globalTheme: ThemePrepared;
   children: ReactNode;
@@ -25,10 +27,14 @@ export const TaskboardTheme = ({
   children,
   style,
 }: ITaskboardThemeProps) => {
+  const mainTheme = globalTheme.siteVariables?.theme
+    ? globalTheme
+    : themes.teamsTheme;
   return (
     <FluentUIThemeProvider
       theme={mergeThemes(
-        globalTheme,
+        mainTheme,
+        teamsNextVariableAssignments,
         getLocalTheme(globalTheme.siteVariables.theme)
       )}
       style={style}
