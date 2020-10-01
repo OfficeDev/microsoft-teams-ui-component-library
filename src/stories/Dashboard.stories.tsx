@@ -49,9 +49,9 @@ const defaultWidgets: IWidget[] = [
           <Flex
             vAlign="center"
             hAlign="center"
-            styles={{ height: "100%", border: "1px dashed #ccc" }}
+            styles={{ height: "100%", border: "1px dashed rgb(179, 176, 173)" }}
           >
-            <Text size="large" weight="semibold" timestamp>
+            <Text size="large" weight="semibold">
               Content #1
             </Text>
           </Flex>
@@ -64,9 +64,9 @@ const defaultWidgets: IWidget[] = [
           <Flex
             vAlign="center"
             hAlign="center"
-            styles={{ height: "100%", border: "1px dashed #ccc" }}
+            styles={{ height: "100%", border: "1px dashed rgb(179, 176, 173)" }}
           >
-            <Text size="large" weight="semibold" timestamp>
+            <Text size="large" weight="semibold">
               Content #2
             </Text>
           </Flex>
@@ -79,9 +79,9 @@ const defaultWidgets: IWidget[] = [
           <Flex
             vAlign="center"
             hAlign="center"
-            styles={{ height: "100%", border: "1px dashed #ccc" }}
+            styles={{ height: "100%", border: "1px dashed rgb(179, 176, 173)" }}
           >
-            <Text size="large" weight="semibold" timestamp>
+            <Text size="large" weight="semibold">
               Content #3
             </Text>
           </Flex>

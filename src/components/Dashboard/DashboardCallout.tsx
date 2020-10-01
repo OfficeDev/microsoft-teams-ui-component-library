@@ -87,6 +87,7 @@ export const DashboardCallout = ({
           <Button
             text
             iconOnly
+            aria-label="More actions"
             icon={<MoreIcon />}
             styles={{
               margin: "0 -0.35rem",

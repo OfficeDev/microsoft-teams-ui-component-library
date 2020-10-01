@@ -95,18 +95,16 @@ export const WidgetTitle = ({
   );
 };
 
-const EmptyState = ({
-  siteVariables,
-}: {
-  siteVariables: SiteVariablesPrepared;
-}) => (
-  <Box
-    styles={{
-      height: "100%",
-      border: `1px dashed ${siteVariables.colors.grey["300"]}`,
-    }}
-  />
-);
+const EmptyState = ({ borderColor }: { borderColor: string }) => {
+  return (
+    <Box
+      styles={{
+        height: "100%",
+        border: `1px dashed ${borderColor}`,
+      }}
+    />
+  );
+};
 
 export interface IWidgetBodyContent {
   id: string;
@@ -153,22 +151,20 @@ export const WidgetBody = ({
             />
           )}
           {body.map(({ id, content }, i) => (
-            <>
-              <Flex
-                key={id}
-                styles={{
-                  height: "100%",
-                  display: activeTabId === i ? "flex" : "none",
-                }}
-                column
-              >
-                {content}
-              </Flex>
-            </>
+            <Flex
+              key={id}
+              styles={{
+                height: "100%",
+                display: activeTabId === i ? "flex" : "none",
+              }}
+              column
+            >
+              {content}
+            </Flex>
           ))}
         </>
       ) : (
-        <EmptyState siteVariables={siteVariables.colors.grey["300"]} />
+        <EmptyState borderColor={siteVariables.colors.grey["300"]} />
       )}
     </Card.Body>
   );
