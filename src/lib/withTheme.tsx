@@ -475,11 +475,8 @@ export const StorybookThemeProvider = ({ children }: IThemeProviderProps) => {
     theme.siteVariables.t = translations[lang];
   }
   return (
-    <FluentUIThemeProvider
-      theme={themes[themeKnob()]}
-      styles={{ height: "100vh" }}
-      rtl={lang === "he"}
-    >
+    <FluentUIThemeProvider theme={themes[themeKnob()]} rtl={lang === "he"}>
+      <style>{`html, body, #root, #root > .ui-provider { height: 100% } #root > .ui-provider { overflow: auto }`}</style>
       {children}
     </FluentUIThemeProvider>
   );

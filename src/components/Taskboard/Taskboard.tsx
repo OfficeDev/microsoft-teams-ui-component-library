@@ -34,24 +34,26 @@ export interface ITaskboardProps {
 const TaskboardStandalone = (props: ITaskboardProps) => {
   const { users, lanes, tasks } = props;
   return (
-    <Flex>
-      {Object.keys(lanes).map((laneKey) => {
-        const lane = lanes[laneKey];
-        return (
-          <Box
-            key={`TaskboardLane__${laneKey}`}
-            styles={{
-              minWidth: "15rem",
-              maxWidth: "22.5rem",
-              padding: "1.25rem",
-              flex: "1 0 0",
-            }}
-          >
-            <Text size="large" weight="bold" content={lane.title} />
-          </Box>
-        );
-      })}
-    </Flex>
+    <Box styles={{ overflowX: "auto", flex: "1 0 0" }}>
+      <Flex>
+        {Object.keys(lanes).map((laneKey) => {
+          const lane = lanes[laneKey];
+          return (
+            <Box
+              key={`TaskboardLane__${laneKey}`}
+              styles={{
+                minWidth: "15rem",
+                maxWidth: "22.5rem",
+                padding: "1.25rem",
+                flex: "1 0 0",
+              }}
+            >
+              <Text size="large" weight="bold" content={lane.title} />
+            </Box>
+          );
+        })}
+      </Flex>
+    </Box>
   );
 };
 
@@ -61,14 +63,9 @@ export const Taskboard = (props: ITaskboardProps) => {
       render={(globalTheme) => {
         const t = globalTheme.siteVariables.t;
         return (
-          <TaskboardTheme
-            globalTheme={globalTheme}
-            style={{
-              overflowX: "auto",
-              height: "100%",
-            }}
-          >
-            <Box
+          <TaskboardTheme globalTheme={globalTheme} style={{ height: "100%" }}>
+            <Flex
+              column
               variables={({ colorScheme }: SiteVariablesPrepared) => ({
                 backgroundColor: colorScheme.default.background2,
               })}
@@ -85,7 +82,7 @@ export const Taskboard = (props: ITaskboardProps) => {
                 }}
               />
               <TaskboardStandalone {...props} />
-            </Box>
+            </Flex>
           </TaskboardTheme>
         );
       }}
