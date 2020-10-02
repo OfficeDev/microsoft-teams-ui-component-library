@@ -377,6 +377,13 @@ export const teamsNextVariableAssignments = {
         fontWeight: variables.fontWeight,
       }),
     },
+    Card: {
+      root: ({ variables }: ComponentVariablesObject) => ({
+        boxShadow: variables.elevation,
+        "&:hover": { boxShadow: variables.elevation },
+        "&:focus": { boxShadow: variables.elevation },
+      }),
+    },
     Flex: {
       root: ({ variables }: ComponentVariablesObject) => ({
         backgroundColor: variables.backgroundColor,

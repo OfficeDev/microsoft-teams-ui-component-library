@@ -116,7 +116,7 @@ export const Table = (props: ITableProps) => {
     !!props.selectable
   );
 
-  const tableWrapperRef = useRef(null);
+  const $tableWrapper = useRef<HTMLDivElement | null>(null);
 
   const [inFlowColumns, setInFlowColumns] = useState<Set<columnKey>>(
     // start by displaying all columns (in case of SSR)
@@ -124,13 +124,12 @@ export const Table = (props: ITableProps) => {
   );
 
   const onResize = () => {
-    if (tableWrapperRef.current !== null) {
-      const tableWrapper = tableWrapperRef.current! as HTMLDivElement;
+    if ($tableWrapper.current !== null) {
       const widths = Array.from(breakpoints.keys()).sort(
         (a: number, b: number) => a - b
       );
       const firstBreak = widths.findIndex(
-        (width) => width > tableWrapper.clientWidth
+        (width) => width > $tableWrapper.current!.clientWidth
       );
       // use the last width to not be greater than the client width, or zero if they all were
       const nextInFlowColumns = breakpoints.get(
@@ -218,10 +217,7 @@ export const Table = (props: ITableProps) => {
     <FluentUIThemeConsumer
       render={(globalTheme) => (
         <TableTheme globalTheme={globalTheme}>
-          <div
-            ref={tableWrapperRef}
-            style={{ width: "100%", overflowX: "auto" }}
-          >
+          <div ref={$tableWrapper} style={{ width: "100%", overflowX: "auto" }}>
             <FluentUITable
               header={{
                 key: "header",
