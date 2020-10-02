@@ -6,5 +6,6 @@ export default {
   he: {
     hello: "שלום",
     "add category": "הוסף קטגוריה",
+    "add task": "להוסיף משימה",
   },
 };

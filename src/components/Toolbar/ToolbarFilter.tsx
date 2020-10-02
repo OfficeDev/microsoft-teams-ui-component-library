@@ -175,7 +175,7 @@ export const ToolbarFilter = (props: IExtendedToolbarFilterProps) => {
       title="Filter"
       content={invokerTitle}
       className="extended-toolbar__filters-invoker"
-      icon={<AudienceIcon />}
+      icon={<AudienceIcon outline />}
       styles={{
         ...toolbarButtonStyles,
         marginRight: ".5rem",

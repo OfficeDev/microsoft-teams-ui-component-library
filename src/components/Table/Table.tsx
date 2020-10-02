@@ -70,8 +70,8 @@ const SortOrderIndicator = ({
 }: ISortOrderIndicatorProps) => {
   const [sortOrderKey, sortOrderDirection] = sortOrder;
   if (columnKey === sortOrderKey) {
-    if (sortOrderDirection === "asc") return <ArrowUpIcon />;
-    else return <ArrowDownIcon />;
+    if (sortOrderDirection === "asc") return <ArrowUpIcon outline />;
+    else return <ArrowDownIcon outline />;
   } else return null;
 };
 
@@ -360,7 +360,7 @@ export const Table = (props: ITableProps) => {
                                     <Popup
                                       trigger={
                                         <Button
-                                          icon={<MoreIcon />}
+                                          icon={<MoreIcon outline />}
                                           text
                                           aria-label="More actions"
                                           styles={{ color: "currentColor" }}
@@ -374,7 +374,11 @@ export const Table = (props: ITableProps) => {
                                                 case "__details__":
                                                   return {
                                                     key: `${rowKey}__details__`,
-                                                    icon: <OpenOutsideIcon />,
+                                                    icon: (
+                                                      <OpenOutsideIcon
+                                                        outline
+                                                      />
+                                                    ),
                                                     content: "Details",
                                                   };
                                                 default:

@@ -16,3 +16,7 @@ export type TUser = {
 export type TUsers = {
   [userKey: string]: TUser;
 };
+
+export type TTranslations = {
+  [stringKey: string]: string;
+};

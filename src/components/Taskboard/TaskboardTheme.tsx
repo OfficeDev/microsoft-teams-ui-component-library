@@ -5,7 +5,11 @@ import {
   mergeThemes,
 } from "@fluentui/react-northstar";
 
-import { ThemePrepared, ThemeInput } from "@fluentui/styles";
+import {
+  ThemePrepared,
+  ThemeInput,
+  ComponentVariablesObject,
+} from "@fluentui/styles";
 
 import { teamsNextVariableAssignments, themes } from "../../lib/withTheme";
 
@@ -17,7 +21,15 @@ export interface ITaskboardThemeProps {
 
 const getLocalTheme = (themeKey: string): ThemeInput<any> => {
   return {
-    componentStyles: {},
+    componentStyles: {
+      Box: {
+        root: ({ variables }: ComponentVariablesObject) => ({
+          "&::after": {
+            backgroundColor: variables.separatorColor,
+          },
+        }),
+      },
+    },
     componentVariables: {},
   };
 };

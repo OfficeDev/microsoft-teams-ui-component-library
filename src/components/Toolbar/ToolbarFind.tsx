@@ -2,12 +2,11 @@ import React, { Dispatch, SetStateAction } from "react";
 
 import {
   Button,
-  Flex,
   Input,
   Tooltip,
   tooltipAsLabelBehavior,
 } from "@fluentui/react-northstar";
-import { AudienceIcon, SearchIcon } from "@fluentui/react-icons-northstar";
+import { SearchIcon } from "@fluentui/react-icons-northstar";
 
 import { TToolbarLayout } from "./Toolbar";
 
@@ -28,7 +27,7 @@ export const ToolbarFind = (props: IToolbarFindProps) => {
           placeholder="Find"
           aria-label="Find"
           className="extended-toolbar__far-side__input"
-          icon={<SearchIcon />}
+          icon={<SearchIcon outline />}
           styles={{
             flexShrink: 1,
             width: "13.125rem",
@@ -49,7 +48,7 @@ export const ToolbarFind = (props: IToolbarFindProps) => {
             placeholder="Find"
             aria-label="Find"
             className="extended-toolbar__far-side__input"
-            icon={<SearchIcon />}
+            icon={<SearchIcon outline />}
             styles={{
               flexShrink: 1,
               flexGrow: 1,
@@ -84,7 +83,7 @@ export const ToolbarFind = (props: IToolbarFindProps) => {
               title="Find"
               content=""
               className="extended-toolbar__find-invoker"
-              icon={<SearchIcon />}
+              icon={<SearchIcon outline />}
               styles={{
                 ...props.toolbarButtonStyles,
                 marginRight: ".5rem",
