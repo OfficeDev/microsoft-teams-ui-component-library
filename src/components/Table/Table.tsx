@@ -37,6 +37,7 @@ import getBreakpoints, {
 } from "./tableBreakpoints";
 
 import { TActions } from "../../types/types";
+import { convertRemToPixels } from "../../utils";
 
 export type columnKey = string;
 export type rowKey = string;
@@ -92,6 +93,8 @@ const defaultSortOrder: sortOrder = ["__rowKey__", "desc"];
 
 const passThrough = (arg: any) => arg;
 
+const rowPadding = 1.25;
+
 export const Table = (props: ITableProps) => {
   const rowKeys = Object.keys(props.rows);
   const columnKeys = Object.keys(props.columns);
@@ -130,7 +133,8 @@ export const Table = (props: ITableProps) => {
         (a: number, b: number) => a - b
       );
       const firstBreak = widths.findIndex(
-        (width) => width > tableWrapper.clientWidth
+        (width) =>
+          width > tableWrapper.clientWidth - convertRemToPixels(rowPadding) * 2
       );
       // use the last width to not be greater than the client width, or zero if they all were
       const nextInFlowColumns = breakpoints.get(
@@ -159,7 +163,7 @@ export const Table = (props: ITableProps) => {
       0
     );
     return {
-      padding: "0 1.25rem",
+      padding: `0 ${rowPadding}rem`,
       minWidth: `${minWidth}px`,
     };
   };
