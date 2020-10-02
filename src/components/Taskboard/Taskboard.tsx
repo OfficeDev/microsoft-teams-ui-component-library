@@ -79,7 +79,7 @@ export const Taskboard = (props: ITaskboardProps) => {
                   g1: {
                     a1: {
                       icon: "Add",
-                      title: "Add category",
+                      title: t["add category"],
                     },
                   },
                 }}
