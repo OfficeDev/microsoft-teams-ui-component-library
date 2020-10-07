@@ -1,15 +1,30 @@
 import React, { useLayoutEffect, useRef, useState } from "react";
+import range from "lodash/range";
+import set from "lodash/set";
+
+import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+  DropResult,
+} from "react-beautiful-dnd";
+
 import {
   Box,
   Button,
   Card,
   Flex,
   ProviderConsumer as FluentUIThemeConsumer,
+  Ref,
   SiteVariablesPrepared,
   Text,
+  gridCellBehavior,
+  gridCellWithFocusableElementBehavior,
+  gridNestedBehavior,
+  gridRowNestedBehavior,
 } from "@fluentui/react-northstar";
 
-import range from "lodash/range";
+import { getCode, keyboardKey } from "@fluentui/keyboard-key";
 
 import { AddIcon } from "@fluentui/react-icons-northstar";
 import { ICSSInJSStyle } from "@fluentui/styles";
@@ -23,21 +38,25 @@ export type TTaskboardLane = {
   title: string;
 };
 
+export type TTaskboardTask = {
+  lane: string;
+  title: string;
+  subtitle?: string;
+  body?: string;
+  users?: string[];
+  badges?: {
+    attachments?: number;
+  };
+};
+
 export interface ITaskboardProps {
   users: TUsers;
   lanes: {
     [laneKey: string]: TTaskboardLane;
   };
   tasks: {
-    lane: string;
-    title: string;
-    subtitle?: string;
-    body?: string;
-    users?: string[];
-    badges?: {
-      attachments?: number;
-    };
-  }[];
+    [taskKey: string]: TTaskboardTask;
+  };
 }
 
 interface ITaskboardPropsAndTranslations extends ITaskboardProps {
@@ -101,25 +120,32 @@ const TaskboardLane = (props: ITaskboardLaneProps) => {
   });
 
   return (
-    <Flex
-      column
-      key={`TaskboardLane__${laneKey}`}
+    <Box
       styles={{
+        display: "flex",
+        flexFlow: "column nowrap",
         minWidth: "15rem",
         maxWidth: "22.5rem",
         borderRight: "1px solid transparent",
         flex: "1 0 0",
         opacity: layoutState === 2 ? 1 : 0,
       }}
+      accessibility={(props) =>
+        set(
+          gridRowNestedBehavior(props),
+          "focusZone.props.direction",
+          0 /* FocusZoneDirection.vertical */
+        )
+      }
     >
       <Text
-        size="large"
         weight="bold"
         content={lane.title}
         style={{
           flex: "0 0 auto",
           padding: ".375rem 1.25rem .75rem 1.25rem",
         }}
+        data-is-focusable={true}
       />
       <Box
         variables={({ colorScheme }: SiteVariablesPrepared) => ({
@@ -131,6 +157,7 @@ const TaskboardLane = (props: ITaskboardLaneProps) => {
           padding: "0 1.25rem .75rem 1.25rem",
           ...(last ? {} : separatorStyles),
         }}
+        accessibility={gridCellWithFocusableElementBehavior}
       >
         <Button
           icon={<AddIcon outline />}
@@ -150,42 +177,99 @@ const TaskboardLane = (props: ITaskboardLaneProps) => {
           ...(last ? {} : separatorStyles),
         }}
       >
-        <Box styles={{ height: "100%", overflowY: "auto" }} ref={$laneContent}>
-          {layoutState > 0
-            ? range(l * 2).map(() => (
-                <Card
-                  elevated
-                  variables={({ colorScheme }: SiteVariablesPrepared) => ({
-                    elevation: colorScheme.elevations[8],
-                  })}
-                  styles={{
-                    margin: `0 ${((20 - scrollbarWidth) / 16).toFixed(
-                      4
-                    )}rem 1.25rem 1.25rem`,
-                    width: "auto",
-                    height: "16rem",
-                  }}
-                />
-              ))
-            : null}
-        </Box>
+        <Droppable droppableId={`TaskboardLane__Droppable__${laneKey}`}>
+          {(provided, snapshot) => (
+            <Box
+              styles={{ height: "100%", overflowY: "auto" }}
+              ref={(element: HTMLDivElement) => {
+                $laneContent.current = element;
+                provided.innerRef(element);
+              }}
+              {...provided.droppableProps}
+            >
+              {layoutState > 0
+                ? range(l * 2).map((li) => (
+                    <Draggable
+                      draggableId={`Taskboard__Draggable__${laneKey}-${li}`}
+                      key={`Taskboard__Draggable__${laneKey}-${li}`}
+                      index={li}
+                    >
+                      {(provided) => (
+                        <Ref innerRef={provided.innerRef}>
+                          <Card
+                            elevated
+                            variables={({
+                              colorScheme,
+                            }: SiteVariablesPrepared) => ({
+                              elevation: colorScheme.elevations[8],
+                            })}
+                            styles={{
+                              margin: `0 ${((20 - scrollbarWidth) / 16).toFixed(
+                                4
+                              )}rem 1.25rem 1.25rem`,
+                              width: "auto",
+                              height: "16rem",
+                            }}
+                            accessibility={gridCellBehavior}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                          >
+                            <Card.Body>
+                              <Text>{`${laneKey}_${li}`}</Text>
+                            </Card.Body>
+                          </Card>
+                        </Ref>
+                      )}
+                    </Draggable>
+                  ))
+                : null}
+              {provided.placeholder}
+            </Box>
+          )}
+        </Droppable>
       </Box>
-    </Flex>
+    </Box>
   );
 };
 
 const TaskboardStandalone = (props: ITaskboardPropsAndTranslations) => {
   const { users, lanes, tasks, t } = props;
+
+  const onDragEnd = (result: DropResult) => {};
+
   return (
-    <Box styles={{ overflowX: "auto", flex: "1 0 0" }}>
-      <Flex styles={{ height: "100%" }}>
+    <Box
+      styles={{ overflowX: "auto", flex: "1 0 0" }}
+      as={DragDropContext}
+      onDragEnd={onDragEnd}
+    >
+      <Box
+        styles={{ height: "100%", display: "flex" }}
+        accessibility={(props) =>
+          set(gridNestedBehavior(props), "focusZone.props", {
+            shouldEnterInnerZone: function shouldEnterInnerZone(
+              event: KeyboardEvent
+            ) {
+              return getCode(event) === keyboardKey.ArrowDown;
+            },
+            direction: 1 /* FocusZoneDirection.horizontal */,
+            shouldResetActiveElementWhenTabFromZone: true,
+          })
+        }
+      >
         {Object.keys(lanes).map((laneKey, l, laneKeys) => {
           const last = l === laneKeys.length - 1;
           return (
-            <TaskboardLane last={last} laneKey={laneKey} l={l} {...props} />
+            <TaskboardLane
+              last={last}
+              laneKey={laneKey}
+              key={`TaskboardLane__${laneKey}`}
+              l={l}
+              {...props}
+            />
           );
         })}
-      </Flex>
+      </Box>
     </Box>
   );
 };

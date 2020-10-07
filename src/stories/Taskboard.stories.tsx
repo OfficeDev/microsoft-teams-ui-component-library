@@ -49,8 +49,8 @@ export const KitchenSink = () => {
         title: "Done",
       },
     },
-    tasks: [
-      {
+    tasks: {
+      t1: {
         lane: "l1",
         title: "Taskboard",
         subtitle: "HVC v1",
@@ -61,7 +61,7 @@ export const KitchenSink = () => {
           attachments: 4,
         },
       },
-    ],
+    },
   };
 
   return (
