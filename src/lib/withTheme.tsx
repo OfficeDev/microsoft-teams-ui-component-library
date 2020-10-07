@@ -453,7 +453,7 @@ const langKnob = () =>
     "Language",
     {
       "English (US)": "en-US",
-      עברית: "he",
+      فارسی: "fa",
     },
     "en-US",
     "Theme"
@@ -482,7 +482,7 @@ export const StorybookThemeProvider = ({ children }: IThemeProviderProps) => {
     theme.siteVariables.t = translations[lang];
   }
   return (
-    <FluentUIThemeProvider theme={themes[themeKnob()]} rtl={lang === "he"}>
+    <FluentUIThemeProvider theme={themes[themeKnob()]} rtl={lang === "fa"}>
       <style>{`html, body, #root, #root > .ui-provider { height: 100% } #root > .ui-provider { overflow: auto }`}</style>
       {children}
     </FluentUIThemeProvider>

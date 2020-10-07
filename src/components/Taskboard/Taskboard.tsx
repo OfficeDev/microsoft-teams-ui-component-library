@@ -31,23 +31,25 @@ import { ICSSInJSStyle } from "@fluentui/styles";
 
 import { TaskboardTheme } from "./TaskboardTheme";
 
-import { TUsers, TTranslations } from "../../types/types";
+import { TUsers } from "../../types/types";
+import { TTranslations, TTextObject, getText } from "../../translations";
 import { Toolbar } from "../Toolbar/Toolbar";
 
 export type TTaskboardLane = {
-  title: string;
+  title: TTextObject;
 };
 
-export type TTaskboardTask = {
+export interface ITaskboardTask {
   lane: string;
-  title: string;
-  subtitle?: string;
-  body?: string;
+  order: number;
+  title: TTextObject;
+  subtitle?: TTextObject;
+  body?: TTextObject;
   users?: string[];
   badges?: {
     attachments?: number;
   };
-};
+}
 
 export interface ITaskboardProps {
   users: TUsers;
@@ -55,7 +57,7 @@ export interface ITaskboardProps {
     [laneKey: string]: TTaskboardLane;
   };
   tasks: {
-    [taskKey: string]: TTaskboardTask;
+    [taskKey: string]: ITaskboardTask;
   };
 }
 
@@ -63,11 +65,13 @@ interface ITaskboardPropsAndTranslations extends ITaskboardProps {
   t: TTranslations;
 }
 
-interface ITaskboardLaneProps extends ITaskboardPropsAndTranslations {
+interface ITaskboardLaneProps {
+  lane: TTaskboardLane;
   laneKey: string;
   last: boolean;
-  // todo: `children` is just for development purposes; remove for PR
-  l: number;
+  tasks: IPreparedTask[];
+  users: TUsers;
+  t: TTranslations;
 }
 
 const separatorStyles: ICSSInJSStyle = {
@@ -84,8 +88,7 @@ const separatorStyles: ICSSInJSStyle = {
 };
 
 const TaskboardLane = (props: ITaskboardLaneProps) => {
-  const { users, lanes, tasks, t, laneKey, last, l } = props;
-  const lane = lanes[laneKey];
+  const { users, lane, tasks, t, laneKey, last } = props;
 
   const [layoutState, setLayoutState] = useState<number>(0);
   const [scrollbarWidth, setScrollbarWidth] = useState<number>(16);
@@ -140,7 +143,7 @@ const TaskboardLane = (props: ITaskboardLaneProps) => {
     >
       <Text
         weight="bold"
-        content={lane.title}
+        content={getText(t.locale, lane.title)}
         style={{
           flex: "0 0 auto",
           padding: ".375rem 1.25rem .75rem 1.25rem",
@@ -177,7 +180,7 @@ const TaskboardLane = (props: ITaskboardLaneProps) => {
           ...(last ? {} : separatorStyles),
         }}
       >
-        <Droppable droppableId={`TaskboardLane__Droppable__${laneKey}`}>
+        <Droppable droppableId={laneKey}>
           {(provided, snapshot) => (
             <Box
               styles={{ height: "100%", overflowY: "auto" }}
@@ -187,12 +190,12 @@ const TaskboardLane = (props: ITaskboardLaneProps) => {
               }}
               {...provided.droppableProps}
             >
-              {layoutState > 0
-                ? range(l * 2).map((li) => (
+              {layoutState > 0 && tasks?.length
+                ? tasks.map((task) => (
                     <Draggable
-                      draggableId={`Taskboard__Draggable__${laneKey}-${li}`}
-                      key={`Taskboard__Draggable__${laneKey}-${li}`}
-                      index={li}
+                      draggableId={task.taskKey}
+                      key={`Taskboard__Draggable__${task.taskKey}`}
+                      index={task.order}
                     >
                       {(provided) => (
                         <Ref innerRef={provided.innerRef}>
@@ -208,14 +211,20 @@ const TaskboardLane = (props: ITaskboardLaneProps) => {
                                 4
                               )}rem 1.25rem 1.25rem`,
                               width: "auto",
-                              height: "16rem",
+                              height: "auto",
                             }}
                             accessibility={gridCellBehavior}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
                           >
                             <Card.Body>
-                              <Text>{`${laneKey}_${li}`}</Text>
+                              <Text>{getText(t.locale, task.title)}</Text>
+                              {task.subtitle && (
+                                <Text>{getText(t.locale, task.subtitle)}</Text>
+                              )}
+                              {task.body && (
+                                <Text>{getText(t.locale, task.body)}</Text>
+                              )}
                             </Card.Body>
                           </Card>
                         </Ref>
@@ -232,45 +241,105 @@ const TaskboardLane = (props: ITaskboardLaneProps) => {
   );
 };
 
+interface IPreparedTask extends ITaskboardTask {
+  taskKey: string;
+}
+
+interface IPreparedTasks {
+  [laneKey: string]: IPreparedTask[];
+}
+
+const prepareTasks = (tasks: {
+  [taskKey: string]: ITaskboardTask;
+}): IPreparedTasks => {
+  const unsortedPreparedTasks = Object.keys(tasks).reduce(
+    (acc: IPreparedTasks, taskKey) => {
+      const task = tasks[taskKey] as IPreparedTask;
+      task.taskKey = taskKey;
+      if (acc.hasOwnProperty(task.lane)) acc[task.lane].push(task);
+      else acc[task.lane] = [task];
+      return acc;
+    },
+    {}
+  );
+
+  return Object.keys(unsortedPreparedTasks).reduce(
+    (acc: IPreparedTasks, laneKey) => {
+      acc[laneKey] = unsortedPreparedTasks[laneKey].sort(
+        (a, b) => a.order - b.order
+      );
+      return acc;
+    },
+    {}
+  );
+};
+
 const TaskboardStandalone = (props: ITaskboardPropsAndTranslations) => {
   const { users, lanes, tasks, t } = props;
 
-  const onDragEnd = (result: DropResult) => {};
+  const [arrangedTasks, setArrangedTasks] = useState<IPreparedTasks>(
+    prepareTasks(tasks)
+  );
+
+  const onDragEnd = ({ draggableId, source, destination }: DropResult) => {
+    if (destination) {
+      const sourceLaneKey = source.droppableId;
+      const destinationLaneKey = destination.droppableId;
+
+      const movingTasks = arrangedTasks[sourceLaneKey].splice(source.index, 1);
+      arrangedTasks[sourceLaneKey].map((task, newOrder) => {
+        task.order = newOrder;
+        return task;
+      });
+
+      arrangedTasks[destinationLaneKey].splice(
+        destination.index,
+        0,
+        movingTasks[0]
+      );
+      arrangedTasks[destinationLaneKey].map((task, newOrder) => {
+        task.order = newOrder;
+        return task;
+      });
+
+      return setArrangedTasks(arrangedTasks);
+    }
+  };
 
   return (
-    <Box
-      styles={{ overflowX: "auto", flex: "1 0 0" }}
-      as={DragDropContext}
-      onDragEnd={onDragEnd}
-    >
-      <Box
-        styles={{ height: "100%", display: "flex" }}
-        accessibility={(props) =>
-          set(gridNestedBehavior(props), "focusZone.props", {
-            shouldEnterInnerZone: function shouldEnterInnerZone(
-              event: KeyboardEvent
-            ) {
-              return getCode(event) === keyboardKey.ArrowDown;
-            },
-            direction: 1 /* FocusZoneDirection.horizontal */,
-            shouldResetActiveElementWhenTabFromZone: true,
-          })
-        }
-      >
-        {Object.keys(lanes).map((laneKey, l, laneKeys) => {
-          const last = l === laneKeys.length - 1;
-          return (
-            <TaskboardLane
-              last={last}
-              laneKey={laneKey}
-              key={`TaskboardLane__${laneKey}`}
-              l={l}
-              {...props}
-            />
-          );
-        })}
+    <DragDropContext onDragEnd={onDragEnd}>
+      <Box styles={{ overflowX: "auto", flex: "1 0 0" }}>
+        <Box
+          styles={{ height: "100%", display: "flex" }}
+          accessibility={(props) =>
+            set(gridNestedBehavior(props), "focusZone.props", {
+              shouldEnterInnerZone: function shouldEnterInnerZone(
+                event: KeyboardEvent
+              ) {
+                return getCode(event) === keyboardKey.ArrowDown;
+              },
+              direction: 1 /* FocusZoneDirection.horizontal */,
+              shouldResetActiveElementWhenTabFromZone: true,
+            })
+          }
+        >
+          {Object.keys(lanes).map((laneKey, laneIndex, laneKeys) => {
+            const last = laneIndex === laneKeys.length - 1;
+            return (
+              <TaskboardLane
+                last={last}
+                laneKey={laneKey}
+                lane={lanes[laneKey]}
+                key={`TaskboardLane__${laneKey}`}
+                tasks={arrangedTasks[laneKey]}
+                users={users}
+                t={t}
+              />
+            );
+          })}
+        </Box>
       </Box>
-    </Box>
+    </DragDropContext>
   );
 };
 

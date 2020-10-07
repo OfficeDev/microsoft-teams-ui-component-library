@@ -1,3 +1,5 @@
+import { TTextObject } from "../translations";
+
 export type TAction = {
   title: string;
   icon?: string;
@@ -10,13 +12,9 @@ export type TActions = {
 
 export type TUser = {
   image?: string;
-  name: string;
+  name: TTextObject;
 };
 
 export type TUsers = {
   [userKey: string]: TUser;
-};
-
-export type TTranslations = {
-  [stringKey: string]: string;
 };
