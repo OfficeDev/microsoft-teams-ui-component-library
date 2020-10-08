@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useRef, useState } from "react";
-import range from "lodash/range";
 import set from "lodash/set";
+import cloneDeep from "lodash/cloneDeep";
 
 import {
   DragDropContext,
@@ -316,7 +316,7 @@ const TaskboardStandalone = (props: ITaskboardPropsAndTranslations) => {
 
       arrangedTasks[destinationLaneKey].map(resetOrder);
 
-      return setArrangedTasks(arrangedTasks);
+      return setArrangedTasks(cloneDeep(arrangedTasks));
     }
   };
 
