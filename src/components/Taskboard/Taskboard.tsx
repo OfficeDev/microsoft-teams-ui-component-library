@@ -218,7 +218,7 @@ const TaskboardLane = (props: ITaskboardLaneProps) => {
                             {...provided.dragHandleProps}
                           >
                             <Card.Body styles={{ margin: 0 }}>
-                              <Text styles={{ fontWeight: 600 }}>
+                              <Text weight="semibold">
                                 {getText(t.locale, task.title)}
                               </Text>
                               {task.subtitle && (
