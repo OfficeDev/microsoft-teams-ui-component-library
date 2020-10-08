@@ -217,13 +217,26 @@ const TaskboardLane = (props: ITaskboardLaneProps) => {
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
                           >
-                            <Card.Body>
-                              <Text>{getText(t.locale, task.title)}</Text>
+                            <Card.Body styles={{ margin: 0 }}>
+                              <Text styles={{ fontWeight: 600 }}>
+                                {getText(t.locale, task.title)}
+                              </Text>
                               {task.subtitle && (
-                                <Text>{getText(t.locale, task.subtitle)}</Text>
+                                <Text
+                                  size="small"
+                                  variables={({
+                                    colorScheme,
+                                  }: SiteVariablesPrepared) => ({
+                                    color: colorScheme.foreground1,
+                                  })}
+                                >
+                                  {getText(t.locale, task.subtitle)}
+                                </Text>
                               )}
                               {task.body && (
-                                <Text>{getText(t.locale, task.body)}</Text>
+                                <Text styles={{ marginTop: ".5rem" }}>
+                                  {getText(t.locale, task.body)}
+                                </Text>
                               )}
                             </Card.Body>
                           </Card>
@@ -274,6 +287,11 @@ const prepareTasks = (tasks: {
   );
 };
 
+const resetOrder = (task: IPreparedTask, newOrder: number) => {
+  task.order = newOrder;
+  return task;
+};
+
 const TaskboardStandalone = (props: ITaskboardPropsAndTranslations) => {
   const { users, lanes, tasks, t } = props;
 
@@ -287,20 +305,16 @@ const TaskboardStandalone = (props: ITaskboardPropsAndTranslations) => {
       const destinationLaneKey = destination.droppableId;
 
       const movingTasks = arrangedTasks[sourceLaneKey].splice(source.index, 1);
-      arrangedTasks[sourceLaneKey].map((task, newOrder) => {
-        task.order = newOrder;
-        return task;
-      });
+
+      arrangedTasks[sourceLaneKey].map(resetOrder);
 
       arrangedTasks[destinationLaneKey].splice(
         destination.index,
         0,
         movingTasks[0]
       );
-      arrangedTasks[destinationLaneKey].map((task, newOrder) => {
-        task.order = newOrder;
-        return task;
-      });
+
+      arrangedTasks[destinationLaneKey].map(resetOrder);
 
       return setArrangedTasks(arrangedTasks);
     }
