@@ -2,6 +2,7 @@ import React, { CSSProperties, ReactNode } from "react";
 
 import {
   Provider as FluentUIThemeProvider,
+  SiteVariablesPrepared,
   mergeThemes,
 } from "@fluentui/react-northstar";
 
@@ -29,8 +30,26 @@ const getLocalTheme = (themeKey: string): ThemeInput<any> => {
           },
         }),
       },
+      CardFooter: {
+        root: ({ variables }: ComponentVariablesObject) => ({
+          marginBottom: 0,
+          marginTop: "1.625rem",
+          "&::before": {
+            content: '""',
+            display: "block",
+            height: "1px",
+            backgroundColor: variables.separatorColor,
+            position: "relative",
+            top: "-.5rem",
+          },
+        }),
+      },
     },
-    componentVariables: {},
+    componentVariables: {
+      CardFooter: ({ colorScheme }: SiteVariablesPrepared) => ({
+        separatorColor: colorScheme.default.border1,
+      }),
+    },
   };
 };
 

@@ -1,5 +1,6 @@
 import React, { useLayoutEffect, useRef, useState } from "react";
 import set from "lodash/set";
+import range from "lodash/range";
 import cloneDeep from "lodash/cloneDeep";
 
 import {
@@ -10,6 +11,7 @@ import {
 } from "react-beautiful-dnd";
 
 import {
+  Avatar,
   Box,
   Button,
   Card,
@@ -26,18 +28,27 @@ import {
 
 import { getCode, keyboardKey } from "@fluentui/keyboard-key";
 
-import { AddIcon } from "@fluentui/react-icons-northstar";
+import { AddIcon, PaperclipIcon } from "@fluentui/react-icons-northstar";
 import { ICSSInJSStyle } from "@fluentui/styles";
 
 import { TaskboardTheme } from "./TaskboardTheme";
 
 import { TUsers } from "../../types/types";
-import { TTranslations, TTextObject, getText } from "../../translations";
+import {
+  TTranslations,
+  TTextObject,
+  TLocale,
+  getText,
+} from "../../translations";
 import { Toolbar } from "../Toolbar/Toolbar";
 
 export type TTaskboardLane = {
   title: TTextObject;
 };
+
+export interface ITaskboardTaskBadges {
+  attachments?: number;
+}
 
 export interface ITaskboardTask {
   lane: string;
@@ -46,9 +57,7 @@ export interface ITaskboardTask {
   subtitle?: TTextObject;
   body?: TTextObject;
   users?: string[];
-  badges?: {
-    attachments?: number;
-  };
+  badges?: ITaskboardTaskBadges;
 }
 
 export interface ITaskboardProps {
@@ -85,6 +94,76 @@ const separatorStyles: ICSSInJSStyle = {
     right: 0,
     width: "1px",
   },
+};
+
+interface ITaskBadgesProps {
+  badges: ITaskboardTaskBadges;
+  t: TTranslations;
+}
+
+const TaskBadges = ({ badges, t }: ITaskBadgesProps) => {
+  return (
+    <Box>
+      {Object.keys(badges).map((badgeKey) => {
+        switch (badgeKey) {
+          case "attachments":
+            return (
+              <Flex
+                variables={({ colorScheme }: SiteVariablesPrepared) => ({
+                  color: colorScheme.default.foreground2,
+                })}
+                styles={{ height: "1.75rem" }}
+                hAlign="center"
+                vAlign="center"
+              >
+                <PaperclipIcon outline />
+                <Text
+                  size="small"
+                  content={badges[badgeKey]}
+                  styles={{ marginLeft: ".25rem" }}
+                />
+              </Flex>
+            );
+        }
+      })}
+    </Box>
+  );
+};
+
+interface ITaskUsersProps {
+  taskUsers: string[];
+  users: TUsers;
+  locale: TLocale;
+}
+
+const TaskUsers = ({ taskUsers, users, locale }: ITaskUsersProps) => {
+  // [v-wishow] todo: replace with AvatarGroup compoment to be released in Fluent UI
+  // spec in Figma: https://www.figma.com/file/p5tprlOerFyzQ9YH4aMQBl/Avatar-Group-Fluent-UI?node-id=3%3A123
+  return (
+    <>
+      {range(0, Math.min(taskUsers.length, 3)).map((i) => {
+        const userKey = taskUsers[i];
+        const user = users[userKey];
+        return taskUsers.length > 3 && i === 2 ? (
+          <Avatar
+            size="small"
+            key={`TaskUserAvatar__overflow`}
+            name={`+${taskUsers.length - 2}`}
+            getInitials={(name) => name}
+            styles={{ marginLeft: "-.375rem" }}
+          />
+        ) : (
+          <Avatar
+            size="small"
+            key={`TaskUserAvatar__${userKey}`}
+            name={getText(locale, user.name)}
+            {...(user.image ? { image: user.image } : {})}
+            {...(i > 0 ? { styles: { marginLeft: "-.375rem" } } : {})}
+          />
+        );
+      })}
+    </>
+  );
 };
 
 const TaskboardLane = (props: ITaskboardLaneProps) => {
@@ -239,6 +318,24 @@ const TaskboardLane = (props: ITaskboardLaneProps) => {
                                 </Text>
                               )}
                             </Card.Body>
+                            {(task.users || task.badges) && (
+                              <Card.Footer>
+                                <Flex>
+                                  <Box styles={{ flex: "1 0 auto" }}>
+                                    {task.users && (
+                                      <TaskUsers
+                                        locale={t.locale}
+                                        taskUsers={task.users}
+                                        users={users}
+                                      />
+                                    )}
+                                  </Box>
+                                  {task.badges && (
+                                    <TaskBadges t={t} badges={task.badges} />
+                                  )}
+                                </Flex>
+                              </Card.Footer>
+                            )}
                           </Card>
                         </Ref>
                       )}
@@ -262,9 +359,12 @@ interface IPreparedTasks {
   [laneKey: string]: IPreparedTask[];
 }
 
-const prepareTasks = (tasks: {
-  [taskKey: string]: ITaskboardTask;
-}): IPreparedTasks => {
+const prepareTasks = (
+  tasks: {
+    [taskKey: string]: ITaskboardTask;
+  },
+  lanes: { [laneKey: string]: TTaskboardLane }
+): IPreparedTasks => {
   const unsortedPreparedTasks = Object.keys(tasks).reduce(
     (acc: IPreparedTasks, taskKey) => {
       const task = tasks[taskKey] as IPreparedTask;
@@ -276,15 +376,12 @@ const prepareTasks = (tasks: {
     {}
   );
 
-  return Object.keys(unsortedPreparedTasks).reduce(
-    (acc: IPreparedTasks, laneKey) => {
-      acc[laneKey] = unsortedPreparedTasks[laneKey].sort(
-        (a, b) => a.order - b.order
-      );
-      return acc;
-    },
-    {}
-  );
+  return Object.keys(lanes).reduce((acc: IPreparedTasks, laneKey) => {
+    acc[laneKey] = unsortedPreparedTasks.hasOwnProperty(laneKey)
+      ? unsortedPreparedTasks[laneKey].sort((a, b) => a.order - b.order)
+      : [];
+    return acc;
+  }, {});
 };
 
 const resetOrder = (task: IPreparedTask, newOrder: number) => {
@@ -296,7 +393,7 @@ const TaskboardStandalone = (props: ITaskboardPropsAndTranslations) => {
   const { users, lanes, tasks, t } = props;
 
   const [arrangedTasks, setArrangedTasks] = useState<IPreparedTasks>(
-    prepareTasks(tasks)
+    prepareTasks(tasks, lanes)
   );
 
   const onDragEnd = ({ draggableId, source, destination }: DropResult) => {

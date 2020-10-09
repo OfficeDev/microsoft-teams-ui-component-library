@@ -5,8 +5,10 @@ import { withA11y } from "@storybook/addon-a11y";
 import fakerEN from "faker/locale/en_US";
 import fakerFA from "faker/locale/fa";
 import range from "lodash/range";
+import shuffle from "lodash/shuffle";
 
 import { StorybookThemeProvider } from "../lib/withTheme";
+import { TUsers } from "../types/types";
 
 export default {
   title: "Taskboard",
@@ -20,22 +22,21 @@ const fake = (template: string) => {
   return { "en-US": fakerEN.fake(template), fa: fakerFA.fake(template) };
 };
 
+const usersRange = range(1, 25);
+
+const users = () =>
+  shuffle(usersRange.filter(() => Math.random() > 0.67).map((ui) => `u${ui}`));
+
 export const KitchenSink = () => {
   const taskboardConfig = {
-    users: {
-      u1: {
-        image: fakerEN.internet.avatar(),
+    // [v-wishow] todo: developer-users can define how task data maps to card content/layout.
+    users: usersRange.reduce((acc: TUsers, i) => {
+      acc[`u${i}`] = {
         name: fake("{{name.findName}}"),
-      },
-      u2: {
-        image: fakerEN.internet.avatar(),
-        name: fake("{{name.findName}}"),
-      },
-      u3: {
-        image: fakerEN.internet.avatar(),
-        name: fake("{{name.findName}}"),
-      },
-    },
+        ...(Math.random() > 0.33 ? { image: fakerEN.internet.avatar() } : {}),
+      };
+      return acc;
+    }, {}),
     lanes: {
       l1: {
         title: fake("{{commerce.department}}"),
@@ -65,12 +66,20 @@ export const KitchenSink = () => {
             title: fake(
               "{{commerce.productAdjective}} {{commerce.productMaterial}} {{commerce.product}}"
             ),
-            subtitle: fake("{{company.catchPhrase}}"),
-            body: fake("{{lorem.sentence}}"),
-            users: ["u1", "u2", "u3"],
-            badges: {
-              attachments: 4,
-            },
+            ...(Math.random() > 0.33
+              ? { subtitle: fake("{{company.catchPhrase}}") }
+              : {}),
+            ...(Math.random() > 0.33
+              ? { body: fake("{{lorem.sentence}}") }
+              : {}),
+            ...(Math.random() > 0.33 ? { users: users() } : {}),
+            ...(Math.random() > 0.5
+              ? {
+                  badges: {
+                    attachments: Math.max(1, Math.floor(999 * Math.random())),
+                  },
+                }
+              : {}),
           };
         }
         acc.ti += (li - 1) * 2;
