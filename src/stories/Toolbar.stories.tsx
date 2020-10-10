@@ -6,7 +6,7 @@ import { withA11y } from "@storybook/addon-a11y";
 import { StorybookThemeProvider } from "../lib/withTheme";
 
 export default {
-  title: "Regular value components/Toolbar",
+  title: "Components/Toolbar",
   component: Toolbar,
   decorators: [withKnobs, withA11y],
 };

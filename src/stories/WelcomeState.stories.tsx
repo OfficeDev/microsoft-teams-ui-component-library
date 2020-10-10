@@ -7,19 +7,30 @@ import { StorybookThemeProvider } from "../lib/withTheme";
 import { states } from "../components/EmptyStates/EmptyStates";
 
 export default {
-  title: "Components/Empty States",
+  title: "Components/Empty States/Welcome",
   component: EmptyStates,
   decorators: [withKnobs, withA11y],
 };
 
 const emptyStatesKnobGroupID = "EmptyStates";
-const defaultConfig = { option: states.default };
+const welcomeConfig = { option: states.welcome };
+const welcomeConfig2 = { option: states.welcome2 };
 
-export const Default = () => {
+export const NewUser = () => {
   return (
     <StorybookThemeProvider>
       <EmptyStates
-        {...object("Configuration", defaultConfig, emptyStatesKnobGroupID)}
+        {...object("Configuration", welcomeConfig, emptyStatesKnobGroupID)}
+      />
+    </StorybookThemeProvider>
+  );
+};
+
+export const AuthorizedUser = () => {
+  return (
+    <StorybookThemeProvider>
+      <EmptyStates
+        {...object("Configuration", welcomeConfig2, emptyStatesKnobGroupID)}
       />
     </StorybookThemeProvider>
   );

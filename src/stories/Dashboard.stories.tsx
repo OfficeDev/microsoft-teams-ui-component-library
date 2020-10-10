@@ -14,7 +14,7 @@ import {
 } from "@fluentui/react-northstar";
 
 export default {
-  title: "Dashboard",
+  title: "Composites/Dashboard",
   component: Dashboard,
   decorators: [withKnobs, withA11y],
 };

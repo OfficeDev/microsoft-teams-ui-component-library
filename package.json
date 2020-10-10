@@ -16,9 +16,12 @@
     "lint": "just-scripts lint",
     "release": "beachball publish",
     "start": "just-scripts start",
-    "test": "just-scripts test"
+    "test": "just-scripts test",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
+    "@storybook/cli": "^6.0.26",
     "classnames": "^2.2.6",
     "lodash": "^4.17.15"
   },
@@ -33,14 +36,14 @@
     "@fluentui/react-icons-northstar": "^0.51.0",
     "@fluentui/react-northstar": "^0.51.0",
     "@storybook/addon-a11y": "^5.3.19",
-    "@storybook/addon-actions": "^5.3.19",
+    "@storybook/addon-actions": "^6.0.26",
     "@storybook/addon-docs": "^5.3.19",
     "@storybook/addon-knobs": "^5.3.19",
-    "@storybook/addon-links": "^5.3.19",
+    "@storybook/addon-links": "^6.0.26",
     "@storybook/addon-viewport": "^5.3.19",
-    "@storybook/addons": "^5.3.19",
+    "@storybook/addons": "^6.0.26",
     "@storybook/preset-typescript": "^3.0.0",
-    "@storybook/react": "^5.3.19",
+    "@storybook/react": "^6.0.26",
     "@types/classnames": "^2.2.10",
     "@types/jest": "^26.0.4",
     "@types/lodash": "^4.14.158",
