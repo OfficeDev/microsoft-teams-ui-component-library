@@ -21,12 +21,12 @@ export default {
     locale: "en-US",
     hello: "Hello",
     "add category": "Add category",
-    "add task": "Add task",
+    "add board item": "Add item to board",
   },
   fa: {
     locale: "fa",
     hello: "سلام",
     "add category": "افزودن دسته",
-    "add task": "اضافه کردن کار",
+    "add board item": "مورد را به تخته اضافه کنید",
   },
 };

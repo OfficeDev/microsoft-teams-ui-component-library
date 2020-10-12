@@ -1,6 +1,6 @@
 import React from "react";
 import { withKnobs, object } from "@storybook/addon-knobs";
-import { Board, IBoardItem } from "../components/Taskboard/Board";
+import { Board, IBoardItem } from "../components/Board/Board";
 import { withA11y } from "@storybook/addon-a11y";
 import fakerEN from "faker/locale/en_US";
 import fakerFA from "faker/locale/fa";
@@ -29,7 +29,7 @@ const users = () =>
 
 export const KitchenSink = () => {
   const boardConfig = {
-    // [v-wishow] todo: developer-users can define how task data maps to card content/layout.
+    // [v-wishow] todo: developer-users can define how board item data maps to card content/layout.
     users: usersRange.reduce((acc: TUsers, i) => {
       acc[`u${i}`] = {
         name: fake("{{name.findName}}"),

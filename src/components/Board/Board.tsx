@@ -66,7 +66,7 @@ export interface IBoardProps {
     [laneKey: string]: TBoardLane;
   };
   items: {
-    [taskKey: string]: IBoardItem;
+    [itemKey: string]: IBoardItem;
   };
 }
 
@@ -151,7 +151,7 @@ const BoardItemUsers = ({
         return associatedUserKeys.length > 3 && i === 2 ? (
           <Avatar
             size="small"
-            key={`TaskUserAvatar__overflow`}
+            key={`BoardItemUserAvatar__overflow`}
             name={`+${associatedUserKeys.length - 2}`}
             getInitials={(name) => name}
             styles={{ marginLeft: "-.375rem" }}
@@ -159,7 +159,7 @@ const BoardItemUsers = ({
         ) : (
           <Avatar
             size="small"
-            key={`TaskUserAvatar__${userKey}`}
+            key={`BoardItemUserAvatar__${userKey}`}
             name={getText(locale, user.name)}
             {...(user.image ? { image: user.image } : {})}
             {...(i > 0 ? { styles: { marginLeft: "-.375rem" } } : {})}
@@ -260,8 +260,8 @@ const BoardLane = (props: IBoardLaneProps) => {
           icon={<AddIcon outline />}
           iconOnly
           fluid
-          title={t["add task"]}
-          aria-label={t["add task"]}
+          title={t["add board item"]}
+          aria-label={t["add board item"]}
         />
       </Box>
       <Box
@@ -288,7 +288,7 @@ const BoardLane = (props: IBoardLaneProps) => {
                 ? preparedItems.map((item) => (
                     <Draggable
                       draggableId={item.itemKey}
-                      key={`Taskboard__Draggable__${item.itemKey}`}
+                      key={`Board__DraggableItem__${item.itemKey}`}
                       index={item.order}
                     >
                       {(provided) => (
@@ -393,7 +393,7 @@ const prepareBoardItems = (
   },
   lanes: { [laneKey: string]: TBoardLane }
 ): IPreparedBoardItems => {
-  const unsortedPreparedTasks = Object.keys(items).reduce(
+  const unsortedPreparedBoardItems = Object.keys(items).reduce(
     (acc: IPreparedBoardItems, itemKey) => {
       const item = items[itemKey] as IPreparedBoardItem;
       item.itemKey = itemKey;
@@ -405,19 +405,19 @@ const prepareBoardItems = (
   );
 
   return Object.keys(lanes).reduce((acc: IPreparedBoardItems, laneKey) => {
-    acc[laneKey] = unsortedPreparedTasks.hasOwnProperty(laneKey)
-      ? unsortedPreparedTasks[laneKey].sort((a, b) => a.order - b.order)
+    acc[laneKey] = unsortedPreparedBoardItems.hasOwnProperty(laneKey)
+      ? unsortedPreparedBoardItems[laneKey].sort((a, b) => a.order - b.order)
       : [];
     return acc;
   }, {});
 };
 
-const resetOrder = (task: IPreparedBoardItem, newOrder: number) => {
-  task.order = newOrder;
-  return task;
+const resetOrder = (item: IPreparedBoardItem, newOrder: number) => {
+  item.order = newOrder;
+  return item;
 };
 
-const TaskboardStandalone = (props: IBoardPropsWithTranslations) => {
+const BoardStandalone = (props: IBoardPropsWithTranslations) => {
   const { users, lanes, items, t } = props;
 
   const [arrangedItems, setArrangdItems] = useState<IPreparedBoardItems>(
@@ -469,7 +469,7 @@ const TaskboardStandalone = (props: IBoardPropsWithTranslations) => {
                 last={last}
                 laneKey={laneKey}
                 lane={lanes[laneKey]}
-                key={`TaskboardLane__${laneKey}`}
+                key={`BoardLane__${laneKey}`}
                 preparedItems={arrangedItems[laneKey]}
                 users={users}
                 t={t}
@@ -506,7 +506,7 @@ export const Board = (props: IBoardProps) => {
                   },
                 }}
               />
-              <TaskboardStandalone {...props} t={t} />
+              <BoardStandalone {...props} t={t} />
             </Flex>
           </BoardTheme>
         );

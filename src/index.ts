@@ -1,4 +1,4 @@
 export { default as List } from "./components/List";
 export { default as Toolbar } from "./components/Toolbar";
 export { default as Table } from "./components/Table";
-export { default as Taskboard } from "./components/Taskboard";
+export { default as Board } from "./components/Board";
