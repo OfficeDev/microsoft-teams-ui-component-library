@@ -31,7 +31,7 @@ import { getCode, keyboardKey } from "@fluentui/keyboard-key";
 import { AddIcon, PaperclipIcon } from "@fluentui/react-icons-northstar";
 import { ICSSInJSStyle } from "@fluentui/styles";
 
-import { TaskboardTheme } from "./TaskboardTheme";
+import { BoardTheme } from "./BoardTheme";
 
 import { TUsers } from "../../types/types";
 import {
@@ -42,43 +42,43 @@ import {
 } from "../../translations";
 import { Toolbar } from "../Toolbar/Toolbar";
 
-export type TTaskboardLane = {
+export type TBoardLane = {
   title: TTextObject;
 };
 
-export interface ITaskboardTaskBadges {
+export interface IBoardItemBadges {
   attachments?: number;
 }
 
-export interface ITaskboardTask {
+export interface IBoardItem {
   lane: string;
   order: number;
   title: TTextObject;
   subtitle?: TTextObject;
-  body?: TTextObject;
+  body?: TTextObject | TTextObject[];
   users?: string[];
-  badges?: ITaskboardTaskBadges;
+  badges?: IBoardItemBadges;
 }
 
-export interface ITaskboardProps {
+export interface IBoardProps {
   users: TUsers;
   lanes: {
-    [laneKey: string]: TTaskboardLane;
+    [laneKey: string]: TBoardLane;
   };
-  tasks: {
-    [taskKey: string]: ITaskboardTask;
+  items: {
+    [taskKey: string]: IBoardItem;
   };
 }
 
-interface ITaskboardPropsAndTranslations extends ITaskboardProps {
+interface IBoardPropsWithTranslations extends IBoardProps {
   t: TTranslations;
 }
 
-interface ITaskboardLaneProps {
-  lane: TTaskboardLane;
+interface IBoardLaneProps {
+  lane: TBoardLane;
   laneKey: string;
   last: boolean;
-  tasks: IPreparedTask[];
+  preparedItems: IPreparedBoardItem[];
   users: TUsers;
   t: TTranslations;
 }
@@ -96,12 +96,12 @@ const separatorStyles: ICSSInJSStyle = {
   },
 };
 
-interface ITaskBadgesProps {
-  badges: ITaskboardTaskBadges;
+interface IBoardItemBadgesProps {
+  badges: IBoardItemBadges;
   t: TTranslations;
 }
 
-const TaskBadges = ({ badges, t }: ITaskBadgesProps) => {
+const BoardItemBadges = ({ badges, t }: IBoardItemBadgesProps) => {
   return (
     <Box>
       {Object.keys(badges).map((badgeKey) => {
@@ -130,25 +130,29 @@ const TaskBadges = ({ badges, t }: ITaskBadgesProps) => {
   );
 };
 
-interface ITaskUsersProps {
-  taskUsers: string[];
+interface IBoardItemUsersProps {
+  associatedUserKeys: string[];
   users: TUsers;
   locale: TLocale;
 }
 
-const TaskUsers = ({ taskUsers, users, locale }: ITaskUsersProps) => {
+const BoardItemUsers = ({
+  associatedUserKeys,
+  users,
+  locale,
+}: IBoardItemUsersProps) => {
   // [v-wishow] todo: replace with AvatarGroup compoment to be released in Fluent UI
   // spec in Figma: https://www.figma.com/file/p5tprlOerFyzQ9YH4aMQBl/Avatar-Group-Fluent-UI?node-id=3%3A123
   return (
     <>
-      {range(0, Math.min(taskUsers.length, 3)).map((i) => {
-        const userKey = taskUsers[i];
+      {range(0, Math.min(associatedUserKeys.length, 3)).map((i) => {
+        const userKey = associatedUserKeys[i];
         const user = users[userKey];
-        return taskUsers.length > 3 && i === 2 ? (
+        return associatedUserKeys.length > 3 && i === 2 ? (
           <Avatar
             size="small"
             key={`TaskUserAvatar__overflow`}
-            name={`+${taskUsers.length - 2}`}
+            name={`+${associatedUserKeys.length - 2}`}
             getInitials={(name) => name}
             styles={{ marginLeft: "-.375rem" }}
           />
@@ -166,8 +170,19 @@ const TaskUsers = ({ taskUsers, users, locale }: ITaskUsersProps) => {
   );
 };
 
-const TaskboardLane = (props: ITaskboardLaneProps) => {
-  const { users, lane, tasks, t, laneKey, last } = props;
+interface IBoardItemBody {
+  locale: TLocale;
+  textObject: TTextObject;
+}
+
+const BoardItemBody = ({ locale, textObject }: IBoardItemBody) => {
+  return (
+    <Text styles={{ marginTop: ".5rem" }}>{getText(locale, textObject)}</Text>
+  );
+};
+
+const BoardLane = (props: IBoardLaneProps) => {
+  const { users, lane, preparedItems, t, laneKey, last } = props;
 
   const [layoutState, setLayoutState] = useState<number>(0);
   const [scrollbarWidth, setScrollbarWidth] = useState<number>(16);
@@ -269,12 +284,12 @@ const TaskboardLane = (props: ITaskboardLaneProps) => {
               }}
               {...provided.droppableProps}
             >
-              {layoutState > 0 && tasks?.length
-                ? tasks.map((task) => (
+              {layoutState > 0 && preparedItems?.length
+                ? preparedItems.map((item) => (
                     <Draggable
-                      draggableId={task.taskKey}
-                      key={`Taskboard__Draggable__${task.taskKey}`}
-                      index={task.order}
+                      draggableId={item.itemKey}
+                      key={`Taskboard__Draggable__${item.itemKey}`}
+                      index={item.order}
                     >
                       {(provided) => (
                         <Ref innerRef={provided.innerRef}>
@@ -298,9 +313,9 @@ const TaskboardLane = (props: ITaskboardLaneProps) => {
                           >
                             <Card.Body styles={{ margin: 0 }}>
                               <Text weight="semibold">
-                                {getText(t.locale, task.title)}
+                                {getText(t.locale, item.title)}
                               </Text>
-                              {task.subtitle && (
+                              {item.subtitle && (
                                 <Text
                                   size="small"
                                   variables={({
@@ -309,29 +324,42 @@ const TaskboardLane = (props: ITaskboardLaneProps) => {
                                     color: colorScheme.foreground1,
                                   })}
                                 >
-                                  {getText(t.locale, task.subtitle)}
+                                  {getText(t.locale, item.subtitle)}
                                 </Text>
                               )}
-                              {task.body && (
-                                <Text styles={{ marginTop: ".5rem" }}>
-                                  {getText(t.locale, task.body)}
-                                </Text>
-                              )}
+                              {item.body &&
+                                (Array.isArray(item.body) ? (
+                                  item.body.map((bodyItem, bi) => (
+                                    <BoardItemBody
+                                      locale={t.locale}
+                                      textObject={bodyItem}
+                                      key={`BoardItem__${item.itemKey}__${bi}`}
+                                    />
+                                  ))
+                                ) : (
+                                  <BoardItemBody
+                                    locale={t.locale}
+                                    textObject={item.body as TTextObject}
+                                  />
+                                ))}
                             </Card.Body>
-                            {(task.users || task.badges) && (
+                            {(item.users || item.badges) && (
                               <Card.Footer>
                                 <Flex>
                                   <Box styles={{ flex: "1 0 auto" }}>
-                                    {task.users && (
-                                      <TaskUsers
+                                    {item.users && (
+                                      <BoardItemUsers
                                         locale={t.locale}
-                                        taskUsers={task.users}
+                                        associatedUserKeys={item.users}
                                         users={users}
                                       />
                                     )}
                                   </Box>
-                                  {task.badges && (
-                                    <TaskBadges t={t} badges={task.badges} />
+                                  {item.badges && (
+                                    <BoardItemBadges
+                                      t={t}
+                                      badges={item.badges}
+                                    />
                                   )}
                                 </Flex>
                               </Card.Footer>
@@ -351,32 +379,32 @@ const TaskboardLane = (props: ITaskboardLaneProps) => {
   );
 };
 
-interface IPreparedTask extends ITaskboardTask {
-  taskKey: string;
+interface IPreparedBoardItem extends IBoardItem {
+  itemKey: string;
 }
 
-interface IPreparedTasks {
-  [laneKey: string]: IPreparedTask[];
+interface IPreparedBoardItems {
+  [laneKey: string]: IPreparedBoardItem[];
 }
 
-const prepareTasks = (
-  tasks: {
-    [taskKey: string]: ITaskboardTask;
+const prepareBoardItems = (
+  items: {
+    [itemKey: string]: IBoardItem;
   },
-  lanes: { [laneKey: string]: TTaskboardLane }
-): IPreparedTasks => {
-  const unsortedPreparedTasks = Object.keys(tasks).reduce(
-    (acc: IPreparedTasks, taskKey) => {
-      const task = tasks[taskKey] as IPreparedTask;
-      task.taskKey = taskKey;
-      if (acc.hasOwnProperty(task.lane)) acc[task.lane].push(task);
-      else acc[task.lane] = [task];
+  lanes: { [laneKey: string]: TBoardLane }
+): IPreparedBoardItems => {
+  const unsortedPreparedTasks = Object.keys(items).reduce(
+    (acc: IPreparedBoardItems, itemKey) => {
+      const item = items[itemKey] as IPreparedBoardItem;
+      item.itemKey = itemKey;
+      if (acc.hasOwnProperty(item.lane)) acc[item.lane].push(item);
+      else acc[item.lane] = [item];
       return acc;
     },
     {}
   );
 
-  return Object.keys(lanes).reduce((acc: IPreparedTasks, laneKey) => {
+  return Object.keys(lanes).reduce((acc: IPreparedBoardItems, laneKey) => {
     acc[laneKey] = unsortedPreparedTasks.hasOwnProperty(laneKey)
       ? unsortedPreparedTasks[laneKey].sort((a, b) => a.order - b.order)
       : [];
@@ -384,16 +412,16 @@ const prepareTasks = (
   }, {});
 };
 
-const resetOrder = (task: IPreparedTask, newOrder: number) => {
+const resetOrder = (task: IPreparedBoardItem, newOrder: number) => {
   task.order = newOrder;
   return task;
 };
 
-const TaskboardStandalone = (props: ITaskboardPropsAndTranslations) => {
-  const { users, lanes, tasks, t } = props;
+const TaskboardStandalone = (props: IBoardPropsWithTranslations) => {
+  const { users, lanes, items, t } = props;
 
-  const [arrangedTasks, setArrangedTasks] = useState<IPreparedTasks>(
-    prepareTasks(tasks, lanes)
+  const [arrangedItems, setArrangdItems] = useState<IPreparedBoardItems>(
+    prepareBoardItems(items, lanes)
   );
 
   const onDragEnd = ({ draggableId, source, destination }: DropResult) => {
@@ -401,19 +429,19 @@ const TaskboardStandalone = (props: ITaskboardPropsAndTranslations) => {
       const sourceLaneKey = source.droppableId;
       const destinationLaneKey = destination.droppableId;
 
-      const movingTasks = arrangedTasks[sourceLaneKey].splice(source.index, 1);
+      const movingItems = arrangedItems[sourceLaneKey].splice(source.index, 1);
 
-      arrangedTasks[sourceLaneKey].map(resetOrder);
+      arrangedItems[sourceLaneKey].map(resetOrder);
 
-      arrangedTasks[destinationLaneKey].splice(
+      arrangedItems[destinationLaneKey].splice(
         destination.index,
         0,
-        movingTasks[0]
+        movingItems[0]
       );
 
-      arrangedTasks[destinationLaneKey].map(resetOrder);
+      arrangedItems[destinationLaneKey].map(resetOrder);
 
-      return setArrangedTasks(cloneDeep(arrangedTasks));
+      return setArrangdItems(cloneDeep(arrangedItems));
     }
   };
 
@@ -437,12 +465,12 @@ const TaskboardStandalone = (props: ITaskboardPropsAndTranslations) => {
           {Object.keys(lanes).map((laneKey, laneIndex, laneKeys) => {
             const last = laneIndex === laneKeys.length - 1;
             return (
-              <TaskboardLane
+              <BoardLane
                 last={last}
                 laneKey={laneKey}
                 lane={lanes[laneKey]}
                 key={`TaskboardLane__${laneKey}`}
-                tasks={arrangedTasks[laneKey]}
+                preparedItems={arrangedItems[laneKey]}
                 users={users}
                 t={t}
               />
@@ -454,13 +482,13 @@ const TaskboardStandalone = (props: ITaskboardPropsAndTranslations) => {
   );
 };
 
-export const Taskboard = (props: ITaskboardProps) => {
+export const Board = (props: IBoardProps) => {
   return (
     <FluentUIThemeConsumer
       render={(globalTheme) => {
         const t = globalTheme.siteVariables.t;
         return (
-          <TaskboardTheme globalTheme={globalTheme} style={{ height: "100%" }}>
+          <BoardTheme globalTheme={globalTheme} style={{ height: "100%" }}>
             <Flex
               column
               variables={({ colorScheme }: SiteVariablesPrepared) => ({
@@ -480,7 +508,7 @@ export const Taskboard = (props: ITaskboardProps) => {
               />
               <TaskboardStandalone {...props} t={t} />
             </Flex>
-          </TaskboardTheme>
+          </BoardTheme>
         );
       }}
     />

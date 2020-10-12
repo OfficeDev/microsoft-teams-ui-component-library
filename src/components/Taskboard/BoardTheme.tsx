@@ -14,7 +14,7 @@ import {
 
 import { teamsNextVariableAssignments, themes } from "../../lib/withTheme";
 
-export interface ITaskboardThemeProps {
+export interface IBoardThemeProps {
   globalTheme: ThemePrepared;
   children: ReactNode;
   style: CSSProperties;
@@ -53,11 +53,11 @@ const getLocalTheme = (themeKey: string): ThemeInput<any> => {
   };
 };
 
-export const TaskboardTheme = ({
+export const BoardTheme = ({
   globalTheme,
   children,
   style,
-}: ITaskboardThemeProps) => {
+}: IBoardThemeProps) => {
   const mainTheme = globalTheme.siteVariables?.theme
     ? globalTheme
     : themes.teamsTheme;

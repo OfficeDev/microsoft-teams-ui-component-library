@@ -1,1 +1,1 @@
-export { Taskboard as default } from "./Taskboard";
+export { Board as default } from "./Board";

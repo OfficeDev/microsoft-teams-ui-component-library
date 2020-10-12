@@ -1,6 +1,6 @@
 import React from "react";
 import { withKnobs, object } from "@storybook/addon-knobs";
-import { Taskboard, ITaskboardTask } from "../components/Taskboard/Taskboard";
+import { Board, IBoardItem } from "../components/Taskboard/Board";
 import { withA11y } from "@storybook/addon-a11y";
 import fakerEN from "faker/locale/en_US";
 import fakerFA from "faker/locale/fa";
@@ -11,12 +11,12 @@ import { StorybookThemeProvider } from "../lib/withTheme";
 import { TUsers } from "../types/types";
 
 export default {
-  title: "Taskboard",
-  component: Taskboard,
+  title: "Board",
+  component: Board,
   decorators: [withKnobs, withA11y],
 };
 
-const taskboardKnobGroupID = "Taskboard";
+const boardKnobGroupID = "Board";
 
 const fake = (template: string) => {
   return { "en-US": fakerEN.fake(template), fa: fakerFA.fake(template) };
@@ -28,7 +28,7 @@ const users = () =>
   shuffle(usersRange.filter(() => Math.random() > 0.67).map((ui) => `u${ui}`));
 
 export const KitchenSink = () => {
-  const taskboardConfig = {
+  const boardConfig = {
     // [v-wishow] todo: developer-users can define how task data maps to card content/layout.
     users: usersRange.reduce((acc: TUsers, i) => {
       acc[`u${i}`] = {
@@ -54,13 +54,13 @@ export const KitchenSink = () => {
         title: fake("{{commerce.department}}"),
       },
     },
-    tasks: range(2, 6).reduce(
+    items: range(2, 6).reduce(
       (
-        acc: { ti: number; tasks: { [taskKey: string]: ITaskboardTask } },
+        acc: { ii: number; items: { [itemKey: string]: IBoardItem } },
         li: number
       ) => {
         for (let lo = 0; lo < (li - 1) * 2; lo++) {
-          acc.tasks[`t${acc.ti + lo}`] = {
+          acc.items[`t${acc.ii + lo}`] = {
             lane: `l${li}`,
             order: lo,
             title: fake(
@@ -82,18 +82,16 @@ export const KitchenSink = () => {
               : {}),
           };
         }
-        acc.ti += (li - 1) * 2;
+        acc.ii += (li - 1) * 2;
         return acc;
       },
-      { ti: 0, tasks: {} }
-    ).tasks,
+      { ii: 0, items: {} }
+    ).items,
   };
 
   return (
     <StorybookThemeProvider>
-      <Taskboard
-        {...object("Configuration", taskboardConfig, taskboardKnobGroupID)}
-      />
+      <Board {...object("Configuration", boardConfig, boardKnobGroupID)} />
     </StorybookThemeProvider>
   );
 };
