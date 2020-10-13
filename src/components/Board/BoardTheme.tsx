@@ -25,22 +25,19 @@ const getLocalTheme = (themeKey: string): ThemeInput<any> => {
     componentStyles: {
       Box: {
         root: ({ variables }: ComponentVariablesObject) => ({
+          "&::before": {
+            borderColor: variables.borderFocus,
+          },
           "&::after": {
             backgroundColor: variables.separatorColor,
+            borderColor: variables.borderFocusWithin,
           },
         }),
       },
       Card: {
         root: {
-          display: "block",
           borderWidth: "0",
           padding: "0",
-          overflow: "hidden",
-          "&::after": {
-            content: '""',
-            display: "block",
-            marginTop: "1.25rem",
-          },
         },
       },
       CardBody: {

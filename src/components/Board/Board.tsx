@@ -29,17 +29,22 @@ import {
 import { getCode, keyboardKey } from "@fluentui/keyboard-key";
 
 import { AddIcon, PaperclipIcon } from "@fluentui/react-icons-northstar";
+
 import { ICSSInJSStyle } from "@fluentui/styles";
 
 import { BoardTheme } from "./BoardTheme";
 
+import "./board.css";
+
 import { TUsers } from "../../types/types";
+
 import {
   TTranslations,
   TTextObject,
   TLocale,
   getText,
 } from "../../translations";
+
 import { Toolbar } from "../Toolbar/Toolbar";
 
 export interface IBoardItemCardLayout {
@@ -278,7 +283,13 @@ const BoardLane = (props: IBoardLaneProps) => {
         borderRight: "1px solid transparent",
         flex: "1 0 0",
         opacity: layoutState === 2 ? 1 : 0,
+        position: "relative",
+        ":focus": { outline: "none" },
       }}
+      variables={({ colorScheme }: SiteVariablesPrepared) => ({
+        borderFocus: colorScheme.default.borderFocus,
+        borderFocusWithin: colorScheme.default.borderFocusWithin,
+      })}
       accessibility={(props) =>
         set(
           gridRowNestedBehavior(props),
@@ -286,6 +297,8 @@ const BoardLane = (props: IBoardLaneProps) => {
           0 /* FocusZoneDirection.vertical */
         )
       }
+      className="board__lane"
+      aria-label={getText(t.locale, lane.title)}
     >
       <Text
         weight="bold"
@@ -294,7 +307,6 @@ const BoardLane = (props: IBoardLaneProps) => {
           flex: "0 0 auto",
           padding: ".375rem 1.25rem .75rem 1.25rem",
         }}
-        data-is-focusable={true}
       />
       <Box
         variables={({ colorScheme }: SiteVariablesPrepared) => ({
@@ -329,7 +341,7 @@ const BoardLane = (props: IBoardLaneProps) => {
         <Droppable droppableId={laneKey}>
           {(provided, snapshot) => (
             <Box
-              styles={{ height: "100%", overflowY: "auto" }}
+              styles={{ height: "100%", overflowY: "auto", paddingTop: "1px" }}
               ref={(element: HTMLDivElement) => {
                 $laneContent.current = element;
                 provided.innerRef(element);
@@ -343,14 +355,16 @@ const BoardLane = (props: IBoardLaneProps) => {
                       key={`Board__DraggableItem__${item.itemKey}`}
                       index={item.order}
                     >
-                      {(provided) => (
+                      {(provided, snapshot) => (
                         <Ref innerRef={provided.innerRef}>
                           <Card
                             elevated
                             variables={({
                               colorScheme,
                             }: SiteVariablesPrepared) => ({
-                              elevation: colorScheme.elevations[4],
+                              elevation: snapshot.isDragging
+                                ? colorScheme.elevations[8]
+                                : colorScheme.elevations[4],
                               hoverElevation: colorScheme.elevations[8],
                             })}
                             styles={{
@@ -363,77 +377,92 @@ const BoardLane = (props: IBoardLaneProps) => {
                             accessibility={gridCellBehavior}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
+                            aria-label={getText(t.locale, item.title)}
                           >
-                            {item.preview &&
-                              boardItemCardLayout.previewPosition === "top" && (
-                                <BoardItemPreview preview={item.preview} />
-                              )}
-                            <Card.Body
-                              {...(!item.preview ||
-                              boardItemCardLayout.previewPosition !== "top"
-                                ? { styles: { marginTop: "1.25rem" } }
-                                : {})}
+                            <Box
+                              styles={{
+                                borderRadius: "2px",
+                                overflow: "hidden",
+                              }}
                             >
-                              <Text weight="semibold">
-                                {getText(t.locale, item.title)}
-                              </Text>
-                              {item.subtitle && (
-                                <Text
-                                  size="small"
-                                  variables={({
-                                    colorScheme,
-                                  }: SiteVariablesPrepared) => ({
-                                    color: colorScheme.foreground1,
-                                  })}
-                                >
-                                  {getText(t.locale, item.subtitle)}
+                              {item.preview &&
+                                boardItemCardLayout.previewPosition ===
+                                  "top" && (
+                                  <BoardItemPreview preview={item.preview} />
+                                )}
+                              <Card.Body
+                                {...(!item.preview ||
+                                boardItemCardLayout.previewPosition !== "top"
+                                  ? { styles: { marginTop: "1.25rem" } }
+                                  : {})}
+                              >
+                                <Text weight="semibold">
+                                  {getText(t.locale, item.title)}
                                 </Text>
-                              )}
-                            </Card.Body>
-                            {item.preview &&
-                              boardItemCardLayout.previewPosition ===
-                                "afterHeader" && (
-                                <BoardItemPreview preview={item.preview} />
-                              )}
-                            {item.body && (
-                              <Card.Body>
-                                {Array.isArray(item.body) ? (
-                                  item.body.map((bodyItem, bi) => (
-                                    <BoardItemBody
-                                      locale={t.locale}
-                                      textObject={bodyItem}
-                                      key={`BoardItem__${item.itemKey}__${bi}`}
-                                    />
-                                  ))
-                                ) : (
-                                  <BoardItemBody
-                                    locale={t.locale}
-                                    textObject={item.body as TTextObject}
-                                  />
+                                {item.subtitle && (
+                                  <Text
+                                    size="small"
+                                    variables={({
+                                      colorScheme,
+                                    }: SiteVariablesPrepared) => ({
+                                      color: colorScheme.foreground1,
+                                    })}
+                                  >
+                                    {getText(t.locale, item.subtitle)}
+                                  </Text>
                                 )}
                               </Card.Body>
-                            )}
-                            {(item.users || item.badges) && (
-                              <Card.Footer>
-                                <Flex>
-                                  <Box styles={{ flex: "1 0 auto" }}>
-                                    {item.users && (
-                                      <BoardItemUsers
+                              {item.preview &&
+                                boardItemCardLayout.previewPosition ===
+                                  "afterHeader" && (
+                                  <BoardItemPreview preview={item.preview} />
+                                )}
+                              {item.body && (
+                                <Card.Body>
+                                  {Array.isArray(item.body) ? (
+                                    item.body.map((bodyItem, bi) => (
+                                      <BoardItemBody
                                         locale={t.locale}
-                                        associatedUserKeys={item.users}
-                                        users={users}
+                                        textObject={bodyItem}
+                                        key={`BoardItem__${item.itemKey}__${bi}`}
                                       />
-                                    )}
-                                  </Box>
-                                  {item.badges && (
-                                    <BoardItemBadges
-                                      t={t}
-                                      badges={item.badges}
+                                    ))
+                                  ) : (
+                                    <BoardItemBody
+                                      locale={t.locale}
+                                      textObject={item.body as TTextObject}
                                     />
                                   )}
-                                </Flex>
-                              </Card.Footer>
-                            )}
+                                </Card.Body>
+                              )}
+                              {(item.users || item.badges) && (
+                                <Card.Footer>
+                                  <Flex>
+                                    <Box styles={{ flex: "1 0 auto" }}>
+                                      {item.users && (
+                                        <BoardItemUsers
+                                          locale={t.locale}
+                                          associatedUserKeys={item.users}
+                                          users={users}
+                                        />
+                                      )}
+                                    </Box>
+                                    {item.badges && (
+                                      <BoardItemBadges
+                                        t={t}
+                                        badges={item.badges}
+                                      />
+                                    )}
+                                  </Flex>
+                                </Card.Footer>
+                              )}
+                              <b
+                                style={{
+                                  display: "block",
+                                  marginTop: "1.25rem",
+                                }}
+                              />
+                            </Box>
                           </Card>
                         </Ref>
                       )}
