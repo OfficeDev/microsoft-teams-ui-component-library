@@ -1,6 +1,10 @@
 import React from "react";
 import { withKnobs, object } from "@storybook/addon-knobs";
-import { Board, IBoardItem } from "../components/Board/Board";
+import {
+  Board,
+  IBoardItem,
+  IBoardItemCardLayout,
+} from "../components/Board/Board";
 import { withA11y } from "@storybook/addon-a11y";
 import fakerEN from "faker/locale/en_US";
 import fakerFA from "faker/locale/fa";
@@ -28,7 +32,7 @@ const users = () =>
   shuffle(usersRange.filter(() => Math.random() > 0.67).map((ui) => `u${ui}`));
 
 export const KitchenSink = () => {
-  const boardConfig = {
+  const boardContent = {
     // [v-wishow] todo: developer-users can define how board item data maps to card content/layout.
     users: usersRange.reduce((acc: TUsers, i) => {
       acc[`u${i}`] = {
@@ -72,6 +76,7 @@ export const KitchenSink = () => {
             ...(Math.random() > 0.33
               ? { body: fake("{{lorem.sentence}}") }
               : {}),
+            ...(Math.random() > 0.33 ? { preview: fakerEN.image.image() } : {}),
             ...(Math.random() > 0.33 ? { users: users() } : {}),
             ...(Math.random() > 0.5
               ? {
@@ -89,9 +94,21 @@ export const KitchenSink = () => {
     ).items,
   };
 
+  const boardItemCardLayout: IBoardItemCardLayout = {
+    previewPosition: "top",
+    overflowPosition: "footer",
+  };
+
   return (
     <StorybookThemeProvider>
-      <Board {...object("Configuration", boardConfig, boardKnobGroupID)} />
+      <Board
+        {...object("Content", boardContent, boardKnobGroupID)}
+        boardItemCardLayout={object(
+          "Board item card layout",
+          boardItemCardLayout,
+          boardKnobGroupID
+        )}
+      />
     </StorybookThemeProvider>
   );
 };

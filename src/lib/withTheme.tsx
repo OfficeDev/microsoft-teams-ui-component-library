@@ -85,6 +85,7 @@ const teamsNextThemeSiteVariables = {
     colors: colorPaletteV2,
     colorScheme: {
       elevations: {
+        4: "0px 0.3px 0.9px rgba(0, 0, 0, 0.07), 0px 1.6px 3.6px rgba(0, 0, 0, 0.11)",
         8: "0px 3.2px 7.2px rgba(0, 0, 0, 0.13), 0px 0.6px 1.8px rgba(0, 0, 0, 0.11)",
         16: "0px 6.4px 14.4px rgba(0, 0, 0, 0.07), 0px 1.2px 3.6px rgba(0, 0, 0, 0.03)",
       },
@@ -380,7 +381,7 @@ export const teamsNextVariableAssignments = {
     Card: {
       root: ({ variables }: ComponentVariablesObject) => ({
         boxShadow: variables.elevation,
-        "&:hover": { boxShadow: variables.elevation },
+        "&:hover": { boxShadow: variables.hoverElevation },
         "&:focus": { boxShadow: variables.elevation },
       }),
     },

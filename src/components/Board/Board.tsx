@@ -42,6 +42,16 @@ import {
 } from "../../translations";
 import { Toolbar } from "../Toolbar/Toolbar";
 
+export interface IBoardItemCardLayout {
+  previewPosition: "top" | "afterHeader";
+  overflowPosition: "preview" | "header" | "footer";
+}
+
+const defaultBoardItemCardLayout: IBoardItemCardLayout = {
+  previewPosition: "top",
+  overflowPosition: "footer",
+};
+
 export type TBoardLane = {
   title: TTextObject;
 };
@@ -58,6 +68,7 @@ export interface IBoardItem {
   body?: TTextObject | TTextObject[];
   users?: string[];
   badges?: IBoardItemBadges;
+  preview?: string;
 }
 
 export interface IBoardProps {
@@ -68,6 +79,7 @@ export interface IBoardProps {
   items: {
     [itemKey: string]: IBoardItem;
   };
+  boardItemCardLayout?: IBoardItemCardLayout;
 }
 
 interface IBoardPropsWithTranslations extends IBoardProps {
@@ -81,6 +93,7 @@ interface IBoardLaneProps {
   preparedItems: IPreparedBoardItem[];
   users: TUsers;
   t: TTranslations;
+  boardItemCardLayout: IBoardItemCardLayout;
 }
 
 const separatorStyles: ICSSInJSStyle = {
@@ -176,18 +189,47 @@ interface IBoardItemBody {
 }
 
 const BoardItemBody = ({ locale, textObject }: IBoardItemBody) => {
+  return <Text>{getText(locale, textObject)}</Text>;
+};
+
+interface IBoardItemPreview {
+  preview: string;
+}
+
+const BoardItemPreview = ({ preview }: IBoardItemPreview) => {
   return (
-    <Text styles={{ marginTop: ".5rem" }}>{getText(locale, textObject)}</Text>
+    <Box
+      styles={{
+        backgroundSize: "cover",
+        backgroundPosition: "center center",
+        backgroundImage: `url(${preview})`,
+        width: "100%",
+        height: "6.625rem",
+        marginBottom: ".75rem",
+      }}
+    />
   );
 };
 
 const BoardLane = (props: IBoardLaneProps) => {
-  const { users, lane, preparedItems, t, laneKey, last } = props;
+  const {
+    users,
+    lane,
+    preparedItems,
+    t,
+    laneKey,
+    last,
+    boardItemCardLayout,
+  } = props;
 
-  const [layoutState, setLayoutState] = useState<number>(0);
+  const [layoutState, setLayoutState] = useState<number>(-1);
   const [scrollbarWidth, setScrollbarWidth] = useState<number>(16);
   const $laneContent = useRef<HTMLDivElement | null>(null);
   const laneContentWidth = useRef<number | null>(null);
+
+  const onResize = () => {
+    setLayoutState(0);
+  };
 
   useLayoutEffect(() => {
     // [v-wishow] The lane is rendered 3 times in order to measure the scrollbar and account for
@@ -199,8 +241,14 @@ const BoardLane = (props: IBoardLaneProps) => {
     //
     // There is a possibility the adjusted scrollbar-side margin will change the overflow state due
     // to wrapping text. How to handle this case is to-be-designed.
+    //
+    // todo: Remove all of this when the custom scrollbar component is available.
 
     switch (layoutState) {
+      case -1:
+        window.addEventListener("resize", onResize);
+        setLayoutState(0);
+        break;
       case 0:
         if ($laneContent.current)
           laneContentWidth.current = $laneContent.current!.clientWidth;
@@ -214,6 +262,10 @@ const BoardLane = (props: IBoardLaneProps) => {
         setLayoutState(2);
         break;
     }
+
+    return () => {
+      window.removeEventListener("resize", onResize);
+    };
   });
 
   return (
@@ -298,7 +350,8 @@ const BoardLane = (props: IBoardLaneProps) => {
                             variables={({
                               colorScheme,
                             }: SiteVariablesPrepared) => ({
-                              elevation: colorScheme.elevations[8],
+                              elevation: colorScheme.elevations[4],
+                              hoverElevation: colorScheme.elevations[8],
                             })}
                             styles={{
                               margin: `0 ${((20 - scrollbarWidth) / 16).toFixed(
@@ -311,7 +364,16 @@ const BoardLane = (props: IBoardLaneProps) => {
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
                           >
-                            <Card.Body styles={{ margin: 0 }}>
+                            {item.preview &&
+                              boardItemCardLayout.previewPosition === "top" && (
+                                <BoardItemPreview preview={item.preview} />
+                              )}
+                            <Card.Body
+                              {...(!item.preview ||
+                              boardItemCardLayout.previewPosition !== "top"
+                                ? { styles: { marginTop: "1.25rem" } }
+                                : {})}
+                            >
                               <Text weight="semibold">
                                 {getText(t.locale, item.title)}
                               </Text>
@@ -327,8 +389,15 @@ const BoardLane = (props: IBoardLaneProps) => {
                                   {getText(t.locale, item.subtitle)}
                                 </Text>
                               )}
-                              {item.body &&
-                                (Array.isArray(item.body) ? (
+                            </Card.Body>
+                            {item.preview &&
+                              boardItemCardLayout.previewPosition ===
+                                "afterHeader" && (
+                                <BoardItemPreview preview={item.preview} />
+                              )}
+                            {item.body && (
+                              <Card.Body>
+                                {Array.isArray(item.body) ? (
                                   item.body.map((bodyItem, bi) => (
                                     <BoardItemBody
                                       locale={t.locale}
@@ -341,8 +410,9 @@ const BoardLane = (props: IBoardLaneProps) => {
                                     locale={t.locale}
                                     textObject={item.body as TTextObject}
                                   />
-                                ))}
-                            </Card.Body>
+                                )}
+                              </Card.Body>
+                            )}
                             {(item.users || item.badges) && (
                               <Card.Footer>
                                 <Flex>
@@ -473,6 +543,9 @@ const BoardStandalone = (props: IBoardPropsWithTranslations) => {
                 preparedItems={arrangedItems[laneKey]}
                 users={users}
                 t={t}
+                boardItemCardLayout={
+                  props.boardItemCardLayout || defaultBoardItemCardLayout
+                }
               />
             );
           })}

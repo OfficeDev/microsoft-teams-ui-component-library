@@ -30,10 +30,30 @@ const getLocalTheme = (themeKey: string): ThemeInput<any> => {
           },
         }),
       },
+      Card: {
+        root: {
+          display: "block",
+          borderWidth: "0",
+          padding: "0",
+          overflow: "hidden",
+          "&::after": {
+            content: '""',
+            display: "block",
+            marginTop: "1.25rem",
+          },
+        },
+      },
+      CardBody: {
+        root: {
+          margin: "0 1.25rem .75rem 1.25rem",
+        },
+      },
       CardFooter: {
         root: ({ variables }: ComponentVariablesObject) => ({
-          marginBottom: 0,
           marginTop: "1.625rem",
+          marginLeft: "1.25rem",
+          marginRight: "1.25rem",
+          marginBottom: 0,
           "&::before": {
             content: '""',
             display: "block",
