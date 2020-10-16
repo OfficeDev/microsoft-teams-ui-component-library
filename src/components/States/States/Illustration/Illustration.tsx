@@ -2,6 +2,7 @@ import React from "react";
 import { Flex } from "@fluentui/react-northstar";
 import { StateOptions } from "./EmptyStates";
 import "./illustration.css";
+import { TeamsTheme } from "../../lib/withTheme";
 
 const Default = React.lazy(() => import("./Illustrations/Default"));
 const Empty = React.lazy(() => import("./Illustrations/Empty"));
@@ -21,15 +22,21 @@ const IMAGES = {
   files: Files,
 };
 
-export const Illustration = ({ option }: { option: StateOptions }) => {
-  let Image = IMAGES[option];
+export const Illustration = ({
+  option,
+  theme,
+}: {
+  option: StateOptions;
+  theme: TeamsTheme;
+}) => {
+  let Image: any = IMAGES[option];
   if (!Image) {
     Image = IMAGES.default;
   }
   return (
     <Flex className="illustration-container" vAlign="center" hAlign="center">
       <React.Suspense fallback={<></>}>
-        <Image />
+        <Image theme={theme} />
       </React.Suspense>
     </Flex>
   );

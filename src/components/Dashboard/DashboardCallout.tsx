@@ -12,6 +12,7 @@ import {
   ThemePrepared,
   EyeSlashIcon,
 } from "@fluentui/react-northstar";
+import { TeamsTheme } from "../../lib/withTheme";
 
 export interface IWidgetActionKey {
   id: string;
@@ -45,11 +46,11 @@ const getLocalTheme = () => {
           borderRadius,
           borderSize: borderWidth,
           borderColor:
-            theme === "teamsHighContrastTheme"
+            theme === TeamsTheme.HighContrast
               ? colorScheme.grey.backgroundFocus
               : "transparent",
           borderColorHover:
-            theme === "teamsHighContrastTheme"
+            theme === TeamsTheme.HighContrast
               ? colorScheme.grey.backgroundFocus
               : "transparent",
         };

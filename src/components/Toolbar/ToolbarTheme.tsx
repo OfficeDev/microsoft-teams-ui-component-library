@@ -12,7 +12,11 @@ import {
   ComponentVariablesObject,
 } from "@fluentui/styles";
 
-import { teamsNextVariableAssignments, themes } from "../../lib/withTheme";
+import {
+  teamsNextVariableAssignments,
+  TeamsTheme,
+  themes,
+} from "../../lib/withTheme";
 
 export interface IToolbarThemeProps {
   globalTheme: ThemePrepared;
@@ -26,10 +30,10 @@ const getLocalTheme = (themeKey: string): ThemeInput<any> => {
   }: ComponentVariablesInput) => {
     let color = colorScheme.black.foreground;
     switch (theme) {
-      case "teamsDarkTheme":
+      case TeamsTheme.Dark:
         color = colorScheme.grey.foreground;
         break;
-      case "teamsHighContrastTheme":
+      case TeamsTheme.HighContrast:
         color = colorScheme.grey.foregroundHover;
         break;
     }
@@ -41,7 +45,7 @@ const getLocalTheme = (themeKey: string): ThemeInput<any> => {
   const menuContentStyles = ({ theme }: ComponentVariablesObject) => {
     const { theme: themeKey, colorScheme } = theme.siteVariables;
     return {
-      borderWidth: themeKey === "teamsHighContrastTheme" ? "1px" : 0,
+      borderWidth: themeKey === TeamsTheme.HighContrast ? "1px" : 0,
       boxShadow: colorScheme.elevations[8],
     };
   };
@@ -51,14 +55,14 @@ const getLocalTheme = (themeKey: string): ThemeInput<any> => {
       Button: buttonRootVariables,
       Input: ({ colors, colorScheme, theme }: ComponentVariablesInput) => ({
         backgroundColor:
-          theme === "teamsDarkTheme"
+          theme === TeamsTheme.Dark
             ? colors.grey[750]
             : colorScheme.black.background,
       }),
       ToolbarItem: buttonRootVariables,
       TreeItem: ({ colorScheme, theme }: ComponentVariablesInput) => ({
         color:
-          theme === "teamsHighContrastTheme"
+          theme === TeamsTheme.HighContrast
             ? colorScheme.grey.backgroundFocus
             : colorScheme.grey.background2,
       }),

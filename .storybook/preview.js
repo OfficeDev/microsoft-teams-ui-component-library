@@ -1,7 +1,16 @@
 export const parameters = {
   options: {
     storySort: {
-      order: ["Composites", "Components"],
+      order: [
+        "Composites",
+        "Components",
+        [
+          "Empty States",
+          ["Default", "Welcome", "Success", "Empty", "Error"],
+          "Toolbar",
+          "Table",
+        ],
+      ],
     },
   },
 };

@@ -1,39 +1,9 @@
 import React from "react";
 import {
   Flex,
-  FlexItem,
-  Button,
-  Text,
   ProviderConsumer as FluentUIThemeConsumer,
 } from "@fluentui/react-northstar";
-import { Illustration } from "./Illustration";
-
-interface IState {
-  title?: string;
-  desc?: string;
-  image?: StateOptions;
-  actions?: IStateActions;
-}
-
-interface IStateActions {
-  primary?: IStateAction;
-  secondary?: IStateAction;
-  tertiary?: IStateAction;
-}
-
-interface IStateAction {
-  label: string;
-}
-
-export enum StateOptions {
-  Default = "default",
-  Welcome = "welcome",
-  Empty = "empty",
-  Files = "files",
-  Error = "error",
-  Thanks = "thanks",
-  WentWrong = "wentWrong",
-}
+import { TeamsTheme } from "../../lib/withTheme";
 
 export const states = {
   default: {
@@ -132,7 +102,40 @@ export const states = {
   },
 };
 
-export function EmptyStates({ option }: { option: any }) {
+const Default = React.lazy(() => import("./States/Default"));
+const Empty = React.lazy(() => import("./States/Empty"));
+const Error = React.lazy(() => import("./States/Error"));
+const Files = React.lazy(() => import("./States/Files"));
+const Thanks = React.lazy(() => import("./States/Thanks"));
+const Welcome = React.lazy(() => import("./States/Welcome"));
+const WentWrong = React.lazy(() => import("./States/WentWrong"));
+
+const STATES = {
+  default: Default,
+  error: Error,
+  thanks: Thanks,
+  empty: Empty,
+  welcome: Welcome,
+  wentWrong: WentWrong,
+  files: Files,
+};
+
+export enum States {
+  Default = "default",
+  Welcome = "welcome",
+  Empty = "empty",
+  Files = "files",
+  Error = "error",
+  Thanks = "thanks",
+  WentWrong = "wentWrong",
+}
+
+export function EmptyStates({ option }: { option: States }) {
+  const State: React.LazyExoticComponent<({
+    theme,
+  }: {
+    theme: TeamsTheme;
+  }) => JSX.Element> = STATES[option];
   return (
     <FluentUIThemeConsumer
       render={(globalTheme) => (
@@ -144,77 +147,11 @@ export function EmptyStates({ option }: { option: any }) {
           vAlign="center"
           hAlign="center"
         >
-          <StatesConteiner {...option} />
+          <React.Suspense fallback={<></>}>
+            <State theme={globalTheme.siteVariables.theme} />
+          </React.Suspense>
         </Flex>
       )}
     />
   );
 }
-
-const StatesConteiner = ({ title, desc, image, actions }: IState) => (
-  <Flex
-    hAlign="center"
-    gap="gap.large"
-    column
-    style={{
-      width: "100%",
-      maxWidth: "33.5rem",
-      margin: "3rem 1.25rem",
-    }}
-  >
-    {image && <Illustration option={image} />}
-    {(title || desc) && (
-      <FlexItem>
-        <Flex hAlign="center" column>
-          {title && (
-            <Text
-              content={title}
-              size="large"
-              weight="bold"
-              as="h1"
-              styles={{ marginTop: 0, marginBottom: ".5rem" }}
-            />
-          )}
-          {desc && (
-            <Text
-              content={desc}
-              as="p"
-              styles={{ textAlign: "center", margin: 0 }}
-            />
-          )}
-        </Flex>
-      </FlexItem>
-    )}
-    {actions && (
-      <FlexItem>
-        <Flex
-          gap="gap.small"
-          column
-          styles={{
-            width: "100%",
-            maxWidth: "17.5rem",
-          }}
-        >
-          {actions.primary && (
-            <Button
-              content={actions.primary.label}
-              styles={{ width: "100%" }}
-              primary
-            />
-          )}
-          {actions.secondary && (
-            <Button
-              content={actions.secondary.label}
-              styles={{ width: "100%" }}
-            />
-          )}
-          {actions.tertiary && (
-            <Button text primary>
-              <Text content={actions.tertiary.label} weight="light" />
-            </Button>
-          )}
-        </Flex>
-      </FlexItem>
-    )}
-  </Flex>
-);

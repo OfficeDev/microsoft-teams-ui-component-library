@@ -15,6 +15,12 @@ export interface IThemeProviderProps {
   children: ReactNode;
 }
 
+export enum TeamsTheme {
+  HighContrast = "teamsHighContrastTheme",
+  Dark = "teamsDarkTheme",
+  Default = "teamsTheme",
+}
+
 const teamsNextColors = {
   grey: {
     100: "#F7F7F7",
@@ -24,7 +30,7 @@ const teamsNextColors = {
 
 const teamsNextThemeSiteVariables = {
   teamsTheme: {
-    theme: "teamsTheme",
+    theme: TeamsTheme.Default,
     colors: teamsNextColors,
     colorScheme: {
       elevations: {
@@ -37,7 +43,7 @@ const teamsNextThemeSiteVariables = {
     },
   },
   teamsDarkTheme: {
-    theme: "teamsDarkTheme",
+    theme: TeamsTheme.Dark,
     colors: teamsNextColors,
     colorScheme: {
       elevations: {
@@ -50,7 +56,7 @@ const teamsNextThemeSiteVariables = {
     },
   },
   teamsHighContrastTheme: {
-    theme: "teamsHighContrastTheme",
+    theme: TeamsTheme.HighContrast,
     colors: teamsNextColors,
     colorScheme: {
       elevations: {
@@ -141,11 +147,11 @@ const themeKnob = () =>
   radios(
     "Theme",
     {
-      "Teams Light": "teamsTheme",
-      "Teams Dark": "teamsDarkTheme",
-      "Teams High Contrast": "teamsHighContrastTheme",
+      "Teams Light": TeamsTheme.Default,
+      "Teams Dark": TeamsTheme.Dark,
+      "Teams High Contrast": TeamsTheme.HighContrast,
     },
-    "teamsTheme",
+    TeamsTheme.Default,
     "Theme"
   );
 
