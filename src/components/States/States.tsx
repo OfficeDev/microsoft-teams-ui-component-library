@@ -9,7 +9,7 @@ import { IState } from "./States/State";
 const Default = React.lazy(() => import("./States/Default"));
 const Empty = React.lazy(() => import("./States/Empty"));
 const Error = React.lazy(() => import("./States/Error"));
-// const Files = React.lazy(() => import("./States/Files"));
+const Hello = React.lazy(() => import("./States/Hello"));
 const Thanks = React.lazy(() => import("./States/Thanks"));
 const Welcome = React.lazy(() => import("./States/Welcome"));
 // const WentWrong = React.lazy(() => import("./States/WentWrong"));
@@ -17,6 +17,7 @@ const Welcome = React.lazy(() => import("./States/Welcome"));
 export enum StatesOptions {
   Default = "default",
   Welcome = "welcome",
+  Hello = "hello",
   Empty = "empty",
   Error = "error",
   Thanks = "thanks",
@@ -25,6 +26,7 @@ export enum StatesOptions {
 const STATES = {
   [StatesOptions.Default]: Default,
   [StatesOptions.Welcome]: Welcome,
+  [StatesOptions.Hello]: Hello,
   [StatesOptions.Empty]: Empty,
   [StatesOptions.Error]: Error,
   [StatesOptions.Thanks]: Thanks,
