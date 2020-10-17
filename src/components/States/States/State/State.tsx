@@ -1,23 +1,21 @@
 import React from "react";
 import { Flex, FlexItem, Button, Text } from "@fluentui/react-northstar";
-import { TeamsTheme } from "../../../../lib/withTheme";
-import { Illustration } from "../Illustration/Illustration";
-import { States } from "../../States";
+import { Illustration } from "../Illustration";
 
-interface IState {
+export interface IState {
   title?: string;
   desc?: string;
   image?: React.ReactNode;
   actions?: IStateActions;
 }
 
-interface IStateActions {
+export interface IStateActions {
   primary?: IStateAction;
   secondary?: IStateAction;
   tertiary?: IStateAction;
 }
 
-interface IStateAction {
+export interface IStateAction {
   label: string;
 }
 
@@ -32,7 +30,7 @@ export const State = ({ title, desc, image, actions }: IState) => (
       margin: "3rem 1.25rem",
     }}
   >
-    {image}
+    {image && <Illustration image={image} />}
     {(title || desc) && (
       <FlexItem>
         <Flex hAlign="center" column>

@@ -1,1 +1,1 @@
-export { EmptyStates as default } from "./EmptyStates";
+export { States as default, StatesOptions } from "./States";
