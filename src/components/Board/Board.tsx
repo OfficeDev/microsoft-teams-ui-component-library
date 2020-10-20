@@ -8,6 +8,8 @@ import {
   Draggable,
   Droppable,
   DropResult,
+  DragStart,
+  DragUpdate,
 } from "react-beautiful-dnd";
 
 import {
@@ -99,6 +101,7 @@ interface IBoardLaneProps {
   users: TUsers;
   t: TTranslations;
   boardItemCardLayout: IBoardItemCardLayout;
+  placeholderPosition: TPlaceholderPosition;
 }
 
 const separatorStyles: ICSSInJSStyle = {
@@ -216,7 +219,24 @@ const BoardItemPreview = ({ preview }: IBoardItemPreview) => {
   );
 };
 
-const BoardLane = (props: IBoardLaneProps) => {
+const Placeholder = ({ position }: { position: TPlaceholderPosition }) =>
+  position && (
+    <Box
+      variables={({ colorScheme }: SiteVariablesPrepared) => ({
+        backgroundColor: colorScheme.brand.background1,
+        borderColor: colorScheme.brand.foreground3,
+      })}
+      className="board__placeholder"
+      styles={{
+        left: position[0] + "px",
+        top: position[1] + "px",
+        width: position[2] + "px",
+        height: position[3] + "px",
+      }}
+    />
+  );
+
+const BoardLane = React.memo((props: IBoardLaneProps) => {
   const {
     users,
     lane,
@@ -225,6 +245,7 @@ const BoardLane = (props: IBoardLaneProps) => {
     laneKey,
     last,
     boardItemCardLayout,
+    placeholderPosition,
   } = props;
 
   const [layoutState, setLayoutState] = useState<number>(-1);
@@ -298,7 +319,7 @@ const BoardLane = (props: IBoardLaneProps) => {
         )
       }
       className="board__lane"
-      aria-label={getText(t.locale, lane.title)}
+      aria-label={`${t["board lane"]}, ${getText(t.locale, lane.title)}`}
     >
       <Text
         weight="bold"
@@ -341,7 +362,12 @@ const BoardLane = (props: IBoardLaneProps) => {
         <Droppable droppableId={laneKey}>
           {(provided, snapshot) => (
             <Box
-              styles={{ height: "100%", overflowY: "auto", paddingTop: "1px" }}
+              styles={{
+                height: "100%",
+                overflowY: "auto",
+                paddingTop: "1px",
+                position: "relative",
+              }}
               ref={(element: HTMLDivElement) => {
                 $laneContent.current = element;
                 provided.innerRef(element);
@@ -368,6 +394,8 @@ const BoardLane = (props: IBoardLaneProps) => {
                               hoverElevation: colorScheme.elevations[8],
                             })}
                             styles={{
+                              position: "relative",
+                              zIndex: 1,
                               margin: `0 ${((20 - scrollbarWidth) / 16).toFixed(
                                 4
                               )}rem 1.25rem 1.25rem`,
@@ -377,7 +405,10 @@ const BoardLane = (props: IBoardLaneProps) => {
                             accessibility={gridCellBehavior}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
-                            aria-label={getText(t.locale, item.title)}
+                            aria-label={`${t["board item"]}, ${getText(
+                              t.locale,
+                              item.title
+                            )}`}
                           >
                             <Box
                               styles={{
@@ -470,13 +501,16 @@ const BoardLane = (props: IBoardLaneProps) => {
                   ))
                 : null}
               {provided.placeholder}
+              {snapshot.isDraggingOver && (
+                <Placeholder position={placeholderPosition} />
+              )}
             </Box>
           )}
         </Droppable>
       </Box>
     </Box>
   );
-};
+});
 
 interface IPreparedBoardItem extends IBoardItem {
   itemKey: string;
@@ -516,12 +550,67 @@ const resetOrder = (item: IPreparedBoardItem, newOrder: number) => {
   return item;
 };
 
+const getDraggable = (draggableId: string) =>
+  document.querySelector(
+    `[data-rbd-drag-handle-draggable-id='${draggableId}']`
+  );
+const getDroppable = (droppableId: string) =>
+  document.querySelector(`[data-rbd-droppable-id='${droppableId}']`);
+
+type TPlaceholderPosition = null | [number, number, number, number];
+
+const getPlaceholderPosition = (
+  $draggable: Element,
+  clientYChildren: Element[]
+): TPlaceholderPosition => {
+  if (!$draggable || !$draggable.parentNode) return null;
+
+  const { clientHeight, clientWidth } = $draggable;
+
+  const clientY = clientYChildren.reduce((acc, $child) => {
+    return acc + $child.clientHeight + 20;
+  }, 0);
+
+  const clientX = 20;
+
+  return [clientX, clientY, clientWidth, clientHeight];
+};
+
 const BoardStandalone = (props: IBoardPropsWithTranslations) => {
   const { users, lanes, items, t } = props;
 
   const [arrangedItems, setArrangdItems] = useState<IPreparedBoardItems>(
     prepareBoardItems(items, lanes)
   );
+
+  const [placeholderPosition, setPlaceholderPosition] = useState<
+    TPlaceholderPosition
+  >(null);
+
+  const onDragStart = (event: DragStart) => {
+    const $draggable = getDraggable(event.draggableId);
+    if (!$draggable || !$draggable.parentNode) return;
+    setPlaceholderPosition(
+      getPlaceholderPosition(
+        $draggable,
+        Array.from($draggable.parentNode.children).slice(0, event.source.index)
+      )
+    );
+  };
+
+  const onDragUpdate = (event: DragUpdate) => {
+    if (!event.destination) return;
+    const $draggable = getDraggable(event.draggableId);
+    const $droppable = getDroppable(event.destination.droppableId);
+    if (!$draggable || !$droppable) return;
+
+    setPlaceholderPosition(
+      getPlaceholderPosition(
+        $draggable,
+        Array.from($droppable.children).slice(0, event.destination.index)
+      )
+    );
+  };
 
   const onDragEnd = ({ draggableId, source, destination }: DropResult) => {
     if (destination) {
@@ -540,12 +629,13 @@ const BoardStandalone = (props: IBoardPropsWithTranslations) => {
 
       arrangedItems[destinationLaneKey].map(resetOrder);
 
+      setPlaceholderPosition(null);
       return setArrangdItems(cloneDeep(arrangedItems));
     }
   };
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
+    <DragDropContext {...{ onDragStart, onDragUpdate, onDragEnd }}>
       <Box styles={{ overflowX: "auto", flex: "1 0 0" }}>
         <Box
           styles={{ height: "100%", display: "flex" }}
@@ -575,6 +665,7 @@ const BoardStandalone = (props: IBoardPropsWithTranslations) => {
                 boardItemCardLayout={
                   props.boardItemCardLayout || defaultBoardItemCardLayout
                 }
+                placeholderPosition={placeholderPosition}
               />
             );
           })}

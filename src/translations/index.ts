@@ -22,11 +22,15 @@ export default {
     hello: "Hello",
     "add category": "Add category",
     "add board item": "Add item to board",
+    "board lane": "Board lane",
+    "board item": "Board item",
   },
   fa: {
     locale: "fa",
     hello: "سلام",
     "add category": "افزودن دسته",
     "add board item": "مورد را به تخته اضافه کنید",
+    "board lane": "خط تخته",
+    "board item": "مورد هیئت مدیره",
   },
 };
