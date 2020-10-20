@@ -76,9 +76,7 @@ export const KitchenSink = () => {
             ...(Math.random() > 0.33
               ? { body: fake("{{lorem.sentence}}") }
               : {}),
-            ...(Math.random() > 0.33
-              ? { preview: fakerEN.image.abstract() }
-              : {}),
+            ...(Math.random() > 0.33 ? { preview: fakerEN.image.image() } : {}),
             ...(Math.random() > 0.33 ? { users: users() } : {}),
             ...(Math.random() > 0.5
               ? {
