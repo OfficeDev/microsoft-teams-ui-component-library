@@ -23,6 +23,22 @@ export interface IBoardThemeProps {
 const getLocalTheme = (themeKey: string): ThemeInput<any> => {
   return {
     componentStyles: {
+      Avatar: {
+        root: ({ variables }: ComponentVariablesObject) => ({
+          backgroundColor: variables.borderColor,
+          borderRadius: "9999px",
+        }),
+        image: ({ variables }: ComponentVariablesObject) => ({
+          borderWidth: "1px",
+          borderStyle: "solid",
+          borderColor: variables.borderColor,
+        }),
+        label: ({ variables }: ComponentVariablesObject) => ({
+          borderWidth: "1px",
+          borderStyle: "solid",
+          borderColor: variables.borderColor,
+        }),
+      },
       Box: {
         root: ({ variables }: ComponentVariablesObject) => ({
           "&::before": {
@@ -35,10 +51,11 @@ const getLocalTheme = (themeKey: string): ThemeInput<any> => {
         }),
       },
       Card: {
-        root: {
+        root: ({ variables }: ComponentVariablesObject) => ({
+          backgroundColor: variables.backgroundColor,
           borderWidth: "0",
           padding: "0",
-        },
+        }),
       },
       CardBody: {
         root: {

@@ -136,6 +136,7 @@ const BoardItemBadges = ({ badges, t }: IBoardItemBadgesProps) => {
                 styles={{ height: "1.75rem" }}
                 hAlign="center"
                 vAlign="center"
+                key={`BoardItem__Badge__${badgeKey}`}
               >
                 <PaperclipIcon outline />
                 <Text
@@ -166,27 +167,38 @@ const BoardItemUsers = ({
   // spec in Figma: https://www.figma.com/file/p5tprlOerFyzQ9YH4aMQBl/Avatar-Group-Fluent-UI?node-id=3%3A123
   return (
     <>
-      {range(0, Math.min(associatedUserKeys.length, 3)).map((i) => {
-        const userKey = associatedUserKeys[i];
-        const user = users[userKey];
-        return associatedUserKeys.length > 3 && i === 2 ? (
-          <Avatar
-            size="small"
-            key={`BoardItemUserAvatar__overflow`}
-            name={`+${associatedUserKeys.length - 2}`}
-            getInitials={(name) => name}
-            styles={{ marginLeft: "-.375rem" }}
-          />
-        ) : (
-          <Avatar
-            size="small"
-            key={`BoardItemUserAvatar__${userKey}`}
-            name={getText(locale, user.name)}
-            {...(user.image ? { image: user.image } : {})}
-            {...(i > 0 ? { styles: { marginLeft: "-.375rem" } } : {})}
-          />
-        );
-      })}
+      {range(0, Math.min(associatedUserKeys.length, 3))
+        .reverse()
+        .map((i) => {
+          const userKey = associatedUserKeys[i];
+          const user = users[userKey];
+          return associatedUserKeys.length > 3 && i === 2 ? (
+            <Avatar
+              size="small"
+              key={`BoardItemUserAvatar__overflow`}
+              name={`+${associatedUserKeys.length - 2}`}
+              getInitials={(name) => name}
+              variables={({ colorScheme }: SiteVariablesPrepared) => ({
+                borderColor: colorScheme.default.background,
+              })}
+              styles={{ marginLeft: "-.375rem", order: i }}
+            />
+          ) : (
+            <Avatar
+              size="small"
+              key={`BoardItemUserAvatar__${userKey}`}
+              name={getText(locale, user.name)}
+              variables={({ colorScheme }: SiteVariablesPrepared) => ({
+                borderColor: colorScheme.default.background,
+              })}
+              {...(user.image ? { image: user.image } : {})}
+              styles={{
+                order: i,
+                ...(i > 0 ? { marginLeft: "-.375rem" } : {}),
+              }}
+            />
+          );
+        })}
     </>
   );
 };
@@ -210,10 +222,12 @@ const BoardItemPreview = ({ preview }: IBoardItemPreview) => {
       styles={{
         backgroundSize: "cover",
         backgroundPosition: "center center",
-        backgroundImage: `url(${preview})`,
         width: "100%",
         height: "6.625rem",
         marginBottom: ".75rem",
+      }}
+      style={{
+        backgroundImage: `url(${preview})`,
       }}
     />
   );
@@ -392,6 +406,7 @@ const BoardLane = React.memo((props: IBoardLaneProps) => {
                                 ? colorScheme.elevations[8]
                                 : colorScheme.elevations[4],
                               hoverElevation: colorScheme.elevations[8],
+                              backgroundColor: colorScheme.default.background,
                             })}
                             styles={{
                               position: "relative",
@@ -469,7 +484,12 @@ const BoardLane = React.memo((props: IBoardLaneProps) => {
                               {(item.users || item.badges) && (
                                 <Card.Footer>
                                   <Flex>
-                                    <Box styles={{ flex: "1 0 auto" }}>
+                                    <Box
+                                      styles={{
+                                        flex: "1 0 auto",
+                                        display: "flex",
+                                      }}
+                                    >
                                       {item.users && (
                                         <BoardItemUsers
                                           locale={t.locale}
@@ -557,6 +577,20 @@ const getDraggable = (draggableId: string) =>
 const getDroppable = (droppableId: string) =>
   document.querySelector(`[data-rbd-droppable-id='${droppableId}']`);
 
+const getClientYChildren = (
+  $parent: Element,
+  draggableId: string,
+  endIndex: number
+) =>
+  Array.from($parent.children)
+    .filter(($child) => {
+      const childDraggableId = $child.getAttribute("data-rbd-draggable-id");
+      return (
+        typeof childDraggableId === "string" && childDraggableId !== draggableId
+      );
+    })
+    .slice(0, endIndex);
+
 type TPlaceholderPosition = null | [number, number, number, number];
 
 const getPlaceholderPosition = (
@@ -593,7 +627,11 @@ const BoardStandalone = (props: IBoardPropsWithTranslations) => {
     setPlaceholderPosition(
       getPlaceholderPosition(
         $draggable,
-        Array.from($draggable.parentNode.children).slice(0, event.source.index)
+        getClientYChildren(
+          $draggable.parentNode as Element,
+          event.draggableId,
+          event.source.index
+        )
       )
     );
   };
@@ -607,7 +645,11 @@ const BoardStandalone = (props: IBoardPropsWithTranslations) => {
     setPlaceholderPosition(
       getPlaceholderPosition(
         $draggable,
-        Array.from($droppable.children).slice(0, event.destination.index)
+        getClientYChildren(
+          $droppable,
+          event.draggableId,
+          event.destination.index
+        )
       )
     );
   };
