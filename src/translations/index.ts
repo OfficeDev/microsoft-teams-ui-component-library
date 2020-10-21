@@ -26,6 +26,10 @@ export default {
     "board item": "Board item",
     "name lane": "Name this lane…",
     "lane pending": "New lane",
+    "move lane left": "Move left",
+    "move lane right": "Move right",
+    delete: "Delete",
+    "lane options": "Lane options",
   },
   fa: {
     locale: "fa",
@@ -36,5 +40,9 @@ export default {
     "board item": "مورد هیئت مدیره",
     "name lane": "این خط را نامگذاری کنید…",
     "lane pending": "خط جدید",
+    "move lane left": "به سمت چپ حرکت کنید",
+    "move lane right": "حرکت به سمت راست",
+    delete: "حذف",
+    "lane options": "گزینه های خط",
   },
 };

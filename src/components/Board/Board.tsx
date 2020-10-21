@@ -8,6 +8,7 @@ import React, {
 import set from "lodash/set";
 import cloneDeep from "lodash/cloneDeep";
 import pick from "lodash/pick";
+import omit from "lodash/omit";
 import uniqueId from "lodash/uniqueId";
 
 import {
@@ -25,6 +26,7 @@ import {
   Button,
   Flex,
   Input,
+  MenuButton,
   ProviderConsumer as FluentUIThemeConsumer,
   Ref,
   SiteVariablesPrepared,
@@ -36,7 +38,13 @@ import {
 
 import { getCode, keyboardKey } from "@fluentui/keyboard-key";
 
-import { AddIcon } from "@fluentui/react-icons-northstar";
+import {
+  AddIcon,
+  MoreIcon,
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  TrashCanIcon,
+} from "@fluentui/react-icons-northstar";
 
 import { ICSSInJSStyle } from "@fluentui/styles";
 
@@ -110,13 +118,16 @@ interface IBoardStandaloneProps {
 interface IBoardLaneProps {
   lane?: TBoardLane;
   laneKey: string;
-  last: boolean;
+  last?: boolean;
+  first?: boolean;
   preparedItems: IPreparedBoardItem[];
   users: TUsers;
   t: TTranslations;
   boardItemCardLayout: IBoardItemCardLayout;
   placeholderPosition: TPlaceholderPosition;
   exitPendingLane?: (value: string) => void;
+  moveLane?: (laneKey: string, delta: -1 | 1) => void;
+  deleteLane?: (laneKey: string) => void;
   pending?: boolean;
 }
 
@@ -158,9 +169,12 @@ const BoardLane = (props: IBoardLaneProps) => {
     t,
     laneKey,
     last,
+    first,
     boardItemCardLayout,
     placeholderPosition,
     exitPendingLane,
+    deleteLane,
+    moveLane,
   } = props;
 
   const [layoutState, setLayoutState] = useState<number>(-1);
@@ -259,14 +273,56 @@ const BoardLane = (props: IBoardLaneProps) => {
           />
         </AutoFocusZone>
       ) : (
-        <Text
-          weight="bold"
-          content={getText(t.locale, lane!.title)}
-          style={{
-            flex: "0 0 auto",
-            padding: ".375rem 1.25rem .75rem 1.25rem",
-          }}
-        />
+        <Flex>
+          <Text
+            weight="bold"
+            content={getText(t.locale, lane!.title)}
+            style={{
+              flex: "1 0 auto",
+              padding: ".375rem 1.25rem .75rem 1.25rem",
+            }}
+          />
+          <MenuButton
+            trigger={
+              <Button
+                text
+                iconOnly
+                icon={<MoreIcon outline />}
+                styles={{ marginRight: "1.25rem" }}
+                aria-label={t["lane options"]}
+              />
+            }
+            menu={[
+              {
+                content: t["move lane left"],
+                icon: <ArrowLeftIcon outline />,
+                disabled: first,
+                onClick: () => {
+                  moveLane && moveLane(laneKey, -1);
+                },
+              },
+              {
+                content: t["move lane right"],
+                icon: <ArrowRightIcon outline />,
+                disabled: last,
+                onClick: () => {
+                  moveLane && moveLane(laneKey, 1);
+                },
+              },
+              {
+                kind: "divider",
+              },
+              {
+                content: t["delete"],
+                icon: <TrashCanIcon outline />,
+                disabled: preparedItems?.length,
+                onClick: () => {
+                  deleteLane && deleteLane(laneKey);
+                },
+              },
+            ]}
+          />
+        </Flex>
       )}
       <Box
         variables={({ colorScheme }: SiteVariablesPrepared) => ({
@@ -500,6 +556,25 @@ const BoardStandalone = (props: IBoardStandaloneProps) => {
     }
   };
 
+  const moveLane = (laneKey: string, delta: 1 | -1) => {
+    const laneKeys = Object.keys(arrangedLanes);
+    const from = laneKeys.indexOf(laneKey);
+    laneKeys.splice(from + delta, 0, laneKeys.splice(from, 1)[0]);
+    setArrangedLanes(
+      laneKeys.reduce(
+        (nextArrangedLanes: TBoardLanes, currentLaneKey: string) => {
+          nextArrangedLanes[currentLaneKey] = arrangedLanes[currentLaneKey];
+          return nextArrangedLanes;
+        },
+        {}
+      )
+    );
+  };
+
+  const deleteLane = (laneKey: string) => {
+    setArrangedLanes(omit(arrangedLanes, [laneKey]));
+  };
+
   return (
     <DragDropContext {...{ onDragStart, onDragUpdate, onDragEnd }}>
       <Box styles={{ overflowX: "auto", flex: "1 0 0" }}>
@@ -521,6 +596,7 @@ const BoardStandalone = (props: IBoardStandaloneProps) => {
             const last = laneIndex === laneKeys.length - 1;
             return (
               <BoardLane
+                first={laneIndex === 0}
                 last={addingLane ? false : last}
                 laneKey={laneKey}
                 lane={arrangedLanes[laneKey]}
@@ -532,6 +608,8 @@ const BoardStandalone = (props: IBoardStandaloneProps) => {
                   props.boardItemCardLayout || defaultBoardItemCardLayout
                 }
                 placeholderPosition={placeholderPosition}
+                moveLane={moveLane}
+                deleteLane={deleteLane}
               />
             );
           })}
@@ -549,12 +627,17 @@ const BoardStandalone = (props: IBoardStandaloneProps) => {
               }
               placeholderPosition={null}
               exitPendingLane={(value) => {
-                if (value.length > 0)
+                if (value.length > 0) {
+                  const newLaneKey = uniqueId("sl");
                   setArrangedLanes(
                     Object.assign(arrangedLanes, {
-                      [uniqueId("sl")]: { title: value },
+                      [newLaneKey]: { title: value },
                     })
                   );
+                  setArrangedItems(
+                    Object.assign(arrangedItems, { [newLaneKey]: [] })
+                  );
+                }
                 setAddingLane(false);
               }}
             />
