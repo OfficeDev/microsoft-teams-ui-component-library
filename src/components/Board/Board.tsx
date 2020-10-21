@@ -8,7 +8,6 @@ import React, {
 import set from "lodash/set";
 import cloneDeep from "lodash/cloneDeep";
 import pick from "lodash/pick";
-import range from "lodash/range";
 import uniqueId from "lodash/uniqueId";
 
 import {
@@ -22,17 +21,14 @@ import {
 
 import {
   AutoFocusZone,
-  Avatar,
   Box,
   Button,
-  Card,
   Flex,
   Input,
   ProviderConsumer as FluentUIThemeConsumer,
   Ref,
   SiteVariablesPrepared,
   Text,
-  gridCellBehavior,
   gridCellWithFocusableElementBehavior,
   gridNestedBehavior,
   gridRowNestedBehavior,
@@ -40,7 +36,7 @@ import {
 
 import { getCode, keyboardKey } from "@fluentui/keyboard-key";
 
-import { AddIcon, PaperclipIcon } from "@fluentui/react-icons-northstar";
+import { AddIcon } from "@fluentui/react-icons-northstar";
 
 import { ICSSInJSStyle } from "@fluentui/styles";
 
@@ -50,12 +46,7 @@ import "./board.css";
 
 import { TUsers } from "../../types/types";
 
-import {
-  TTranslations,
-  TTextObject,
-  TLocale,
-  getText,
-} from "../../translations";
+import { TTranslations, TTextObject, getText } from "../../translations";
 
 import { Toolbar } from "../Toolbar/Toolbar";
 import { BoardItem } from "./BoardItem";
