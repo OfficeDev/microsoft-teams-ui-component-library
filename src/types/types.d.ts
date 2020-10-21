@@ -4,6 +4,7 @@ export type TAction = {
   title: string;
   icon?: string;
   multi?: boolean;
+  __internal_callback__?: string;
 };
 
 export type TActions = {

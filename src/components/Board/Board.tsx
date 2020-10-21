@@ -1,7 +1,15 @@
-import React, { useLayoutEffect, useRef, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import set from "lodash/set";
-import range from "lodash/range";
 import cloneDeep from "lodash/cloneDeep";
+import pick from "lodash/pick";
+import range from "lodash/range";
+import uniqueId from "lodash/uniqueId";
 
 import {
   DragDropContext,
@@ -13,11 +21,13 @@ import {
 } from "react-beautiful-dnd";
 
 import {
+  AutoFocusZone,
   Avatar,
   Box,
   Button,
   Card,
   Flex,
+  Input,
   ProviderConsumer as FluentUIThemeConsumer,
   Ref,
   SiteVariablesPrepared,
@@ -63,6 +73,10 @@ export type TBoardLane = {
   title: TTextObject;
 };
 
+export type TBoardLanes = {
+  [laneKey: string]: TBoardLane;
+};
+
 export interface IBoardItemBadges {
   attachments?: number;
 }
@@ -78,23 +92,31 @@ export interface IBoardItem {
   preview?: string;
 }
 
+export type TBoardItems = {
+  [itemKey: string]: IBoardItem;
+};
+
 export interface IBoardProps {
   users: TUsers;
-  lanes: {
-    [laneKey: string]: TBoardLane;
-  };
-  items: {
-    [itemKey: string]: IBoardItem;
-  };
+  lanes: TBoardLanes;
+  items: TBoardItems;
   boardItemCardLayout?: IBoardItemCardLayout;
 }
 
-interface IBoardPropsWithTranslations extends IBoardProps {
+interface IBoardStandaloneProps {
+  users: TUsers;
+  arrangedLanes: TBoardLanes;
+  setArrangedLanes: Dispatch<SetStateAction<TBoardLanes>>;
+  arrangedItems: IPreparedBoardItems;
+  setArrangedItems: Dispatch<SetStateAction<IPreparedBoardItems>>;
+  boardItemCardLayout?: IBoardItemCardLayout;
+  addingLane: boolean;
+  setAddingLane: Dispatch<SetStateAction<boolean>>;
   t: TTranslations;
 }
 
 interface IBoardLaneProps {
-  lane: TBoardLane;
+  lane?: TBoardLane;
   laneKey: string;
   last: boolean;
   preparedItems: IPreparedBoardItem[];
@@ -102,6 +124,8 @@ interface IBoardLaneProps {
   t: TTranslations;
   boardItemCardLayout: IBoardItemCardLayout;
   placeholderPosition: TPlaceholderPosition;
+  exitPendingLane?: (value: string) => void;
+  pending?: boolean;
 }
 
 const separatorStyles: ICSSInJSStyle = {
@@ -250,7 +274,7 @@ const Placeholder = ({ position }: { position: TPlaceholderPosition }) =>
     />
   );
 
-const BoardLane = React.memo((props: IBoardLaneProps) => {
+const BoardLane = (props: IBoardLaneProps) => {
   const {
     users,
     lane,
@@ -260,6 +284,7 @@ const BoardLane = React.memo((props: IBoardLaneProps) => {
     last,
     boardItemCardLayout,
     placeholderPosition,
+    exitPendingLane,
   } = props;
 
   const [layoutState, setLayoutState] = useState<number>(-1);
@@ -333,16 +358,40 @@ const BoardLane = React.memo((props: IBoardLaneProps) => {
         )
       }
       className="board__lane"
-      aria-label={`${t["board lane"]}, ${getText(t.locale, lane.title)}`}
+      aria-label={`${t["board lane"]}, ${getText(
+        t.locale,
+        lane ? lane.title : t["lane pending"]
+      )}`}
     >
-      <Text
-        weight="bold"
-        content={getText(t.locale, lane.title)}
-        style={{
-          flex: "0 0 auto",
-          padding: ".375rem 1.25rem .75rem 1.25rem",
-        }}
-      />
+      {props.pending ? (
+        <AutoFocusZone>
+          <Input
+            placeholder={t["name lane"]}
+            onBlur={(e) => {
+              exitPendingLane!(e.target.value);
+            }}
+            onKeyDown={(e) => {
+              switch (e.key) {
+                case "Escape":
+                  return exitPendingLane!("");
+                case "Enter":
+                  return exitPendingLane!((e.target as HTMLInputElement).value);
+              }
+            }}
+            fluid
+            styles={{ padding: ".05rem 1.25rem .25rem 1.25rem" }}
+          />
+        </AutoFocusZone>
+      ) : (
+        <Text
+          weight="bold"
+          content={getText(t.locale, lane!.title)}
+          style={{
+            flex: "0 0 auto",
+            padding: ".375rem 1.25rem .75rem 1.25rem",
+          }}
+        />
+      )}
       <Box
         variables={({ colorScheme }: SiteVariablesPrepared) => ({
           backgroundColor: colorScheme.default.background2,
@@ -530,7 +579,7 @@ const BoardLane = React.memo((props: IBoardLaneProps) => {
       </Box>
     </Box>
   );
-});
+};
 
 interface IPreparedBoardItem extends IBoardItem {
   itemKey: string;
@@ -610,12 +659,17 @@ const getPlaceholderPosition = (
   return [clientX, clientY, clientWidth, clientHeight];
 };
 
-const BoardStandalone = (props: IBoardPropsWithTranslations) => {
-  const { users, lanes, items, t } = props;
-
-  const [arrangedItems, setArrangdItems] = useState<IPreparedBoardItems>(
-    prepareBoardItems(items, lanes)
-  );
+const BoardStandalone = (props: IBoardStandaloneProps) => {
+  const {
+    users,
+    arrangedLanes,
+    setArrangedLanes,
+    arrangedItems,
+    setArrangedItems,
+    addingLane,
+    setAddingLane,
+    t,
+  } = props;
 
   const [placeholderPosition, setPlaceholderPosition] = useState<
     TPlaceholderPosition
@@ -672,7 +726,7 @@ const BoardStandalone = (props: IBoardPropsWithTranslations) => {
       arrangedItems[destinationLaneKey].map(resetOrder);
 
       setPlaceholderPosition(null);
-      return setArrangdItems(cloneDeep(arrangedItems));
+      return setArrangedItems(cloneDeep(arrangedItems));
     }
   };
 
@@ -693,13 +747,13 @@ const BoardStandalone = (props: IBoardPropsWithTranslations) => {
             })
           }
         >
-          {Object.keys(lanes).map((laneKey, laneIndex, laneKeys) => {
+          {Object.keys(arrangedLanes).map((laneKey, laneIndex, laneKeys) => {
             const last = laneIndex === laneKeys.length - 1;
             return (
               <BoardLane
-                last={last}
+                last={addingLane ? false : last}
                 laneKey={laneKey}
-                lane={lanes[laneKey]}
+                lane={arrangedLanes[laneKey]}
                 key={`BoardLane__${laneKey}`}
                 preparedItems={arrangedItems[laneKey]}
                 users={users}
@@ -711,6 +765,30 @@ const BoardStandalone = (props: IBoardPropsWithTranslations) => {
               />
             );
           })}
+          {addingLane && (
+            <BoardLane
+              last
+              pending
+              laneKey={uniqueId("pl")}
+              key="BoardLane__pending_lane"
+              preparedItems={[]}
+              users={users}
+              t={t}
+              boardItemCardLayout={
+                props.boardItemCardLayout || defaultBoardItemCardLayout
+              }
+              placeholderPosition={null}
+              exitPendingLane={(value) => {
+                if (value.length > 0)
+                  setArrangedLanes(
+                    Object.assign(arrangedLanes, {
+                      [uniqueId("sl")]: { title: value },
+                    })
+                  );
+                setAddingLane(false);
+              }}
+            />
+          )}
         </Box>
       </Box>
     </DragDropContext>
@@ -718,6 +796,14 @@ const BoardStandalone = (props: IBoardPropsWithTranslations) => {
 };
 
 export const Board = (props: IBoardProps) => {
+  const [arrangedLanes, setArrangedLanes] = useState<TBoardLanes>(props.lanes);
+
+  const [arrangedItems, setArrangedItems] = useState<IPreparedBoardItems>(
+    prepareBoardItems(props.items, props.lanes)
+  );
+
+  const [addingLane, setAddingLane] = useState<boolean>(false);
+
   return (
     <FluentUIThemeConsumer
       render={(globalTheme) => {
@@ -736,12 +822,27 @@ export const Board = (props: IBoardProps) => {
                   g1: {
                     a1: {
                       icon: "Add",
-                      title: t["add category"],
+                      title: t["add lane"],
+                      __internal_callback__: "add_column",
                     },
                   },
                 }}
+                __internal_callbacks__={{
+                  add_column: () => setAddingLane(true),
+                }}
               />
-              <BoardStandalone {...props} t={t} />
+              <BoardStandalone
+                {...{
+                  t,
+                  arrangedLanes,
+                  arrangedItems,
+                  setArrangedItems,
+                  addingLane,
+                  setAddingLane,
+                  setArrangedLanes,
+                }}
+                {...pick(props, ["users", "boardItemCardLayout"])}
+              />
             </Flex>
           </BoardTheme>
         );

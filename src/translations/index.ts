@@ -20,17 +20,21 @@ export default {
   "en-US": {
     locale: "en-US",
     hello: "Hello",
-    "add category": "Add category",
+    "add lane": "Add lane",
     "add board item": "Add item to board",
     "board lane": "Board lane",
     "board item": "Board item",
+    "name lane": "Name this lane…",
+    "lane pending": "New lane",
   },
   fa: {
     locale: "fa",
     hello: "سلام",
-    "add category": "افزودن دسته",
+    "add lane": "خط اضافه کنید",
     "add board item": "مورد را به تخته اضافه کنید",
     "board lane": "خط تخته",
     "board item": "مورد هیئت مدیره",
+    "name lane": "این خط را نامگذاری کنید…",
+    "lane pending": "خط جدید",
   },
 };
