@@ -477,7 +477,7 @@ const getPlaceholderPosition = (
   const { clientHeight, clientWidth } = $draggable;
 
   const clientY = clientYChildren.reduce((acc, $child) => {
-    return acc + $child.clientHeight + 20;
+    return acc + $child.clientHeight + 8;
   }, 0);
 
   const clientX = 20;
