@@ -57,10 +57,10 @@ const BoardItemBadges = ({ badges, t }: IBoardItemBadgesProps) => {
           case "attachments":
             return (
               <Flex
-                variables={({ colorScheme }: SiteVariablesPrepared) => ({
-                  color: colorScheme.default.foreground2,
-                })}
-                styles={{ height: "1.75rem" }}
+                styles={{
+                  height: "1.75rem",
+                  color: "var(--content-color-secondary)",
+                }}
                 hAlign="center"
                 vAlign="center"
                 key={`BoardItem__Badge__${badgeKey}`}
@@ -180,6 +180,9 @@ export const BoardItem = React.memo((props: IBoardItemProps) => {
           : colorScheme.elevations[4],
         hoverElevation: colorScheme.elevations[8],
         backgroundColor: colorScheme.default.background,
+        borderColor: isDragging
+          ? colorScheme.default.borderHover
+          : colorScheme.default.border,
       })}
       styles={{
         position: "relative",

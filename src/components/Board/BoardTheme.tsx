@@ -2,7 +2,6 @@ import React, { CSSProperties, ReactNode } from "react";
 
 import {
   Provider as FluentUIThemeProvider,
-  SiteVariablesPrepared,
   mergeThemes,
 } from "@fluentui/react-northstar";
 
@@ -24,20 +23,20 @@ const getLocalTheme = (themeKey: string): ThemeInput<any> => {
   return {
     componentStyles: {
       Avatar: {
-        root: ({ variables }: ComponentVariablesObject) => ({
-          backgroundColor: variables.borderColor,
+        root: {
+          backgroundColor: "var(--surface-background-color)",
           borderRadius: "9999px",
-        }),
-        image: ({ variables }: ComponentVariablesObject) => ({
+        },
+        image: {
           borderWidth: "1px",
           borderStyle: "solid",
-          borderColor: variables.borderColor,
-        }),
-        label: ({ variables }: ComponentVariablesObject) => ({
+          borderColor: "var(--surface-background-color)",
+        },
+        label: {
           borderWidth: "1px",
           borderStyle: "solid",
-          borderColor: variables.borderColor,
-        }),
+          borderColor: "var(--surface-background-color)",
+        },
       },
       Box: {
         root: ({ variables }: ComponentVariablesObject) => ({
@@ -51,11 +50,38 @@ const getLocalTheme = (themeKey: string): ThemeInput<any> => {
         }),
       },
       Card: {
-        root: ({ variables }: ComponentVariablesObject) => ({
-          backgroundColor: variables.backgroundColor,
-          borderWidth: "0",
-          padding: "0",
-        }),
+        root: ({ variables, theme }: ComponentVariablesObject) => {
+          console.log("[Card root]", theme.siteVariables.theme);
+          return {
+            padding: "0",
+            backgroundColor: variables.backgroundColor,
+            borderWidth:
+              theme.siteVariables.theme === "teamsHighContrastTheme"
+                ? "1px"
+                : 0,
+            "--separator-color":
+              theme.siteVariables.colorScheme.default.border1,
+            "--content-color-secondary":
+              theme.siteVariables.colorScheme.default.foreground2,
+            "--surface-background-color":
+              theme.siteVariables.colorScheme.default.background,
+            "&:hover": {
+              "--surface-background-color":
+                theme.siteVariables.colorScheme.default.backgroundHover1,
+            },
+            ...(theme.siteVariables.theme === "teamsHighContrastTheme"
+              ? {
+                  borderColor: variables.borderColor,
+                  "&:hover": {
+                    backgroundColor:
+                      theme.siteVariables.colorScheme.default.background,
+                    borderColor:
+                      theme.siteVariables.colorScheme.default.borderHover,
+                  },
+                }
+              : {}),
+          };
+        },
       },
       CardBody: {
         root: {
@@ -63,7 +89,7 @@ const getLocalTheme = (themeKey: string): ThemeInput<any> => {
         },
       },
       CardFooter: {
-        root: ({ variables }: ComponentVariablesObject) => ({
+        root: {
           marginTop: "1.625rem",
           marginLeft: "1.25rem",
           marginRight: "1.25rem",
@@ -72,17 +98,12 @@ const getLocalTheme = (themeKey: string): ThemeInput<any> => {
             content: '""',
             display: "block",
             height: "1px",
-            backgroundColor: variables.separatorColor,
+            backgroundColor: "var(--separator-color)",
             position: "relative",
             top: "-.5rem",
           },
-        }),
+        },
       },
-    },
-    componentVariables: {
-      CardFooter: ({ colorScheme }: SiteVariablesPrepared) => ({
-        separatorColor: colorScheme.default.border1,
-      }),
     },
   };
 };
