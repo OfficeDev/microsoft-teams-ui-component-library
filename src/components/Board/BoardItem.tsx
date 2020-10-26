@@ -270,6 +270,7 @@ export const BoardItem = React.memo((props: IBoardItemProps) => {
             display: "block",
             marginTop: "1.25rem",
           }}
+          role="presentation"
         />
       </Box>
     </Card>
