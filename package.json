@@ -20,7 +20,8 @@
   },
   "dependencies": {
     "classnames": "^2.2.6",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.15",
+    "react-beautiful-dnd": "^13.0.0"
   },
   "peerDependencies": {
     "@fluentui/react-icons-northstar": "^0.51.0",
@@ -42,9 +43,11 @@
     "@storybook/preset-typescript": "^3.0.0",
     "@storybook/react": "^5.3.19",
     "@types/classnames": "^2.2.10",
+    "@types/faker": "^5.1.2",
     "@types/jest": "^26.0.4",
     "@types/lodash": "^4.14.158",
     "@types/react": "^16.8.25",
+    "@types/react-beautiful-dnd": "^13.0.0",
     "@types/react-dom": "^16.8.4",
     "@types/react-is": "^16.7.1",
     "@typescript-eslint/eslint-plugin": "3.6.1",
@@ -60,6 +63,7 @@
     "eslint-plugin-jsx-a11y": "6.3.0",
     "eslint-plugin-react": "7.20.0",
     "eslint-plugin-react-hooks": "4.0.0",
+    "faker": "Marak/faker.js",
     "file-loader": "^6.0.0",
     "fork-ts-checker-webpack-plugin": "^5.0.7",
     "html-webpack-plugin": "^4.3.0",

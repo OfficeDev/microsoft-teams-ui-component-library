@@ -14,6 +14,7 @@ interface IPreparedColumn extends IColumn {
 
 export const defaultMinWidth = 240;
 export const accessoryWidth = 40;
+export const staticSpacing = 40;
 const defaultHidePriority = Infinity;
 
 export type Breakpoints = Map<number, Set<string>>;
@@ -98,7 +99,8 @@ export default function getBreakpoints(
         (hasActions || preparedColumnsByHideable["true"].length > 0
           ? accessoryWidth
           : 0) +
-        (selectable ? accessoryWidth : 0),
+        (selectable ? accessoryWidth : 0) +
+        staticSpacing,
       breakpoints: new Map()
         // add an `Infinity` breakpoint which contains all column keys;
         // this is also what is returned if no columns are allowed to be hidden

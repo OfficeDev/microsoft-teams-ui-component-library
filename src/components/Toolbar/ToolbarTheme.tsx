@@ -117,6 +117,7 @@ export const ToolbarTheme = ({ globalTheme, children }: IToolbarThemeProps) => {
         teamsNextVariableAssignments,
         getLocalTheme(globalTheme.siteVariables.theme)
       )}
+      styles={{ background: "transparent" }}
     >
       {children}
     </FluentUIThemeProvider>
