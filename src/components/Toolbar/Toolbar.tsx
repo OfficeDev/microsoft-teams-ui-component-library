@@ -1,10 +1,16 @@
-import React, { useLayoutEffect, useState, useRef } from "react";
+import React, {
+  useLayoutEffect,
+  useState,
+  useRef,
+  SyntheticEvent,
+} from "react";
 import omit from "lodash/omit";
 import cloneDeep from "lodash/cloneDeep";
 
 import {
   Box,
   ButtonContent,
+  ComponentEventHandler,
   ObjectShorthandCollection,
   Position,
   PropsOfElement,
@@ -44,11 +50,14 @@ export type TFilters = ObjectShorthandCollection<TreeItemProps, never>;
 
 export interface IToolbarProps extends PropsOfElement<"div"> {
   actionGroups: TActionGroups;
-  filters: TFilters;
+  filters?: TFilters;
   find?: boolean;
   filtersSingleSelect?: boolean;
   onSelectedFiltersChange?: (selectedFilters: string[]) => string[];
   onFindQueryChange?: (findQuery: string) => string;
+  __internal_callbacks__?: {
+    [callbackId: string]: ComponentEventHandler<ToolbarItemProps>;
+  };
 }
 
 export type TToolbarLayout = "compact" | "verbose";
@@ -183,6 +192,12 @@ export const Toolbar = (props: IToolbarProps) => {
   const inFlowToolbarItems: TToolbarItems = Object.keys(allActions).reduce(
     (acc: TToolbarItems, actionSlug, index, actionSlugs) => {
       const action = allActions[actionSlug];
+
+      const onClick =
+        action.__internal_callback__ &&
+        props.__internal_callbacks__ &&
+        props.__internal_callbacks__[action.__internal_callback__];
+
       acc.push({
         key: actionSlug,
         children: <InFlowToolbarItem action={action} layout={layout} />,
@@ -197,6 +212,7 @@ export const Toolbar = (props: IToolbarProps) => {
           justifyContent: "center",
           alignItems: "center",
         },
+        ...(onClick ? { onClick } : {}),
       });
       if (needsSeparator(actionSlug, index, actionSlugs))
         acc.push({
@@ -298,7 +314,7 @@ export const Toolbar = (props: IToolbarProps) => {
                 paddingLeft: displayFindOnly ? "0" : "2.5rem",
               }}
             >
-              {!displayFindOnly && (
+              {!displayFindOnly && filters && (
                 <ToolbarFilter
                   layout={layout}
                   filters={filters}

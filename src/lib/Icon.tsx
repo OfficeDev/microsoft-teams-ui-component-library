@@ -17,22 +17,22 @@ export default ({ icon }: IIconProps) => {
   let iconElement = null;
   switch (icon) {
     case "Add":
-      iconElement = <AddIcon />;
+      iconElement = <AddIcon outline />;
       break;
     case "Edit":
-      iconElement = <EditIcon />;
+      iconElement = <EditIcon outline />;
       break;
     case "GalleryNew":
-      iconElement = <GalleryNewIcon />;
+      iconElement = <GalleryNewIcon outline />;
       break;
     case "GalleryNewLarge":
-      iconElement = <GalleryNewLargeIcon />;
+      iconElement = <GalleryNewLargeIcon outline />;
       break;
     case "ShareGeneric":
-      iconElement = <ShareGenericIcon />;
+      iconElement = <ShareGenericIcon outline />;
       break;
     case "TrashCan":
-      iconElement = <TrashCanIcon />;
+      iconElement = <TrashCanIcon outline />;
       break;
   }
   return iconElement;
