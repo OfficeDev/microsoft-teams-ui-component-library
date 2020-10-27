@@ -57,8 +57,25 @@ const getLocalTheme = () => {
       },
     },
     componentStyles: {
+      Menu: {
+        root: {
+          width: "100%",
+          marginRight: "0",
+          marginLeft: "0",
+          border: "none",
+          padding: "0 0.25rem",
+        },
+      },
       MenuDivider: {
         root: { margin: "0.25rem 0" },
+      },
+      PopupContent: {
+        content: {
+          width: "12.5rem",
+          padding: "0",
+          boxShadow:
+            " 0px 1.2px 3.6px rgba(0, 0, 0, 0.11), 0px 6.4px 14.4px rgba(0, 0, 0, 0.13)",
+        },
       },
     },
   };
@@ -116,11 +133,6 @@ export const DashboardCallout = ({
                     ]
                   : [hideWidgetAction]
               }
-              style={{
-                width: "12rem",
-                margin: "-0.625rem -0.69rem",
-                border: "none",
-              }}
               vertical
             />
           ),
