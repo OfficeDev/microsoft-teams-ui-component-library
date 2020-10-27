@@ -17,6 +17,7 @@ export interface IStateActions {
 
 export interface IStateAction {
   label: string;
+  action: () => void;
 }
 
 export const State = ({ title, desc, image, actions }: IState) => (
@@ -66,6 +67,8 @@ export const State = ({ title, desc, image, actions }: IState) => (
           {actions.primary && (
             <Button
               content={actions.primary.label}
+              onClick={actions.primary.action}
+              aria-label={actions.primary.label}
               styles={{ width: "100%" }}
               primary
             />
@@ -73,12 +76,18 @@ export const State = ({ title, desc, image, actions }: IState) => (
           {actions.secondary && (
             <Button
               content={actions.secondary.label}
+              onClick={actions.secondary.action}
+              aria-label={actions.secondary.label}
               styles={{ width: "100%" }}
             />
           )}
           {actions.tertiary && (
             <Button text primary>
-              <Text content={actions.tertiary.label} weight="light" />
+              <Text
+                content={actions.tertiary.label}
+                onClick={actions.tertiary.action}
+                weight="light"
+              />
             </Button>
           )}
         </Flex>

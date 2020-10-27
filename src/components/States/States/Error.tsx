@@ -9,9 +9,11 @@ const DEFAULT_STRINGS = {
   actions: {
     primary: {
       label: "Refresh",
+      action: () => alert("Refresh action called"),
     },
     tertiary: {
       label: "Start over",
+      action: () => alert("Start over action called"),
     },
   },
 };

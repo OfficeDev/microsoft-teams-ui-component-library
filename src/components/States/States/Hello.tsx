@@ -8,9 +8,11 @@ const DEFAULT_STRINGS = {
   actions: {
     primary: {
       label: "Create a board",
+      action: () => alert("Create a board action called"),
     },
     secondary: {
       label: "Find an existing board",
+      action: () => alert("Find an existing board action called"),
     },
   },
 };

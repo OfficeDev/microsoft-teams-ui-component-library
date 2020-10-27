@@ -8,9 +8,11 @@ const DEFAULT_STRINGS = {
   actions: {
     primary: {
       label: "Start the next challenge",
+      action: () => alert("Next challenge action called"),
     },
     secondary: {
       label: "Celebrate with your colleagues",
+      action: () => alert("Celebrate action called"),
     },
   },
 };

@@ -164,9 +164,11 @@ const customConfig = {
     actions: {
       primary: {
         label: "Documentation",
+        action: () => alert("Documentation button clicked"),
       },
       secondary: {
         label: "Samples",
+        action: () => alert("Samples button clicked"),
       },
     },
   },

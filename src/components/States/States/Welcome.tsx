@@ -8,12 +8,15 @@ const DEFAULT_STRINGS = {
   actions: {
     primary: {
       label: "Sign In",
+      action: () => alert("Sign In action called"),
     },
     secondary: {
       label: "Sign Up",
+      action: () => alert("Sign Up action called"),
     },
     tertiary: {
       label: "Learn more about {{appName}}",
+      action: () => alert("Learn more action called"),
     },
   },
 };
