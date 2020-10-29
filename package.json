@@ -21,7 +21,6 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
-    "@storybook/cli": "^6.0.26",
     "classnames": "^2.2.6",
     "lodash": "^4.17.15",
     "react-beautiful-dnd": "^13.0.0"
@@ -43,6 +42,7 @@
     "@storybook/addon-links": "^6.0.26",
     "@storybook/addon-viewport": "^5.3.19",
     "@storybook/addons": "^6.0.26",
+    "@storybook/cli": "^6.0.26",
     "@storybook/preset-typescript": "^3.0.0",
     "@storybook/react": "^6.0.26",
     "@types/classnames": "^2.2.10",
