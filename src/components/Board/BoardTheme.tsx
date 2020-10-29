@@ -11,11 +11,9 @@ import {
   ComponentVariablesObject,
 } from "@fluentui/styles";
 
-import {
-  teamsNextVariableAssignments,
-  TeamsTheme,
-  themes,
-} from "../../lib/withTheme";
+import { teamsNextVariableAssignments, themes } from "../../lib/withTheme";
+
+import { TeamsTheme } from "../../themes";
 
 export interface IBoardThemeProps {
   globalTheme: ThemePrepared;

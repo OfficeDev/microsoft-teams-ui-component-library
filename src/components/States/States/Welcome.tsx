@@ -1,5 +1,5 @@
 import React from "react";
-import { TeamsTheme } from "../../../lib/withTheme";
+import { TeamsTheme } from "../../../themes";
 import { IState, State } from "./State";
 
 const DEFAULT_STRINGS = {

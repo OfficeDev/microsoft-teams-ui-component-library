@@ -3,7 +3,7 @@ import {
   Flex,
   ProviderConsumer as FluentUIThemeConsumer,
 } from "@fluentui/react-northstar";
-import { TeamsTheme } from "../../lib/withTheme";
+import { TeamsTheme } from "../../themes";
 import { IState } from "./States/State";
 
 const Default = React.lazy(() => import("./States/Default"));

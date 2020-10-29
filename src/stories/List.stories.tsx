@@ -1,14 +1,10 @@
 import React from "react";
-import { withKnobs, object, boolean } from "@storybook/addon-knobs";
+import { object, boolean } from "@storybook/addon-knobs";
 import List from "../components/List";
-import { withA11y } from "@storybook/addon-a11y";
-
-import { StorybookThemeProvider } from "../lib/withTheme";
 
 export default {
   title: "Composites/List",
   component: List,
-  decorators: [withKnobs, withA11y],
 };
 
 const listKnobGroupID = "List";
@@ -87,12 +83,10 @@ export const KitchenSink = () => {
     },
   };
   return (
-    <StorybookThemeProvider>
-      <List
-        truncate={boolean("Truncate", false, listKnobGroupID)}
-        selectable={boolean("Selectable", true, listKnobGroupID)}
-        {...object("Configuration", listConfig, listKnobGroupID)}
-      />
-    </StorybookThemeProvider>
+    <List
+      truncate={boolean("Truncate", false, listKnobGroupID)}
+      selectable={boolean("Selectable", true, listKnobGroupID)}
+      {...object("Configuration", listConfig, listKnobGroupID)}
+    />
   );
 };

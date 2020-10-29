@@ -1,9 +1,7 @@
 import React from "react";
-import { withKnobs, object } from "@storybook/addon-knobs";
-import { withA11y } from "@storybook/addon-a11y";
+import { object } from "@storybook/addon-knobs";
 
 import Dashboard from "../components/Dashboard";
-import { StorybookThemeProvider } from "../lib/withTheme";
 import { IWidget, WidgetSize } from "../components/Dashboard/DashboardWidget";
 import {
   ExclamationCircleIcon,
@@ -16,7 +14,6 @@ import {
 export default {
   title: "Composites/Dashboard",
   component: Dashboard,
-  decorators: [withKnobs, withA11y],
 };
 
 const calloutItemsExample = [
@@ -122,10 +119,8 @@ const dafaultConfig = { widgets: defaultWidgets };
 
 export const Default = () => {
   return (
-    <StorybookThemeProvider>
-      <Dashboard
-        {...object("Configuration", dafaultConfig, dashboardKnobGroupID)}
-      />
-    </StorybookThemeProvider>
+    <Dashboard
+      {...object("Configuration", dafaultConfig, dashboardKnobGroupID)}
+    />
   );
 };

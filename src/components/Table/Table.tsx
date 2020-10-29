@@ -37,7 +37,7 @@ import getBreakpoints, {
 } from "./tableBreakpoints";
 
 import { TActions } from "../../types/types";
-import { TeamsTheme } from "../../lib/withTheme";
+import { TeamsTheme } from "../../themes";
 
 export type columnKey = string;
 export type rowKey = string;

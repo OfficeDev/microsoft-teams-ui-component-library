@@ -1,6 +1,6 @@
 import React from "react";
 import { IState, State } from "./State";
-import { TeamsTheme } from "../../../lib/withTheme";
+import { TeamsTheme } from "../../../themes";
 
 const DEFAULT_STRINGS = {
   title: `Welcome to your homepage, {{userName}}`,

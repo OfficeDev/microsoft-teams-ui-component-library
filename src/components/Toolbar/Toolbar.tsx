@@ -27,7 +27,7 @@ import {
 import { SiteVariablesPrepared } from "@fluentui/styles";
 
 import Icon from "../../lib/Icon";
-import { TeamsTheme } from "../../lib/withTheme";
+import { TeamsTheme } from "../../themes";
 
 import { TAction, TActions } from "../../types/types";
 
