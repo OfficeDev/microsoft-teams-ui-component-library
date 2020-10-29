@@ -55,7 +55,6 @@ const getLocalTheme = (themeKey: string): ThemeInput<any> => {
       },
       Card: {
         root: ({ variables, theme }: ComponentVariablesObject) => {
-          console.log("[Card root]", theme.siteVariables.theme);
           return {
             padding: "0",
             backgroundColor: variables.backgroundColor,
