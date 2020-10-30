@@ -97,13 +97,11 @@ const getLocalTheme = (themeKey: string): ThemeInput<any> => {
     },
     staticStyles: [
       `html[data-whatinput="keyboard"] .board__lane:focus::before {
-        z-index: 1;
-        border-width: 1px;
+        z-index: 2;
         top: 1px; bottom: 1px; left: 2px; right: 3px;
       }`,
       `html[data-whatinput="keyboard"] .board__lane:focus::after {
         z-index: 2;
-        border-width: 2px;
         top: 0; bottom: 0; left: 1px; right: 2px;
       }`,
     ],
