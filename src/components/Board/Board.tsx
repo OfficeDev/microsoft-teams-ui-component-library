@@ -50,8 +50,6 @@ import { ICSSInJSStyle } from "@fluentui/styles";
 
 import { BoardTheme } from "./BoardTheme";
 
-import "./board.css";
-
 import { TUsers } from "../../types/types";
 
 import { TTranslations, TTextObject, getText } from "../../translations";
@@ -113,6 +111,7 @@ interface IBoardStandaloneProps {
   addingLane: boolean;
   setAddingLane: Dispatch<SetStateAction<boolean>>;
   t: TTranslations;
+  rtl: boolean;
 }
 
 interface IBoardLaneProps {
@@ -123,6 +122,7 @@ interface IBoardLaneProps {
   preparedItems: IPreparedBoardItem[];
   users: TUsers;
   t: TTranslations;
+  rtl: boolean;
   boardItemCardLayout: IBoardItemCardLayout;
   placeholderPosition: TPlaceholderPosition;
   exitPendingLane?: (value: string) => void;
@@ -151,15 +151,32 @@ const Placeholder = ({ position }: { position: TPlaceholderPosition }) =>
         backgroundColor: colorScheme.brand.background1,
         borderColor: colorScheme.brand.foreground3,
       })}
-      className="board__placeholder"
       styles={{
         left: position[0] + "px",
         top: position[1] + "px",
         width: position[2] + "px",
         height: position[3] + "px",
+        position: "absolute",
+        borderRadius: "4px",
+        borderWidth: "1px",
+        zIndex: 0,
       }}
     />
   );
+
+const laneFocusBorderStyles = {
+  content: '""',
+  display: "block",
+  position: "absolute",
+  borderStyle: "solid",
+  borderWidth: 0,
+  top: 0,
+  bottom: 0,
+  left: "1px",
+  right: "2px",
+  borderRadius: "4px",
+  pointerEvents: "none",
+};
 
 const BoardLane = (props: IBoardLaneProps) => {
   const {
@@ -167,6 +184,7 @@ const BoardLane = (props: IBoardLaneProps) => {
     lane,
     preparedItems,
     t,
+    rtl,
     laneKey,
     last,
     first,
@@ -235,6 +253,8 @@ const BoardLane = (props: IBoardLaneProps) => {
         opacity: layoutState === 2 ? 1 : 0,
         position: "relative",
         ":focus": { outline: "none" },
+        "&::before": laneFocusBorderStyles,
+        "&::after": laneFocusBorderStyles,
       }}
       variables={({ colorScheme }: SiteVariablesPrepared) => ({
         borderFocus: colorScheme.default.borderFocus,
@@ -294,16 +314,24 @@ const BoardLane = (props: IBoardLaneProps) => {
             }
             menu={[
               {
-                content: t["move lane left"],
-                icon: <ArrowLeftIcon outline />,
+                content: t["move lane nearer"],
+                icon: rtl ? (
+                  <ArrowRightIcon outline />
+                ) : (
+                  <ArrowLeftIcon outline />
+                ),
                 disabled: first,
                 onClick: () => {
                   moveLane && moveLane(laneKey, -1);
                 },
               },
               {
-                content: t["move lane right"],
-                icon: <ArrowRightIcon outline />,
+                content: t["move lane further"],
+                icon: rtl ? (
+                  <ArrowLeftIcon outline />
+                ) : (
+                  <ArrowRightIcon outline />
+                ),
                 disabled: last,
                 onClick: () => {
                   moveLane && moveLane(laneKey, 1);
@@ -360,7 +388,7 @@ const BoardLane = (props: IBoardLaneProps) => {
               styles={{
                 height: "100%",
                 overflowY: "auto",
-                paddingTop: "1px",
+                paddingTop: "2px",
                 position: "relative",
               }}
               ref={(element: HTMLDivElement) => {
@@ -478,7 +506,7 @@ const getPlaceholderPosition = (
 
   const clientY = clientYChildren.reduce((acc, $child) => {
     return acc + $child.clientHeight + 8;
-  }, 0);
+  }, 2);
 
   const clientX = 20;
 
@@ -495,6 +523,7 @@ const BoardStandalone = (props: IBoardStandaloneProps) => {
     addingLane,
     setAddingLane,
     t,
+    rtl,
   } = props;
 
   const [placeholderPosition, setPlaceholderPosition] = useState<
@@ -604,6 +633,7 @@ const BoardStandalone = (props: IBoardStandaloneProps) => {
                 preparedItems={arrangedItems[laneKey]}
                 users={users}
                 t={t}
+                rtl={rtl}
                 boardItemCardLayout={
                   props.boardItemCardLayout || defaultBoardItemCardLayout
                 }
@@ -622,6 +652,7 @@ const BoardStandalone = (props: IBoardStandaloneProps) => {
               preparedItems={[]}
               users={users}
               t={t}
+              rtl={rtl}
               boardItemCardLayout={
                 props.boardItemCardLayout || defaultBoardItemCardLayout
               }
@@ -660,7 +691,7 @@ export const Board = (props: IBoardProps) => {
   return (
     <FluentUIThemeConsumer
       render={(globalTheme) => {
-        const t = globalTheme.siteVariables.t;
+        const { t, rtl } = globalTheme.siteVariables;
         return (
           <BoardTheme globalTheme={globalTheme} style={{ height: "100%" }}>
             <Flex
@@ -687,6 +718,7 @@ export const Board = (props: IBoardProps) => {
               <BoardStandalone
                 {...{
                   t,
+                  rtl,
                   arrangedLanes,
                   arrangedItems,
                   setArrangedItems,

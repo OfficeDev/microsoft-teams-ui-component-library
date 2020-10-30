@@ -150,12 +150,15 @@ export const StorybookThemeProvider = ({ children }: IThemeProviderProps) => {
   // [v-wishow] todo: translations will (presumably) eventually need to be loaded asynchronously
 
   const theme = themes[themeKnob()];
+  const rtl = lang === "fa";
+
   if (theme.siteVariables) {
     theme.siteVariables.lang = lang;
+    theme.siteVariables.rtl = rtl;
     theme.siteVariables.t = translations[lang];
   }
   return (
-    <FluentUIThemeProvider theme={themes[themeKnob()]} rtl={lang === "fa"}>
+    <FluentUIThemeProvider theme={themes[themeKnob()]} rtl={rtl}>
       <style>{`html, body, #root, #root > .ui-provider { height: 100% } #root > .ui-provider { overflow: auto }`}</style>
       {children}
     </FluentUIThemeProvider>

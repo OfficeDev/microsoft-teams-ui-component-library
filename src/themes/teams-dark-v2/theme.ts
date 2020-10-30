@@ -1,7 +1,4 @@
-import {
-  ThemePrepared,
-  teamsHighContrastTheme,
-} from "@fluentui/react-northstar";
+import { ThemePrepared, teamsDarkTheme } from "@fluentui/react-northstar";
 
 /**
  * Custom override styles, as needed, for each exported Stardust component.
@@ -11,6 +8,9 @@ import { alertStyles } from "./components/Alert/alert-styles";
 import { buttonStyles } from "./components/Button/button-styles";
 import { flexStyles } from "./components/Flex/flex-styles";
 import { treeStyles } from "./components/Tree/tree-styles";
+
+import { staticStyles } from "./static-styles";
+
 import siteVariables from "./site-variables";
 
 /**
@@ -24,7 +24,8 @@ export const darkV2ThemeOverrides: Partial<ThemePrepared> = {
     Tree: treeStyles,
   },
   siteVariables: {
-    ...teamsHighContrastTheme.siteVariables,
+    ...teamsDarkTheme.siteVariables,
     ...siteVariables,
   },
+  staticStyles,
 };

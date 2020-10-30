@@ -42,11 +42,11 @@ const getLocalTheme = (themeKey: string): ThemeInput<any> => {
       },
       Box: {
         root: ({ variables }: ComponentVariablesObject) => ({
-          "&::before": {
-            borderColor: variables.borderFocus,
-          },
           "&::after": {
+            borderColor: variables.borderFocus,
             backgroundColor: variables.separatorColor,
+          },
+          "&::before": {
             borderColor: variables.borderFocusWithin,
           },
         }),
@@ -66,19 +66,10 @@ const getLocalTheme = (themeKey: string): ThemeInput<any> => {
               theme.siteVariables.colorScheme.default.background,
             "&:hover": {
               "--surface-background-color":
-                theme.siteVariables.colorScheme.default.backgroundHover1,
+                theme.siteVariables.theme === TeamsTheme.HighContrast
+                  ? theme.siteVariables.colorScheme.default.backgroundHover3
+                  : theme.siteVariables.colorScheme.default.backgroundHover1,
             },
-            ...(theme.siteVariables.theme === TeamsTheme.HighContrast
-              ? {
-                  borderColor: variables.borderColor,
-                  "&:hover": {
-                    backgroundColor:
-                      theme.siteVariables.colorScheme.default.background,
-                    borderColor:
-                      theme.siteVariables.colorScheme.default.borderHover,
-                  },
-                }
-              : {}),
           };
         },
       },
@@ -104,6 +95,18 @@ const getLocalTheme = (themeKey: string): ThemeInput<any> => {
         },
       },
     },
+    staticStyles: [
+      `html[data-whatinput="keyboard"] .board__lane:focus::before {
+        z-index: 1;
+        border-width: 1px;
+        top: 1px; bottom: 1px; left: 2px; right: 3px;
+      }`,
+      `html[data-whatinput="keyboard"] .board__lane:focus::after {
+        z-index: 2;
+        border-width: 2px;
+        top: 0; bottom: 0; left: 1px; right: 2px;
+      }`,
+    ],
   };
 };
 

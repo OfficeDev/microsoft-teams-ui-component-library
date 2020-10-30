@@ -9,10 +9,17 @@ export const cardStyles: ComponentSlotStylesPrepared<
 > = {
   root: ({
     theme: {
-      siteVariables: { colorScheme, colors },
+      siteVariables: { colorScheme },
     },
     variables: {},
   }) => {
-    return {};
+    return {
+      borderRadius: "4px",
+      borderColor: colorScheme.default.border,
+      "&:hover": {
+        backgroundColor: colorScheme.default.background,
+        borderColor: colorScheme.default.borderHover,
+      },
+    };
   },
 };

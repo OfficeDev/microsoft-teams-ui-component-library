@@ -7,6 +7,9 @@ import { ThemePrepared, teamsTheme } from "@fluentui/react-northstar";
 import { alertStyles } from "./components/Alert/alert-styles";
 import { buttonStyles } from "./components/Button/button-styles";
 import { flexStyles } from "./components/Flex/flex-styles";
+
+import { staticStyles } from "./static-styles";
+
 import siteVariables from "./site-variables";
 
 /**
@@ -22,4 +25,5 @@ export const defaultV2ThemeOverrides: Partial<ThemePrepared> = {
     ...teamsTheme.siteVariables,
     ...siteVariables,
   },
+  staticStyles,
 };

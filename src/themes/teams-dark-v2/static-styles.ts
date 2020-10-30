@@ -6,7 +6,7 @@
  */
 export const staticStyles = [
   `html[data-whatinput="keyboard"] :focus::after {
-    border-width: 2px !important;
+    border-width: 1px !important;
   }`,
   `html[data-whatinput="keyboard"] :focus::after, html[data-whatinput="keyboard"] :focus::before {
     border-radius: 4px !important;
