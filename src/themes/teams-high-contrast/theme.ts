@@ -2,6 +2,7 @@ import {
   ThemePrepared,
   teamsHighContrastTheme,
 } from "@fluentui/react-northstar";
+import { mergeSharedComponentStyles } from "../shared";
 
 // Teams high contrast theme
 /**
@@ -15,10 +16,10 @@ import { buttonStyles } from "./components/Button/button-styles";
 import { cardStyles } from "./components/Card/card-styles";
 
 export const highContrastThemeOverrides: Partial<ThemePrepared> = {
-  componentStyles: {
+  componentStyles: mergeSharedComponentStyles({
     Button: buttonStyles,
     Card: cardStyles,
-  },
+  }),
   componentVariables: {},
   siteVariables: {
     ...teamsHighContrastTheme.siteVariables,
