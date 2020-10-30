@@ -1,5 +1,5 @@
 import { ThemePrepared, teamsTheme } from "@fluentui/react-northstar";
-import { mergeSharedComponentStyles } from "../shared";
+import { mergeSharedComponentStyles, sharedStaticStyles } from "../shared";
 
 /**
  * Custom override styles, as needed, for each exported Stardust component.
@@ -24,5 +24,5 @@ export const defaultV2ThemeOverrides: Partial<ThemePrepared> = {
     ...teamsTheme.siteVariables,
     ...siteVariables,
   },
-  staticStyles,
+  staticStyles: sharedStaticStyles.concat(staticStyles),
 };

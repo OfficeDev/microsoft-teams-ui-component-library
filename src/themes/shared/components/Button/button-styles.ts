@@ -12,13 +12,19 @@ export const buttonStyles: ComponentSlotStylesPrepared<
       theme: {
         siteVariables: { colorScheme },
       },
-      props: { primary },
+      props: { primary, text },
     } = componentStyleParameters;
-    const { brand: colorSchemeBrand } = colorScheme;
     return {
       borderRadius: "4px",
-      ...(primary && {
-        color: colorSchemeBrand.foregroundHover1,
+      color: colorScheme.default.foreground,
+      ...(!text && {
+        boxShadow: colorScheme.elevations[4],
+        ...(primary && {
+          color: colorScheme.brand.foregroundHover1,
+        }),
+        "&:active": {
+          boxShadow: colorScheme.elevations[2],
+        },
       }),
     };
   },

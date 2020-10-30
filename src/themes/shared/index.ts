@@ -34,3 +34,5 @@ export const mergeSharedComponentStyles = (
     }
   );
 };
+
+export { staticStyles as sharedStaticStyles } from "./static-styles";

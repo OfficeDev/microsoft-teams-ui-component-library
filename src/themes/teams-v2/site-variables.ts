@@ -73,9 +73,12 @@ export default {
    */
   colorScheme: {
     elevations: {
-      4: "0px 0.3px 0.9px rgba(0, 0, 0, 0.07), 0px 1.6px 3.6px rgba(0, 0, 0, 0.11)",
+      2: "0px 0.8px 1.8px rgba(0, 0, 0, 0.13), 0px 0.15px 0.45px rgba(0, 0, 0, 0.11)",
+      4: "0px 1.6px 3.6px rgba(0, 0, 0, 0.11), 0px 0.3px 0.9px rgba(0, 0, 0, 0.07)",
       8: "0px 3.2px 7.2px rgba(0, 0, 0, 0.13), 0px 0.6px 1.8px rgba(0, 0, 0, 0.11)",
-      16: "0px 6.4px 14.4px rgba(0, 0, 0, 0.07), 0px 1.2px 3.6px rgba(0, 0, 0, 0.03)",
+      16: "0px 6.4px 14.4px rgba(0, 0, 0, 0.13), 0px 1.2px 3.6px rgba(0, 0, 0, 0.11)",
+      32: "0px 12.8px 28.8px rgba(0, 0, 0, 0.22), 0px 2.4px 7.4px rgba(0, 0, 0, 0.18)",
+      64: "0px 25.6px 57.6px rgba(0, 0, 0, 0.22), 0px 4.8px 14.4px rgba(0, 0, 0, 0.18)",
     },
     default: {
       foreground: colorPaletteV2.grey["750"],

@@ -2,7 +2,7 @@ import {
   ThemePrepared,
   teamsHighContrastTheme,
 } from "@fluentui/react-northstar";
-import { mergeSharedComponentStyles } from "../shared";
+import { mergeSharedComponentStyles, sharedStaticStyles } from "../shared";
 
 // Teams high contrast theme
 /**
@@ -25,5 +25,5 @@ export const highContrastThemeOverrides: Partial<ThemePrepared> = {
     ...teamsHighContrastTheme.siteVariables,
     ...siteVariables,
   },
-  staticStyles,
+  staticStyles: sharedStaticStyles.concat(staticStyles),
 };

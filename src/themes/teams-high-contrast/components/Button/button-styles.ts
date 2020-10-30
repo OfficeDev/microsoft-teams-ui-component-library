@@ -12,14 +12,26 @@ export const buttonStyles: ComponentSlotStylesPrepared<
       theme: {
         siteVariables: { colorScheme },
       },
-      props: { primary },
+      props: { primary, text },
     } = componentStyleParameters;
-    const { brand: colorSchemeBrand } = colorScheme;
     return {
       borderRadius: "4px",
-      ...(primary && {
-        color: colorSchemeBrand.foregroundHover1,
-      }),
+      borderStyle: "solid",
+      "&:hover": {
+        borderColor: colorScheme.default.borderHover,
+        backgroundColor: colorScheme.default.backgroundHover,
+        color: colorScheme.default.foregroundHover + " !important",
+      },
+      "&:focus": {
+        backgroundColor:
+          !text && primary
+            ? colorScheme.brand.background + " !important"
+            : colorScheme.default.background + " !important",
+        color:
+          !text && primary
+            ? colorScheme.brand.foreground4
+            : colorScheme.default.foreground + " !important",
+      },
     };
   },
 };
