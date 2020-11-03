@@ -30,6 +30,8 @@ export default {
     "move lane further": "Move right",
     delete: "Delete",
     "lane options": "Lane options",
+    "sort-order alphabetical descending": "A-Z",
+    "sort-order alphabetical ascending": "Z-A",
   },
   fa: {
     locale: "fa",
@@ -44,5 +46,7 @@ export default {
     "move lane nearer": "حرکت به سمت راست",
     delete: "حذف",
     "lane options": "گزینه های خط",
+    "sort-order alphabetical descending": "A-Z",
+    "sort-order alphabetical ascending": "Z-A",
   },
 };

@@ -6,6 +6,7 @@ import {
   Checkbox,
   Popup,
   Menu,
+  MenuButton,
   PropsOfElement,
   ProviderConsumer as FluentUIThemeConsumer,
   ShorthandCollection,
@@ -20,6 +21,8 @@ import {
 import {
   ArrowDownIcon,
   ArrowUpIcon,
+  AcceptIcon,
+  ChevronDownIcon,
   MoreIcon,
   OpenOutsideIcon,
 } from "@fluentui/react-icons-northstar";
@@ -34,10 +37,12 @@ import getBreakpoints, {
   IColumn,
   accessoryWidth,
   columnMinWidth,
+  TSortable,
 } from "./tableBreakpoints";
 
 import { TActions } from "../../types/types";
 import { TeamsTheme } from "../../themes";
+import { TTranslations } from "../../translations";
 
 export type columnKey = string;
 export type rowKey = string;
@@ -71,9 +76,27 @@ const SortOrderIndicator = ({
 }: ISortOrderIndicatorProps) => {
   const [sortOrderKey, sortOrderDirection] = sortOrder;
   if (columnKey === sortOrderKey) {
-    if (sortOrderDirection === "asc") return <ArrowUpIcon outline />;
-    else return <ArrowDownIcon outline />;
-  } else return null;
+    if (sortOrderDirection === "asc")
+      return (
+        <>
+          <ArrowUpIcon
+            outline
+            styles={{ marginRight: ".25rem", marginLeft: ".5rem" }}
+          />
+          <ChevronDownIcon outline size="small" />
+        </>
+      );
+    else
+      return (
+        <>
+          <ArrowDownIcon
+            outline
+            styles={{ marginRight: ".25rem", marginLeft: ".5rem" }}
+          />
+          <ChevronDownIcon outline size="small" />
+        </>
+      );
+  } else return <ChevronDownIcon outline size="small" />;
 };
 
 const ariaSort = ({
@@ -214,6 +237,11 @@ export const Table = (props: ITableProps) => {
   const includeRow = (row: IRow) =>
     props.filterBy ? props.filterBy(row) : true;
 
+  const sortableLabelDesc = (t: TTranslations, sortable: TSortable): string =>
+    t[`sort-order ${sortable} descending`];
+  const sortableLabelAsc = (t: TTranslations, sortable: TSortable): string =>
+    t[`sort-order ${sortable} ascending`];
+
   return (
     <FluentUIThemeConsumer
       render={(globalTheme) => (
@@ -272,27 +300,82 @@ export const Table = (props: ITableProps) => {
                           acc.push({
                             key: `header__${columnKey}`,
                             content: column.sortable ? (
-                              <Button
-                                content={column.title}
-                                icon={
-                                  <SortOrderIndicator
-                                    {...{ sortOrder, columnKey }}
+                              <MenuButton
+                                menu={[
+                                  {
+                                    content: sortableLabelDesc(
+                                      globalTheme.siteVariables.t,
+                                      column.sortable
+                                    ),
+                                    onClick: () => {
+                                      setSortOrder(
+                                        sortOrder[0] === columnKey &&
+                                          sortOrder[1] === "desc"
+                                          ? defaultSortOrder
+                                          : [columnKey, "desc"]
+                                      );
+                                    },
+                                    ...(sortOrder[0] === columnKey && {
+                                      icon: (
+                                        <AcceptIcon
+                                          outline
+                                          styles={{
+                                            visibility:
+                                              sortOrder[1] === "desc"
+                                                ? "visible"
+                                                : "hidden",
+                                          }}
+                                        />
+                                      ),
+                                    }),
+                                  },
+                                  {
+                                    content: sortableLabelAsc(
+                                      globalTheme.siteVariables.t,
+                                      column.sortable
+                                    ),
+                                    onClick: () => {
+                                      setSortOrder(
+                                        sortOrder[0] === columnKey &&
+                                          sortOrder[1] === "asc"
+                                          ? defaultSortOrder
+                                          : [columnKey, "asc"]
+                                      );
+                                    },
+                                    ...(sortOrder[0] === columnKey && {
+                                      icon: (
+                                        <AcceptIcon
+                                          outline
+                                          styles={{
+                                            visibility:
+                                              sortOrder[1] === "asc"
+                                                ? "visible"
+                                                : "hidden",
+                                          }}
+                                        />
+                                      ),
+                                    }),
+                                  },
+                                ]}
+                                trigger={
+                                  <Button
+                                    content={column.title}
+                                    icon={
+                                      <SortOrderIndicator
+                                        {...{ sortOrder, columnKey }}
+                                      />
+                                    }
+                                    iconPosition="after"
+                                    text
+                                    fluid
+                                    styles={{
+                                      padding: 0,
+                                      height: "100%",
+                                      justifyContent: "flex-start",
+                                    }}
                                   />
                                 }
-                                iconPosition="after"
-                                text
-                                styles={{ padding: 0 }}
-                                onClick={() => {
-                                  if (sortOrder[0] === columnKey) {
-                                    if (sortOrder[1] === "desc") {
-                                      setSortOrder([columnKey, "asc"]);
-                                    } else {
-                                      setSortOrder(defaultSortOrder);
-                                    }
-                                  } else {
-                                    setSortOrder([columnKey, "desc"]);
-                                  }
-                                }}
+                                styles={{ display: "block", height: "100%" }}
                               />
                             ) : (
                               column.title
@@ -301,6 +384,7 @@ export const Table = (props: ITableProps) => {
                               columnKey,
                               !!props.truncate
                             ),
+                            variables: { flush: !!column.sortable },
                             ...(column.sortable
                               ? {
                                   accessibility: gridCellWithFocusableElementBehavior,
