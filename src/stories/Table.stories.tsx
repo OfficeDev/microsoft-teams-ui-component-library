@@ -1,6 +1,7 @@
 import React from "react";
 import { object, boolean } from "@storybook/addon-knobs";
 import Table from "../components/Table";
+import { TSortable } from "../components/Table/tableBreakpoints";
 
 export default {
   title: "Components/Table",
@@ -14,7 +15,7 @@ export const KitchenSink = () => {
     columns: {
       c1: {
         title: "Member name",
-        sortable: true,
+        sortable: "alphabetical" as TSortable,
       },
       c2: {
         title: "Location",

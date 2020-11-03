@@ -76,6 +76,10 @@ const getLocalTheme = (_themeKey: string): ThemeInput<any> => {
         content: (cvo: ComponentVariablesObject) =>
           Object.assign(menuContentStyles(cvo), { padding: 0 }),
       },
+      TableCell: {
+        content: ({ variables }: ComponentVariablesObject) =>
+          variables.flush ? { width: "100%", height: "100%" } : {},
+      },
     },
   };
 };

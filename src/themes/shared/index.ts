@@ -2,6 +2,7 @@ import { mergeComponentStyles } from "@fluentui/react-northstar";
 import mergeWith from "lodash/mergeWith";
 
 import { buttonStyles } from "./components/Button/button-styles";
+import { cardStyles } from "./components/Card/card-styles";
 
 import {
   ComponentSlotStylesPrepared,
@@ -16,6 +17,7 @@ type TComponentStyles = {
 
 export const sharedComponentStyles: TComponentStyles = {
   Button: buttonStyles,
+  Card: cardStyles,
 };
 
 export const mergeSharedComponentStyles = (
