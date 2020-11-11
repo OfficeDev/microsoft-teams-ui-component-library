@@ -12,7 +12,7 @@
     "bundle": "just-scripts bundle",
     "change": "beachball change",
     "checkchange": "beachball check",
-    "postinstall": "node ./scripts/postinstall.js",
+    "dev-postinstall": "node ./scripts/dev-postinstall.js",
     "lint": "just-scripts lint",
     "release": "beachball publish",
     "start": "just-scripts start",
@@ -93,5 +93,8 @@
   },
   "resolutions": {
     "@types/react": "^16.8.25"
-  }
+  },
+  "files": [
+    "lib"
+  ]
 }
