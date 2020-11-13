@@ -4,7 +4,6 @@
   "description": "Teams components in the Fluent UI design language written in React",
   "repository": "https://github.com/OfficeDev/microsoft-teams-ui-component-library.git",
   "license": "MIT",
-  "author": "Ken Chau <kchau@microsoft.com>",
   "main": "lib/index.js",
   "scripts": {
     "build": "just-scripts build",
@@ -22,6 +21,8 @@
   },
   "dependencies": {
     "@storybook/cli": "^6.0.26",
+    "@types/chart.js": "^2.9.27",
+    "chart.js": "^2.9.4",
     "classnames": "^2.2.6",
     "lodash": "^4.17.15",
     "react-beautiful-dnd": "^13.0.0"
