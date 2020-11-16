@@ -2,11 +2,11 @@ export type TLocale = "en-US" | "fa";
 export type TTextObject = string | { [locale: string]: string };
 
 export const getText = (
-  currentLocale: TLocale,
+  currentLocale: TLocale | null | undefined,
   textObject: TTextObject
 ): string => {
   if (typeof textObject === "string") return textObject;
-  else if (textObject.hasOwnProperty(currentLocale))
+  if (currentLocale && textObject.hasOwnProperty(currentLocale))
     return textObject[currentLocale];
   else return textObject[Object.keys(textObject)[0]];
 };

@@ -1,4 +1,6 @@
 import React from "react";
+import range from "lodash/range";
+import uniqueId from "lodash/uniqueId";
 import fakerEN from "faker/locale/en_US";
 import fakerFA from "faker/locale/fa";
 
@@ -8,7 +10,7 @@ const fake = (template: string) => {
 
 import { object } from "@storybook/addon-knobs";
 
-import Form from "../components/Form";
+import { Form, TInputWidth } from "../components/Form/Form";
 
 export default {
   title: "Composites/Form",
@@ -32,13 +34,46 @@ const formConfig = {
   },
   sections: [
     {
-      title: (() => {
-        const title = fake("{{company.bs}}");
-        title["en-US"] =
-          title["en-US"].charAt(0).toUpperCase() + title["en-US"].slice(1);
-        return title;
-      })(),
-      ...(Math.random() > 0.5 && { preface: fake("{{lorem.sentence}}") }),
+      title: fake("{{company.catchPhrase}}"),
+      ...(Math.random() > 0.5 ? { preface: fake("{{lorem.sentences}}") } : {}),
+      inputGroups: [
+        {
+          type: "text-inputs" as "text-inputs",
+          fields: range(2).map((_) => ({
+            type: "text" as "text",
+            title: fake("{{commerce.product}}"),
+            width: "split" as TInputWidth,
+            inputId: uniqueId(),
+            ...(Math.random() > 0.5
+              ? { placeholder: fake("{{commerce.productMaterial}}") }
+              : {}),
+          })),
+        },
+        {
+          type: "text-inputs" as "text-inputs",
+          fields: range(3).map((_) => ({
+            type: "text" as "text",
+            title: fake("{{commerce.product}}"),
+            width: "split" as TInputWidth,
+            inputId: uniqueId(),
+            ...(Math.random() > 0.5
+              ? { placeholder: fake("{{commerce.productMaterial}}") }
+              : {}),
+          })),
+        },
+        {
+          type: "text-inputs" as "text-inputs",
+          fields: range(1).map((_) => ({
+            type: "text" as "text",
+            title: fake("{{commerce.product}}"),
+            width: "full" as TInputWidth,
+            inputId: uniqueId(),
+            ...(Math.random() > 0.5
+              ? { placeholder: fake("{{commerce.productMaterial}}") }
+              : {}),
+          })),
+        },
+      ],
     },
   ],
 };
