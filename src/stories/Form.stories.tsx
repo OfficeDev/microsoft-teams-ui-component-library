@@ -10,7 +10,7 @@ const fake = (template: string) => {
 
 import { object } from "@storybook/addon-knobs";
 
-import { Form, TInputWidth } from "../components/Form/Form";
+import { Form, TInputWidth, TField } from "../components/Form/Form";
 
 export default {
   title: "Composites/Form",
@@ -35,37 +35,57 @@ const formConfig = {
   sections: [
     {
       title: fake("{{company.catchPhrase}}"),
-      ...(Math.random() > 0.5 ? { preface: fake("{{lorem.sentences}}") } : {}),
+      preface: fake("{{lorem.sentence}}"),
       inputGroups: [
         {
           type: "text-inputs" as "text-inputs",
           fields: range(2).map((_) => ({
             type: "text" as "text",
-            title: fake("{{commerce.product}}"),
+            title: fake("{{commerce.productAdjective}} {{commerce.product}}"),
             width: "split" as TInputWidth,
             inputId: uniqueId(),
-            ...(Math.random() > 0.5
-              ? { placeholder: fake("{{commerce.productMaterial}}") }
-              : {}),
+            placeholder: fake("{{commerce.productMaterial}}"),
           })),
         },
         {
           type: "text-inputs" as "text-inputs",
-          fields: range(3).map((_) => ({
-            type: "text" as "text",
-            title: fake("{{commerce.product}}"),
-            width: "split" as TInputWidth,
-            inputId: uniqueId(),
-            ...(Math.random() > 0.5
-              ? { placeholder: fake("{{commerce.productMaterial}}") }
-              : {}),
-          })),
+          fields: [
+            {
+              type: "dropdown" as "dropdown",
+              title: fake("{{commerce.productAdjective}} {{commerce.product}}"),
+              width: "split" as TInputWidth,
+              inputId: uniqueId(),
+              multiple: false,
+              options: range(4).map(() => ({
+                title: fake("{{commerce.productMaterial}}"),
+                value: uniqueId("option__"),
+              })),
+            },
+            {
+              type: "text" as "text",
+              title: fake("{{commerce.product}}"),
+              width: "split" as TInputWidth,
+              inputId: uniqueId(),
+              ...(Math.random() > 0.5
+                ? { placeholder: fake("{{commerce.productMaterial}}") }
+                : {}),
+            },
+            {
+              type: "text" as "text",
+              title: fake("{{commerce.productAdjective}} {{commerce.product}}"),
+              width: "split" as TInputWidth,
+              inputId: uniqueId(),
+              ...(Math.random() > 0.5
+                ? { placeholder: fake("{{commerce.productMaterial}}") }
+                : {}),
+            },
+          ],
         },
         {
           type: "text-inputs" as "text-inputs",
           fields: range(1).map((_) => ({
             type: "text" as "text",
-            title: fake("{{commerce.product}}"),
+            title: fake("{{commerce.productAdjective}} {{commerce.product}}"),
             width: "full" as TInputWidth,
             inputId: uniqueId(),
             ...(Math.random() > 0.5

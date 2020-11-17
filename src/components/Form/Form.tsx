@@ -1,8 +1,11 @@
 import React, { PropsWithChildren } from "react";
+import get from "lodash/get";
 
 import {
   Box,
   Button,
+  Dropdown,
+  DropdownItemProps,
   Input,
   InputProps,
   ProviderConsumer as FluentUIThemeConsumer,
@@ -12,36 +15,34 @@ import {
 
 import { getText, TTextObject, TTranslations } from "../../translations";
 
-export interface IInputGroupBase {
-  title?: TTextObject;
+interface IInputGroupBase {
   errors?: TFormErrors;
   t?: TTranslations;
 }
 
-export interface IEnumerableInputOption {
+interface IEnumerableInputOption {
   title: TTextObject;
   value: string;
 }
 
-interface IEnumerableInputGroupBase extends IInputGroupBase {
+interface IEnumerableInputBase {
   options: IEnumerableInputOption[];
   inputId: string;
+  errors?: TFormErrors;
   t?: TTranslations;
 }
 
-export interface IEnumerableSingletonInputGroupBase
-  extends IEnumerableInputGroupBase {
+interface IEnumerableSingletonInputBase extends IEnumerableInputBase {
   initialValue?: string;
 }
 
-export interface IEnumerableMultipleInputGroupBase
-  extends IEnumerableInputGroupBase {
+interface IEnumerableMultipleInputBase extends IEnumerableInputBase {
   initialValues?: string[];
 }
 
 export type TInputWidth = "split" | "full";
 
-export interface ITextField {
+interface ITextField {
   type: "text";
   title: TTextObject;
   inputId: string;
@@ -51,39 +52,49 @@ export interface ITextField {
   t?: TTranslations;
 }
 
-export type TField = ISelectInput | ITextField;
+export type TField = IDropdownInput | IDropdownMultipleInput | ITextField;
 
-export interface ITextInputs extends IInputGroupBase {
+interface ITextInputs extends IInputGroupBase {
   type: "text-inputs";
   fields: TField[];
 }
 
-export interface ISelectInput extends IEnumerableSingletonInputGroupBase {
-  type: "select";
+interface IDropdownInput extends IEnumerableSingletonInputBase {
+  type: "dropdown";
+  title: TTextObject;
+  multiple?: false;
   width?: TInputWidth;
 }
 
-export interface IRadioButtonsInput extends IEnumerableSingletonInputGroupBase {
+interface IDropdownMultipleInput extends IEnumerableMultipleInputBase {
+  type: "dropdown";
+  title: TTextObject;
+  multiple: true;
+  width?: TInputWidth;
+}
+
+interface IRadioButtonsInput extends IEnumerableSingletonInputBase {
   type: "radio-buttons";
 }
 
-export interface ICheckboxesInput extends IEnumerableMultipleInputGroupBase {
+interface ICheckboxesInput extends IEnumerableMultipleInputBase {
   type: "checkboxes";
 }
 
-export type TInputGroup =
+type TInputGroup =
   | ITextInputs
-  | ISelectInput
+  | IDropdownInput
+  | IDropdownMultipleInput
   | IRadioButtonsInput
   | ICheckboxesInput;
 
-export interface ISection {
+interface ISection {
   title?: TTextObject;
   preface?: TTextObject;
   inputGroups?: TInputGroup[];
 }
 
-export type TFormErrors = { [inputId: string]: TTextObject };
+type TFormErrors = { [inputId: string]: TTextObject };
 
 export interface IFormProps {
   headerSection?: ISection;
@@ -121,25 +132,39 @@ const MaxWidth = ({ children, styles }: PropsWithChildren<any>) => (
   </Box>
 );
 
-const SelectField = (props: ISelectInput) => {
-  return <div />;
+interface DropdownFieldItem extends DropdownItemProps {
+  "data-value": string;
+}
+
+const DropdownField = (props: IDropdownInput | IDropdownMultipleInput) => {
+  const { options, t, inputId, title } = props;
+  const id = `input__${inputId}`;
+  const selectedValues = get(
+    props,
+    "initialValues",
+    props.hasOwnProperty("initialValue") ? [get(props, "initialValue")] : []
+  );
+  return (
+    <>
+      <Input.Label htmlFor={id}>{getText(t?.locale, title)}</Input.Label>
+      <Dropdown
+        fluid
+        id={id}
+        items={options.map(({ title, value }) => ({
+          selected: selectedValues.includes(value),
+          header: getText(t?.locale, title),
+          "data-value": value,
+        }))}
+        {...(props.multiple && { multiple: true })}
+      />
+    </>
+  );
 };
 
-const TextField = ({ placeholder, t, width, title }: ITextField) => {
+const TextField = ({ placeholder, t, title }: ITextField) => {
   const inputProps: InputProps = { label: getText(t?.locale, title) };
   if (placeholder) inputProps.placeholder = getText(t?.locale, placeholder);
-  return (
-    <Box
-      styles={{
-        flex: "1 1 0",
-        minWidth: width === "split" ? "7.5rem" : "100%",
-        paddingRight: ".75rem",
-        marginBottom: ".75rem",
-      }}
-    >
-      <Input fluid {...inputProps} />
-    </Box>
-  );
+  return <Input fluid {...inputProps} />;
 };
 
 const TextInputsGroup = ({ fields, t }: ITextInputs) => {
@@ -150,21 +175,37 @@ const TextInputsGroup = ({ fields, t }: ITextInputs) => {
     >
       {fields.map((field, fi) => {
         const key = `Form__Field-${field.inputId}`;
-        const last = fi === fields.length - 1;
-        switch (field.type) {
-          case "select":
-            return <SelectField {...field} {...{ key, t, last }} />;
-          case "text":
-            return <TextField {...field} {...{ key, t, last }} />;
-          default:
-            return null;
-        }
+        return (
+          <Box
+            styles={{
+              flex: "1 1 0",
+              minWidth: field.width === "split" ? "7.5rem" : "100%",
+              paddingRight: ".75rem",
+              marginBottom: ".75rem",
+            }}
+          >
+            {(() => {
+              switch (field.type) {
+                case "dropdown":
+                  return <DropdownField {...field} {...{ key, t }} />;
+                case "text":
+                  return <TextField {...field} {...{ key, t }} />;
+                default:
+                  return null;
+              }
+            })()}
+          </Box>
+        );
       })}
     </Box>
   );
 };
 
-const SelectGroup = (props: ISelectInput) => {
+const DropdownGroup = (props: IDropdownInput) => {
+  return <div />;
+};
+
+const DropdownMultipleGroup = (props: IDropdownMultipleInput) => {
   return <div />;
 };
 
@@ -181,8 +222,12 @@ const FormInputGroup = (props: TInputGroup) => {
   switch (props.type) {
     case "text-inputs":
       return <TextInputsGroup {...props} />;
-    case "select":
-      return <SelectGroup {...props} />;
+    case "dropdown":
+      return props.multiple ? (
+        <DropdownMultipleGroup {...props} />
+      ) : (
+        <DropdownGroup {...props} />
+      );
     case "checkboxes":
       return <CheckboxesGroup {...props} />;
     case "radio-buttons":
