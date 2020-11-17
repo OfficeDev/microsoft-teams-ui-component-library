@@ -2,7 +2,10 @@ import { mergeComponentStyles } from "@fluentui/react-northstar";
 import mergeWith from "lodash/mergeWith";
 
 import { buttonStyles } from "./components/Button/button-styles";
+import { buttonContentStyles } from "./components/Button/buttonContent-styles";
 import { cardStyles } from "./components/Card/card-styles";
+import { radiogroupItemStyles } from "./components/RadiogroupItem/radiogroupItem-styles";
+import { dropdownStyles } from "./components/Dropdown/dropdown-styles";
 
 import {
   ComponentSlotStylesPrepared,
@@ -17,7 +20,10 @@ type TComponentStyles = {
 
 export const sharedComponentStyles: TComponentStyles = {
   Button: buttonStyles,
+  ButtonContent: buttonContentStyles,
   Card: cardStyles,
+  Dropdown: dropdownStyles,
+  RadioGroupItem: radiogroupItemStyles,
 };
 
 export const mergeSharedComponentStyles = (

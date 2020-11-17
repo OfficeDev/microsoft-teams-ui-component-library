@@ -365,11 +365,12 @@ export const Form = ({
                 styles={{ display: "flex", justifyContent: "flex-end" }}
               >
                 {cancel && (
-                  <Button styles={{ marginRight: ".5rem" }}>
-                    {getText(t.locale, cancel)}
-                  </Button>
+                  <Button
+                    content={getText(t.locale, cancel)}
+                    styles={{ marginRight: ".5rem" }}
+                  />
                 )}
-                <Button primary>{getText(t.locale, submit)}</Button>
+                <Button primary content={getText(t.locale, submit)} />
               </MaxWidth>
             </Box>
           </>
