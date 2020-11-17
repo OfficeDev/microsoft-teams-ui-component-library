@@ -11,4 +11,6 @@ export const staticStyles = [
   `html[data-whatinput="keyboard"] :focus::after, html[data-whatinput="keyboard"] :focus::before {
     border-radius: 4px !important;
   }`,
+  // There doesn't appear to be a way to style a slot within a slot in Fluent UI.
+  `.ui-dropdown__trigger-button > .ui-button__content { font-weight: inherit; }`,
 ];

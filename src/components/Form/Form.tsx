@@ -4,11 +4,12 @@ import get from "lodash/get";
 import {
   Box,
   Button,
+  Checkbox,
   Dropdown,
-  DropdownItemProps,
   Input,
   InputProps,
   ProviderConsumer as FluentUIThemeConsumer,
+  RadioGroup,
   SiteVariablesPrepared,
   Text,
 } from "@fluentui/react-northstar";
@@ -26,6 +27,7 @@ interface IEnumerableInputOption {
 }
 
 interface IEnumerableInputBase {
+  title: TTextObject;
   options: IEnumerableInputOption[];
   inputId: string;
   errors?: TFormErrors;
@@ -61,14 +63,12 @@ interface ITextInputs extends IInputGroupBase {
 
 interface IDropdownInput extends IEnumerableSingletonInputBase {
   type: "dropdown";
-  title: TTextObject;
   multiple?: false;
   width?: TInputWidth;
 }
 
 interface IDropdownMultipleInput extends IEnumerableMultipleInputBase {
   type: "dropdown";
-  title: TTextObject;
   multiple: true;
   width?: TInputWidth;
 }
@@ -132,10 +132,6 @@ const MaxWidth = ({ children, styles }: PropsWithChildren<any>) => (
   </Box>
 );
 
-interface DropdownFieldItem extends DropdownItemProps {
-  "data-value": string;
-}
-
 const DropdownField = (props: IDropdownInput | IDropdownMultipleInput) => {
   const { options, t, inputId, title } = props;
   const id = `input__${inputId}`;
@@ -150,6 +146,9 @@ const DropdownField = (props: IDropdownInput | IDropdownMultipleInput) => {
       <Dropdown
         fluid
         id={id}
+        onChange={(_e, props) => {
+          console.log("[dropdown value]", get(props, "value.data-value", null));
+        }}
         items={options.map(({ title, value }) => ({
           selected: selectedValues.includes(value),
           header: getText(t?.locale, title),
@@ -173,7 +172,7 @@ const TextInputsGroup = ({ fields, t }: ITextInputs) => {
     <Box
       styles={{ display: "flex", flexFlow: "row wrap", marginRight: "-.75rem" }}
     >
-      {fields.map((field, fi) => {
+      {fields.map((field) => {
         const key = `Form__Field-${field.inputId}`;
         return (
           <Box
@@ -201,20 +200,63 @@ const TextInputsGroup = ({ fields, t }: ITextInputs) => {
   );
 };
 
-const DropdownGroup = (props: IDropdownInput) => {
-  return <div />;
+const CheckboxesGroup = ({
+  initialValues,
+  options,
+  title,
+  t,
+  inputId,
+}: ICheckboxesInput) => {
+  const id = `input__${inputId}`;
+  return (
+    <>
+      <Input.Label htmlFor={id}>{getText(t?.locale, title)}</Input.Label>
+      <Box as="section" id={id} styles={{ marginBottom: ".75rem" }}>
+        {options.map(({ title, value }) => (
+          <Box>
+            <Checkbox
+              variables={{
+                rootDisplay: "block",
+                indicatorDisplay: "inline-block",
+              }}
+              label={getText(t?.locale, title)}
+              data-value={value}
+              checked={initialValues?.includes(value)}
+            />
+          </Box>
+        ))}
+      </Box>
+    </>
+  );
 };
 
-const DropdownMultipleGroup = (props: IDropdownMultipleInput) => {
-  return <div />;
-};
-
-const CheckboxesGroup = (props: ICheckboxesInput) => {
-  return <div />;
-};
-
-const RadioButtonsGroup = (props: IRadioButtonsInput) => {
-  return <div />;
+const RadioButtonsGroup = ({
+  initialValue,
+  options,
+  t,
+  inputId,
+  title,
+}: IRadioButtonsInput) => {
+  const id = `input__${inputId}`;
+  return (
+    <>
+      <Input.Label htmlFor={id}>{getText(t?.locale, title)}</Input.Label>
+      <RadioGroup
+        vertical
+        id={id}
+        defaultCheckedValue={initialValue}
+        items={options.map(({ title, value }) => {
+          const label = getText(t?.locale, title);
+          const name = label,
+            key = `${inputId}__${value}`;
+          return { key, value, label, name };
+        })}
+        styles={{
+          marginBottom: ".75rem",
+        }}
+      />
+    </>
+  );
 };
 
 const FormInputGroup = (props: TInputGroup) => {
@@ -223,11 +265,7 @@ const FormInputGroup = (props: TInputGroup) => {
     case "text-inputs":
       return <TextInputsGroup {...props} />;
     case "dropdown":
-      return props.multiple ? (
-        <DropdownMultipleGroup {...props} />
-      ) : (
-        <DropdownGroup {...props} />
-      );
+      return <DropdownField {...props} />;
     case "checkboxes":
       return <CheckboxesGroup {...props} />;
     case "radio-buttons":

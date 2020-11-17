@@ -56,7 +56,7 @@ const formConfig = {
               width: "split" as TInputWidth,
               inputId: uniqueId(),
               multiple: false,
-              options: range(4).map(() => ({
+              options: range(2 + Math.random() * 5).map(() => ({
                 title: fake("{{commerce.productMaterial}}"),
                 value: uniqueId("option__"),
               })),
@@ -82,6 +82,15 @@ const formConfig = {
           ],
         },
         {
+          type: "checkboxes" as "checkboxes",
+          title: fake("{{commerce.productAdjective}} {{commerce.product}}"),
+          inputId: uniqueId(),
+          options: range(2 + Math.random() * 5).map(() => ({
+            title: fake("{{commerce.productMaterial}}"),
+            value: uniqueId("option__"),
+          })),
+        },
+        {
           type: "text-inputs" as "text-inputs",
           fields: range(1).map((_) => ({
             type: "text" as "text",
@@ -91,6 +100,25 @@ const formConfig = {
             ...(Math.random() > 0.5
               ? { placeholder: fake("{{commerce.productMaterial}}") }
               : {}),
+          })),
+        },
+        {
+          type: "radio-buttons" as "radio-buttons",
+          title: fake("{{commerce.productAdjective}} {{commerce.product}}"),
+          inputId: uniqueId(),
+          options: range(2 + Math.random() * 5).map(() => ({
+            title: fake("{{commerce.productMaterial}}"),
+            value: uniqueId("option__"),
+          })),
+        },
+        {
+          type: "dropdown" as "dropdown",
+          title: fake("{{commerce.productAdjective}} {{commerce.product}}"),
+          inputId: uniqueId(),
+          multiple: false,
+          options: range(2 + Math.random() * 5).map(() => ({
+            title: fake("{{commerce.productMaterial}}"),
+            value: uniqueId("option__"),
           })),
         },
       ],
