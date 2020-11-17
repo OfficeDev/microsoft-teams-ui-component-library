@@ -2,25 +2,29 @@ import React from "react";
 import { withKnobs, object } from "@storybook/addon-knobs";
 import { withA11y } from "@storybook/addon-a11y";
 
-import States, { StatesOptions } from "../components/States";
+import Communication, {
+  CommunicationOptions,
+} from "../components/Communication";
 import { StorybookThemeProvider } from "../lib/withTheme";
 
 export default {
-  title: "Components/States",
-  component: States,
+  title: "Components/Communication",
+  component: Communication,
   decorators: [withKnobs, withA11y],
 };
 
-const statesKnobGroupID = "States";
+const communicationKnobGroupID = "Communication";
 
 /*
   Default
 */
-const defaultConfig = { option: StatesOptions.Default };
+const defaultConfig = { option: CommunicationOptions.Default };
 export const Default = () => {
   return (
     <StorybookThemeProvider>
-      <States {...object("Configuration", defaultConfig, statesKnobGroupID)} />
+      <Communication
+        {...object("Configuration", defaultConfig, communicationKnobGroupID)}
+      />
     </StorybookThemeProvider>
   );
 };
@@ -28,11 +32,13 @@ export const Default = () => {
 /*
   Welcome
 */
-const welcomeConfig = { option: StatesOptions.Welcome };
+const welcomeConfig = { option: CommunicationOptions.Welcome };
 export const Welcome = () => {
   return (
     <StorybookThemeProvider>
-      <States {...object("Configuration", welcomeConfig, statesKnobGroupID)} />
+      <Communication
+        {...object("Configuration", welcomeConfig, communicationKnobGroupID)}
+      />
     </StorybookThemeProvider>
   );
 };
@@ -40,11 +46,13 @@ export const Welcome = () => {
 /*
   Hello
 */
-const helloConfig = { option: StatesOptions.Hello };
+const helloConfig = { option: CommunicationOptions.Hello };
 export const Hello = () => {
   return (
     <StorybookThemeProvider>
-      <States {...object("Configuration", helloConfig, statesKnobGroupID)} />
+      <Communication
+        {...object("Configuration", helloConfig, communicationKnobGroupID)}
+      />
     </StorybookThemeProvider>
   );
 };
@@ -52,11 +60,13 @@ export const Hello = () => {
 /*
   Empty
 */
-const emptyConfig = { option: StatesOptions.Empty };
+const emptyConfig = { option: CommunicationOptions.Empty };
 export const Empty = () => {
   return (
     <StorybookThemeProvider>
-      <States {...object("Configuration", emptyConfig, statesKnobGroupID)} />
+      <Communication
+        {...object("Configuration", emptyConfig, communicationKnobGroupID)}
+      />
     </StorybookThemeProvider>
   );
 };
@@ -64,11 +74,13 @@ export const Empty = () => {
 /*
   Error
 */
-const errorConfig = { option: StatesOptions.Error };
+const errorConfig = { option: CommunicationOptions.Error };
 export const Error = () => {
   return (
     <StorybookThemeProvider>
-      <States {...object("Configuration", errorConfig, statesKnobGroupID)} />
+      <Communication
+        {...object("Configuration", errorConfig, communicationKnobGroupID)}
+      />
     </StorybookThemeProvider>
   );
 };
@@ -76,11 +88,13 @@ export const Error = () => {
 /*
   Thanks
 */
-const thanksConfig = { option: StatesOptions.Thanks };
+const thanksConfig = { option: CommunicationOptions.Thanks };
 export const Thanks = () => {
   return (
     <StorybookThemeProvider>
-      <States {...object("Configuration", thanksConfig, statesKnobGroupID)} />
+      <Communication
+        {...object("Configuration", thanksConfig, communicationKnobGroupID)}
+      />
     </StorybookThemeProvider>
   );
 };
@@ -176,7 +190,9 @@ const customConfig = {
 export const Custom = () => {
   return (
     <StorybookThemeProvider>
-      <States {...object("Configuration", customConfig, statesKnobGroupID)} />
+      <Communication
+        {...object("Configuration", customConfig, communicationKnobGroupID)}
+      />
     </StorybookThemeProvider>
   );
 };

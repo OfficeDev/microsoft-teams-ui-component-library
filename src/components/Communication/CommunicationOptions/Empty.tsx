@@ -1,5 +1,5 @@
 import React from "react";
-import { IState, State } from "./State";
+import { ILayout, Layout } from "../Layout";
 import { TeamsTheme } from "../../../lib/withTheme";
 
 const DEFAULT_STRINGS = {
@@ -7,12 +7,12 @@ const DEFAULT_STRINGS = {
   desc: `Once you are assigned a task, you can find it here. Until then, enjoy your time off.`,
 };
 
-const Empty = ({ theme, values }: { theme: TeamsTheme; values?: IState }) => {
-  let config: IState = DEFAULT_STRINGS;
+const Empty = ({ theme, values }: { theme: TeamsTheme; values?: ILayout }) => {
+  let config: ILayout = DEFAULT_STRINGS;
   if (values) {
     config = { ...config, ...values };
   }
-  return <State image={illustrations[theme]} {...config} />;
+  return <Layout image={illustrations[theme]} {...config} />;
 };
 
 const illustrations = {

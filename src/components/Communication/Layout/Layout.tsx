@@ -2,25 +2,25 @@ import React from "react";
 import { Flex, FlexItem, Button, Text } from "@fluentui/react-northstar";
 import { Illustration } from "../Illustration";
 
-export interface IState {
+export interface ILayout {
   title?: string;
   desc?: string;
   image?: React.ReactNode;
-  actions?: IStateActions;
+  actions?: ILayoutActions;
 }
 
-export interface IStateActions {
-  primary?: IStateAction;
-  secondary?: IStateAction;
-  tertiary?: IStateAction;
+export interface ILayoutActions {
+  primary?: ILayoutAction;
+  secondary?: ILayoutAction;
+  tertiary?: ILayoutAction;
 }
 
-export interface IStateAction {
+export interface ILayoutAction {
   label: string;
   action: () => void;
 }
 
-export const State = ({ title, desc, image, actions }: IState) => (
+export const Layout = ({ title, desc, image, actions }: ILayout) => (
   <Flex
     hAlign="center"
     gap="gap.large"
@@ -39,6 +39,7 @@ export const State = ({ title, desc, image, actions }: IState) => (
             <Text
               content={title}
               size="large"
+              align="center"
               weight="bold"
               as="h1"
               styles={{ marginTop: 0, marginBottom: ".5rem" }}
@@ -47,6 +48,7 @@ export const State = ({ title, desc, image, actions }: IState) => (
           {desc && (
             <Text
               content={desc}
+              align="center"
               as="p"
               styles={{ textAlign: "center", margin: 0 }}
             />
