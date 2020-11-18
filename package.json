@@ -10,7 +10,7 @@
     "build": "just-scripts build",
     "build:storybook": "just-scripts build:storybook",
     "bundle": "just-scripts bundle",
-    "change": "beachball change",
+    "change": "beachball change --branch origin/main",
     "checkchange": "beachball check",
     "prepare": "node ./scripts/prepare",
     "lint": "just-scripts lint",
