@@ -29,6 +29,7 @@ export const teamsNextVariableAssignments = {
   componentStyles: {
     Box: {
       root: ({ variables }: ComponentVariablesObject) => ({
+        color: variables.color,
         backgroundColor: variables.backgroundColor,
         boxShadow: variables.elevation,
       }),

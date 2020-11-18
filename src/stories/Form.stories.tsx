@@ -10,7 +10,7 @@ const fake = (template: string) => {
 
 import { object } from "@storybook/addon-knobs";
 
-import { Form, TInputWidth, TField } from "../components/Form/Form";
+import { Form, TInputWidth, TFormErrors } from "../components/Form/Form";
 
 export default {
   title: "Composites/Form",
@@ -19,7 +19,7 @@ export default {
 
 const formKnobGroupID = "Form";
 
-const formConfig = {
+const kitchenSinkConfig = {
   submit: {
     en: "Okay",
     fa: "تایید",
@@ -43,7 +43,7 @@ const formConfig = {
             type: "text" as "text",
             title: fake("{{commerce.productAdjective}} {{commerce.product}}"),
             width: "split" as TInputWidth,
-            inputId: uniqueId(),
+            inputId: uniqueId("f"),
             placeholder: fake("{{commerce.productMaterial}}"),
           })),
         },
@@ -54,7 +54,7 @@ const formConfig = {
               type: "dropdown" as "dropdown",
               title: fake("{{commerce.productAdjective}} {{commerce.product}}"),
               width: "split" as TInputWidth,
-              inputId: uniqueId(),
+              inputId: uniqueId("f"),
               multiple: false,
               options: range(2 + Math.random() * 5).map(() => ({
                 title: fake("{{commerce.productMaterial}}"),
@@ -65,7 +65,7 @@ const formConfig = {
               type: "text" as "text",
               title: fake("{{commerce.product}}"),
               width: "split" as TInputWidth,
-              inputId: uniqueId(),
+              inputId: uniqueId("f"),
               ...(Math.random() > 0.5
                 ? { placeholder: fake("{{commerce.productMaterial}}") }
                 : {}),
@@ -74,7 +74,7 @@ const formConfig = {
               type: "text" as "text",
               title: fake("{{commerce.productAdjective}} {{commerce.product}}"),
               width: "split" as TInputWidth,
-              inputId: uniqueId(),
+              inputId: uniqueId("f"),
               ...(Math.random() > 0.5
                 ? { placeholder: fake("{{commerce.productMaterial}}") }
                 : {}),
@@ -84,7 +84,7 @@ const formConfig = {
         {
           type: "checkboxes" as "checkboxes",
           title: fake("{{commerce.productAdjective}} {{commerce.product}}"),
-          inputId: uniqueId(),
+          inputId: uniqueId("f"),
           options: range(2 + Math.random() * 5).map(() => ({
             title: fake("{{commerce.productMaterial}}"),
             value: uniqueId("option__"),
@@ -96,7 +96,7 @@ const formConfig = {
             type: "text" as "text",
             title: fake("{{commerce.productAdjective}} {{commerce.product}}"),
             width: "full" as TInputWidth,
-            inputId: uniqueId(),
+            inputId: uniqueId("f"),
             ...(Math.random() > 0.5
               ? { placeholder: fake("{{commerce.productMaterial}}") }
               : {}),
@@ -105,7 +105,7 @@ const formConfig = {
         {
           type: "radio-buttons" as "radio-buttons",
           title: fake("{{commerce.productAdjective}} {{commerce.product}}"),
-          inputId: uniqueId(),
+          inputId: uniqueId("f"),
           options: range(2 + Math.random() * 5).map(() => ({
             title: fake("{{commerce.productMaterial}}"),
             value: uniqueId("option__"),
@@ -114,7 +114,7 @@ const formConfig = {
         {
           type: "dropdown" as "dropdown",
           title: fake("{{commerce.productAdjective}} {{commerce.product}}"),
-          inputId: uniqueId(),
+          inputId: uniqueId("f"),
           multiple: false,
           options: range(2 + Math.random() * 5).map(() => ({
             title: fake("{{commerce.productMaterial}}"),
@@ -127,5 +127,25 @@ const formConfig = {
 };
 
 export const KitchenSink = () => {
-  return <Form {...object("Configuration", formConfig, formKnobGroupID)} />;
+  return (
+    <Form {...object("Configuration", kitchenSinkConfig, formKnobGroupID)} />
+  );
+};
+
+export const KitchenSinkWithErrors = () => {
+  const kitchenSinkWithErrorsConfig = Object.assign(
+    {
+      errors: range(32).reduce((acc: TFormErrors, i) => {
+        acc[`f${i}`] = fake("{{lorem.words}}");
+        return acc;
+      }, {}),
+      topError: fake("{{lorem.sentence}}"),
+    },
+    kitchenSinkConfig
+  );
+  return (
+    <Form
+      {...object("Configuration", kitchenSinkWithErrorsConfig, formKnobGroupID)}
+    />
+  );
 };

@@ -2,10 +2,12 @@ import React, { PropsWithChildren } from "react";
 import get from "lodash/get";
 
 import {
+  Alert,
   Box,
   Button,
   Checkbox,
   Dropdown,
+  Flex,
   Input,
   InputProps,
   ProviderConsumer as FluentUIThemeConsumer,
@@ -16,6 +18,10 @@ import {
 } from "@fluentui/react-northstar";
 
 import { getText, TTextObject, TTranslations } from "../../translations";
+import {
+  ExclamationCircleIcon,
+  ExclamationTriangleIcon,
+} from "@fluentui/react-icons-northstar";
 
 interface IInputGroupBase {
   errors?: TFormErrors;
@@ -53,6 +59,7 @@ interface ITextField {
   width?: TInputWidth;
   initialValue?: string;
   t?: TTranslations;
+  errors?: TFormErrors;
 }
 
 export type TField = IDropdownInput | IDropdownMultipleInput | ITextField;
@@ -95,12 +102,13 @@ interface ISection {
   inputGroups?: TInputGroup[];
 }
 
-type TFormErrors = { [inputId: string]: TTextObject };
+export type TFormErrors = { [inputId: string]: TTextObject };
 
 export interface IFormProps {
   headerSection?: ISection;
   sections: ISection[];
   errors?: TFormErrors;
+  topError?: TTextObject;
   submit: TTextObject;
   cancel?: TTextObject;
 }
@@ -133,9 +141,44 @@ const MaxWidth = ({ children, styles }: PropsWithChildren<any>) => (
   </Box>
 );
 
+interface IErrorMessageProps {
+  excludeIcon?: boolean;
+  message: TTextObject;
+  describes: string;
+  t?: TTranslations;
+}
+
+const errorId = (describesId: string) => `${describesId}__error`;
+const fullInputId = (inputId: string) => `input_${inputId}`;
+
+const ErrorMessage = ({
+  excludeIcon,
+  message,
+  describes,
+  t,
+}: IErrorMessageProps) => (
+  <Box
+    id={errorId(describes)}
+    styles={{ padding: "0 .25rem" }}
+    variables={({ colorScheme }: SiteVariablesPrepared) => ({
+      color: colorScheme.red.foreground,
+    })}
+  >
+    {!excludeIcon && (
+      <ExclamationCircleIcon
+        outline
+        size="small"
+        styles={{ marginRight: ".25rem" }}
+      />
+    )}
+    <Text size="small" content={getText(t?.locale, message)} />
+  </Box>
+);
+
 const DropdownField = (props: IDropdownInput | IDropdownMultipleInput) => {
-  const { options, t, inputId, title } = props;
-  const id = `input__${inputId}`;
+  const { options, t, inputId, title, errors } = props;
+  const id = fullInputId(inputId);
+  const error = get(errors, inputId, false);
   const selectedValues = get(
     props,
     "initialValues",
@@ -156,19 +199,34 @@ const DropdownField = (props: IDropdownInput | IDropdownMultipleInput) => {
           "data-value": value,
         }))}
         {...(props.multiple && { multiple: true })}
+        {...(error && { error: true, "aria-describedby": errorId(id) })}
       />
+      {error && <ErrorMessage describes={id} message={error} t={t} />}
     </>
   );
 };
 
-const TextField = ({ placeholder, t, title }: ITextField) => {
+const TextField = ({ placeholder, t, title, errors, inputId }: ITextField) => {
   const inputProps: InputProps = { label: getText(t?.locale, title) };
   if (placeholder) inputProps.placeholder = getText(t?.locale, placeholder);
-  return <Input fluid {...inputProps} />;
+  const id = fullInputId(inputId);
+  const error = get(errors, inputId, false);
+  return (
+    <>
+      <Input
+        fluid
+        id={id}
+        {...inputProps}
+        {...(error && { error: true, "aria-describedby": errorId(id) })}
+      />
+      {error && (
+        <ErrorMessage describes={id} excludeIcon message={error} t={t} />
+      )}
+    </>
+  );
 };
 
-const TextInputsGroup = ({ fields, t }: ITextInputs) => {
-  console.log("[fields]", fields);
+const TextInputsGroup = ({ fields, t, errors }: ITextInputs) => {
   return (
     <Box
       styles={{ display: "flex", flexFlow: "row wrap", marginRight: "-.75rem" }}
@@ -177,6 +235,7 @@ const TextInputsGroup = ({ fields, t }: ITextInputs) => {
         const key = `Form__Field-${field.inputId}`;
         return (
           <Box
+            key={key}
             styles={{
               flex: "1 1 0",
               minWidth: field.width === "split" ? "7.5rem" : "100%",
@@ -187,9 +246,9 @@ const TextInputsGroup = ({ fields, t }: ITextInputs) => {
             {(() => {
               switch (field.type) {
                 case "dropdown":
-                  return <DropdownField {...field} {...{ key, t }} />;
+                  return <DropdownField {...field} {...{ t, errors }} />;
                 case "text":
-                  return <TextField {...field} {...{ key, t }} />;
+                  return <TextField {...field} {...{ t, errors }} />;
                 default:
                   return null;
               }
@@ -207,19 +266,20 @@ const CheckboxesGroup = ({
   title,
   t,
   inputId,
+  errors,
 }: ICheckboxesInput) => {
-  const id = `input__${inputId}`;
+  const id = fullInputId(inputId);
+  const error = get(errors, inputId, false);
   return (
-    <>
+    <Box styles={{ marginBottom: ".75rem" }}>
       <Input.Label htmlFor={id}>{getText(t?.locale, title)}</Input.Label>
       <Box
-        as="section"
         id={id}
-        styles={{ marginBottom: ".75rem" }}
         accessibility={selectableListBehavior}
+        {...(error && { "aria-describedby": errorId(id) })}
       >
         {options.map(({ title, value }) => (
-          <Box>
+          <Box key={`${id}__${value}`}>
             <Checkbox
               variables={{ layout: "radio-like" }}
               label={getText(t?.locale, title)}
@@ -229,7 +289,8 @@ const CheckboxesGroup = ({
           </Box>
         ))}
       </Box>
-    </>
+      {error && <ErrorMessage describes={id} message={error} t={t} />}
+    </Box>
   );
 };
 
@@ -239,10 +300,12 @@ const RadioButtonsGroup = ({
   t,
   inputId,
   title,
+  errors,
 }: IRadioButtonsInput) => {
-  const id = `input__${inputId}`;
+  const id = fullInputId(inputId);
+  const error = get(errors, inputId, false);
   return (
-    <>
+    <Box styles={{ marginBottom: ".75rem" }}>
       <Input.Label htmlFor={id}>{getText(t?.locale, title)}</Input.Label>
       <RadioGroup
         vertical
@@ -254,16 +317,14 @@ const RadioButtonsGroup = ({
             key = `${inputId}__${value}`;
           return { key, value, label, name };
         })}
-        styles={{
-          marginBottom: ".75rem",
-        }}
+        {...(error && { "aria-describedby": errorId(id) })}
       />
-    </>
+      {error && <ErrorMessage message={error} t={t} describes={id} />}
+    </Box>
   );
 };
 
 const FormInputGroup = (props: TInputGroup) => {
-  console.log("[FormInputGroup]", props);
   switch (props.type) {
     case "text-inputs":
       return <TextInputsGroup {...props} />;
@@ -312,6 +373,7 @@ export const Form = ({
   headerSection,
   sections,
   submit,
+  topError,
 }: IFormProps) => {
   return (
     <FluentUIThemeConsumer
@@ -320,6 +382,22 @@ export const Form = ({
         return (
           <>
             <MaxWidth>
+              {topError && (
+                <Alert
+                  danger
+                  visible
+                  dismissible
+                  content={
+                    <Flex vAlign="center">
+                      <ExclamationTriangleIcon
+                        outline
+                        styles={{ marginRight: ".25rem" }}
+                      />
+                      <Text content={getText(t.locale, topError)} />
+                    </Flex>
+                  }
+                />
+              )}
               {headerSection && (
                 <FormSection
                   header
