@@ -45,6 +45,8 @@ export const radiogroupItemStyles: ComponentSlotStylesPrepared<
     } = componentStyleParameters;
     const checked = get(props, "checked");
     return {
+      borderWidth: 0,
+      padding: ".25rem .3125rem",
       "--radiogroup__item__indicator-color--outer": checked
         ? colorScheme.brand.borderFocus1
         : colorScheme.default.foreground2,

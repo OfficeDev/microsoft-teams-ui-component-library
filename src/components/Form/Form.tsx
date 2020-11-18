@@ -12,6 +12,7 @@ import {
   RadioGroup,
   SiteVariablesPrepared,
   Text,
+  selectableListBehavior,
 } from "@fluentui/react-northstar";
 
 import { getText, TTextObject, TTranslations } from "../../translations";
@@ -211,14 +212,16 @@ const CheckboxesGroup = ({
   return (
     <>
       <Input.Label htmlFor={id}>{getText(t?.locale, title)}</Input.Label>
-      <Box as="section" id={id} styles={{ marginBottom: ".75rem" }}>
+      <Box
+        as="section"
+        id={id}
+        styles={{ marginBottom: ".75rem" }}
+        accessibility={selectableListBehavior}
+      >
         {options.map(({ title, value }) => (
           <Box>
             <Checkbox
-              variables={{
-                rootDisplay: "block",
-                indicatorDisplay: "inline-block",
-              }}
+              variables={{ layout: "radio-like" }}
               label={getText(t?.locale, title)}
               data-value={value}
               checked={initialValues?.includes(value)}

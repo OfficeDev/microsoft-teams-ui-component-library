@@ -3,6 +3,7 @@ import mergeWith from "lodash/mergeWith";
 
 import { buttonStyles } from "./components/Button/button-styles";
 import { buttonContentStyles } from "./components/Button/buttonContent-styles";
+import { checkboxStyles } from "./components/Checkbox/checkbox-styles";
 import { cardStyles } from "./components/Card/card-styles";
 import { radiogroupItemStyles } from "./components/RadiogroupItem/radiogroupItem-styles";
 import { dropdownStyles } from "./components/Dropdown/dropdown-styles";
@@ -22,6 +23,7 @@ export const sharedComponentStyles: TComponentStyles = {
   Button: buttonStyles,
   ButtonContent: buttonContentStyles,
   Card: cardStyles,
+  Checkbox: checkboxStyles,
   Dropdown: dropdownStyles,
   RadioGroupItem: radiogroupItemStyles,
 };
