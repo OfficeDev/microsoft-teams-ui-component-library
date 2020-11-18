@@ -29,6 +29,6 @@ jobs:
       - run: |
           git config user.email "automation@users.noreply.github.com"
           git config user.name "Automation"
-      - run: yarn release -y -n $NPM_AUTHTOKEN
+      - run: yarn release -b origin/main -y -n $NPM_AUTHTOKEN
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN_TEMPORARY }}
