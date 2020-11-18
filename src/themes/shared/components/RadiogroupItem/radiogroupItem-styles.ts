@@ -30,7 +30,7 @@ export const radiogroupItemStyles: ComponentSlotStylesPrepared<
         borderRadius: "9999px",
         width: "100%",
         height: "100%",
-        padding: "2px",
+        padding: "var(--radiogroup__item__indicator-padding--inner, 2px)",
         backgroundClip: "content-box !important",
         background: "var(--radiogroup__item__indicator-color--inner)",
       },
@@ -62,6 +62,15 @@ export const radiogroupItemStyles: ComponentSlotStylesPrepared<
             "--radiogroup__item__indicator-color--outer":
               colorScheme.default.foreground1,
           },
+      "&:active": {
+        "--radiogroup__item__indicator-padding--inner": "3px",
+        "--radiogroup__item__indicator-color--outer": checked
+          ? colorScheme.brand.backgroundPressed
+          : colorScheme.default.foregroundPressed,
+        "--radiogroup__item__indicator-color--inner": checked
+          ? colorScheme.brand.backgroundPressed
+          : colorScheme.default.foreground2,
+      },
     };
   },
 };
