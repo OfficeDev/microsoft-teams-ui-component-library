@@ -5,8 +5,9 @@ import { buttonStyles } from "./components/Button/button-styles";
 import { buttonContentStyles } from "./components/Button/buttonContent-styles";
 import { checkboxStyles } from "./components/Checkbox/checkbox-styles";
 import { cardStyles } from "./components/Card/card-styles";
-import { radiogroupItemStyles } from "./components/RadiogroupItem/radiogroupItem-styles";
 import { dropdownStyles } from "./components/Dropdown/dropdown-styles";
+import { formMessageStyles } from "./components/Form/formMessage-styles";
+import { radiogroupItemStyles } from "./components/Radiogroup/radiogroupItem-styles";
 
 import {
   ComponentSlotStylesPrepared,
@@ -25,6 +26,7 @@ export const sharedComponentStyles: TComponentStyles = {
   Card: cardStyles,
   Checkbox: checkboxStyles,
   Dropdown: dropdownStyles,
+  FormMessage: formMessageStyles,
   RadioGroupItem: radiogroupItemStyles,
 };
 

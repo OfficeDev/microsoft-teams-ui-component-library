@@ -8,6 +8,7 @@ import {
   Checkbox,
   Dropdown,
   Flex,
+  Form as FluentUIForm,
   Input,
   InputProps,
   ProviderConsumer as FluentUIThemeConsumer,
@@ -144,22 +145,15 @@ const MaxWidth = ({ children, styles }: PropsWithChildren<any>) => (
 interface IErrorMessageProps {
   excludeIcon?: boolean;
   message: TTextObject;
-  describes: string;
   t?: TTranslations;
 }
 
 const errorId = (describesId: string) => `${describesId}__error`;
+const labelId = (describesId: string) => `${describesId}__label`;
 const fullInputId = (inputId: string) => `input_${inputId}`;
 
-const ErrorMessage = ({
-  excludeIcon,
-  message,
-  describes,
-  t,
-}: IErrorMessageProps) => (
+const ErrorMessage = ({ excludeIcon, message, t }: IErrorMessageProps) => (
   <Box
-    id={errorId(describes)}
-    styles={{ padding: "0 .25rem" }}
     variables={({ colorScheme }: SiteVariablesPrepared) => ({
       color: colorScheme.red.foreground,
     })}
@@ -185,24 +179,24 @@ const DropdownField = (props: IDropdownInput | IDropdownMultipleInput) => {
     props.hasOwnProperty("initialValue") ? [get(props, "initialValue")] : []
   );
   return (
-    <>
-      <Input.Label htmlFor={id}>{getText(t?.locale, title)}</Input.Label>
-      <Dropdown
-        fluid
-        id={id}
-        onChange={(_e, props) => {
-          console.log("[dropdown value]", get(props, "value.data-value", null));
-        }}
-        items={options.map(({ title, value }) => ({
-          selected: selectedValues.includes(value),
-          header: getText(t?.locale, title),
-          "data-value": value,
-        }))}
-        {...(props.multiple && { multiple: true })}
-        {...(error && { error: true, "aria-describedby": errorId(id) })}
-      />
-      {error && <ErrorMessage describes={id} message={error} t={t} />}
-    </>
+    <FluentUIForm.Dropdown
+      fluid
+      id={id}
+      label={getText(t?.locale, title)}
+      onChange={(_e, props) => {
+        console.log("[dropdown value]", get(props, "value.data-value", null));
+      }}
+      items={options.map(({ title, value }) => ({
+        selected: selectedValues.includes(value),
+        header: getText(t?.locale, title),
+        "data-value": value,
+      }))}
+      {...(props.multiple && { multiple: true })}
+      {...(error && {
+        error: true,
+        errorMessage: <ErrorMessage message={error} t={t} />,
+      })}
+    />
   );
 };
 
@@ -212,17 +206,15 @@ const TextField = ({ placeholder, t, title, errors, inputId }: ITextField) => {
   const id = fullInputId(inputId);
   const error = get(errors, inputId, false);
   return (
-    <>
-      <Input
-        fluid
-        id={id}
-        {...inputProps}
-        {...(error && { error: true, "aria-describedby": errorId(id) })}
-      />
-      {error && (
-        <ErrorMessage describes={id} excludeIcon message={error} t={t} />
-      )}
-    </>
+    <FluentUIForm.Input
+      fluid
+      id={id}
+      {...inputProps}
+      {...(error && {
+        error: true,
+        errorMessage: <ErrorMessage excludeIcon message={error} t={t} />,
+      })}
+    />
   );
 };
 
@@ -272,11 +264,15 @@ const CheckboxesGroup = ({
   const error = get(errors, inputId, false);
   return (
     <Box styles={{ marginBottom: ".75rem" }}>
-      <Input.Label htmlFor={id}>{getText(t?.locale, title)}</Input.Label>
+      <Input.Label htmlFor={id} id={labelId(id)}>
+        {getText(t?.locale, title)}
+      </Input.Label>
       <Box
         id={id}
         accessibility={selectableListBehavior}
-        {...(error && { "aria-describedby": errorId(id) })}
+        aria-labelledby={[labelId(id)]
+          .concat(error ? errorId(id) : [])
+          .join(" ")}
       >
         {options.map(({ title, value }) => (
           <Box key={`${id}__${value}`}>
@@ -289,7 +285,7 @@ const CheckboxesGroup = ({
           </Box>
         ))}
       </Box>
-      {error && <ErrorMessage describes={id} message={error} t={t} />}
+      {error && <ErrorMessage message={error} t={t} />}
     </Box>
   );
 };
@@ -305,22 +301,20 @@ const RadioButtonsGroup = ({
   const id = fullInputId(inputId);
   const error = get(errors, inputId, false);
   return (
-    <Box styles={{ marginBottom: ".75rem" }}>
-      <Input.Label htmlFor={id}>{getText(t?.locale, title)}</Input.Label>
-      <RadioGroup
-        vertical
-        id={id}
-        defaultCheckedValue={initialValue}
-        items={options.map(({ title, value }) => {
-          const label = getText(t?.locale, title);
-          const name = label,
-            key = `${inputId}__${value}`;
-          return { key, value, label, name };
-        })}
-        {...(error && { "aria-describedby": errorId(id) })}
-      />
-      {error && <ErrorMessage message={error} t={t} describes={id} />}
-    </Box>
+    <FluentUIForm.RadioGroup
+      id={id}
+      vertical
+      styles={{ marginBottom: ".75rem" }}
+      label={getText(t?.locale, title)}
+      {...(error && { errorMessage: <ErrorMessage message={error} t={t} /> })}
+      defaultCheckedValue={initialValue}
+      items={options.map(({ title, value }) => {
+        const label = getText(t?.locale, title);
+        const key = `${inputId}__${value}`;
+        const name = label;
+        return { key, value, label, name };
+      })}
+    />
   );
 };
 
@@ -380,7 +374,7 @@ export const Form = ({
       render={(globalTheme) => {
         const { t } = globalTheme.siteVariables;
         return (
-          <>
+          <FluentUIForm styles={{ display: "block" }}>
             <MaxWidth>
               {topError && (
                 <Alert
@@ -454,7 +448,7 @@ export const Form = ({
                 <Button primary content={getText(t.locale, submit)} />
               </MaxWidth>
             </Box>
-          </>
+          </FluentUIForm>
         );
       }}
     />
