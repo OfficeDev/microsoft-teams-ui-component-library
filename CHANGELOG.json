@@ -1,6 +1,21 @@
 {
-  "name": "@fluentui/teams",
+  "name": "@fluentui/react-teams",
   "entries": [
+    {
+      "date": "Thu, 19 Nov 2020 21:09:50 GMT",
+      "tag": "@fluentui/react-teams_v0.1.0-alpha.4",
+      "version": "0.1.0-alpha.4",
+      "comments": {
+        "prerelease": [
+          {
+            "comment": "Rename package",
+            "author": "jdh@microsoft.com",
+            "commit": "2eec0232dd8f0a7625567efba2908549fc4f9dfe",
+            "package": "@fluentui/react-teams"
+          }
+        ]
+      }
+    },
     {
       "date": "Thu, 19 Nov 2020 18:40:37 GMT",
       "tag": "@fluentui/teams_v0.1.0-alpha.3",

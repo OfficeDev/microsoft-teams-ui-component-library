@@ -1,8 +1,0 @@
-{
-  "type": "prerelease",
-  "comment": "Rename package",
-  "packageName": "@fluentui/react-teams",
-  "email": "jdh@microsoft.com",
-  "dependentChangeType": "patch",
-  "date": "2020-11-19T21:04:43.969Z"
-}
