@@ -6,13 +6,11 @@ import {
   Box,
   Button,
   Checkbox,
-  Dropdown,
   Flex,
   Form as FluentUIForm,
   Input,
   InputProps,
   ProviderConsumer as FluentUIThemeConsumer,
-  RadioGroup,
   SiteVariablesPrepared,
   Text,
   selectableListBehavior,
@@ -145,6 +143,7 @@ const MaxWidth = ({ children, styles }: PropsWithChildren<any>) => (
 interface IErrorMessageProps {
   excludeIcon?: boolean;
   message: TTextObject;
+  id?: string;
   t?: TTranslations;
 }
 
@@ -152,11 +151,13 @@ const errorId = (describesId: string) => `${describesId}__error`;
 const labelId = (describesId: string) => `${describesId}__label`;
 const fullInputId = (inputId: string) => `input_${inputId}`;
 
-const ErrorMessage = ({ excludeIcon, message, t }: IErrorMessageProps) => (
+const ErrorMessage = ({ excludeIcon, message, id, t }: IErrorMessageProps) => (
   <Box
     variables={({ colorScheme }: SiteVariablesPrepared) => ({
       color: colorScheme.red.foreground,
     })}
+    {...(id && { id })}
+    styles={{ paddingLeft: ".375rem" }}
   >
     {!excludeIcon && (
       <ExclamationCircleIcon
@@ -187,6 +188,7 @@ const DropdownField = (props: IDropdownInput | IDropdownMultipleInput) => {
         console.log("[dropdown value]", get(props, "value.data-value", null));
       }}
       items={options.map(({ title, value }) => ({
+        key: `${inputId}__${value}`,
         selected: selectedValues.includes(value),
         header: getText(t?.locale, title),
         "data-value": value,
@@ -387,7 +389,10 @@ export const Form = ({
                         outline
                         styles={{ marginRight: ".25rem" }}
                       />
-                      <Text content={getText(t.locale, topError)} />
+                      <Text
+                        styles={{ margin: ".25rem 0" }}
+                        content={getText(t.locale, topError)}
+                      />
                     </Flex>
                   }
                 />

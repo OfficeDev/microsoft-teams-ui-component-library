@@ -9,7 +9,7 @@ export const formMessageStyles: ComponentSlotStylesPrepared<
 > = {
   root: () => {
     return {
-      paddingLeft: ".5rem",
+      paddingLeft: 0,
     };
   },
 };
