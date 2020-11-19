@@ -10,11 +10,11 @@
     "build": "just-scripts build",
     "build:storybook": "just-scripts build:storybook",
     "bundle": "just-scripts bundle",
-    "change": "beachball change",
-    "checkchange": "beachball check",
-    "postinstall": "node ./scripts/postinstall.js",
+    "change": "beachball change --branch origin/main",
+    "checkchange": "beachball check --branch origin/main",
+    "prepare": "node ./scripts/prepare",
     "lint": "just-scripts lint",
-    "release": "beachball publish",
+    "release": "beachball publish --branch origin/main",
     "start": "just-scripts start",
     "test": "just-scripts test"
   },
@@ -93,5 +93,11 @@
   },
   "resolutions": {
     "@types/react": "^16.8.25"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public"
   }
 }

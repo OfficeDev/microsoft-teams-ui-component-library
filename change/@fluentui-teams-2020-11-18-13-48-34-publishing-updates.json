@@ -1,0 +1,8 @@
+{
+  "type": "prerelease",
+  "comment": "Update to yarn change script",
+  "packageName": "@fluentui/teams",
+  "email": "jdh@microsoft.com",
+  "dependentChangeType": "patch",
+  "date": "2020-11-18T21:48:34.796Z"
+}
