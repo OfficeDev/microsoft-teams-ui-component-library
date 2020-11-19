@@ -171,7 +171,7 @@ const Logo = (
   </svg>
 );
 const customConfig = {
-  values: {
+  fields: {
     title: `Getting Started with HVC Library`,
     desc: `This guide explains how to setup your HVC Library in your project. It includes information on prerequisites, installation process, and HVC component usage in your application to verify your setup.`,
     image: Logo,

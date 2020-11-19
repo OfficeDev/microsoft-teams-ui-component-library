@@ -32,16 +32,16 @@ const COMMUNICATION_COMPONENTS = {
 };
 
 type TCommunication =
-  | { option?: CommunicationOptions; values: ILayout }
-  | { option: CommunicationOptions; values?: ILayout };
+  | { option?: CommunicationOptions; fields: ILayout }
+  | { option: CommunicationOptions; fields?: ILayout };
 
-export function Communication({ option, values }: TCommunication) {
+export function Communication({ option, fields }: TCommunication) {
   const Message: React.LazyExoticComponent<({
     theme,
-    values,
+    fields,
   }: {
     theme: TeamsTheme;
-    values?: ILayout;
+    fields?: ILayout;
   }) => JSX.Element> =
     COMMUNICATION_COMPONENTS[option ? option : CommunicationOptions.Default];
   return (
@@ -56,7 +56,7 @@ export function Communication({ option, values }: TCommunication) {
           }}
         >
           <React.Suspense fallback={<></>}>
-            <Message theme={globalTheme.siteVariables.theme} values={values} />
+            <Message theme={globalTheme.siteVariables.theme} fields={fields} />
           </React.Suspense>
         </Flex>
       )}
