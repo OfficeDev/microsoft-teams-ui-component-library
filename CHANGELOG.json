@@ -1,0 +1,20 @@
+{
+  "name": "@fluentui/teams",
+  "entries": [
+    {
+      "date": "Thu, 19 Nov 2020 18:40:37 GMT",
+      "tag": "@fluentui/teams_v0.1.0-alpha.3",
+      "version": "0.1.0-alpha.3",
+      "comments": {
+        "prerelease": [
+          {
+            "comment": "Update to yarn change script",
+            "author": "jdh@microsoft.com",
+            "commit": "57828b1b4f97d31842c4ac6446fe040c2a8fb388",
+            "package": "@fluentui/teams"
+          }
+        ]
+      }
+    }
+  ]
+}
