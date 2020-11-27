@@ -1,4 +1,10 @@
-import React, { PropsWithChildren, useState } from "react";
+import React, {
+  Dispatch,
+  PropsWithChildren,
+  SetStateAction,
+  SyntheticEvent,
+  useState,
+} from "react";
 import get from "lodash/get";
 
 import {
@@ -14,6 +20,7 @@ import {
   SiteVariablesPrepared,
   Text,
   selectableListBehavior,
+  RadioGroupItemProps,
 } from "@fluentui/react-northstar";
 
 import { getText, TTextObject, TTranslations } from "../../translations";
@@ -26,11 +33,6 @@ export interface IFormState {
   [inputId: string]: string | string[];
 }
 
-interface IInputGroupBase {
-  errors?: TFormErrors;
-  t?: TTranslations;
-}
-
 interface IEnumerableInputOption {
   title: TTextObject;
   value: string;
@@ -40,8 +42,6 @@ interface IEnumerableInputBase {
   title: TTextObject;
   options: IEnumerableInputOption[];
   inputId: string;
-  errors?: TFormErrors;
-  t?: TTranslations;
 }
 
 interface IEnumerableSingletonInputBase extends IEnumerableInputBase {
@@ -56,6 +56,9 @@ export type TInputWidth = "split" | "full";
 
 interface IPreparedInput {
   formState: IFormState;
+  setFormState: Dispatch<SetStateAction<IFormState>>;
+  t: TTranslations;
+  errors?: TFormErrors;
 }
 
 interface ITextField {
@@ -65,15 +68,13 @@ interface ITextField {
   placeholder?: TTextObject;
   width?: TInputWidth;
   initialValue?: string;
-  t?: TTranslations;
-  errors?: TFormErrors;
 }
 
 interface IPreparedTextField extends ITextField, IPreparedInput {}
 
 export type TField = IDropdownInput | IDropdownMultipleInput | ITextField;
 
-interface ITextInputs extends IInputGroupBase {
+interface ITextInputs {
   type: "text-inputs";
   fields: TField[];
 }
@@ -143,13 +144,10 @@ export interface IFormProps {
   cancel?: TTextObject;
 }
 
-interface IFormSectionProps {
+interface IFormSectionProps extends IPreparedInput {
   section: ISection;
   header?: false;
   keyPrefix: string;
-  errors?: TFormErrors;
-  t: TTranslations;
-  formState: IFormState;
 }
 
 interface IFormHeaderSectionProps {
@@ -205,21 +203,25 @@ const ErrorMessage = ({ excludeIcon, message, id, t }: IErrorMessageProps) => (
 const DropdownField = (
   props: IPreparedDropdownInput | IPreparedDropdownMultipleInput
 ) => {
-  const { options, t, inputId, title, errors, formState } = props;
+  const { options, t, inputId, title, errors, formState, setFormState } = props;
   const id = fullInputId(inputId);
   const error = get(errors, inputId, false);
-  const selectedValues = get(
-    props,
-    "initialValues",
-    props.hasOwnProperty("initialValue") ? [get(props, "initialValue")] : []
-  );
+  const selectedValues = Array.isArray(formState[inputId])
+    ? formState[inputId]
+    : formState[inputId]
+    ? [formState[inputId]]
+    : [];
   return (
     <FluentUIForm.Dropdown
       fluid
       id={id}
       label={getText(t?.locale, title)}
       onChange={(_e, props) => {
-        console.log("[dropdown value]", get(props, "value.data-value", null));
+        const value = get(props, "value.data-value");
+        if (value) {
+          formState[inputId] = value;
+          setFormState(formState);
+        }
       }}
       items={options.map(({ title, value }) => ({
         key: `${inputId}__${value}`,
@@ -243,6 +245,7 @@ const TextField = ({
   errors,
   inputId,
   formState,
+  setFormState,
 }: IPreparedTextField) => {
   const inputProps: InputProps = { label: getText(t?.locale, title) };
   if (placeholder) inputProps.placeholder = getText(t?.locale, placeholder);
@@ -257,6 +260,11 @@ const TextField = ({
         error: true,
         errorMessage: <ErrorMessage excludeIcon message={error} t={t} />,
       })}
+      value={formState[inputId] as string}
+      onChange={(e, props) => {
+        if (props?.value) formState[inputId] = props.value.toString();
+        setFormState(formState);
+      }}
     />
   );
 };
@@ -266,6 +274,7 @@ const TextInputsGroup = ({
   t,
   errors,
   formState,
+  setFormState,
 }: IPreparedTextInputs) => {
   return (
     <Box
@@ -287,10 +296,18 @@ const TextInputsGroup = ({
               switch (field.type) {
                 case "dropdown":
                   return (
-                    <DropdownField {...field} {...{ t, errors, formState }} />
+                    <DropdownField
+                      {...field}
+                      {...{ t, errors, formState, setFormState }}
+                    />
                   );
                 case "text":
-                  return <TextField {...field} {...{ t, errors, formState }} />;
+                  return (
+                    <TextField
+                      {...field}
+                      {...{ t, errors, formState, setFormState }}
+                    />
+                  );
                 default:
                   return null;
               }
@@ -303,13 +320,13 @@ const TextInputsGroup = ({
 };
 
 const CheckboxesGroup = ({
-  initialValues,
   options,
   title,
   t,
   inputId,
   errors,
   formState,
+  setFormState,
 }: IPreparedCheckboxesInput) => {
   const id = fullInputId(inputId);
   const error = get(errors, inputId, false);
@@ -331,7 +348,23 @@ const CheckboxesGroup = ({
               variables={{ layout: "radio-like" }}
               label={getText(t?.locale, title)}
               data-value={value}
-              checked={initialValues?.includes(value)}
+              checked={formState[inputId]?.includes(value)}
+              onChange={(e, props) => {
+                const value = get(props, "data-value");
+                if (props?.checked) {
+                  Array.isArray(formState[inputId])
+                    ? (formState[inputId] as string[]).push(value)
+                    : (formState[inputId] = [value]);
+                } else {
+                  const next_values = (formState[inputId] as string[]).filter(
+                    (v) => v !== value
+                  );
+                  next_values.length > 0
+                    ? (formState[inputId] = next_values)
+                    : delete formState[inputId];
+                }
+                setFormState(formState);
+              }}
             />
           </Box>
         ))}
@@ -342,13 +375,13 @@ const CheckboxesGroup = ({
 };
 
 const RadioButtonsGroup = ({
-  initialValue,
   options,
   t,
   inputId,
   title,
   errors,
   formState,
+  setFormState,
 }: IPreparedRadioButtonsInput) => {
   const id = fullInputId(inputId);
   const error = get(errors, inputId, false);
@@ -359,12 +392,20 @@ const RadioButtonsGroup = ({
       styles={{ marginBottom: ".75rem" }}
       label={getText(t?.locale, title)}
       {...(error && { errorMessage: <ErrorMessage message={error} t={t} /> })}
-      defaultCheckedValue={initialValue}
       items={options.map(({ title, value }) => {
         const label = getText(t?.locale, title);
         const key = `${inputId}__${value}`;
         const name = label;
-        return { key, value, label, name };
+        const checked = formState[inputId] === value;
+        const onChange = (
+          _e: SyntheticEvent<HTMLElement, Event>,
+          props: RadioGroupItemProps | undefined
+        ) => {
+          if (props && props.checked && props.value)
+            formState[inputId] = props.value.toString();
+          setFormState(formState);
+        };
+        return { key, value, label, name, checked, onChange };
       })}
     />
   );
@@ -409,6 +450,7 @@ const FormSection = (props: IFormSectionProps | IFormHeaderSectionProps) => {
               t,
               errors,
               formState: (props as IFormSectionProps).formState,
+              setFormState: (props as IFormSectionProps).setFormState,
             }}
             key={`${(props as IFormSectionProps).keyPrefix}__Group-${gi}`}
           />
@@ -434,13 +476,9 @@ const setInitialValue = (
       | ITextField
       | IDropdownInput
       | IRadioButtonsInput).initialValue!;
-  else if (
-    field.hasOwnProperty("initialValues") &&
-    (field as IDropdownMultipleInput | ICheckboxesInput).initialValues
-  )
-    acc[field.inputId] = (field as
-      | IDropdownMultipleInput
-      | ICheckboxesInput).initialValues!;
+  else if (field.hasOwnProperty("initialValues"))
+    acc[field.inputId] =
+      (field as IDropdownMultipleInput | ICheckboxesInput).initialValues || [];
   return acc;
 };
 
@@ -476,8 +514,6 @@ export const Form = ({
   const [formState, setFormState] = useState<IFormState>(
     initialFormState(sections)
   );
-  console.log("[formState]", formState);
-
   return (
     <FluentUIThemeConsumer
       render={(globalTheme) => {
@@ -486,7 +522,7 @@ export const Form = ({
           <FluentUIForm
             styles={{ display: "block" }}
             onSubmit={(...args) => {
-              console.log("[form submit]", args);
+              console.log("[form submit]", formState);
             }}
           >
             <MaxWidth>

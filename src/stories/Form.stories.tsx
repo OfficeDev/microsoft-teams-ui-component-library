@@ -131,6 +131,7 @@ export const KitchenSink = () => {
     <Form {...object("Configuration", kitchenSinkConfig, formKnobGroupID)} />
   );
 };
+7;
 
 export const KitchenSinkWithErrors = () => {
   const kitchenSinkWithErrorsConfig = Object.assign(
