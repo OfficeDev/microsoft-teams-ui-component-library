@@ -115,7 +115,7 @@ const kitchenSinkConfig = {
           type: "dropdown" as "dropdown",
           title: fake("{{commerce.productAdjective}} {{commerce.product}}"),
           inputId: uniqueId("f"),
-          multiple: false,
+          multiple: true,
           options: range(2 + Math.random() * 5).map(() => ({
             title: fake("{{commerce.productMaterial}}"),
             value: uniqueId("option__"),

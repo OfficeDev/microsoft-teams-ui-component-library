@@ -12,15 +12,16 @@ import {
   Box,
   Button,
   Checkbox,
+  DropdownItemProps,
   Flex,
   Form as FluentUIForm,
   Input,
   InputProps,
   ProviderConsumer as FluentUIThemeConsumer,
+  RadioGroupItemProps,
   SiteVariablesPrepared,
   Text,
   selectableListBehavior,
-  RadioGroupItemProps,
 } from "@fluentui/react-northstar";
 
 import { getText, TTextObject, TTranslations } from "../../translations";
@@ -217,11 +218,22 @@ const DropdownField = (
       id={id}
       label={getText(t?.locale, title)}
       onChange={(_e, props) => {
-        const value = get(props, "value.data-value");
-        if (value) {
-          formState[inputId] = value;
-          setFormState(formState);
+        if (props.multiple) {
+          const values = (get(
+            props,
+            "value",
+            []
+          ) as DropdownItemProps[]).map(
+            (selectedItemProps: DropdownItemProps) =>
+              get(selectedItemProps, "data-value")
+          );
+          values.length
+            ? (formState[inputId] = values)
+            : delete formState[inputId];
+        } else {
+          formState[inputId] = get(props, ["value", "data-value"]);
         }
+        setFormState(formState);
       }}
       items={options.map(({ title, value }) => ({
         key: `${inputId}__${value}`,
