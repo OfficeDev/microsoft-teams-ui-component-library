@@ -1,9 +1,11 @@
 import React from "react";
 import {
   Flex,
+  mergeThemes,
   ProviderConsumer as FluentUIThemeConsumer,
+  Provider as FluentUIThemeProvider,
 } from "@fluentui/react-northstar";
-import { TeamsTheme } from "../../lib/withTheme";
+import { TeamsTheme } from "../../themes";
 import { ILayout } from "./Layout";
 
 const Default = React.lazy(() => import("./CommunicationOptions/Default"));
@@ -46,20 +48,41 @@ export function Communication({ option, fields }: TCommunication) {
     COMMUNICATION_COMPONENTS[option ? option : CommunicationOptions.Default];
   return (
     <FluentUIThemeConsumer
-      render={(globalTheme) => (
-        <Flex
-          vAlign="center"
-          hAlign="center"
-          styles={{
-            width: "100%",
-            height: "100%",
-          }}
-        >
-          <React.Suspense fallback={<></>}>
-            <Message theme={globalTheme.siteVariables.theme} fields={fields} />
-          </React.Suspense>
-        </Flex>
-      )}
+      render={(globalTheme) => {
+        const theme = mergeThemes(globalTheme, {
+          staticStyles: [
+            `.illustration-container {
+  width: 100%;
+  max-width: 20rem;
+  height: 12.5rem;
+  max-height: 12.5rem;
+}`,
+            `.illustration-container svg {
+  width: 100%;
+  height: 100%;
+}`,
+          ],
+        });
+        return (
+          <FluentUIThemeProvider theme={theme}>
+            <Flex
+              vAlign="center"
+              hAlign="center"
+              styles={{
+                width: "100%",
+                height: "100%",
+              }}
+            >
+              <React.Suspense fallback={<></>}>
+                <Message
+                  theme={globalTheme.siteVariables.theme}
+                  fields={fields}
+                />
+              </React.Suspense>
+            </Flex>
+          </FluentUIThemeProvider>
+        );
+      }}
     />
   );
 }

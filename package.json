@@ -31,7 +31,6 @@
     "react-dom": "^16.8.0"
   },
   "devDependencies": {
-    "@storybook/cli": "^6.0.26",
     "@babel/core": "^7.10.5",
     "@fluentui/react-icons-northstar": "^0.51.0",
     "@fluentui/react-northstar": "^0.51.0",
@@ -59,7 +58,6 @@
     "beachball": "^1.32.0",
     "chalk": "^4.1.0",
     "cpx": "^1.5.0",
-    "css-loader": "^3.6.0",
     "eslint": "7.2.0",
     "eslint-config-airbnb": "18.2.0",
     "eslint-plugin-import": "2.21.2",

@@ -1,6 +1,6 @@
 import React from "react";
 import { ILayout, Layout } from "../Layout";
-import { TeamsTheme } from "../../../lib/withTheme";
+import { TeamsTheme } from "../../../themes";
 
 const DEFAULT_STRINGS = {
   title: `Welcome to {{appName}}! We’re glad you’re here.`,

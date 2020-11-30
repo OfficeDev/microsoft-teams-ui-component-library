@@ -1,6 +1,6 @@
 import React from "react";
 
-import { TeamsTheme } from "../../../lib/withTheme";
+import { TeamsTheme } from "../../../themes";
 import { ILayout, Layout } from "../Layout";
 
 const DEFAULT_STRINGS = {

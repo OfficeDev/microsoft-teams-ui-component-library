@@ -105,6 +105,29 @@ const getLocalTheme = (themeKey: string): ThemeInput<any> => {
         },
       },
     },
+    staticStyles: [
+      /* ⚠️ `selectionIndicator` does not apply `styles` prop provided */
+      `.extended-toolbar__filters-menu .ui-tree__title__selection-indicator {
+      flex: 0 0 auto;
+      -webkit-flex: 0 0 auto;
+    }`,
+      /* ⚠️ `overflowItem` does not apply `offset` prop provided */
+      `.extended-toolbar .ui-toolbar__menu {
+    top: .25rem !important;
+  }`,
+      /* ⚠️ these rules are not ultimately applied when provided in `styles` prop */
+      `.extended-toolbar .extended-toolbar__filters-invoker:focus::before,
+.extended-toolbar .extended-toolbar__filters-invoker:focus::after,
+.extended-toolbar .extended-toolbar__find-invoker:focus::before,
+.extended-toolbar .extended-toolbar__find-invoker:focus::after,
+.extended-toolbar .extended-toolbar__find-cancel:focus::before,
+.extended-toolbar .extended-toolbar__find-cancel:focus::after,
+.extended-toolbar .ui-toolbar__item:focus::before,
+.extended-toolbar .ui-toolbar__item:focus::after {
+      top: calc(.5rem - 1px) !important;
+      bottom: calc(.5rem - 1px) !important;
+  }`,
+    ],
   };
 };
 
