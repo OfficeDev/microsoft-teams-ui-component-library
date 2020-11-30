@@ -1,6 +1,6 @@
 import React from "react";
-import { IState, State } from "./State";
-import { TeamsTheme } from "../../../themes";
+import { ILayout, Layout } from "../Layout";
+import { TeamsTheme } from "../../../lib/withTheme";
 
 const DEFAULT_STRINGS = {
   title: "Something went wrong.",
@@ -18,12 +18,12 @@ const DEFAULT_STRINGS = {
   },
 };
 
-const Error = ({ theme, values }: { theme: TeamsTheme; values?: IState }) => {
-  let config: IState = DEFAULT_STRINGS;
+const Error = ({ theme, values }: { theme: TeamsTheme; values?: ILayout }) => {
+  let config: ILayout = DEFAULT_STRINGS;
   if (values) {
     config = { ...config, ...values };
   }
-  return <State image={illustrations[theme]} {...config} />;
+  return <Layout image={illustrations[theme]} {...config} />;
 };
 
 const illustrations = {

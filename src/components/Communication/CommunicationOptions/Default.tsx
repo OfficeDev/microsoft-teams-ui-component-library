@@ -1,7 +1,7 @@
 import React from "react";
 
-import { TeamsTheme } from "../../../themes";
-import { IState, State } from "./State";
+import { TeamsTheme } from "../../../lib/withTheme";
+import { ILayout, Layout } from "../Layout";
 
 const DEFAULT_STRINGS = {
   title: "Primary line of text",
@@ -23,12 +23,18 @@ const DEFAULT_STRINGS = {
   },
 };
 
-const Default = ({ theme, values }: { theme: TeamsTheme; values?: IState }) => {
-  let config: IState = DEFAULT_STRINGS;
+const Default = ({
+  theme,
+  values,
+}: {
+  theme: TeamsTheme;
+  values?: ILayout;
+}) => {
+  let config: ILayout = DEFAULT_STRINGS;
   if (values) {
     config = { ...config, ...values };
   }
-  return <State image={illustrations[theme]} {...config} />;
+  return <Layout image={illustrations[theme]} {...config} />;
 };
 
 const illustrations = {

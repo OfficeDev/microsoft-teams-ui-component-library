@@ -1,72 +1,101 @@
 import React from "react";
-import { object } from "@storybook/addon-knobs";
+import { withKnobs, object } from "@storybook/addon-knobs";
+import { withA11y } from "@storybook/addon-a11y";
 
-import States, { StatesOptions } from "../components/States";
+import Communication, {
+  CommunicationOptions,
+} from "../components/Communication";
+import { StorybookThemeProvider } from "../lib/withTheme";
 
 export default {
-  title: "Components/States",
-  component: States,
+  title: "Components/Communication",
+  component: Communication,
+  decorators: [withKnobs, withA11y],
 };
 
-const statesKnobGroupID = "States";
+const communicationKnobGroupID = "Communication";
 
 /*
   Default
 */
-const defaultConfig = { option: StatesOptions.Default };
+const defaultConfig = { option: CommunicationOptions.Default };
 export const Default = () => {
   return (
-    <States {...object("Configuration", defaultConfig, statesKnobGroupID)} />
+    <StorybookThemeProvider>
+      <Communication
+        {...object("Configuration", defaultConfig, communicationKnobGroupID)}
+      />
+    </StorybookThemeProvider>
   );
 };
 
 /*
   Welcome
 */
-const welcomeConfig = { option: StatesOptions.Welcome };
+const welcomeConfig = { option: CommunicationOptions.Welcome };
 export const Welcome = () => {
   return (
-    <States {...object("Configuration", welcomeConfig, statesKnobGroupID)} />
+    <StorybookThemeProvider>
+      <Communication
+        {...object("Configuration", welcomeConfig, communicationKnobGroupID)}
+      />
+    </StorybookThemeProvider>
   );
 };
 
 /*
   Hello
 */
-const helloConfig = { option: StatesOptions.Hello };
+const helloConfig = { option: CommunicationOptions.Hello };
 export const Hello = () => {
   return (
-    <States {...object("Configuration", helloConfig, statesKnobGroupID)} />
+    <StorybookThemeProvider>
+      <Communication
+        {...object("Configuration", helloConfig, communicationKnobGroupID)}
+      />
+    </StorybookThemeProvider>
   );
 };
 
 /*
   Empty
 */
-const emptyConfig = { option: StatesOptions.Empty };
+const emptyConfig = { option: CommunicationOptions.Empty };
 export const Empty = () => {
   return (
-    <States {...object("Configuration", emptyConfig, statesKnobGroupID)} />
+    <StorybookThemeProvider>
+      <Communication
+        {...object("Configuration", emptyConfig, communicationKnobGroupID)}
+      />
+    </StorybookThemeProvider>
   );
 };
 
 /*
   Error
 */
-const errorConfig = { option: StatesOptions.Error };
+const errorConfig = { option: CommunicationOptions.Error };
 export const Error = () => {
   return (
-    <States {...object("Configuration", errorConfig, statesKnobGroupID)} />
+    <StorybookThemeProvider>
+      <Communication
+        {...object("Configuration", errorConfig, communicationKnobGroupID)}
+      />
+    </StorybookThemeProvider>
   );
 };
 
 /*
   Thanks
 */
-const thanksConfig = { option: StatesOptions.Thanks };
+const thanksConfig = { option: CommunicationOptions.Thanks };
 export const Thanks = () => {
   return (
-    <States {...object("Configuration", thanksConfig, statesKnobGroupID)} />
+    <StorybookThemeProvider>
+      <Communication
+        {...object("Configuration", thanksConfig, communicationKnobGroupID)}
+      />
+    </StorybookThemeProvider>
   );
 };
 
@@ -142,7 +171,7 @@ const Logo = (
   </svg>
 );
 const customConfig = {
-  values: {
+  fields: {
     title: `Getting Started with HVC Library`,
     desc: `This guide explains how to setup your HVC Library in your project. It includes information on prerequisites, installation process, and HVC component usage in your application to verify your setup.`,
     image: Logo,
@@ -160,6 +189,10 @@ const customConfig = {
 };
 export const Custom = () => {
   return (
-    <States {...object("Configuration", customConfig, statesKnobGroupID)} />
+    <StorybookThemeProvider>
+      <Communication
+        {...object("Configuration", customConfig, communicationKnobGroupID)}
+      />
+    </StorybookThemeProvider>
   );
 };
