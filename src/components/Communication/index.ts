@@ -1,4 +1,2 @@
-export {
-  Communication as default,
-  CommunicationOptions,
-} from "./Communication";
+export { Communication as default } from "./Communication";
+export * from "./CommunicationTypes";

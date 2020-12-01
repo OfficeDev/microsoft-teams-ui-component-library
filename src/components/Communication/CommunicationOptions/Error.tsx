@@ -1,8 +1,7 @@
 import React from "react";
-import { ILayout, Layout } from "../Layout";
 import { TeamsTheme } from "../../../lib/withTheme";
 
-const DEFAULT_STRINGS = {
+export const ERROR_MESSAGE = {
   title: "Something went wrong.",
   desc:
     "Looks like there is a glitch in our system. You can refresh or start over if that doesn’t seem to fix the issue.",
@@ -18,15 +17,7 @@ const DEFAULT_STRINGS = {
   },
 };
 
-const Error = ({ theme, values }: { theme: TeamsTheme; values?: ILayout }) => {
-  let config: ILayout = DEFAULT_STRINGS;
-  if (values) {
-    config = { ...config, ...values };
-  }
-  return <Layout image={illustrations[theme]} {...config} />;
-};
-
-const illustrations = {
+export const ERROR_ILLUSTRATIONS = {
   [TeamsTheme.Default]: (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 121.6 122.2">
       <defs />
@@ -106,5 +97,3 @@ const illustrations = {
     </svg>
   ),
 };
-
-export default Error;

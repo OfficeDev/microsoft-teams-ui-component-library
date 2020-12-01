@@ -1,23 +1,18 @@
 import React from "react";
-import { ILayout, Layout } from "../Layout";
 import { TeamsTheme } from "../../../lib/withTheme";
 
-const DEFAULT_STRINGS = {
+export const EMPTY_MESSAGE = {
   title: `You don’t have any tasks yet`,
   desc: `Once you are assigned a task, you can find it here. Until then, enjoy your time off.`,
 };
 
-const Empty = ({ theme, values }: { theme: TeamsTheme; values?: ILayout }) => {
-  let config: ILayout = DEFAULT_STRINGS;
-  if (values) {
-    config = { ...config, ...values };
-  }
-  return <Layout image={illustrations[theme]} {...config} />;
-};
-
-const illustrations = {
+export const EMPTY_ILLUSTRATIONS = {
   [TeamsTheme.Default]: (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 252 182.2">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 252 182.2"
+      style={{ width: "100%", height: "100%" }}
+    >
       <linearGradient
         id="SVGID_1_"
         gradientUnits="userSpaceOnUse"
@@ -132,7 +127,11 @@ const illustrations = {
     </svg>
   ),
   [TeamsTheme.Dark]: (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 252 182.2">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 252 182.2"
+      style={{ width: "100%", height: "100%" }}
+    >
       <defs />
       <path
         fill="#585A96"
@@ -194,7 +193,11 @@ const illustrations = {
     </svg>
   ),
   [TeamsTheme.HighContrast]: (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 254 184.2">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 254 184.2"
+      style={{ width: "100%", height: "100%" }}
+    >
       <defs />
       <path
         fill="#FFF"
@@ -256,5 +259,3 @@ const illustrations = {
     </svg>
   ),
 };
-
-export default Empty;
