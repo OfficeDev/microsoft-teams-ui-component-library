@@ -7,7 +7,8 @@ import Communication, {
   ICommunicationImage,
   ICommunicationThemedImage,
 } from "../components/Communication";
-import { StorybookThemeProvider, TeamsTheme } from "../lib/withTheme";
+import { StorybookThemeProvider } from "../lib/withTheme";
+import { TeamsTheme } from "../themes";
 
 export default {
   title: "Components/Communication",
