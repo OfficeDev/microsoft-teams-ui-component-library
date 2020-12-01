@@ -17,6 +17,12 @@ export interface IThemeProviderProps {
   children: ReactNode;
 }
 
+export enum TeamsTheme {
+  HighContrast = "teamsHighContrastTheme",
+  Dark = "teamsDarkTheme",
+  Default = "teamsTheme",
+}
+
 /**
  * Color palette for the following new themes.
  *
@@ -81,7 +87,7 @@ const colorPaletteV2 = {
 
 const teamsNextThemeSiteVariables = {
   teamsTheme: {
-    theme: "teamsTheme",
+    theme: TeamsTheme.Default,
     colors: colorPaletteV2,
     colorScheme: {
       elevations: {
@@ -216,7 +222,7 @@ const teamsNextThemeSiteVariables = {
     },
   },
   teamsDarkTheme: {
-    theme: "teamsDarkTheme",
+    theme: TeamsTheme.Dark,
     colors: colorPaletteV2,
     colorScheme: {
       elevations: {
@@ -350,7 +356,7 @@ const teamsNextThemeSiteVariables = {
     },
   },
   teamsHighContrastTheme: {
-    theme: "teamsHighContrastTheme",
+    theme: TeamsTheme.HighContrast,
     colorScheme: {
       elevations: {
         8: "none",
@@ -465,11 +471,11 @@ const themeKnob = () =>
   radios(
     "Theme",
     {
-      "Teams Light": "teamsTheme",
-      "Teams Dark": "teamsDarkTheme",
-      "Teams High Contrast": "teamsHighContrastTheme",
+      "Teams Light": TeamsTheme.Default,
+      "Teams Dark": TeamsTheme.Dark,
+      "Teams High Contrast": TeamsTheme.HighContrast,
     },
-    "teamsTheme",
+    TeamsTheme.Default,
     "Theme"
   );
 

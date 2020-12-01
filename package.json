@@ -4,7 +4,6 @@
   "description": "Teams components in the Fluent UI design language written in React",
   "repository": "https://github.com/OfficeDev/microsoft-teams-ui-component-library.git",
   "license": "MIT",
-  "author": "Ken Chau <kchau@microsoft.com>",
   "main": "lib/index.js",
   "scripts": {
     "build": "just-scripts build",
@@ -16,7 +15,9 @@
     "lint": "just-scripts lint",
     "release": "beachball publish --branch origin/main",
     "start": "just-scripts start",
-    "test": "just-scripts test"
+    "test": "just-scripts test",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "classnames": "^2.2.6",
@@ -30,18 +31,19 @@
     "react-dom": "^16.8.0"
   },
   "devDependencies": {
+    "@storybook/cli": "^6.0.26",
     "@babel/core": "^7.10.5",
     "@fluentui/react-icons-northstar": "^0.51.0",
     "@fluentui/react-northstar": "^0.51.0",
     "@storybook/addon-a11y": "^5.3.19",
-    "@storybook/addon-actions": "^5.3.19",
+    "@storybook/addon-actions": "^6.0.26",
     "@storybook/addon-docs": "^5.3.19",
     "@storybook/addon-knobs": "^5.3.19",
-    "@storybook/addon-links": "^5.3.19",
+    "@storybook/addon-links": "^6.0.26",
     "@storybook/addon-viewport": "^5.3.19",
-    "@storybook/addons": "^5.3.19",
+    "@storybook/addons": "^6.0.26",
     "@storybook/preset-typescript": "^3.0.0",
-    "@storybook/react": "^5.3.19",
+    "@storybook/react": "^6.0.26",
     "@types/classnames": "^2.2.10",
     "@types/faker": "^5.1.2",
     "@types/jest": "^26.0.4",

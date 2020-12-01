@@ -11,7 +11,11 @@ import {
   ComponentVariablesObject,
 } from "@fluentui/styles";
 
-import { teamsNextVariableAssignments, themes } from "../../lib/withTheme";
+import {
+  teamsNextVariableAssignments,
+  TeamsTheme,
+  themes,
+} from "../../lib/withTheme";
 
 export interface IBoardThemeProps {
   globalTheme: ThemePrepared;
@@ -56,9 +60,7 @@ const getLocalTheme = (themeKey: string): ThemeInput<any> => {
             padding: "0",
             backgroundColor: variables.backgroundColor,
             borderWidth:
-              theme.siteVariables.theme === "teamsHighContrastTheme"
-                ? "1px"
-                : 0,
+              theme.siteVariables.theme === TeamsTheme.HighContrast ? "1px" : 0,
             "--separator-color":
               theme.siteVariables.colorScheme.default.border1,
             "--content-color-secondary":
@@ -69,7 +71,7 @@ const getLocalTheme = (themeKey: string): ThemeInput<any> => {
               "--surface-background-color":
                 theme.siteVariables.colorScheme.default.backgroundHover1,
             },
-            ...(theme.siteVariables.theme === "teamsHighContrastTheme"
+            ...(theme.siteVariables.theme === TeamsTheme.HighContrast
               ? {
                   borderColor: variables.borderColor,
                   "&:hover": {

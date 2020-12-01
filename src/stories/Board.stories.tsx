@@ -15,7 +15,7 @@ import { StorybookThemeProvider } from "../lib/withTheme";
 import { TUsers } from "../types/types";
 
 export default {
-  title: "Board",
+  title: "Composites/Board",
   component: Board,
   decorators: [withKnobs, withA11y],
 };

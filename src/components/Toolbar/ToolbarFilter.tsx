@@ -28,6 +28,7 @@ import {
 import { ComponentSlotStyle, SiteVariablesPrepared } from "@fluentui/styles";
 
 import { TToolbarLayout } from "./Toolbar";
+import { TeamsTheme } from "../../lib/withTheme";
 
 const treeItemIconStyles = {
   position: "relative",
@@ -238,7 +239,7 @@ export const ToolbarFilter = (props: IExtendedToolbarFilterProps) => {
                 variables={({ colorScheme, theme }: SiteVariablesPrepared) => {
                   let color = colorScheme.brand.foreground;
                   switch (theme) {
-                    case "teamsHighContrastTheme":
+                    case TeamsTheme.HighContrast:
                       color = colorScheme.grey.foregroundHover;
                       break;
                   }

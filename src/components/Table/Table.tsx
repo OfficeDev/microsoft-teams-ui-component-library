@@ -37,6 +37,7 @@ import getBreakpoints, {
 } from "./tableBreakpoints";
 
 import { TActions } from "../../types/types";
+import { TeamsTheme } from "../../lib/withTheme";
 
 export type columnKey = string;
 export type rowKey = string;
@@ -330,7 +331,7 @@ export const Table = (props: ITableProps) => {
                         theme,
                       }: SiteVariablesPrepared) =>
                         selected.has(rowKey) &&
-                        theme !== "teamsHighContrastTheme"
+                        theme !== TeamsTheme.HighContrast
                           ? {
                               backgroundColor: colorScheme.grey.backgroundFocus,
                               color: colorScheme.grey.foregroundFocus,
@@ -472,10 +473,10 @@ export const Table = (props: ITableProps) => {
                       }),
                   // colors
                   backgroundColor:
-                    theme === "teamsHighContrastTheme"
+                    theme === TeamsTheme.HighContrast
                       ? colorScheme.grey.background
                       : colorScheme.grey.background2,
-                  ...(theme === "teamsHighContrastTheme"
+                  ...(theme === TeamsTheme.HighContrast
                     ? {
                         rowBorderColor: colorScheme.grey.foreground,
                         rowBorderHoverColor: colorScheme.grey.foreground,

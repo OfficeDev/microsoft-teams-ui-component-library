@@ -6,7 +6,7 @@ import { withA11y } from "@storybook/addon-a11y";
 import { StorybookThemeProvider } from "../lib/withTheme";
 
 export default {
-  title: "List",
+  title: "Composites/List",
   component: List,
   decorators: [withKnobs, withA11y],
 };

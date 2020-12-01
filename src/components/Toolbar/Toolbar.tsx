@@ -27,6 +27,7 @@ import {
 import { SiteVariablesPrepared } from "@fluentui/styles";
 
 import Icon from "../../lib/Icon";
+import { TeamsTheme } from "../../lib/withTheme";
 
 import { TAction, TActions } from "../../types/types";
 
@@ -255,7 +256,7 @@ export const Toolbar = (props: IToolbarProps) => {
             className="extended-toolbar"
             variables={({ colorScheme, theme }: SiteVariablesPrepared) => ({
               backgroundColor:
-                theme === "teamsHighContrastTheme"
+                theme === TeamsTheme.HighContrast
                   ? colorScheme.grey.background
                   : colorScheme.grey.background2,
               elevation: colorScheme.elevations[16],

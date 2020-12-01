@@ -6,6 +6,7 @@ import {
 } from "@fluentui/react-northstar";
 
 import { ThemePrepared, ComponentVariablesInput } from "@fluentui/styles";
+import { TeamsTheme } from "../../lib/withTheme";
 
 export interface IToolbarThemeProps {
   globalTheme: ThemePrepared;
@@ -30,11 +31,11 @@ const getLocalTheme = () => {
           borderRadius,
           borderSize: borderWidth,
           borderColor:
-            theme === "teamsHighContrastTheme"
+            theme === TeamsTheme.HighContrast
               ? colorScheme.grey.backgroundFocus
               : "transparent",
           borderColorHover:
-            theme === "teamsHighContrastTheme"
+            theme === TeamsTheme.HighContrast
               ? colorScheme.grey.backgroundFocus
               : "transparent",
         };
@@ -65,7 +66,7 @@ export const DashboardTheme = ({
       style={{
         minHeight: "100vh",
         backgroundColor:
-          theme.siteVariables.theme === "teamsHighContrastTheme"
+          theme.siteVariables.theme === TeamsTheme.HighContrast
             ? theme.siteVariables.colorScheme.grey.background
             : theme.siteVariables.colorScheme.grey.background2,
       }}
