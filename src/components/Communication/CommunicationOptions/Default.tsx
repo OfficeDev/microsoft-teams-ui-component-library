@@ -1,9 +1,7 @@
 import React from "react";
+import { TeamsTheme } from "../../../lib/withTheme";
 
-import { TeamsTheme } from "../../../themes";
-import { ILayout, Layout } from "../Layout";
-
-const DEFAULT_STRINGS = {
+export const DEFAULT_MESSAGE = {
   title: "Primary line of text",
   desc:
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
@@ -23,21 +21,7 @@ const DEFAULT_STRINGS = {
   },
 };
 
-const Default = ({
-  theme,
-  values,
-}: {
-  theme: TeamsTheme;
-  values?: ILayout;
-}) => {
-  let config: ILayout = DEFAULT_STRINGS;
-  if (values) {
-    config = { ...config, ...values };
-  }
-  return <Layout image={illustrations[theme]} {...config} />;
-};
-
-const illustrations = {
+export const DEFAULT_ILLUSTRATIONS = {
   [TeamsTheme.Default]: (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 173.2">
       <path fill="#FFF" d="M166 126.3l20-93L263.8 50l-20 93z" />
@@ -293,5 +277,3 @@ const illustrations = {
     </svg>
   ),
 };
-
-export default Default;
