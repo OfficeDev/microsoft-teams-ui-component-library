@@ -42,31 +42,33 @@ export function Communication({ option, fields }: TCommunication) {
     [TeamsTheme.Dark]: React.ReactNode;
     [TeamsTheme.HighContrast]: React.ReactNode;
   };
-  switch (true) {
-    case option === CommunicationOptions.Default:
-      _fields = DEFAULT_MESSAGE;
-      illustration = DEFAULT_ILLUSTRATIONS;
-      break;
-    case option === CommunicationOptions.Empty:
-      _fields = EMPTY_MESSAGE;
-      illustration = EMPTY_ILLUSTRATIONS;
-      break;
-    case option === CommunicationOptions.Error:
-      _fields = ERROR_MESSAGE;
-      illustration = ERROR_ILLUSTRATIONS;
-      break;
-    case option === CommunicationOptions.Hello:
-      _fields = HELLO_MESSAGE;
-      illustration = HELLO_ILLUSTRATIONS;
-      break;
-    case option === CommunicationOptions.Thanks:
-      _fields = THANKS_MESSAGE;
-      illustration = THANKS_ILLUSTRATIONS;
-      break;
-    case option === CommunicationOptions.Welcome:
-      _fields = WELCOME_MESSAGE;
-      illustration = DEFAULT_ILLUSTRATIONS;
-      break;
+  if (option) {
+    switch (true) {
+      case option === CommunicationOptions.Default:
+        _fields = DEFAULT_MESSAGE;
+        illustration = DEFAULT_ILLUSTRATIONS;
+        break;
+      case option === CommunicationOptions.Empty:
+        _fields = EMPTY_MESSAGE;
+        illustration = EMPTY_ILLUSTRATIONS;
+        break;
+      case option === CommunicationOptions.Error:
+        _fields = ERROR_MESSAGE;
+        illustration = ERROR_ILLUSTRATIONS;
+        break;
+      case option === CommunicationOptions.Hello:
+        _fields = HELLO_MESSAGE;
+        illustration = HELLO_ILLUSTRATIONS;
+        break;
+      case option === CommunicationOptions.Thanks:
+        _fields = THANKS_MESSAGE;
+        illustration = THANKS_ILLUSTRATIONS;
+        break;
+      case option === CommunicationOptions.Welcome:
+        _fields = WELCOME_MESSAGE;
+        illustration = DEFAULT_ILLUSTRATIONS;
+        break;
+    }
   }
   if (fields) {
     _fields = { ..._fields, ...fields };
