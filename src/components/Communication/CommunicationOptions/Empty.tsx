@@ -8,11 +8,7 @@ export const EMPTY_MESSAGE = {
 
 export const EMPTY_ILLUSTRATIONS = {
   [TeamsTheme.Default]: (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 252 182.2"
-      style={{ width: "100%", height: "100%" }}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 252 182.2">
       <linearGradient
         id="SVGID_1_"
         gradientUnits="userSpaceOnUse"
@@ -127,11 +123,7 @@ export const EMPTY_ILLUSTRATIONS = {
     </svg>
   ),
   [TeamsTheme.Dark]: (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 252 182.2"
-      style={{ width: "100%", height: "100%" }}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 252 182.2">
       <defs />
       <path
         fill="#585A96"
@@ -193,11 +185,7 @@ export const EMPTY_ILLUSTRATIONS = {
     </svg>
   ),
   [TeamsTheme.HighContrast]: (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 254 184.2"
-      style={{ width: "100%", height: "100%" }}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 254 184.2">
       <defs />
       <path
         fill="#FFF"

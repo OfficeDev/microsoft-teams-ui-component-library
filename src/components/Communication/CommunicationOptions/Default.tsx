@@ -23,11 +23,7 @@ export const DEFAULT_MESSAGE = {
 
 export const DEFAULT_ILLUSTRATIONS = {
   [TeamsTheme.Default]: (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 280 173.2"
-      style={{ width: "100%", height: "100%" }}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 173.2">
       <path fill="#FFF" d="M166 126.3l20-93L263.8 50l-20 93z" />
       <path fill="#E66693" d="M175.7 108l14.6-68L257 54.3l-14.7 68z" />
       <path fill="#FFF" d="M166 141.4l34.6-95L280 75.1l-34.6 95.2z" />
@@ -110,11 +106,7 @@ export const DEFAULT_ILLUSTRATIONS = {
     </svg>
   ),
   [TeamsTheme.Dark]: (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 280 173.2"
-      style={{ width: "100%", height: "100%" }}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 173.2">
       <defs />
       <path fill="#EDEBE9" d="M166 126.3l20-93L263.8 50l-20 93z" />
       <path fill="#E66693" d="M175.6 108l14.7-68 66.6 14.3-14.7 68z" />
@@ -193,11 +185,7 @@ export const DEFAULT_ILLUSTRATIONS = {
     </svg>
   ),
   [TeamsTheme.HighContrast]: (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 281.6 171.8"
-      style={{ width: "100%", height: "100%" }}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 281.6 171.8">
       <defs />
       <g
         strokeLinecap="round"
