@@ -6,6 +6,7 @@ import React, {
   useState,
 } from "react";
 import get from "lodash/get";
+import clone from "lodash/clone";
 
 import {
   Alert,
@@ -353,33 +354,39 @@ const CheckboxesGroup = ({
         aria-labelledby={[labelId(id)]
           .concat(error ? errorId(id) : [])
           .join(" ")}
+        aria-multiselectable="true"
       >
-        {options.map(({ title, value }) => (
-          <Box key={`${id}__${value}`}>
-            <Checkbox
-              variables={{ layout: "radio-like" }}
-              label={getText(t?.locale, title)}
-              data-value={value}
-              checked={formState[inputId]?.includes(value)}
-              onChange={(e, props) => {
-                const value = get(props, "data-value");
-                if (props?.checked) {
-                  Array.isArray(formState[inputId])
-                    ? (formState[inputId] as string[]).push(value)
-                    : (formState[inputId] = [value]);
-                } else {
-                  const next_values = (formState[inputId] as string[]).filter(
-                    (v) => v !== value
-                  );
-                  next_values.length > 0
-                    ? (formState[inputId] = next_values)
-                    : delete formState[inputId];
-                }
-                setFormState(formState);
-              }}
-            />
-          </Box>
-        ))}
+        {options.map(({ title, value }) => {
+          const selected = formState[inputId]?.includes(value);
+          return (
+            <Box key={`${id}__${value}`}>
+              <Checkbox
+                role="option"
+                aria-selected={selected ? "true" : "false"}
+                checked={selected}
+                variables={{ layout: "radio-like" }}
+                label={getText(t?.locale, title)}
+                data-value={value}
+                onChange={(e, props) => {
+                  const value = get(props, "data-value");
+                  if (props?.checked) {
+                    Array.isArray(formState[inputId])
+                      ? (formState[inputId] as string[]).push(value)
+                      : (formState[inputId] = [value]);
+                  } else {
+                    const next_values = (formState[inputId] as string[]).filter(
+                      (v) => v !== value
+                    );
+                    next_values.length > 0
+                      ? (formState[inputId] = next_values)
+                      : delete formState[inputId];
+                  }
+                  setFormState(formState);
+                }}
+              />
+            </Box>
+          );
+        })}
       </Box>
       {error && <ErrorMessage message={error} t={t} />}
     </Box>
@@ -523,9 +530,13 @@ export const Form = ({
   submit,
   topError,
 }: IFormProps) => {
-  const [formState, setFormState] = useState<IFormState>(
+  const [formState, setUnclonedFormState] = useState<IFormState>(
     initialFormState(sections)
   );
+
+  const setFormState = (formState: SetStateAction<IFormState>) =>
+    setUnclonedFormState(clone(formState));
+
   return (
     <FluentUIThemeConsumer
       render={(globalTheme) => {
