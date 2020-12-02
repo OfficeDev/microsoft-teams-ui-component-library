@@ -25,6 +25,8 @@ import {
   Box,
   Button,
   Flex,
+  GridBehaviorProps,
+  GridRowBehaviorProps,
   Input,
   MenuButton,
   ProviderConsumer as FluentUIThemeConsumer,
@@ -37,6 +39,32 @@ import {
 } from "@fluentui/react-northstar";
 
 import { getCode, keyboardKey } from "@fluentui/keyboard-key";
+
+const boardBehavior = (props: GridBehaviorProps) =>
+  set(
+    set(gridNestedBehavior(props), "focusZone.props", {
+      shouldEnterInnerZone: (event: React.KeyboardEvent<HTMLElement>) => {
+        const code = getCode(event);
+        return code === keyboardKey.ArrowDown || code === keyboardKey.Enter;
+      },
+      direction: 1 /* FocusZoneDirection.horizontal */,
+      shouldResetActiveElementWhenTabFromZone: true,
+    }),
+    "attributes.root.role",
+    "grid"
+  );
+
+const boardLaneBehavior = (props: GridRowBehaviorProps) =>
+  set(
+    set(
+      gridRowNestedBehavior(props),
+      /* FocusZoneDirection.vertical */
+      "focusZone.props.direction",
+      0
+    ),
+    "attributes.root.role",
+    "column"
+  );
 
 import {
   AddIcon,
@@ -260,13 +288,7 @@ const BoardLane = (props: IBoardLaneProps) => {
         borderFocus: colorScheme.default.borderFocus,
         borderFocusWithin: colorScheme.default.borderFocusWithin,
       })}
-      accessibility={(props) =>
-        set(
-          gridRowNestedBehavior(props),
-          "focusZone.props.direction",
-          0 /* FocusZoneDirection.vertical */
-        )
-      }
+      accessibility={boardLaneBehavior}
       className="board__lane"
       aria-label={`${t["board lane"]}, ${getText(
         t.locale,
@@ -609,17 +631,7 @@ const BoardStandalone = (props: IBoardStandaloneProps) => {
       <Box styles={{ overflowX: "auto", flex: "1 0 0" }}>
         <Box
           styles={{ height: "100%", display: "flex" }}
-          accessibility={(props) =>
-            set(gridNestedBehavior(props), "focusZone.props", {
-              shouldEnterInnerZone: function shouldEnterInnerZone(
-                event: KeyboardEvent
-              ) {
-                return getCode(event) === keyboardKey.ArrowDown;
-              },
-              direction: 1 /* FocusZoneDirection.horizontal */,
-              shouldResetActiveElementWhenTabFromZone: true,
-            })
-          }
+          accessibility={boardBehavior}
         >
           {Object.keys(arrangedLanes).map((laneKey, laneIndex, laneKeys) => {
             const last = laneIndex === laneKeys.length - 1;
