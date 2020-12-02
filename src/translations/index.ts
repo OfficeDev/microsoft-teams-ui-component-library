@@ -32,7 +32,7 @@ export default {
     "lane options": "Lane options",
     "sort-order alphabetical descending": "A-Z",
     "sort-order alphabetical ascending": "Z-A",
-  },
+  } as TTranslations,
   fa: {
     locale: "fa",
     hello: "سلام",
@@ -48,5 +48,5 @@ export default {
     "lane options": "گزینه های خط",
     "sort-order alphabetical descending": "A-Z",
     "sort-order alphabetical ascending": "Z-A",
-  },
+  } as TTranslations,
 };
