@@ -1,8 +1,7 @@
 import React from "react";
-import { IState, State } from "./State";
 import { TeamsTheme } from "../../../themes";
 
-const DEFAULT_STRINGS = {
+export const THANKS_MESSAGE = {
   title: "You’re awesome.",
   desc: "You’ve just completed your weekly goal in record time.",
   actions: {
@@ -17,15 +16,7 @@ const DEFAULT_STRINGS = {
   },
 };
 
-const Thanks = ({ theme, values }: { theme: TeamsTheme; values?: IState }) => {
-  let config: IState = DEFAULT_STRINGS;
-  if (values) {
-    config = { ...config, ...values };
-  }
-  return <State image={illustrations[theme]} {...config} />;
-};
-
-const illustrations = {
+export const THANKS_ILLUSTRATIONS = {
   [TeamsTheme.Default]: (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 119.8 120">
       <defs />
@@ -552,5 +543,3 @@ const illustrations = {
     </svg>
   ),
 };
-
-export default Thanks;

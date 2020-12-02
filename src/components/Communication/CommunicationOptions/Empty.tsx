@@ -1,21 +1,12 @@
 import React from "react";
-import { IState, State } from "./State";
 import { TeamsTheme } from "../../../themes";
 
-const DEFAULT_STRINGS = {
+export const EMPTY_MESSAGE = {
   title: `You don’t have any tasks yet`,
   desc: `Once you are assigned a task, you can find it here. Until then, enjoy your time off.`,
 };
 
-const Empty = ({ theme, values }: { theme: TeamsTheme; values?: IState }) => {
-  let config: IState = DEFAULT_STRINGS;
-  if (values) {
-    config = { ...config, ...values };
-  }
-  return <State image={illustrations[theme]} {...config} />;
-};
-
-const illustrations = {
+export const EMPTY_ILLUSTRATIONS = {
   [TeamsTheme.Default]: (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 252 182.2">
       <linearGradient
@@ -256,5 +247,3 @@ const illustrations = {
     </svg>
   ),
 };
-
-export default Empty;

@@ -1,8 +1,7 @@
 import React from "react";
-import { IState, State } from "./State";
 import { TeamsTheme } from "../../../themes";
 
-const DEFAULT_STRINGS = {
+export const HELLO_MESSAGE = {
   title: `Welcome to your homepage, {{userName}}`,
   desc: `This is where you will find all of your boards that organize your photos, files, and tasks across your different teams.`,
   actions: {
@@ -17,15 +16,7 @@ const DEFAULT_STRINGS = {
   },
 };
 
-const Hello = ({ theme, values }: { theme: TeamsTheme; values?: IState }) => {
-  let config: IState = DEFAULT_STRINGS;
-  if (values) {
-    config = { ...config, ...values };
-  }
-  return <State image={illustrations[theme]} {...config} />;
-};
-
-const illustrations = {
+export const HELLO_ILLUSTRATIONS = {
   [TeamsTheme.Default]: (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 193 219">
       <defs />
@@ -292,5 +283,3 @@ const illustrations = {
     </svg>
   ),
 };
-
-export default Hello;

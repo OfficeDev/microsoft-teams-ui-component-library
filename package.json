@@ -1,20 +1,19 @@
 {
-  "name": "@fluentui/teams",
-  "version": "0.1.0-alpha.1",
+  "name": "@fluentui/react-teams",
+  "version": "0.1.0-alpha.5",
   "description": "Teams components in the Fluent UI design language written in React",
   "repository": "https://github.com/OfficeDev/microsoft-teams-ui-component-library.git",
   "license": "MIT",
-  "author": "Ken Chau <kchau@microsoft.com>",
   "main": "lib/index.js",
   "scripts": {
     "build": "just-scripts build",
     "build:storybook": "just-scripts build:storybook",
     "bundle": "just-scripts bundle",
-    "change": "beachball change",
-    "checkchange": "beachball check",
-    "postinstall": "node ./scripts/postinstall.js",
+    "change": "beachball change --branch origin/main",
+    "checkchange": "beachball check --branch origin/main",
+    "prepare": "node ./scripts/prepare",
     "lint": "just-scripts lint",
-    "release": "beachball publish",
+    "release": "beachball publish --branch origin/main",
     "start": "just-scripts start",
     "test": "just-scripts test",
     "storybook": "start-storybook -p 6006",
@@ -33,8 +32,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
-    "@fluentui/react-icons-northstar": "^0.51.0",
-    "@fluentui/react-northstar": "^0.51.0",
+    "@fluentui/react-icons-northstar": "^0.51.3",
+    "@fluentui/react-northstar": "^0.51.3",
     "@storybook/addon-a11y": "^5.3.19",
     "@storybook/addon-actions": "^6.0.26",
     "@storybook/addon-docs": "^5.3.19",
@@ -59,7 +58,6 @@
     "beachball": "^1.32.0",
     "chalk": "^4.1.0",
     "cpx": "^1.5.0",
-    "css-loader": "^3.6.0",
     "eslint": "7.2.0",
     "eslint-config-airbnb": "18.2.0",
     "eslint-plugin-import": "2.21.2",
@@ -96,5 +94,11 @@
   },
   "resolutions": {
     "@types/react": "^16.8.25"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public"
   }
 }

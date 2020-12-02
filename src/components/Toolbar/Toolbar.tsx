@@ -35,8 +35,6 @@ import { ToolbarFilter } from "./ToolbarFilter";
 import { ToolbarFind } from "./ToolbarFind";
 import { ToolbarTheme } from "./ToolbarTheme";
 
-import "./toolbar.css";
-
 type TToolbarItems = ShorthandCollection<
   ToolbarItemProps,
   ToolbarItemShorthandKinds
