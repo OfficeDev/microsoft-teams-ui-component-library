@@ -7,7 +7,6 @@ import Communication, {
   ICommunicationImage,
   ICommunicationThemedImage,
 } from "../components/Communication";
-import { StorybookThemeProvider } from "../lib/withTheme";
 import { TeamsTheme } from "../themes";
 
 export default {
@@ -24,11 +23,9 @@ const communicationKnobGroupID = "Communication";
 const defaultConfig = { option: CommunicationOptions.Default };
 export const Default = () => {
   return (
-    <StorybookThemeProvider>
-      <Communication
-        {...object("Configuration", defaultConfig, communicationKnobGroupID)}
-      />
-    </StorybookThemeProvider>
+    <Communication
+      {...object("Configuration", defaultConfig, communicationKnobGroupID)}
+    />
   );
 };
 
@@ -38,11 +35,9 @@ export const Default = () => {
 const welcomeConfig = { option: CommunicationOptions.Welcome };
 export const Welcome = () => {
   return (
-    <StorybookThemeProvider>
-      <Communication
-        {...object("Configuration", welcomeConfig, communicationKnobGroupID)}
-      />
-    </StorybookThemeProvider>
+    <Communication
+      {...object("Configuration", welcomeConfig, communicationKnobGroupID)}
+    />
   );
 };
 
@@ -52,11 +47,9 @@ export const Welcome = () => {
 const helloConfig = { option: CommunicationOptions.Hello };
 export const Hello = () => {
   return (
-    <StorybookThemeProvider>
-      <Communication
-        {...object("Configuration", helloConfig, communicationKnobGroupID)}
-      />
-    </StorybookThemeProvider>
+    <Communication
+      {...object("Configuration", helloConfig, communicationKnobGroupID)}
+    />
   );
 };
 
@@ -66,11 +59,9 @@ export const Hello = () => {
 const emptyConfig = { option: CommunicationOptions.Empty };
 export const Empty = () => {
   return (
-    <StorybookThemeProvider>
-      <Communication
-        {...object("Configuration", emptyConfig, communicationKnobGroupID)}
-      />
-    </StorybookThemeProvider>
+    <Communication
+      {...object("Configuration", emptyConfig, communicationKnobGroupID)}
+    />
   );
 };
 
@@ -80,11 +71,9 @@ export const Empty = () => {
 const errorConfig = { option: CommunicationOptions.Error };
 export const Error = () => {
   return (
-    <StorybookThemeProvider>
-      <Communication
-        {...object("Configuration", errorConfig, communicationKnobGroupID)}
-      />
-    </StorybookThemeProvider>
+    <Communication
+      {...object("Configuration", errorConfig, communicationKnobGroupID)}
+    />
   );
 };
 
@@ -94,11 +83,9 @@ export const Error = () => {
 const thanksConfig = { option: CommunicationOptions.Thanks };
 export const Thanks = () => {
   return (
-    <StorybookThemeProvider>
-      <Communication
-        {...object("Configuration", thanksConfig, communicationKnobGroupID)}
-      />
-    </StorybookThemeProvider>
+    <Communication
+      {...object("Configuration", thanksConfig, communicationKnobGroupID)}
+    />
   );
 };
 
@@ -130,11 +117,9 @@ const customConfig = {
 };
 export const Custom = () => {
   return (
-    <StorybookThemeProvider>
-      <Communication
-        {...object("Configuration", customConfig, communicationKnobGroupID)}
-      />
-    </StorybookThemeProvider>
+    <Communication
+      {...object("Configuration", customConfig, communicationKnobGroupID)}
+    />
   );
 };
 
@@ -169,14 +154,12 @@ const customThemedImageConfig = {
 };
 export const CustomImageThemeSupport = () => {
   return (
-    <StorybookThemeProvider>
-      <Communication
-        {...object(
-          "Configuration",
-          customThemedImageConfig,
-          communicationKnobGroupID
-        )}
-      />
-    </StorybookThemeProvider>
+    <Communication
+      {...object(
+        "Configuration",
+        customThemedImageConfig,
+        communicationKnobGroupID
+      )}
+    />
   );
 };

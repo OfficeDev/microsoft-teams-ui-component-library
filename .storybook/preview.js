@@ -1,6 +1,6 @@
 import {withKnobs} from "@storybook/addon-knobs";
 import {withA11y} from "@storybook/addon-a11y";
-import {withTheme} from '../src/lib/withTheme'
+import {withStorybookTheme} from '../src/lib/withStorybookTheme'
 
 export const parameters = {
   options: {
@@ -15,5 +15,5 @@ export const parameters = {
 export const decorators = [
   withKnobs,
   withA11y,
-  withTheme,
+  withStorybookTheme,
 ]

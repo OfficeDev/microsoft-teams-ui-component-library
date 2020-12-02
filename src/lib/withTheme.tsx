@@ -1,5 +1,4 @@
-import React, { ReactElement, ReactNode } from "react";
-import { radios, select } from "@storybook/addon-knobs";
+import React, { ReactNode } from "react";
 
 import {
   Provider as FluentUIThemeProvider,
@@ -18,11 +17,12 @@ import {
   TeamsTheme,
 } from "../themes";
 
-import translations from "../translations";
-import { StoryFn } from "@storybook/addons";
+import translations, { TLocale } from "../translations";
 
 export interface IThemeProviderProps {
   children: ReactNode;
+  lang: TLocale;
+  themeName: TeamsTheme;
 }
 
 export const teamsNextVariableAssignments = {
@@ -121,35 +121,14 @@ export const themes: { [themeKey: string]: ThemeInput<any> } = {
   ),
 };
 
-const langKnob = () =>
-  select(
-    "Language",
-    {
-      "English (US)": "en-US",
-      فارسی: "fa",
-    },
-    "en-US",
-    "Theme"
-  );
-
-const themeKnob = () =>
-  radios(
-    "Theme",
-    {
-      "Teams Light": TeamsTheme.Default,
-      "Teams Dark": TeamsTheme.Dark,
-      "Teams High Contrast": TeamsTheme.HighContrast,
-    },
-    TeamsTheme.Default,
-    "Theme"
-  );
-
-export const StorybookThemeProvider = ({ children }: IThemeProviderProps) => {
-  const lang = langKnob();
-
+export const HVCThemeProvider = ({
+  children,
+  lang,
+  themeName,
+}: IThemeProviderProps) => {
   // [v-wishow] todo: translations will (presumably) eventually need to be loaded asynchronously
 
-  const theme = themes[themeKnob()];
+  const theme = themes[themeName];
   const rtl = lang === "fa";
 
   if (theme.siteVariables) {
@@ -158,13 +137,9 @@ export const StorybookThemeProvider = ({ children }: IThemeProviderProps) => {
     theme.siteVariables.t = translations[lang];
   }
   return (
-    <FluentUIThemeProvider theme={themes[themeKnob()]} rtl={rtl}>
+    <FluentUIThemeProvider theme={theme} rtl={rtl}>
       <style>{`html, body, #root, #root > .ui-provider { height: 100% } #root > .ui-provider { overflow: auto }`}</style>
       {children}
     </FluentUIThemeProvider>
   );
 };
-
-export const withTheme = (storyFn: StoryFn<any>) => (
-  <StorybookThemeProvider>{storyFn()}</StorybookThemeProvider>
-);
