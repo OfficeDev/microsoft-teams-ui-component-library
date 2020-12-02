@@ -1,14 +1,10 @@
 import React from "react";
-import { withKnobs, object } from "@storybook/addon-knobs";
+import { object } from "@storybook/addon-knobs";
 import Toolbar from "../components/Toolbar";
-import { withA11y } from "@storybook/addon-a11y";
-
-import { StorybookThemeProvider } from "../lib/withTheme";
 
 export default {
   title: "Components/Toolbar",
   component: Toolbar,
-  decorators: [withKnobs, withA11y],
 };
 
 const toolbarKnobGroupID = "Toolbar";
@@ -70,11 +66,7 @@ export const KitchenSink = () => {
     find: true,
   };
   return (
-    <StorybookThemeProvider>
-      <Toolbar
-        {...object("Configuration", toolbarConfig, toolbarKnobGroupID)}
-      />
-    </StorybookThemeProvider>
+    <Toolbar {...object("Configuration", toolbarConfig, toolbarKnobGroupID)} />
   );
 };
 
@@ -90,11 +82,7 @@ export const OnlyAFewActions = () => {
     find: false,
   };
   return (
-    <StorybookThemeProvider>
-      <Toolbar
-        {...object("Configuration", toolbarConfig, toolbarKnobGroupID)}
-      />
-    </StorybookThemeProvider>
+    <Toolbar {...object("Configuration", toolbarConfig, toolbarKnobGroupID)} />
   );
 };
 
@@ -117,10 +105,6 @@ export const SingleSelectFilterAndFind = () => {
     find: true,
   };
   return (
-    <StorybookThemeProvider>
-      <Toolbar
-        {...object("Configuration", toolbarConfig, toolbarKnobGroupID)}
-      />
-    </StorybookThemeProvider>
+    <Toolbar {...object("Configuration", toolbarConfig, toolbarKnobGroupID)} />
   );
 };

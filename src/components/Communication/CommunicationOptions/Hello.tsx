@@ -1,5 +1,5 @@
 import React from "react";
-import { TeamsTheme } from "../../../lib/withTheme";
+import { TeamsTheme } from "../../../themes";
 
 export const HELLO_MESSAGE = {
   title: `Welcome to your homepage, {{userName}}`,

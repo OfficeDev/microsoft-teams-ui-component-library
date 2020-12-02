@@ -7,13 +7,14 @@ import {
   Loader,
   ProviderConsumer as FluentUIThemeConsumer,
 } from "@fluentui/react-northstar";
-import { TeamsTheme } from "../../lib/withTheme";
+import { TeamsTheme } from "../../themes";
 import {
   CommunicationOptions,
   TCommunicationFields,
   TCommunication,
   ICommunicationFields,
   ICommunicationFieldsWithThemedImage,
+  ICommunicationIllustration,
 } from "./CommunicationTypes";
 import { Illustration } from "./Illustration";
 import { isImageOrNot } from "../../lib/isImage";
@@ -37,11 +38,7 @@ export function Communication({ option, fields }: TCommunication) {
   );
   const [safeImageUrl, setSafeImageUrl] = React.useState<string>();
   let _fields: TCommunicationFields = {};
-  let illustration: {
-    [TeamsTheme.Default]: React.ReactNode;
-    [TeamsTheme.Dark]: React.ReactNode;
-    [TeamsTheme.HighContrast]: React.ReactNode;
-  };
+  let illustration: ICommunicationIllustration;
   if (option) {
     switch (true) {
       case option === CommunicationOptions.Default:

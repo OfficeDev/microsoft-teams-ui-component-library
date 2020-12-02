@@ -1,11 +1,13 @@
 import groupBy from "lodash/groupBy";
 
+export type TSortable = "alphabetical" | false;
+
 export interface IColumn {
   title: string;
   minWidth?: number;
   hideable?: boolean;
   hidePriority?: number;
-  sortable?: boolean;
+  sortable?: TSortable;
 }
 
 interface IPreparedColumn extends IColumn {

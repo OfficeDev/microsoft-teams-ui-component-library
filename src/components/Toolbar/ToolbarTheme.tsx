@@ -12,11 +12,9 @@ import {
   ComponentVariablesObject,
 } from "@fluentui/styles";
 
-import {
-  teamsNextVariableAssignments,
-  TeamsTheme,
-  themes,
-} from "../../lib/withTheme";
+import { teamsNextVariableAssignments, themes } from "../../lib/withTheme";
+
+import { TeamsTheme } from "../../themes";
 
 export interface IToolbarThemeProps {
   globalTheme: ThemePrepared;
@@ -107,6 +105,26 @@ const getLocalTheme = (themeKey: string): ThemeInput<any> => {
         },
       },
     },
+    staticStyles: [
+      `.extended-toolbar__filters-menu .ui-tree__title__selection-indicator {
+      flex: 0 0 auto;
+      -webkit-flex: 0 0 auto;
+    }`,
+      `.extended-toolbar .ui-toolbar__menu {
+    top: .25rem !important;
+  }`,
+      `.extended-toolbar .extended-toolbar__filters-invoker:focus::before,
+.extended-toolbar .extended-toolbar__filters-invoker:focus::after,
+.extended-toolbar .extended-toolbar__find-invoker:focus::before,
+.extended-toolbar .extended-toolbar__find-invoker:focus::after,
+.extended-toolbar .extended-toolbar__find-cancel:focus::before,
+.extended-toolbar .extended-toolbar__find-cancel:focus::after,
+.extended-toolbar .ui-toolbar__item:focus::before,
+.extended-toolbar .ui-toolbar__item:focus::after {
+      top: calc(.5rem - 1px) !important;
+      bottom: calc(.5rem - 1px) !important;
+  }`,
+    ],
   };
 };
 

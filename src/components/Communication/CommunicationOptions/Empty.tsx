@@ -1,5 +1,5 @@
 import React from "react";
-import { TeamsTheme } from "../../../lib/withTheme";
+import { TeamsTheme } from "../../../themes";
 
 export const EMPTY_MESSAGE = {
   title: `You don’t have any tasks yet`,

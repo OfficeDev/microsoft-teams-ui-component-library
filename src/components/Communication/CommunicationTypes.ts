@@ -1,4 +1,4 @@
-import { TeamsTheme } from "../../lib/withTheme";
+import { TeamsTheme } from "../../themes";
 
 export enum CommunicationOptions {
   Default = "default",
@@ -33,6 +33,12 @@ export interface ICommunicationFieldsWithThemedImage {
 export interface ICommunicationImage {
   src: string;
   ariaLabel: string;
+}
+
+export interface ICommunicationIllustration {
+  [TeamsTheme.Default]: React.ReactNode;
+  [TeamsTheme.Dark]: React.ReactNode;
+  [TeamsTheme.HighContrast]: React.ReactNode;
 }
 
 export interface ICommunicationThemedImage {
