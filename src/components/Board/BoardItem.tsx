@@ -25,15 +25,9 @@ import {
   TTranslations,
 } from "../../translations";
 
-import {
-  IPreparedBoardItem,
-  IBoardItemBadges,
-  IBoardItemCardLayout,
-} from "./Board";
-
 import { TUsers } from "../../types/types";
 
-interface IBoardItemProps {
+export interface IBoardItemProps {
   isDragging: boolean;
   draggableProps: DraggableProvidedDraggableProps;
   dragHandleProps: DraggableProvidedDragHandleProps;
@@ -42,6 +36,38 @@ interface IBoardItemProps {
   item: IPreparedBoardItem;
   boardItemCardLayout: IBoardItemCardLayout;
   users: TUsers;
+}
+
+export interface IBoardItemBadges {
+  attachments?: number;
+}
+
+export interface IBoardItem {
+  lane: string;
+  order: number;
+  title: TTextObject;
+  subtitle?: TTextObject;
+  body?: TTextObject | TTextObject[];
+  users?: string[];
+  badges?: IBoardItemBadges;
+  preview?: string;
+}
+
+export type TBoardItems = {
+  [itemKey: string]: IBoardItem;
+};
+
+export interface IPreparedBoardItem extends IBoardItem {
+  itemKey: string;
+}
+
+export interface IPreparedBoardItems {
+  [laneKey: string]: IPreparedBoardItem[];
+}
+
+export interface IBoardItemCardLayout {
+  previewPosition: "top" | "afterHeader";
+  overflowPosition: "preview" | "header" | "footer";
 }
 
 interface IBoardItemBadgesProps {

@@ -1,16 +1,10 @@
-import React, {
-  useLayoutEffect,
-  useState,
-  useRef,
-  SyntheticEvent,
-} from "react";
+import React, { useLayoutEffect, useState, useRef } from "react";
 import omit from "lodash/omit";
 import cloneDeep from "lodash/cloneDeep";
 
 import {
   Box,
   ButtonContent,
-  ComponentEventHandler,
   ObjectShorthandCollection,
   Position,
   PropsOfElement,
@@ -29,7 +23,11 @@ import { SiteVariablesPrepared } from "@fluentui/styles";
 import Icon from "../../lib/Icon";
 import { TeamsTheme } from "../../themes";
 
-import { TAction, TActions } from "../../types/types";
+import {
+  TAction,
+  TActions,
+  WithOptionalInternalCallbacks,
+} from "../../types/types";
 
 import { ToolbarFilter } from "./ToolbarFilter";
 import { ToolbarFind } from "./ToolbarFind";
@@ -46,16 +44,15 @@ export type TActionGroups = {
 
 export type TFilters = ObjectShorthandCollection<TreeItemProps, never>;
 
-export interface IToolbarProps extends PropsOfElement<"div"> {
+export interface IToolbarProps
+  extends PropsOfElement<"div">,
+    WithOptionalInternalCallbacks<ToolbarItemProps> {
   actionGroups: TActionGroups;
   filters?: TFilters;
   find?: boolean;
   filtersSingleSelect?: boolean;
   onSelectedFiltersChange?: (selectedFilters: string[]) => string[];
   onFindQueryChange?: (findQuery: string) => string;
-  __internal_callbacks__?: {
-    [callbackId: string]: ComponentEventHandler<ToolbarItemProps>;
-  };
 }
 
 export type TToolbarLayout = "compact" | "verbose";

@@ -34,11 +34,6 @@ export const teamsNextVariableAssignments = {
         boxShadow: variables.elevation,
       }),
     },
-    Button: {
-      root: ({ variables }: ComponentVariablesObject) => ({
-        color: variables.color,
-      }),
-    },
     ButtonContent: {
       root: ({ variables }: ComponentVariablesObject) => ({
         fontWeight: variables.fontWeight,

@@ -1,10 +1,10 @@
 import React from "react";
 import { object } from "@storybook/addon-knobs";
+import Board from "../components/Board";
 import {
-  Board,
   IBoardItem,
   IBoardItemCardLayout,
-} from "../components/Board/Board";
+} from "../components/Board/BoardItem";
 import fakerEN from "faker/locale/en_US";
 import fakerFA from "faker/locale/fa";
 import range from "lodash/range";

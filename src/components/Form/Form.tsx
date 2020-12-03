@@ -13,6 +13,7 @@ import {
   Box,
   Button,
   Checkbox,
+  Dialog,
   DropdownItemProps,
   Flex,
   Form as FluentUIForm,
@@ -26,6 +27,9 @@ import {
 } from "@fluentui/react-northstar";
 
 import { getText, TTextObject, TTranslations } from "../../translations";
+
+import { WithOptionalInternalCallbacks } from "../../types/types";
+
 import {
   ExclamationCircleIcon,
   ExclamationTriangleIcon,
@@ -137,13 +141,17 @@ interface ISection {
 
 export type TFormErrors = { [inputId: string]: TTextObject };
 
-export interface IFormProps {
+export interface IFormProps extends WithOptionalInternalCallbacks<IFormState> {
   headerSection?: ISection;
   sections: ISection[];
   errors?: TFormErrors;
   topError?: TTextObject;
   submit: TTextObject;
   cancel?: TTextObject;
+}
+
+export interface IFormDialogProps extends IFormProps {
+  trigger: JSX.Element;
 }
 
 interface IFormSectionProps extends IPreparedInput {
@@ -159,12 +167,12 @@ interface IFormHeaderSectionProps {
   t: TTranslations;
 }
 
-const MaxWidth = ({ children, styles }: PropsWithChildren<any>) => (
+const MaxWidth = ({ children, styles, flush }: PropsWithChildren<any>) => (
   <Box
     styles={{
       margin: "0 auto",
-      maxWidth: "29.75rem",
-      padding: "1.25rem",
+      maxWidth: flush ? "none" : "29.75rem",
+      padding: flush ? 0 : "1.25rem",
       ...styles,
     }}
   >
@@ -522,6 +530,67 @@ const initialFormState = (sections: ISection[]) => {
   );
 };
 
+interface IFormContentProps extends Omit<IFormProps, "submit"> {
+  formState: IFormState;
+  setFormState: Dispatch<SetStateAction<IFormState>>;
+  t: TTranslations;
+  flush?: boolean;
+}
+
+const FormContent = ({
+  topError,
+  flush,
+  t,
+  headerSection,
+  sections,
+  errors,
+  formState,
+  setFormState,
+}: IFormContentProps) => {
+  return (
+    <MaxWidth flush={flush}>
+      {topError && (
+        <Alert
+          danger
+          visible
+          dismissible
+          content={
+            <Flex vAlign="center">
+              <ExclamationTriangleIcon
+                outline
+                styles={{ marginRight: ".25rem" }}
+              />
+              <Text
+                styles={{ margin: ".25rem 0" }}
+                content={getText(t.locale, topError)}
+              />
+            </Flex>
+          }
+        />
+      )}
+      {headerSection && (
+        <FormSection header section={headerSection} {...{ t, errors }} />
+      )}
+      {sections.map((section, si) => {
+        const key = `Form__Section-${si}`;
+        return (
+          <FormSection
+            {...{
+              section,
+              t,
+              key,
+              keyPrefix: key,
+              errors,
+              formState,
+              setFormState,
+            }}
+          />
+        );
+      })}
+    </MaxWidth>
+  );
+};
+
 export const Form = ({
   cancel,
   errors,
@@ -529,6 +598,7 @@ export const Form = ({
   sections,
   submit,
   topError,
+  __internal_callbacks__,
 }: IFormProps) => {
   const [formState, setUnclonedFormState] = useState<IFormState>(
     initialFormState(sections)
@@ -543,55 +613,28 @@ export const Form = ({
         const { t } = globalTheme.siteVariables;
         return (
           <FluentUIForm
-            styles={{ display: "block" }}
-            onSubmit={(...args) => {
-              console.log("[form submit]", formState);
+            styles={{
+              display: "block",
+              "& > *:not(:last-child)": { marginBottom: 0 },
+              "& > :last-child": { marginTop: 0 },
+            }}
+            onSubmit={(e) => {
+              __internal_callbacks__ &&
+                __internal_callbacks__["submit"] &&
+                __internal_callbacks__["submit"](e, formState);
             }}
           >
-            <MaxWidth>
-              {topError && (
-                <Alert
-                  danger
-                  visible
-                  dismissible
-                  content={
-                    <Flex vAlign="center">
-                      <ExclamationTriangleIcon
-                        outline
-                        styles={{ marginRight: ".25rem" }}
-                      />
-                      <Text
-                        styles={{ margin: ".25rem 0" }}
-                        content={getText(t.locale, topError)}
-                      />
-                    </Flex>
-                  }
-                />
-              )}
-              {headerSection && (
-                <FormSection
-                  header
-                  section={headerSection}
-                  {...{ t, errors }}
-                />
-              )}
-              {sections.map((section, si) => {
-                const key = `Form__Section-${si}`;
-                return (
-                  <FormSection
-                    {...{
-                      section,
-                      t,
-                      key,
-                      keyPrefix: key,
-                      errors,
-                      formState,
-                      setFormState,
-                    }}
-                  />
-                );
-              })}
-            </MaxWidth>
+            <FormContent
+              {...{
+                headerSection,
+                sections,
+                topError,
+                errors,
+                t,
+                formState,
+                setFormState,
+              }}
+            />
             <Box
               variables={({ colorScheme }: SiteVariablesPrepared) => ({
                 backgroundColor: colorScheme.default.background,
@@ -599,7 +642,8 @@ export const Form = ({
               styles={{
                 height: "1px",
                 position: "absolute",
-                width: "100%",
+                left: 0,
+                right: 0,
                 zIndex: 1,
               }}
             />
@@ -638,6 +682,65 @@ export const Form = ({
             </Box>
           </FluentUIForm>
         );
+      }}
+    />
+  );
+};
+
+export const FormDialog = ({
+  cancel,
+  errors,
+  headerSection,
+  sections,
+  submit,
+  topError,
+  trigger,
+  __internal_callbacks__,
+}: IFormDialogProps) => {
+  const [formState, setUnclonedFormState] = useState<IFormState>(
+    initialFormState(sections)
+  );
+
+  const setFormState = (formState: SetStateAction<IFormState>) =>
+    setUnclonedFormState(clone(formState));
+
+  return (
+    <Dialog
+      trigger={trigger}
+      trapFocus
+      content={
+        <FluentUIThemeConsumer
+          render={(globalTheme) => {
+            const { t } = globalTheme.siteVariables;
+            return (
+              <FluentUIForm styles={{ display: "block" }}>
+                <FormContent
+                  flush
+                  {...{
+                    headerSection,
+                    sections,
+                    topError,
+                    errors,
+                    t,
+                    formState,
+                    setFormState,
+                  }}
+                />
+              </FluentUIForm>
+            );
+          }}
+        />
+      }
+      confirmButton={{
+        content: submit,
+        onClick: (e) => {
+          __internal_callbacks__ &&
+            __internal_callbacks__["submit"] &&
+            __internal_callbacks__["submit"](e, formState);
+        },
+      }}
+      cancelButton={{
+        content: cancel,
       }}
     />
   );
