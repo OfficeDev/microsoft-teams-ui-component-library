@@ -5,6 +5,8 @@ import {
   Box,
   Button,
   Flex,
+  FocusZoneDirection,
+  FocusZoneTabbableElements,
   GridRowBehaviorProps,
   Input,
   MenuButton,
@@ -24,6 +26,8 @@ import {
 
 import { ICSSInJSStyle } from "@fluentui/styles";
 
+import { keyboardKey } from "@fluentui/keyboard-key";
+
 import { Draggable, Droppable } from "react-beautiful-dnd";
 
 import { getText, TTextObject, TTranslations } from "../../translations";
@@ -38,7 +42,7 @@ import { BoardItemDialog, BoardItemDialogAction } from "./BoardItemDialog";
 
 import { TUsers } from "../../types/types";
 
-import set from "lodash/set";
+import setMultiple from "../../lib/setMultiple";
 
 export interface IBoardLaneProps {
   lane?: TBoardLane;
@@ -67,17 +71,24 @@ export type TBoardLanes = {
 
 export type TPlaceholderPosition = null | [number, number, number, number];
 
-const boardLaneBehavior = (props: GridRowBehaviorProps) =>
-  set(
-    set(
-      gridRowNestedBehavior(props),
-      /* FocusZoneDirection.vertical */
-      "focusZone.props.direction",
-      0
-    ),
-    "attributes.root.role",
-    "column"
-  );
+const boardLaneBehavior = (props: GridRowBehaviorProps) => {
+  const result = setMultiple(gridRowNestedBehavior(props), {
+    "focusZone.props": {
+      handleTabKey: FocusZoneTabbableElements.all,
+      isCircularNavigation: true,
+      direction: FocusZoneDirection.vertical,
+      pagingSupportDisabled: true,
+    },
+    "attributes.root": {
+      role: "column",
+      "data-is-focusable": true,
+      tabIndex: -1,
+    },
+    "keyActions.root.focus.keyCombinations": [{ keyCode: keyboardKey.Escape }],
+  });
+  console.log("[board lane behavior]", result);
+  return result;
+};
 
 const separatorStyles: ICSSInJSStyle = {
   position: "relative",

@@ -1,10 +1,11 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 
-import set from "lodash/set";
 import cloneDeep from "lodash/cloneDeep";
 import pick from "lodash/pick";
 import omit from "lodash/omit";
 import uniqueId from "lodash/uniqueId";
+
+import setMultiple from "../../lib/setMultiple";
 
 import {
   DragDropContext,
@@ -16,6 +17,8 @@ import {
 import {
   Box,
   Flex,
+  FocusZoneDirection,
+  FocusZoneTabbableElements,
   GridBehaviorProps,
   ProviderConsumer as FluentUIThemeConsumer,
   SiteVariablesPrepared,
@@ -48,18 +51,24 @@ import {
 } from "./BoardItem";
 
 const boardBehavior = (props: GridBehaviorProps) =>
-  set(
-    set(gridNestedBehavior(props), "focusZone.props", {
+  setMultiple(gridNestedBehavior(props), {
+    "focusZone.props": {
+      handleTabKey: FocusZoneTabbableElements.all,
+      isCircularNavigation: true,
+      direction: FocusZoneDirection.horizontal,
+      pagingSupportDisabled: true,
       shouldEnterInnerZone: (event: React.KeyboardEvent<HTMLElement>) => {
         const code = getCode(event);
         return code === keyboardKey.ArrowDown || code === keyboardKey.Enter;
       },
-      direction: 1 /* FocusZoneDirection.horizontal */,
-      shouldResetActiveElementWhenTabFromZone: true,
-    }),
-    "attributes.root.role",
-    "grid"
-  );
+    },
+    "attributes.root": {
+      role: "grid",
+      "data-is-focusable": true,
+      tabIndex: -1,
+    },
+    "keyActions.root.focus.keyCombinations": [{ keyCode: keyboardKey.Escape }],
+  });
 
 const defaultBoardItemCardLayout: IBoardItemCardLayout = {
   previewPosition: "top",
