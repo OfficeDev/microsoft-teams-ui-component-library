@@ -26,6 +26,8 @@ import {
 
 import { ICSSInJSStyle } from "@fluentui/styles";
 
+import { useAccessibility } from "@fluentui/react-bindings";
+
 import { keyboardKey } from "@fluentui/keyboard-key";
 
 import { Draggable, Droppable } from "react-beautiful-dnd";
@@ -74,7 +76,7 @@ export type TPlaceholderPosition = null | [number, number, number, number];
 const boardLaneBehavior = (props: GridRowBehaviorProps) => {
   const result = setMultiple(gridRowNestedBehavior(props), {
     "focusZone.props": {
-      handleTabKey: FocusZoneTabbableElements.all,
+      handleTabKey: FocusZoneTabbableElements.inputOnly,
       isCircularNavigation: true,
       direction: FocusZoneDirection.vertical,
       pagingSupportDisabled: true,
@@ -156,6 +158,7 @@ export const BoardLane = (props: IBoardLaneProps) => {
 
   const [layoutState, setLayoutState] = useState<number>(-1);
   const [scrollbarWidth, setScrollbarWidth] = useState<number>(16);
+  const [laneNode, setLaneNode] = useState<HTMLElement | null>(null);
   const $laneContent = useRef<HTMLDivElement | null>(null);
   const laneContentWidth = useRef<number | null>(null);
 
@@ -200,196 +203,221 @@ export const BoardLane = (props: IBoardLaneProps) => {
     };
   });
 
+  const getA11Props = useAccessibility(boardLaneBehavior, {
+    actionHandlers: {
+      preventDefault: (event) => {
+        // preventDefault only if event coming from inside the lane
+        if (event.currentTarget !== event.target) {
+          event.preventDefault();
+        }
+      },
+
+      focus: (event) => {
+        if (laneNode) {
+          laneNode.focus();
+          event.stopPropagation();
+        }
+      },
+    },
+  });
+
   return (
-    <Box
-      styles={{
-        display: "flex",
-        flexFlow: "column nowrap",
-        minWidth: "15rem",
-        maxWidth: "22.5rem",
-        borderRight: "1px solid transparent",
-        flex: "1 0 0",
-        opacity: layoutState === 2 ? 1 : 0,
-        position: "relative",
-        ":focus": { outline: "none" },
-        "&::before": laneFocusBorderStyles,
-        "&::after": laneFocusBorderStyles,
-      }}
-      variables={({ colorScheme }: SiteVariablesPrepared) => ({
-        borderFocus: colorScheme.default.borderFocus,
-        borderFocusWithin: colorScheme.default.borderFocusWithin,
-      })}
-      accessibility={boardLaneBehavior}
-      className="board__lane"
-      aria-label={`${t["board lane"]}, ${getText(
-        t.locale,
-        lane ? lane.title : t["lane pending"]
-      )}`}
-    >
-      {props.pending ? (
-        <AutoFocusZone>
-          <Input
-            placeholder={t["name lane"]}
-            onBlur={(e) => {
-              exitPendingLane!(e.target.value);
-            }}
-            onKeyDown={(e) => {
-              switch (e.key) {
-                case "Escape":
-                  return exitPendingLane!("");
-                case "Enter":
-                  return exitPendingLane!((e.target as HTMLInputElement).value);
-              }
-            }}
-            fluid
-            styles={{ padding: ".05rem 1.25rem .25rem 1.25rem" }}
-          />
-        </AutoFocusZone>
-      ) : (
-        <Flex>
-          <Text
-            weight="bold"
-            content={getText(t.locale, lane!.title)}
-            style={{
-              flex: "1 0 auto",
-              padding: ".375rem 1.25rem .75rem 1.25rem",
-            }}
-          />
-          <MenuButton
-            trigger={
-              <Button
-                text
-                iconOnly
-                icon={<MoreIcon outline />}
-                styles={{ marginRight: "1.25rem" }}
-                aria-label={t["lane options"]}
+    <Ref innerRef={setLaneNode}>
+      {getA11Props.unstable_wrapWithFocusZone(
+        <Box
+          {...getA11Props("root", {
+            className: "board__lane",
+            styles: {
+              display: "flex",
+              flexFlow: "column nowrap",
+              minWidth: "15rem",
+              maxWidth: "22.5rem",
+              borderRight: "1px solid transparent",
+              flex: "1 0 0",
+              opacity: layoutState === 2 ? 1 : 0,
+              position: "relative",
+              ":focus": { outline: "none" },
+              "&::before": laneFocusBorderStyles,
+              "&::after": laneFocusBorderStyles,
+            },
+            variables: ({ colorScheme }: SiteVariablesPrepared) => ({
+              borderFocus: colorScheme.default.borderFocus,
+              borderFocusWithin: colorScheme.default.borderFocusWithin,
+            }),
+            "aria-label": `${t["board lane"]}, ${getText(
+              t.locale,
+              lane ? lane.title : t["lane pending"]
+            )}`,
+          })}
+        >
+          {props.pending ? (
+            <AutoFocusZone>
+              <Input
+                placeholder={t["name lane"]}
+                onBlur={(e) => {
+                  exitPendingLane!(e.target.value);
+                }}
+                onKeyDown={(e) => {
+                  switch (e.key) {
+                    case "Escape":
+                      return exitPendingLane!("");
+                    case "Enter":
+                      return exitPendingLane!(
+                        (e.target as HTMLInputElement).value
+                      );
+                  }
+                }}
+                fluid
+                styles={{ padding: ".05rem 1.25rem .25rem 1.25rem" }}
               />
-            }
-            menu={[
-              {
-                content: t["move lane nearer"],
-                icon: rtl ? (
-                  <ArrowRightIcon outline />
-                ) : (
-                  <ArrowLeftIcon outline />
-                ),
-                disabled: first,
-                onClick: () => {
-                  moveLane && moveLane(laneKey, -1);
-                },
-              },
-              {
-                content: t["move lane further"],
-                icon: rtl ? (
-                  <ArrowLeftIcon outline />
-                ) : (
-                  <ArrowRightIcon outline />
-                ),
-                disabled: last,
-                onClick: () => {
-                  moveLane && moveLane(laneKey, 1);
-                },
-              },
-              {
-                kind: "divider",
-              },
-              {
-                content: t["delete"],
-                icon: <TrashCanIcon outline />,
-                disabled: preparedItems?.length,
-                onClick: () => {
-                  deleteLane && deleteLane(laneKey);
-                },
-              },
-            ]}
-          />
-        </Flex>
-      )}
-      <Box
-        variables={({ colorScheme }: SiteVariablesPrepared) => ({
-          backgroundColor: colorScheme.default.background2,
-          separatorColor: colorScheme.default.border2,
-        })}
-        styles={{
-          flex: "0 0 auto",
-          padding: "0 1.25rem .75rem 1.25rem",
-          ...(last ? {} : separatorStyles),
-        }}
-        accessibility={gridCellWithFocusableElementBehavior}
-      >
-        <BoardItemDialog
-          action={BoardItemDialogAction.Create}
-          t={t}
-          trigger={
-            <Button
-              icon={<AddIcon outline />}
-              iconOnly
-              fluid
-              title={t["add board item"]}
-              aria-label={t["add board item"]}
-            />
-          }
-        />
-      </Box>
-      <Box
-        variables={({ colorScheme }: SiteVariablesPrepared) => ({
-          separatorColor: colorScheme.default.border2,
-        })}
-        styles={{
-          flex: "1 0 0",
-          overflow: "hidden",
-          ...(last ? {} : separatorStyles),
-        }}
-      >
-        <Droppable droppableId={laneKey}>
-          {(provided, snapshot) => (
-            <Box
-              styles={{
-                height: "100%",
-                overflowY: "auto",
-                paddingTop: "2px",
-                position: "relative",
-              }}
-              ref={(element: HTMLDivElement) => {
-                $laneContent.current = element;
-                provided.innerRef(element);
-              }}
-              {...provided.droppableProps}
-            >
-              {layoutState > 0 && preparedItems?.length
-                ? preparedItems.map((item) => (
-                    <Draggable
-                      draggableId={item.itemKey}
-                      key={`Board__DraggableItem__${item.itemKey}`}
-                      index={item.order}
-                    >
-                      {(provided, snapshot) => (
-                        <Ref innerRef={provided.innerRef}>
-                          <BoardItem
-                            isDragging={snapshot.isDragging}
-                            draggableProps={provided.draggableProps}
-                            dragHandleProps={provided.dragHandleProps!}
-                            {...{
-                              scrollbarWidth,
-                              item,
-                              users,
-                              t,
-                              boardItemCardLayout,
-                            }}
-                          />
-                        </Ref>
-                      )}
-                    </Draggable>
-                  ))
-                : null}
-              {provided.placeholder}
-              {snapshot.isDraggingOver && (
-                <Placeholder position={placeholderPosition} />
-              )}
-            </Box>
+            </AutoFocusZone>
+          ) : (
+            <Flex>
+              <Text
+                weight="bold"
+                content={getText(t.locale, lane!.title)}
+                style={{
+                  flex: "1 0 auto",
+                  padding: ".375rem 1.25rem .75rem 1.25rem",
+                }}
+              />
+              <MenuButton
+                trigger={
+                  <Button
+                    text
+                    iconOnly
+                    icon={<MoreIcon outline />}
+                    styles={{ marginRight: "1.25rem" }}
+                    aria-label={t["lane options"]}
+                  />
+                }
+                menu={[
+                  {
+                    content: t["move lane nearer"],
+                    icon: rtl ? (
+                      <ArrowRightIcon outline />
+                    ) : (
+                      <ArrowLeftIcon outline />
+                    ),
+                    disabled: first,
+                    onClick: () => {
+                      moveLane && moveLane(laneKey, -1);
+                    },
+                  },
+                  {
+                    content: t["move lane further"],
+                    icon: rtl ? (
+                      <ArrowLeftIcon outline />
+                    ) : (
+                      <ArrowRightIcon outline />
+                    ),
+                    disabled: last,
+                    onClick: () => {
+                      moveLane && moveLane(laneKey, 1);
+                    },
+                  },
+                  {
+                    kind: "divider",
+                  },
+                  {
+                    content: t["delete"],
+                    icon: <TrashCanIcon outline />,
+                    disabled: preparedItems?.length,
+                    onClick: () => {
+                      deleteLane && deleteLane(laneKey);
+                    },
+                  },
+                ]}
+              />
+            </Flex>
           )}
-        </Droppable>
-      </Box>
-    </Box>
+          <Box
+            variables={({ colorScheme }: SiteVariablesPrepared) => ({
+              backgroundColor: colorScheme.default.background2,
+              separatorColor: colorScheme.default.border2,
+            })}
+            styles={{
+              flex: "0 0 auto",
+              padding: "0 1.25rem .75rem 1.25rem",
+              ...(last ? {} : separatorStyles),
+            }}
+            accessibility={gridCellWithFocusableElementBehavior}
+          >
+            <BoardItemDialog
+              action={BoardItemDialogAction.Create}
+              t={t}
+              trigger={
+                <Button
+                  icon={<AddIcon outline />}
+                  iconOnly
+                  fluid
+                  title={t["add board item"]}
+                  aria-label={t["add board item"]}
+                />
+              }
+            />
+          </Box>
+          <Box
+            variables={({ colorScheme }: SiteVariablesPrepared) => ({
+              separatorColor: colorScheme.default.border2,
+            })}
+            styles={{
+              flex: "1 0 0",
+              overflow: "hidden",
+              ...(last ? {} : separatorStyles),
+            }}
+          >
+            <Droppable droppableId={laneKey}>
+              {(provided, snapshot) => (
+                <Box
+                  styles={{
+                    height: "100%",
+                    overflowY: "auto",
+                    paddingTop: "2px",
+                    position: "relative",
+                  }}
+                  ref={(element: HTMLDivElement) => {
+                    $laneContent.current = element;
+                    provided.innerRef(element);
+                  }}
+                  {...provided.droppableProps}
+                >
+                  {layoutState > 0 && preparedItems?.length
+                    ? preparedItems.map((item) => (
+                        <Draggable
+                          draggableId={item.itemKey}
+                          key={`Board__DraggableItem__${item.itemKey}`}
+                          index={item.order}
+                        >
+                          {(provided, snapshot) => (
+                            <Ref innerRef={provided.innerRef}>
+                              <BoardItem
+                                isDragging={snapshot.isDragging}
+                                draggableProps={provided.draggableProps}
+                                dragHandleProps={provided.dragHandleProps!}
+                                {...{
+                                  scrollbarWidth,
+                                  item,
+                                  users,
+                                  t,
+                                  boardItemCardLayout,
+                                }}
+                              />
+                            </Ref>
+                          )}
+                        </Draggable>
+                      ))
+                    : null}
+                  {provided.placeholder}
+                  {snapshot.isDraggingOver && (
+                    <Placeholder position={placeholderPosition} />
+                  )}
+                </Box>
+              )}
+            </Droppable>
+          </Box>
+        </Box>
+      )}
+    </Ref>
   );
 };

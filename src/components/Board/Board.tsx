@@ -53,7 +53,7 @@ import {
 const boardBehavior = (props: GridBehaviorProps) =>
   setMultiple(gridNestedBehavior(props), {
     "focusZone.props": {
-      handleTabKey: FocusZoneTabbableElements.all,
+      handleTabKey: FocusZoneTabbableElements.inputOnly,
       isCircularNavigation: true,
       direction: FocusZoneDirection.horizontal,
       pagingSupportDisabled: true,
