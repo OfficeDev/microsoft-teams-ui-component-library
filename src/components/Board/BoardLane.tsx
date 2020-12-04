@@ -76,7 +76,7 @@ export type TPlaceholderPosition = null | [number, number, number, number];
 const boardLaneBehavior = (props: GridRowBehaviorProps) => {
   const result = setMultiple(gridRowNestedBehavior(props), {
     "focusZone.props": {
-      handleTabKey: FocusZoneTabbableElements.inputOnly,
+      handleTabKey: FocusZoneTabbableElements.all,
       isCircularNavigation: true,
       direction: FocusZoneDirection.vertical,
       pagingSupportDisabled: true,
