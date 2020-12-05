@@ -1,10 +1,11 @@
 export type TLocale = "en-US" | "fa";
-export type TTextObject = string | { [locale: string]: string };
+export type TTextObject = string | { [locale: string]: string } | undefined;
 
 export const getText = (
   currentLocale: TLocale | null | undefined,
   textObject: TTextObject
 ): string => {
+  if (!textObject) return "";
   if (typeof textObject === "string") return textObject;
   if (currentLocale && textObject.hasOwnProperty(currentLocale))
     return textObject[currentLocale];
@@ -35,6 +36,12 @@ export default {
     "sort-order alphabetical ascending": "Z-A",
     cancel: "Cancel",
     confirm: "Confirm",
+    discard: "Discard",
+    save: "Save",
+    title: "Title",
+    subtitle: "Subtitle",
+    "board item body": "Description",
+    "board item users": "Tagged users",
   } as TTranslations,
   fa: {
     locale: "fa",
@@ -54,5 +61,7 @@ export default {
     "sort-order alphabetical ascending": "Z-A",
     cancel: "لغو",
     confirm: "تایید",
+    discard: "دور انداختن",
+    save: "صرفه جویی",
   } as TTranslations,
 };

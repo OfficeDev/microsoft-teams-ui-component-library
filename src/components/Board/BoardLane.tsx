@@ -51,6 +51,7 @@ export interface IBoardLaneProps {
   laneKey: string;
   last?: boolean;
   first?: boolean;
+  addItemDialog?: JSX.Element;
   preparedItems: IPreparedBoardItem[];
   users: TUsers;
   t: TTranslations;
@@ -149,6 +150,7 @@ export const BoardLane = (props: IBoardLaneProps) => {
     laneKey,
     last,
     first,
+    addItemDialog,
     boardItemCardLayout,
     placeholderPosition,
     exitPendingLane,
@@ -343,19 +345,7 @@ export const BoardLane = (props: IBoardLaneProps) => {
             }}
             accessibility={gridCellWithFocusableElementBehavior}
           >
-            <BoardItemDialog
-              action={BoardItemDialogAction.Create}
-              t={t}
-              trigger={
-                <Button
-                  icon={<AddIcon outline />}
-                  iconOnly
-                  fluid
-                  title={t["add board item"]}
-                  aria-label={t["add board item"]}
-                />
-              }
-            />
+            {addItemDialog}
           </Box>
           <Box
             variables={({ colorScheme }: SiteVariablesPrepared) => ({

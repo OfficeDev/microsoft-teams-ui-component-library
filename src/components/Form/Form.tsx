@@ -23,6 +23,7 @@ import {
   RadioGroupItemProps,
   SiteVariablesPrepared,
   Text,
+  TextArea,
   selectableListBehavior,
 } from "@fluentui/react-northstar";
 
@@ -58,6 +59,13 @@ interface IEnumerableMultipleInputBase extends IEnumerableInputBase {
   initialValues?: string[];
 }
 
+interface ITextInputBase {
+  title: TTextObject;
+  inputId: string;
+  placeholder?: TTextObject;
+  initialValue?: string;
+}
+
 export type TInputWidth = "split" | "full";
 
 interface IPreparedInput {
@@ -67,16 +75,20 @@ interface IPreparedInput {
   errors?: TFormErrors;
 }
 
-interface ITextField {
+interface ITextField extends ITextInputBase {
   type: "text";
-  title: TTextObject;
-  inputId: string;
-  placeholder?: TTextObject;
   width?: TInputWidth;
-  initialValue?: string;
 }
 
 interface IPreparedTextField extends ITextField, IPreparedInput {}
+
+interface IMultilineTextInput extends ITextInputBase {
+  type: "multiline-text";
+}
+
+interface IPreparedMultilineTextInput
+  extends IMultilineTextInput,
+    IPreparedInput {}
 
 export type TField = IDropdownInput | IDropdownMultipleInput | ITextField;
 
@@ -121,6 +133,7 @@ interface IPreparedCheckboxesInput extends ICheckboxesInput, IPreparedInput {}
 
 type TInputGroup =
   | ITextInputs
+  | IMultilineTextInput
   | IDropdownInput
   | IDropdownMultipleInput
   | IRadioButtonsInput
@@ -128,6 +141,7 @@ type TInputGroup =
 
 type TPreparedInputGroup =
   | IPreparedTextInputs
+  | IPreparedMultilineTextInput
   | IPreparedDropdownInput
   | IPreparedDropdownMultipleInput
   | IPreparedRadioButtonsInput
@@ -221,11 +235,18 @@ const DropdownField = (
     : formState[inputId]
     ? [formState[inputId]]
     : [];
+  const items = options.map(({ title, value }) => ({
+    key: `${inputId}__${value}`,
+    selected: selectedValues.includes(value),
+    header: getText(t?.locale, title),
+    "data-value": value,
+  }));
   return (
     <FluentUIForm.Dropdown
       fluid
       id={id}
       label={getText(t?.locale, title)}
+      styles={{ marginBottom: ".75rem" }}
       onChange={(_e, props) => {
         if (props.multiple) {
           const values = (get(
@@ -244,12 +265,16 @@ const DropdownField = (
         }
         setFormState(formState);
       }}
-      items={options.map(({ title, value }) => ({
-        key: `${inputId}__${value}`,
-        selected: selectedValues.includes(value),
-        header: getText(t?.locale, title),
-        "data-value": value,
-      }))}
+      defaultValue={
+        props.multiple
+          ? items.filter(({ "data-value": value }) =>
+              selectedValues.includes(value)
+            )
+          : items.find(({ "data-value": value }) =>
+              selectedValues.includes(value)
+            )
+      }
+      items={items}
       {...(props.multiple && { multiple: true })}
       {...(error && {
         error: true,
@@ -401,6 +426,40 @@ const CheckboxesGroup = ({
   );
 };
 
+const MultilineTextGroup = ({
+  title,
+  placeholder,
+  t,
+  inputId,
+  errors,
+  formState,
+  setFormState,
+}: IPreparedMultilineTextInput) => {
+  const id = fullInputId(inputId);
+  const error = get(errors, inputId, false);
+  return (
+    <Box styles={{ marginBottom: ".75rem" }}>
+      <Input.Label htmlFor={id} id={labelId(id)}>
+        {getText(t?.locale, title)}
+      </Input.Label>
+      <TextArea
+        fluid
+        resize="vertical"
+        id={id}
+        value={(formState[inputId] as string) || ""}
+        {...(placeholder && { placeholder: getText(t?.locale, placeholder) })}
+        onChange={(e, props) => {
+          props && props.value
+            ? (formState[inputId] = props.value)
+            : delete formState[inputId];
+          setFormState(formState);
+        }}
+      />
+      {error && <ErrorMessage message={error} t={t} />}
+    </Box>
+  );
+};
+
 const RadioButtonsGroup = ({
   options,
   t,
@@ -442,6 +501,8 @@ const FormInputGroup = (props: TPreparedInputGroup) => {
   switch (props.type) {
     case "text-inputs":
       return <TextInputsGroup {...props} />;
+    case "multiline-text":
+      return <MultilineTextGroup {...props} />;
     case "dropdown":
       return <DropdownField {...props} />;
     case "checkboxes":
@@ -490,6 +551,7 @@ const setInitialValue = (
   acc: IFormState,
   field:
     | TField
+    | IMultilineTextInput
     | IDropdownInput
     | IDropdownMultipleInput
     | IRadioButtonsInput
@@ -497,7 +559,11 @@ const setInitialValue = (
 ) => {
   if (
     field.hasOwnProperty("initialValue") &&
-    (field as ITextField | IDropdownInput | IRadioButtonsInput).initialValue
+    (field as
+      | ITextField
+      | IMultilineTextInput
+      | IDropdownInput
+      | IRadioButtonsInput).initialValue
   )
     acc[field.inputId] = (field as
       | ITextField

@@ -16,6 +16,7 @@ import {
 
 import {
   Box,
+  Button,
   Flex,
   FocusZoneDirection,
   FocusZoneTabbableElements,
@@ -24,6 +25,8 @@ import {
   SiteVariablesPrepared,
   gridNestedBehavior,
 } from "@fluentui/react-northstar";
+
+import { AddIcon } from "@fluentui/react-icons-northstar";
 
 import { getCode, keyboardKey } from "@fluentui/keyboard-key";
 
@@ -49,6 +52,8 @@ import {
   IPreparedBoardItem,
   IBoardItemCardLayout,
 } from "./BoardItem";
+
+import { BoardItemDialog, BoardItemDialogAction } from "./BoardItemDialog";
 
 const boardBehavior = (props: GridBehaviorProps) =>
   setMultiple(gridNestedBehavior(props), {
@@ -269,6 +274,24 @@ const BoardStandalone = (props: IBoardStandaloneProps) => {
                 last={addingLane ? false : last}
                 laneKey={laneKey}
                 lane={arrangedLanes[laneKey]}
+                addItemDialog={
+                  <BoardItemDialog
+                    action={BoardItemDialogAction.Create}
+                    t={t}
+                    trigger={
+                      <Button
+                        icon={<AddIcon outline />}
+                        iconOnly
+                        fluid
+                        title={t["add board item"]}
+                        aria-label={t["add board item"]}
+                      />
+                    }
+                    initialState={{ lane: laneKey }}
+                    arrangedLanes={arrangedLanes}
+                    users={users}
+                  />
+                }
                 key={`BoardLane__${laneKey}`}
                 preparedItems={arrangedItems[laneKey]}
                 users={users}
