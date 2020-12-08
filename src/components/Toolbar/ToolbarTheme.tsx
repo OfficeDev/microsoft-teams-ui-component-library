@@ -141,7 +141,6 @@ export const ToolbarTheme = ({ globalTheme, children }: IToolbarThemeProps) => {
     teamsNextVariableAssignments,
     getLocalTheme(globalTheme.siteVariables.theme)
   );
-  console.log({ theme });
   return (
     <FluentUIThemeProvider
       theme={theme}
