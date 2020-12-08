@@ -40,7 +40,7 @@ import getBreakpoints, {
   TSortable,
 } from "./tableBreakpoints";
 
-import { TActions } from "../../types/types";
+import { TActions } from "../..";
 import { TeamsTheme } from "../../themes";
 import { TTranslations } from "../../translations";
 

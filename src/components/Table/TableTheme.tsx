@@ -8,7 +8,6 @@ import {
 import {
   ThemePrepared,
   ThemeInput,
-  ComponentVariablesInput,
   ComponentVariablesObject,
 } from "@fluentui/styles";
 

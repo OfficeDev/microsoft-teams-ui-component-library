@@ -1,7 +1,7 @@
 import React from "react";
 import { object, boolean } from "@storybook/addon-knobs";
-import List from "../components/List";
-import { TSortable } from "../components/Table/tableBreakpoints";
+
+import { List, TSortable } from "..";
 
 export default {
   title: "Composites/List",

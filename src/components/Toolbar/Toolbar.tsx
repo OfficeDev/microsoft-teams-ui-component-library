@@ -1,9 +1,4 @@
-import React, {
-  useLayoutEffect,
-  useState,
-  useRef,
-  SyntheticEvent,
-} from "react";
+import React, { useLayoutEffect, useState, useRef } from "react";
 import omit from "lodash/omit";
 import cloneDeep from "lodash/cloneDeep";
 
@@ -29,7 +24,7 @@ import { SiteVariablesPrepared } from "@fluentui/styles";
 import Icon from "../../lib/Icon";
 import { TeamsTheme } from "../../themes";
 
-import { TAction, TActions } from "../../types/types";
+import { TAction, TActions } from "../..";
 
 import { ToolbarFilter } from "./ToolbarFilter";
 import { ToolbarFind } from "./ToolbarFind";
