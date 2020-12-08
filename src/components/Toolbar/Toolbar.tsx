@@ -256,12 +256,11 @@ export const Toolbar = (props: IToolbarProps) => {
               backgroundColor:
                 theme === TeamsTheme.HighContrast
                   ? colorScheme.grey.background
-                  : colorScheme.grey.background2,
+                  : colorScheme.default.background2,
               elevation: colorScheme.elevations[16],
             })}
             styles={{
               padding: "0 1.25rem",
-              marginBottom: "1.25rem",
               display: "flex",
               justifyContent: "space-between",
             }}

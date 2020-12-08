@@ -31,9 +31,6 @@ const menuContentStyles = ({ theme }: ComponentVariablesObject) => {
 
 const getLocalTheme = (_themeKey: string): ThemeInput<any> => {
   return {
-    componentVariables: {
-      Checkbox: ({}: ComponentVariablesInput) => ({}),
-    },
     componentStyles: {
       Button: {
         root: () => ({ minWidth: 0 }),

@@ -26,10 +26,10 @@ const getLocalTheme = (themeKey: string): ThemeInput<any> => {
     colorScheme,
     theme,
   }: ComponentVariablesInput) => {
-    let color = colorScheme.black.foreground;
+    let color = colorScheme.default.foreground1;
     switch (theme) {
       case TeamsTheme.Dark:
-        color = colorScheme.grey.foreground;
+        color = colorScheme.default.foreground1;
         break;
       case TeamsTheme.HighContrast:
         color = colorScheme.grey.foregroundHover;
@@ -67,6 +67,9 @@ const getLocalTheme = (themeKey: string): ThemeInput<any> => {
       TreeTitle: ({ colorScheme }: ComponentVariablesInput) => ({
         color: colorScheme.grey.foreground,
         // todo: set the hover color as well
+      }),
+      SvgIcon: ({ colorScheme }: ComponentVariablesInput) => ({
+        fill: colorScheme.default.foreground1,
       }),
     },
     componentStyles: {
@@ -107,23 +110,24 @@ const getLocalTheme = (themeKey: string): ThemeInput<any> => {
     },
     staticStyles: [
       `.extended-toolbar__filters-menu .ui-tree__title__selection-indicator {
-      flex: 0 0 auto;
-      -webkit-flex: 0 0 auto;
-    }`,
+        flex: 0 0 auto;
+        -webkit-flex: 0 0 auto;
+      }`,
       `.extended-toolbar .ui-toolbar__menu {
-    top: .25rem !important;
-  }`,
+          top: .25rem !important;
+      }`,
       `.extended-toolbar .extended-toolbar__filters-invoker:focus::before,
-.extended-toolbar .extended-toolbar__filters-invoker:focus::after,
-.extended-toolbar .extended-toolbar__find-invoker:focus::before,
-.extended-toolbar .extended-toolbar__find-invoker:focus::after,
-.extended-toolbar .extended-toolbar__find-cancel:focus::before,
-.extended-toolbar .extended-toolbar__find-cancel:focus::after,
-.extended-toolbar .ui-toolbar__item:focus::before,
-.extended-toolbar .ui-toolbar__item:focus::after {
-      top: calc(.5rem - 1px) !important;
-      bottom: calc(.5rem - 1px) !important;
-  }`,
+       .extended-toolbar .extended-toolbar__filters-invoker:focus::after,
+       .extended-toolbar .extended-toolbar__find-invoker:focus::before,
+       .extended-toolbar .extended-toolbar__find-invoker:focus::after,
+       .extended-toolbar .extended-toolbar__find-cancel:focus::before,
+       .extended-toolbar .extended-toolbar__find-cancel:focus::after,
+       .extended-toolbar .ui-toolbar__item:focus::before,
+       .extended-toolbar .ui-toolbar__item:focus::after {
+          top: calc(.5rem - 1px) !important;
+          bottom: calc(.5rem - 1px) !important;
+       }
+      `,
     ],
   };
 };
@@ -132,14 +136,19 @@ export const ToolbarTheme = ({ globalTheme, children }: IToolbarThemeProps) => {
   const mainTheme = globalTheme.siteVariables?.theme
     ? globalTheme
     : themes.teamsTheme;
+  const theme = mergeThemes(
+    mainTheme,
+    teamsNextVariableAssignments,
+    getLocalTheme(globalTheme.siteVariables.theme)
+  );
+  console.log({ theme });
   return (
     <FluentUIThemeProvider
-      theme={mergeThemes(
-        mainTheme,
-        teamsNextVariableAssignments,
-        getLocalTheme(globalTheme.siteVariables.theme)
-      )}
-      styles={{ background: "transparent" }}
+      theme={theme}
+      styles={{
+        paddingBottom: "1.25rem",
+        backgroundColor: theme.siteVariables?.colorScheme.default.background2,
+      }}
     >
       {children}
     </FluentUIThemeProvider>

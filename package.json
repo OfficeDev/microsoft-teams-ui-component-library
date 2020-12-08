@@ -64,7 +64,7 @@
     "eslint-plugin-jsx-a11y": "6.3.0",
     "eslint-plugin-react": "7.20.0",
     "eslint-plugin-react-hooks": "4.0.0",
-    "faker": "Marak/faker.js",
+    "faker": "^5.1.0",
     "file-loader": "^6.0.0",
     "fork-ts-checker-webpack-plugin": "^5.0.7",
     "html-webpack-plugin": "^4.3.0",

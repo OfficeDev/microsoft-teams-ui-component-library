@@ -87,31 +87,6 @@ const defaultWidgets: IWidget[] = [
     ],
     link: linkExample,
   },
-  {
-    title: "Card 2",
-    size: WidgetSize.Single,
-    link: linkExample,
-  },
-  {
-    title: "Card 3",
-    size: WidgetSize.Double,
-    link: linkExample,
-  },
-  {
-    title: "Card 4",
-    size: WidgetSize.Single,
-    link: linkExample,
-  },
-  {
-    title: "Card 5",
-    size: WidgetSize.Single,
-    link: linkExample,
-  },
-  {
-    title: "Card 6",
-    size: WidgetSize.Single,
-    link: linkExample,
-  },
 ];
 
 const dashboardKnobGroupID = "Dashboard";

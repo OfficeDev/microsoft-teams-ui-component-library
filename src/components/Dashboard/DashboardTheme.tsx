@@ -65,10 +65,7 @@ export const DashboardTheme = ({
       theme={theme}
       style={{
         minHeight: "100vh",
-        backgroundColor:
-          theme.siteVariables.theme === TeamsTheme.HighContrast
-            ? theme.siteVariables.colorScheme.grey.background
-            : theme.siteVariables.colorScheme.grey.background2,
+        backgroundColor: theme.siteVariables.colorScheme.default.background2,
       }}
     >
       {children}

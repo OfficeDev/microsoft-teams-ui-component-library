@@ -38,23 +38,21 @@ const getLocalTheme = () => {
         shadowLevel1,
         shadowLevel4,
         theme,
-      }: ComponentVariablesInput) => {
-        return {
-          backgroundColor: colorScheme.grey.background,
-          backgroundColorHover: colorScheme.grey.background,
-          boxShadow: `${shadowLevel1}, ${shadowLevel4}`,
-          borderRadius,
-          borderSize: borderWidth,
-          borderColor:
-            theme === TeamsTheme.HighContrast
-              ? colorScheme.grey.backgroundFocus
-              : "transparent",
-          borderColorHover:
-            theme === TeamsTheme.HighContrast
-              ? colorScheme.grey.backgroundFocus
-              : "transparent",
-        };
-      },
+      }: ComponentVariablesInput) => ({
+        backgroundColor: colorScheme.grey.background,
+        backgroundColorHover: colorScheme.grey.background,
+        boxShadow: `${shadowLevel1}, ${shadowLevel4}`,
+        borderRadius,
+        borderSize: borderWidth,
+        borderColor:
+          theme === TeamsTheme.HighContrast
+            ? colorScheme.grey.backgroundFocus
+            : "transparent",
+        borderColorHover:
+          theme === TeamsTheme.HighContrast
+            ? colorScheme.grey.backgroundFocus
+            : "transparent",
+      }),
     },
     componentStyles: {
       Menu: {

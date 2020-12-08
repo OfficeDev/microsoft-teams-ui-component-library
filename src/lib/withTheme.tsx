@@ -6,6 +6,7 @@ import {
   teamsTheme,
   teamsDarkTheme,
   teamsHighContrastTheme,
+  ComponentVariablesInput,
 } from "@fluentui/react-northstar";
 
 import { ComponentVariablesObject, ThemeInput } from "@fluentui/styles";
@@ -19,13 +20,23 @@ import {
 
 import translations, { TLocale } from "../translations";
 
+export enum IThemeTeamsClient {
+  HighContrast = "contrast",
+  Dark = "dark",
+  Default = "default",
+}
 export interface IThemeProviderProps {
   children: ReactNode;
   lang: TLocale;
-  themeName: TeamsTheme;
+  themeName: TeamsTheme | IThemeTeamsClient;
 }
 
 export const teamsNextVariableAssignments = {
+  componentVariables: {
+    TableRow: ({ colorScheme }: ComponentVariablesInput) => ({
+      color: colorScheme.default.foreground1,
+    }),
+  },
   componentStyles: {
     Box: {
       root: ({ variables }: ComponentVariablesObject) => ({
@@ -75,15 +86,17 @@ export const teamsNextVariableAssignments = {
       }),
     },
     TableRow: {
-      root: ({ variables }: ComponentVariablesObject) => ({
-        height: variables.compactRow
-          ? variables.compactRowHeight
-          : variables.defaultRowHeight,
-        minHeight: variables.compactRow
-          ? variables.compactRowMinHeight
-          : variables.defaultRowMinHeight,
-        alignItems: variables.cellVerticalAlignment,
-      }),
+      root: ({ variables }: ComponentVariablesObject) => {
+        return {
+          height: variables.compactRow
+            ? variables.compactRowHeight
+            : variables.defaultRowHeight,
+          minHeight: variables.compactRow
+            ? variables.compactRowMinHeight
+            : variables.defaultRowMinHeight,
+          alignItems: variables.cellVerticalAlignment,
+        };
+      },
     },
     TableCell: {
       root: ({ variables }: ComponentVariablesObject) => ({
@@ -128,6 +141,18 @@ export const HVCThemeProvider = ({
 }: IThemeProviderProps) => {
   // [v-wishow] todo: translations will (presumably) eventually need to be loaded asynchronously
 
+  switch (themeName) {
+    case IThemeTeamsClient.Dark:
+      themeName = TeamsTheme.Dark;
+      break;
+    case IThemeTeamsClient.Default:
+      themeName = TeamsTheme.Default;
+      break;
+    case IThemeTeamsClient.HighContrast:
+      themeName = TeamsTheme.HighContrast;
+      break;
+  }
+
   const theme = themes[themeName];
   const rtl = lang === "fa";
 
@@ -137,8 +162,16 @@ export const HVCThemeProvider = ({
     theme.siteVariables.t = translations[lang];
   }
   return (
-    <FluentUIThemeProvider theme={theme} rtl={rtl}>
-      <style>{`html, body, #root, #root > .ui-provider { height: 100% } #root > .ui-provider { overflow: auto }`}</style>
+    <FluentUIThemeProvider
+      theme={theme}
+      rtl={rtl}
+      style={{
+        backgroundColor:
+          theme.siteVariables &&
+          theme.siteVariables.colorScheme.default.background2,
+      }}
+    >
+      <style>{`html, body, #root, #root > .ui-provider { height: 100%; overflow: auto }`}</style>
       {children}
     </FluentUIThemeProvider>
   );
