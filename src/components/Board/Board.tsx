@@ -12,6 +12,7 @@ import {
   DropResult,
   DragStart,
   DragUpdate,
+  ResponderProvided,
 } from "react-beautiful-dnd";
 
 import {
@@ -34,7 +35,7 @@ import { BoardTheme } from "./BoardTheme";
 
 import { TUsers } from "../../types/types";
 
-import { TTranslations } from "../../translations";
+import { getText, interpolate, TTranslations } from "../../translations";
 
 import { Toolbar } from "../Toolbar/Toolbar";
 
@@ -43,6 +44,7 @@ import {
   TPlaceholderPosition,
   TBoardLanes,
   TBoardLane,
+  IBoardLaneProps,
 } from "./BoardLane";
 
 import {
@@ -54,6 +56,7 @@ import {
 } from "./BoardItem";
 
 import { BoardItemDialog, BoardItemDialogAction } from "./BoardItemDialog";
+import { ProvidePlugin } from "webpack";
 
 const boardBehavior = (props: GridBehaviorProps) =>
   setMultiple(gridNestedBehavior(props), {
@@ -185,7 +188,27 @@ const BoardStandalone = (props: IBoardStandaloneProps) => {
     TPlaceholderPosition
   >(null);
 
-  const onDragStart = (event: DragStart) => {
+  const onDragStart = (event: DragStart, provided: ResponderProvided) => {
+    const laneKey = event.source.droppableId;
+    const itemKey = event.draggableId;
+    const boardLane = arrangedLanes[laneKey];
+    const boardItem = arrangedItems[laneKey].find(
+      (boardItem) => boardItem.itemKey === itemKey
+    );
+
+    const announcement = interpolate(t["on drag start board item"], [
+      {
+        itemTitle: getText(t.locale, boardItem!.title),
+        itemPosition: arrangedItems[laneKey].indexOf(boardItem!) + 1,
+        laneLength: arrangedItems[laneKey].length,
+        laneTitle: getText(t.locale, boardLane.title),
+      },
+    ]);
+
+    console.log("[announcement]", announcement);
+
+    provided.announce(announcement);
+
     const $draggable = getDraggable(event.draggableId);
     if (!$draggable || !$draggable.parentNode) return;
     setPlaceholderPosition(
@@ -200,11 +223,37 @@ const BoardStandalone = (props: IBoardStandaloneProps) => {
     );
   };
 
-  const onDragUpdate = (event: DragUpdate) => {
+  const onDragUpdate = (event: DragUpdate, provided: ResponderProvided) => {
     if (!event.destination) return;
     const $draggable = getDraggable(event.draggableId);
     const $droppable = getDroppable(event.destination.droppableId);
     if (!$draggable || !$droppable) return;
+
+    const destinationLaneKey = event.destination!.droppableId;
+    const itemKey = event.draggableId;
+    const boardLane = arrangedLanes[destinationLaneKey];
+    const boardItem = arrangedItems[event.source.droppableId].find(
+      (boardItem) => boardItem.itemKey === itemKey
+    );
+
+    const announcement = interpolate(
+      t[
+        destinationLaneKey === event.source.droppableId
+          ? "on drag update board item same lane"
+          : "on drag update board item different lane"
+      ],
+      [
+        {
+          itemTitle: getText(t.locale, (boardItem as IPreparedBoardItem).title),
+          itemPosition: event.destination.index + 1,
+          laneLength: arrangedItems[destinationLaneKey].length,
+          laneTitle: getText(t.locale, (boardLane as TBoardLane).title),
+        },
+      ]
+    );
+
+    console.log("[announcement]", announcement);
+    provided.announce(announcement);
 
     setPlaceholderPosition(
       getPlaceholderPosition(
@@ -218,7 +267,39 @@ const BoardStandalone = (props: IBoardStandaloneProps) => {
     );
   };
 
-  const onDragEnd = ({ draggableId, source, destination }: DropResult) => {
+  const onDragEnd = (
+    { draggableId, reason, source, destination }: DropResult,
+    provided: ResponderProvided
+  ) => {
+    let announcement;
+
+    const boardItem = arrangedItems[source.droppableId].find(
+      (boardItem) => boardItem.itemKey === draggableId
+    );
+
+    if (destination) {
+      const laneKey = destination.droppableId;
+      const boardLane = laneKey && arrangedLanes[laneKey];
+
+      announcement = interpolate(t["on drag end board item"], [
+        {
+          itemTitle: getText(t.locale, (boardItem as IPreparedBoardItem).title),
+          itemPosition: Math.max(1, destination.index + 1),
+          laneLength: arrangedItems[laneKey].length,
+          laneTitle: getText(t.locale, (boardLane as TBoardLane).title),
+        },
+      ]);
+    } else {
+      announcement = interpolate(t["on drag cancel board item"], [
+        {
+          itemTitle: getText(t.locale, (boardItem as IPreparedBoardItem).title),
+        },
+      ]);
+    }
+
+    console.log("[announcement]", announcement);
+    provided.announce(announcement);
+
     if (destination) {
       const sourceLaneKey = source.droppableId;
       const destinationLaneKey = destination.droppableId;

@@ -75,7 +75,7 @@ export type TBoardLanes = {
 export type TPlaceholderPosition = null | [number, number, number, number];
 
 const boardLaneBehavior = (props: GridRowBehaviorProps) => {
-  const result = setMultiple(gridRowNestedBehavior(props), {
+  return setMultiple(gridRowNestedBehavior(props), {
     "focusZone.props": {
       handleTabKey: FocusZoneTabbableElements.all,
       isCircularNavigation: true,
@@ -89,8 +89,6 @@ const boardLaneBehavior = (props: GridRowBehaviorProps) => {
     },
     "keyActions.root.focus.keyCombinations": [{ keyCode: keyboardKey.Escape }],
   });
-  console.log("[board lane behavior]", result);
-  return result;
 };
 
 const separatorStyles: ICSSInJSStyle = {
