@@ -205,8 +205,6 @@ const BoardStandalone = (props: IBoardStandaloneProps) => {
       },
     ]);
 
-    console.log("[announcement]", announcement);
-
     provided.announce(announcement);
 
     const $draggable = getDraggable(event.draggableId);
@@ -252,7 +250,6 @@ const BoardStandalone = (props: IBoardStandaloneProps) => {
       ]
     );
 
-    console.log("[announcement]", announcement);
     provided.announce(announcement);
 
     setPlaceholderPosition(
@@ -297,7 +294,6 @@ const BoardStandalone = (props: IBoardStandaloneProps) => {
       ]);
     }
 
-    console.log("[announcement]", announcement);
     provided.announce(announcement);
 
     if (destination) {
