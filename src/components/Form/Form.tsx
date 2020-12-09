@@ -49,6 +49,7 @@ interface IEnumerableInputBase {
   title: TTextObject;
   options: IEnumerableInputOption[];
   inputId: string;
+  optional?: boolean;
 }
 
 interface IEnumerableSingletonInputBase extends IEnumerableInputBase {
@@ -62,6 +63,7 @@ interface IEnumerableMultipleInputBase extends IEnumerableInputBase {
 interface ITextInputBase {
   title: TTextObject;
   inputId: string;
+  optional?: boolean;
   placeholder?: TTextObject;
   initialValue?: string;
 }

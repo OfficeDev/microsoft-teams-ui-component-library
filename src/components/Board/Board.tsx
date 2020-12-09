@@ -277,7 +277,6 @@ const BoardStandalone = (props: IBoardStandaloneProps) => {
                 addItemDialog={
                   <BoardItemDialog
                     action={BoardItemDialogAction.Create}
-                    t={t}
                     trigger={
                       <Button
                         icon={<AddIcon outline />}
@@ -288,8 +287,13 @@ const BoardStandalone = (props: IBoardStandaloneProps) => {
                       />
                     }
                     initialState={{ lane: laneKey }}
-                    arrangedLanes={arrangedLanes}
-                    users={users}
+                    {...{
+                      arrangedLanes,
+                      users,
+                      t,
+                      setArrangedItems,
+                      arrangedItems,
+                    }}
                   />
                 }
                 key={`BoardLane__${laneKey}`}
