@@ -1,5 +1,3 @@
-export * from "@fluentui/react-northstar";
-
 export { HVCThemeProvider as Provider } from "./lib/withTheme";
 
 export { TeamsTheme as themeNames } from "./themes";
