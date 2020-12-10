@@ -1,14 +1,11 @@
 import React from "react";
-import { withKnobs, object, boolean } from "@storybook/addon-knobs";
+import { object, boolean } from "@storybook/addon-knobs";
 import Table from "../components/Table";
-import { withA11y } from "@storybook/addon-a11y";
-
-import { StorybookThemeProvider } from "../lib/withTheme";
+import { TSortable } from "../components/Table/tableBreakpoints";
 
 export default {
   title: "Components/Table",
   component: Table,
-  decorators: [withKnobs, withA11y],
 };
 
 const tableKnobGroupID = "Table";
@@ -18,7 +15,7 @@ export const KitchenSink = () => {
     columns: {
       c1: {
         title: "Member name",
-        sortable: true,
+        sortable: "alphabetical" as TSortable,
       },
       c2: {
         title: "Location",
@@ -80,12 +77,10 @@ export const KitchenSink = () => {
     },
   };
   return (
-    <StorybookThemeProvider>
-      <Table
-        truncate={boolean("Truncate", false, tableKnobGroupID)}
-        selectable={boolean("Selectable", true, tableKnobGroupID)}
-        {...object("Configuration", tableConfig, tableKnobGroupID)}
-      />
-    </StorybookThemeProvider>
+    <Table
+      truncate={boolean("Truncate", false, tableKnobGroupID)}
+      selectable={boolean("Selectable", true, tableKnobGroupID)}
+      {...object("Configuration", tableConfig, tableKnobGroupID)}
+    />
   );
 };

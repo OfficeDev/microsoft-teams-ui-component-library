@@ -12,7 +12,7 @@ import {
   ThemePrepared,
   EyeSlashIcon,
 } from "@fluentui/react-northstar";
-import { TeamsTheme } from "../../lib/withTheme";
+import { TeamsTheme } from "../../themes";
 
 export interface IWidgetActionKey {
   id: string;

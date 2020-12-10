@@ -11,11 +11,9 @@ import {
   ComponentVariablesObject,
 } from "@fluentui/styles";
 
-import {
-  teamsNextVariableAssignments,
-  TeamsTheme,
-  themes,
-} from "../../lib/withTheme";
+import { teamsNextVariableAssignments, themes } from "../../lib/withTheme";
+
+import { TeamsTheme } from "../../themes";
 
 export interface IBoardThemeProps {
   globalTheme: ThemePrepared;
@@ -44,18 +42,17 @@ const getLocalTheme = (themeKey: string): ThemeInput<any> => {
       },
       Box: {
         root: ({ variables }: ComponentVariablesObject) => ({
-          "&::before": {
-            borderColor: variables.borderFocus,
-          },
           "&::after": {
+            borderColor: variables.borderFocus,
             backgroundColor: variables.separatorColor,
+          },
+          "&::before": {
             borderColor: variables.borderFocusWithin,
           },
         }),
       },
       Card: {
         root: ({ variables, theme }: ComponentVariablesObject) => {
-          console.log("[Card root]", theme.siteVariables.theme);
           return {
             padding: "0",
             backgroundColor: variables.backgroundColor,
@@ -69,19 +66,10 @@ const getLocalTheme = (themeKey: string): ThemeInput<any> => {
               theme.siteVariables.colorScheme.default.background,
             "&:hover": {
               "--surface-background-color":
-                theme.siteVariables.colorScheme.default.backgroundHover1,
+                theme.siteVariables.theme === TeamsTheme.HighContrast
+                  ? theme.siteVariables.colorScheme.default.backgroundHover3
+                  : theme.siteVariables.colorScheme.default.backgroundHover1,
             },
-            ...(theme.siteVariables.theme === TeamsTheme.HighContrast
-              ? {
-                  borderColor: variables.borderColor,
-                  "&:hover": {
-                    backgroundColor:
-                      theme.siteVariables.colorScheme.default.background,
-                    borderColor:
-                      theme.siteVariables.colorScheme.default.borderHover,
-                  },
-                }
-              : {}),
           };
         },
       },
@@ -107,6 +95,16 @@ const getLocalTheme = (themeKey: string): ThemeInput<any> => {
         },
       },
     },
+    staticStyles: [
+      `html[data-whatinput="keyboard"] .board__lane:focus::before {
+        z-index: 2;
+        top: 1px; bottom: 1px; left: 2px; right: 3px;
+      }`,
+      `html[data-whatinput="keyboard"] .board__lane:focus::after {
+        z-index: 2;
+        top: 0; bottom: 0; left: 1px; right: 2px;
+      }`,
+    ],
   };
 };
 

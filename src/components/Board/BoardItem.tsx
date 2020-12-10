@@ -195,10 +195,11 @@ export const BoardItem = React.memo((props: IBoardItemProps) => {
       {...draggableProps}
       {...dragHandleProps}
       aria-label={`${t["board item"]}, ${getText(t.locale, item.title)}`}
+      {...(isDragging ? { "data-isdragging": true } : {})}
     >
       <Box
         styles={{
-          borderRadius: "2px",
+          borderRadius: "4px",
           overflow: "hidden",
         }}
       >

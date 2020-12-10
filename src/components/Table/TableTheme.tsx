@@ -12,11 +12,9 @@ import {
   ComponentVariablesObject,
 } from "@fluentui/styles";
 
-import {
-  teamsNextVariableAssignments,
-  TeamsTheme,
-  themes,
-} from "../../lib/withTheme";
+import { teamsNextVariableAssignments, themes } from "../../lib/withTheme";
+
+import { TeamsTheme } from "../../themes";
 
 export interface ITableThemeProps {
   globalTheme: ThemePrepared;
@@ -77,6 +75,10 @@ const getLocalTheme = (_themeKey: string): ThemeInput<any> => {
       PopupContent: {
         content: (cvo: ComponentVariablesObject) =>
           Object.assign(menuContentStyles(cvo), { padding: 0 }),
+      },
+      TableCell: {
+        content: ({ variables }: ComponentVariablesObject) =>
+          variables.flush ? { width: "100%", height: "100%" } : {},
       },
     },
   };

@@ -6,7 +6,7 @@ import {
 } from "@fluentui/react-northstar";
 
 import { ThemePrepared, ComponentVariablesInput } from "@fluentui/styles";
-import { TeamsTheme } from "../../lib/withTheme";
+import { TeamsTheme } from "../../themes";
 
 export interface IToolbarThemeProps {
   globalTheme: ThemePrepared;

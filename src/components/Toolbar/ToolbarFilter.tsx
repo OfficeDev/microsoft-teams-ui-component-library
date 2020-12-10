@@ -28,7 +28,7 @@ import {
 import { ComponentSlotStyle, SiteVariablesPrepared } from "@fluentui/styles";
 
 import { TToolbarLayout } from "./Toolbar";
-import { TeamsTheme } from "../../lib/withTheme";
+import { TeamsTheme } from "../../themes";
 
 const treeItemIconStyles = {
   position: "relative",

@@ -1,23 +1,20 @@
 import React from "react";
-import { withKnobs, object } from "@storybook/addon-knobs";
+import { object } from "@storybook/addon-knobs";
 import {
   Board,
   IBoardItem,
   IBoardItemCardLayout,
 } from "../components/Board/Board";
-import { withA11y } from "@storybook/addon-a11y";
 import fakerEN from "faker/locale/en_US";
 import fakerFA from "faker/locale/fa";
 import range from "lodash/range";
 import shuffle from "lodash/shuffle";
 
-import { StorybookThemeProvider } from "../lib/withTheme";
 import { TUsers } from "../types/types";
 
 export default {
   title: "Composites/Board",
   component: Board,
-  decorators: [withKnobs, withA11y],
 };
 
 const boardKnobGroupID = "Board";
@@ -100,15 +97,13 @@ export const KitchenSink = () => {
   };
 
   return (
-    <StorybookThemeProvider>
-      <Board
-        {...object("Content", boardContent, boardKnobGroupID)}
-        boardItemCardLayout={object(
-          "Board item card layout",
-          boardItemCardLayout,
-          boardKnobGroupID
-        )}
-      />
-    </StorybookThemeProvider>
+    <Board
+      {...object("Content", boardContent, boardKnobGroupID)}
+      boardItemCardLayout={object(
+        "Board item card layout",
+        boardItemCardLayout,
+        boardKnobGroupID
+      )}
+    />
   );
 };
