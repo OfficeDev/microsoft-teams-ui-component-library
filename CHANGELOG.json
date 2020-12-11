@@ -2,6 +2,21 @@
   "name": "@fluentui/react-teams",
   "entries": [
     {
+      "date": "Fri, 11 Dec 2020 17:53:08 GMT",
+      "tag": "@fluentui/react-teams_v0.1.0-alpha.6",
+      "version": "0.1.0-alpha.6",
+      "comments": {
+        "none": [
+          {
+            "comment": "Styles updates",
+            "author": "a.katrukhin@gmail.com",
+            "commit": "8e00a8ab86098de706e28b8a815ba13e6f261c22",
+            "package": "@fluentui/react-teams"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 19 Nov 2020 21:09:50 GMT",
       "tag": "@fluentui/react-teams_v0.1.0-alpha.4",
       "version": "0.1.0-alpha.4",
