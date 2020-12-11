@@ -23,11 +23,7 @@ import { SiteVariablesPrepared } from "@fluentui/styles";
 import Icon from "../../lib/Icon";
 import { TeamsTheme } from "../../themes";
 
-import {
-  TAction,
-  TActions,
-  WithOptionalInternalCallbacks,
-} from "../../types/types";
+import { TAction, TActions, WithOptionalInternalCallbacks } from "../..";
 
 import { ToolbarFilter } from "./ToolbarFilter";
 import { ToolbarFind } from "./ToolbarFind";
@@ -253,12 +249,11 @@ export const Toolbar = (props: IToolbarProps) => {
               backgroundColor:
                 theme === TeamsTheme.HighContrast
                   ? colorScheme.grey.background
-                  : colorScheme.grey.background2,
+                  : colorScheme.default.background2,
               elevation: colorScheme.elevations[16],
             })}
             styles={{
               padding: "0 1.25rem",
-              marginBottom: "1.25rem",
               display: "flex",
               justifyContent: "space-between",
             }}

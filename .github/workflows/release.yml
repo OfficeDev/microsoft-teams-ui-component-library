@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          token: ${{ secrets.REPO_PAT_TEMPORARY }}
+          token: ${{ secrets.REPO_PAT }}
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
@@ -27,8 +27,8 @@ jobs:
       - run: yarn
       - run: yarn build
       - run: |
-          git config user.email "automation@users.noreply.github.com"
+          git config user.email "teamsappstudio@microsoft.com"
           git config user.name "Automation"
       - run: yarn release -y -n $NPM_TOKEN
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN_TEMPORARY }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

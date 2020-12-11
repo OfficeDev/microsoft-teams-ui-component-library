@@ -8,7 +8,7 @@ import {
 import { ThemePrepared, ComponentVariablesInput } from "@fluentui/styles";
 import { TeamsTheme } from "../../themes";
 
-export interface IToolbarThemeProps {
+export interface IDashabordThemeProps {
   globalTheme: ThemePrepared;
   children: ReactNode;
 }
@@ -58,7 +58,7 @@ const getLocalTheme = () => {
 export const DashboardTheme = ({
   globalTheme,
   children,
-}: IToolbarThemeProps) => {
+}: IDashabordThemeProps) => {
   const theme = mergeThemes(globalTheme, getLocalTheme());
   return (
     <FluentUIThemeProvider
@@ -68,7 +68,7 @@ export const DashboardTheme = ({
         backgroundColor:
           theme.siteVariables.theme === TeamsTheme.HighContrast
             ? theme.siteVariables.colorScheme.grey.background
-            : theme.siteVariables.colorScheme.grey.background2,
+            : theme.siteVariables.colorScheme.default.background2,
       }}
     >
       {children}

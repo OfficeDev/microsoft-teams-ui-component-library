@@ -33,18 +33,15 @@ import { getCode, keyboardKey } from "@fluentui/keyboard-key";
 
 import { BoardTheme } from "./BoardTheme";
 
-import { TUsers } from "../../types/types";
+import { TUsers, Toolbar } from "../..";
 
 import { getText, interpolate, TTranslations } from "../../translations";
-
-import { Toolbar } from "../Toolbar/Toolbar";
 
 import {
   BoardLane,
   TPlaceholderPosition,
   TBoardLanes,
   TBoardLane,
-  IBoardLaneProps,
 } from "./BoardLane";
 
 import {
@@ -56,7 +53,6 @@ import {
 } from "./BoardItem";
 
 import { BoardItemDialog, BoardItemDialogAction } from "./BoardItemDialog";
-import { ProvidePlugin } from "webpack";
 
 const boardBehavior = (props: GridBehaviorProps) =>
   setMultiple(gridNestedBehavior(props), {

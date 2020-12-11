@@ -1,8 +1,16 @@
 # Change Log - @fluentui/react-teams
 
-This log was last generated on Thu, 19 Nov 2020 21:09:50 GMT and should not be manually modified.
+This log was last generated on Fri, 11 Dec 2020 18:35:34 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.1.0-alpha.8
+
+Fri, 11 Dec 2020 18:35:34 GMT
+
+### Changes
+
+- Communication and Dashboard components are added, styles updates, Teams themes support improvements (a.katrukhin@gmail.com)
 
 ## 0.1.0-alpha.4
 

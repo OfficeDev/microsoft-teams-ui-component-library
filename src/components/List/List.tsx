@@ -9,7 +9,7 @@ import {
   IRow,
 } from "../Table/Table";
 import { Toolbar, TActionGroups, TFilters } from "../Toolbar/Toolbar";
-import { TActions } from "../../types/types";
+import { TActions } from "../..";
 
 export interface IListProps extends ITableProps {
   emptySelectionActionGroups: TActionGroups;

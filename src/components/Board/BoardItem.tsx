@@ -25,7 +25,7 @@ import {
   TTranslations,
 } from "../../translations";
 
-import { TUsers } from "../../types/types";
+import { TUsers } from "../..";
 
 export interface IBoardItemProps {
   isDragging: boolean;
@@ -75,7 +75,7 @@ interface IBoardItemBadgesProps {
   t: TTranslations;
 }
 
-const BoardItemBadges = ({ badges, t }: IBoardItemBadgesProps) => {
+const BoardItemBadges = ({ badges }: IBoardItemBadgesProps) => {
   return (
     <Box>
       {Object.keys(badges).map((badgeKey) => {
