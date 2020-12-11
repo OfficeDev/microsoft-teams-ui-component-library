@@ -1,7 +1,0 @@
-{
-  "type": "prerelease",
-  "comment": "Communication and Dashboard components are added, styles updates, Teams themes support improvements",
-  "packageName": "@fluentui/react-teams",
-  "email": "a.katrukhin@gmail.com",
-  "dependentChangeType": "patch"
-}
