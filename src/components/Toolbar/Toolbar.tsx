@@ -1,9 +1,4 @@
-import React, {
-  useLayoutEffect,
-  useState,
-  useRef,
-  SyntheticEvent,
-} from "react";
+import React, { useLayoutEffect, useState, useRef } from "react";
 import omit from "lodash/omit";
 import cloneDeep from "lodash/cloneDeep";
 
@@ -29,7 +24,7 @@ import { SiteVariablesPrepared } from "@fluentui/styles";
 import Icon from "../../lib/Icon";
 import { TeamsTheme } from "../../themes";
 
-import { TAction, TActions } from "../../types/types";
+import { TAction, TActions } from "../..";
 
 import { ToolbarFilter } from "./ToolbarFilter";
 import { ToolbarFind } from "./ToolbarFind";
@@ -256,12 +251,11 @@ export const Toolbar = (props: IToolbarProps) => {
               backgroundColor:
                 theme === TeamsTheme.HighContrast
                   ? colorScheme.grey.background
-                  : colorScheme.grey.background2,
+                  : colorScheme.default.background2,
               elevation: colorScheme.elevations[16],
             })}
             styles={{
               padding: "0 1.25rem",
-              marginBottom: "1.25rem",
               display: "flex",
               justifyContent: "space-between",
             }}

@@ -11,7 +11,7 @@ import {
   WidgetFooter,
 } from "./DashboardWidget";
 import { DashboardTheme } from "./DashboardTheme";
-import Toolbar from "../Toolbar";
+import { Toolbar } from "../..";
 
 interface IDashboard {
   widgets: IWidget[];
@@ -41,7 +41,7 @@ export function Dashboard({ widgets }: IDashboard) {
                 "repeat(auto-fill, 26rem) / repeat(auto-fill, minmax(18.75rem, 1fr))",
               gridAutoFlow: "dense",
               gridAutoRows: "26rem",
-              padding: " 1rem 1rem 1.25rem",
+              padding: "0 1rem 1.25rem",
               minWidth: "20rem",
               "@media (max-width: 986px)": {
                 gridTemplate:

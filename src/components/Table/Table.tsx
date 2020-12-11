@@ -40,7 +40,7 @@ import getBreakpoints, {
   TSortable,
 } from "./tableBreakpoints";
 
-import { TActions } from "../../types/types";
+import { TActions } from "../..";
 import { TeamsTheme } from "../../themes";
 import { TTranslations } from "../../translations";
 
@@ -252,7 +252,11 @@ export const Table = (props: ITableProps) => {
                 key: "header",
                 compact: true,
                 variables: { compactRow: true },
-                styles: rowWidthStyles(!!props.truncate),
+                styles: {
+                  ...rowWidthStyles(!!props.truncate),
+                  backgroundColor:
+                    globalTheme.siteVariables.colorScheme.default.background2,
+                },
                 items: columnOrder.reduce(
                   (acc: ShorthandCollection<TableCellProps>, columnKey) => {
                     const column = props.columns[columnKey];
@@ -420,7 +424,9 @@ export const Table = (props: ITableProps) => {
                               backgroundColor: colorScheme.grey.backgroundFocus,
                               color: colorScheme.grey.foregroundFocus,
                             }
-                          : {},
+                          : {
+                              backgroundColor: colorScheme.default.background2,
+                            },
                       onClick: ({ type }) => {
                         if (type === "click") return;
                         // respond only to keyboard space & enter for selection

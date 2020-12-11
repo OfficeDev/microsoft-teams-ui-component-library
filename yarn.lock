@@ -4563,10 +4563,10 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
-beachball@^1.32.0:
-  version "1.36.1"
-  resolved "https://registry.yarnpkg.com/beachball/-/beachball-1.36.1.tgz#546f40488286cc66324c1f68aea06a4678e4d3e0"
-  integrity sha512-97CfaripYAFW0FQsbxF0HhBvgSxJmENJ2IviUcWeDpj8gBzwkGqychwLvaVAuM58dn2lhY3ujclT+Gp39azeLw==
+beachball@^1.47.0:
+  version "1.47.0"
+  resolved "https://registry.yarnpkg.com/beachball/-/beachball-1.47.0.tgz#5a7e5f1237451b0af374f9bd79b9233f3acd447e"
+  integrity sha512-vpoiTGXO8Jk1nAHKH1PL6QoInmBiNVI6zoWsyNoJ1Kt2QQR8rSZcJyKUFux0896usJsn2yuROpPuBeAawivHNA==
   dependencies:
     cosmiconfig "^6.0.0"
     execa "^4.0.3"
@@ -4579,7 +4579,8 @@ beachball@^1.32.0:
     prompts "~2.1.0"
     semver "^6.1.1"
     toposort "^2.0.2"
-    yargs-parser "^13.1.0"
+    uuid "^8.3.1"
+    yargs-parser "^20.2.4"
 
 better-opn@^2.0.0:
   version "2.0.0"
@@ -16737,6 +16738,11 @@ uuid@^8.3.0:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.0.tgz#ab738085ca22dc9a8c92725e459b1d507df5d6ea"
   integrity sha512-fX6Z5o4m6XsXBdli9g7DtWgAx+osMsRRZFKma1mIUsLCz6vRvv+pz5VNbyu9UEDzpMWulZfvpgb/cmDXVulYFQ==
 
+uuid@^8.3.1:
+  version "8.3.2"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
+  integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
+
 v8-compile-cache@^2.0.3, v8-compile-cache@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/v8-compile-cache/-/v8-compile-cache-2.1.1.tgz#54bc3cdd43317bca91e35dcaf305b1a7237de745"
@@ -17392,7 +17398,7 @@ yargs-parser@^11.1.1:
     camelcase "^5.0.0"
     decamelize "^1.2.0"
 
-yargs-parser@^13.1.0, yargs-parser@^13.1.2:
+yargs-parser@^13.1.2:
   version "13.1.2"
   resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-13.1.2.tgz#130f09702ebaeef2650d54ce6e3e5706f7a4fb38"
   integrity sha512-3lbsNRf/j+A4QuSZfDRA7HRSfWrzO0YjqTJd5kjAq37Zep1CEgaYmrH9Q3GwPiB9cHyd1Y1UwggGhJGoxipbzg==
@@ -17407,6 +17413,11 @@ yargs-parser@^18.1.2:
   dependencies:
     camelcase "^5.0.0"
     decamelize "^1.2.0"
+
+yargs-parser@^20.2.4:
+  version "20.2.4"
+  resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-20.2.4.tgz#b42890f14566796f85ae8e3a25290d205f154a54"
+  integrity sha512-WOkpgNhPTlE73h4VFAFsOnomJVaovO8VqLDzy5saChRBFQFBoMYirowyW+Q9HB4HFF4Z7VZTiG3iSzJJA29yRA==
 
 yargs-parser@^7.0.0:
   version "7.0.0"

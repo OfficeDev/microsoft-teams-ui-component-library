@@ -50,11 +50,10 @@ import { ICSSInJSStyle } from "@fluentui/styles";
 
 import { BoardTheme } from "./BoardTheme";
 
-import { TUsers } from "../../types/types";
+import { TUsers, Toolbar } from "../..";
 
 import { TTranslations, TTextObject, getText } from "../../translations";
 
-import { Toolbar } from "../Toolbar/Toolbar";
 import { BoardItem } from "./BoardItem";
 
 export interface IBoardItemCardLayout {

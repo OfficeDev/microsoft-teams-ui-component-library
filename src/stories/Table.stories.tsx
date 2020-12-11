@@ -1,7 +1,7 @@
 import React from "react";
 import { object, boolean } from "@storybook/addon-knobs";
-import Table from "../components/Table";
-import { TSortable } from "../components/Table/tableBreakpoints";
+
+import { Table, TSortable } from "..";
 
 export default {
   title: "Components/Table",

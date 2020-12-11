@@ -8,7 +8,6 @@ import {
 import {
   ThemePrepared,
   ThemeInput,
-  ComponentVariablesInput,
   ComponentVariablesObject,
 } from "@fluentui/styles";
 
@@ -31,9 +30,6 @@ const menuContentStyles = ({ theme }: ComponentVariablesObject) => {
 
 const getLocalTheme = (_themeKey: string): ThemeInput<any> => {
   return {
-    componentVariables: {
-      Checkbox: ({}: ComponentVariablesInput) => ({}),
-    },
     componentStyles: {
       Button: {
         root: () => ({ minWidth: 0 }),
