@@ -1,8 +1,16 @@
 # Change Log - @fluentui/react-teams
 
-This log was last generated on Mon, 14 Dec 2020 19:20:03 GMT and should not be manually modified.
+This log was last generated on Mon, 14 Dec 2020 19:57:06 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.1.0-alpha.10
+
+Mon, 14 Dec 2020 19:57:06 GMT
+
+### Changes
+
+- Board height fix (a.katrukhin@gmail.com)
 
 ## 0.1.0-alpha.9
 

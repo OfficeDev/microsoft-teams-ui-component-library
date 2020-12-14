@@ -2,6 +2,21 @@
   "name": "@fluentui/react-teams",
   "entries": [
     {
+      "date": "Mon, 14 Dec 2020 19:57:06 GMT",
+      "tag": "@fluentui/react-teams_v0.1.0-alpha.10",
+      "version": "0.1.0-alpha.10",
+      "comments": {
+        "prerelease": [
+          {
+            "comment": "Board height fix",
+            "author": "a.katrukhin@gmail.com",
+            "commit": "3dede3dcc7b751258be34650be6e696e049ba947",
+            "package": "@fluentui/react-teams"
+          }
+        ]
+      }
+    },
+    {
       "date": "Mon, 14 Dec 2020 19:20:03 GMT",
       "tag": "@fluentui/react-teams_v0.1.0-alpha.9",
       "version": "0.1.0-alpha.9",
