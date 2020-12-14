@@ -2,6 +2,21 @@
   "name": "@fluentui/react-teams",
   "entries": [
     {
+      "date": "Mon, 14 Dec 2020 19:20:03 GMT",
+      "tag": "@fluentui/react-teams_v0.1.0-alpha.9",
+      "version": "0.1.0-alpha.9",
+      "comments": {
+        "prerelease": [
+          {
+            "comment": "Scroll issues fix",
+            "author": "a.katrukhin@gmail.com",
+            "commit": "925e3e32ef8119de208311a881af3a0a3b58f62d",
+            "package": "@fluentui/react-teams"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 11 Dec 2020 18:35:34 GMT",
       "tag": "@fluentui/react-teams_v0.1.0-alpha.8",
       "version": "0.1.0-alpha.8",

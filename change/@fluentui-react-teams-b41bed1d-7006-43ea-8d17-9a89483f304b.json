@@ -1,7 +1,0 @@
-{
-  "type": "prerelease",
-  "comment": "Scroll issues fix",
-  "packageName": "@fluentui/react-teams",
-  "email": "a.katrukhin@gmail.com",
-  "dependentChangeType": "patch"
-}
