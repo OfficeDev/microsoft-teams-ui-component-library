@@ -1,0 +1,7 @@
+{
+  "type": "prerelease",
+  "comment": "Board height fix",
+  "packageName": "@fluentui/react-teams",
+  "email": "a.katrukhin@gmail.com",
+  "dependentChangeType": "patch"
+}
