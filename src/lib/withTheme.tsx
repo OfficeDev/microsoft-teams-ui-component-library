@@ -161,6 +161,7 @@ export const HVCThemeProvider = ({
     theme.siteVariables.rtl = rtl;
     theme.siteVariables.t = translations[lang];
   }
+
   return (
     <FluentUIThemeProvider
       theme={theme}
@@ -171,7 +172,24 @@ export const HVCThemeProvider = ({
           theme.siteVariables.colorScheme.default.background2,
       }}
     >
-      <style>{`html, body, #root, #root > .ui-provider { height: 100%; overflow: auto }`}</style>
+      <style>
+        {`
+          html, body, #root { height: 100%; overflow: auto }
+          ::-webkit-scrollbar { width: .75rem } 
+          ::-webkit-scrollbar-track {
+            background-color: ${theme.siteVariables?.colorScheme.default.background2};
+          }
+          ::-webkit-scrollbar-thumb {
+            background-color: ${theme.siteVariables?.colorScheme.onyx.border2};
+            border-radius: .75rem;
+            border: 3px solid transparent;
+            background-clip: content-box;
+          }
+          ::-webkit-scrollbar-thumb:hover {
+            background-color: ${theme.siteVariables?.colorScheme.default.foreground2};
+          } 
+        `}
+      </style>
       {children}
     </FluentUIThemeProvider>
   );

@@ -64,7 +64,6 @@ export const DashboardTheme = ({
     <FluentUIThemeProvider
       theme={theme}
       style={{
-        minHeight: "100vh",
         backgroundColor:
           theme.siteVariables.theme === TeamsTheme.HighContrast
             ? theme.siteVariables.colorScheme.grey.background

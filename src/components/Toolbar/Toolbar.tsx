@@ -255,9 +255,10 @@ export const Toolbar = (props: IToolbarProps) => {
               elevation: colorScheme.elevations[16],
             })}
             styles={{
-              padding: "0 1.25rem",
               display: "flex",
               justifyContent: "space-between",
+              padding: "0 1.25rem",
+              marginBottom: "1.25rem",
             }}
             {...omit(props, [
               "actionGroups",
