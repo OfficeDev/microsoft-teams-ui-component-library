@@ -237,7 +237,13 @@ export const BoardItem = React.memo((props: IBoardItemProps) => {
             ? { styles: { marginTop: "1.25rem" } }
             : {})}
         >
-          <Text weight="semibold">{getText(t.locale, item.title)}</Text>
+          <Text
+            weight="semibold"
+            as="h2"
+            styles={{ margin: 0, fontSize: "inherit" }}
+          >
+            {getText(t.locale, item.title)}
+          </Text>
           {item.subtitle && (
             <Text
               size="small"

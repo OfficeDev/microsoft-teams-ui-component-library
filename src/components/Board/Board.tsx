@@ -59,15 +59,13 @@ const boardBehavior = (props: GridBehaviorProps) =>
     "focusZone.props": {
       handleTabKey: FocusZoneTabbableElements.all,
       isCircularNavigation: true,
-      direction: FocusZoneDirection.horizontal,
       pagingSupportDisabled: true,
-      shouldEnterInnerZone: (event: React.KeyboardEvent<HTMLElement>) => {
-        const code = getCode(event);
-        return code === keyboardKey.ArrowDown || code === keyboardKey.Enter;
-      },
+      shouldEnterInnerZone: (event: React.KeyboardEvent<HTMLElement>) =>
+        getCode(event) === keyboardKey.Enter,
     },
     "attributes.root": {
-      role: "grid",
+      role: "region",
+      "aria-label": "Board lanes",
       "data-is-focusable": true,
       tabIndex: -1,
     },

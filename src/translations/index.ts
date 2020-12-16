@@ -84,6 +84,8 @@ export default {
       "You have placed the item called {itemTitle} in position {itemPosition} of {laneLength} in the {laneTitle} lane.",
     "on drag cancel board item":
       "You have cancelled dragging the item called {itemTitle}.",
+    "board lane instructions":
+      "Press Enter to explore board lane iteems, then use Escape to shift focus back to the board lane.",
   } as TTranslations,
   fa: {
     locale: "fa",
@@ -119,5 +121,7 @@ export default {
       "شما موردی را به نام {itemTitle} به موقعیت {itemPosition} {laneLength} در خط {laneTitle} منتقل کرده اید.",
     "on drag cancel board item":
       "شما کشیدن موردی به نام {itemTitle} را لغو کرده اید.",
+    "board lane instructions":
+      "Enter را فشار دهید تا موارد خط تخته را کاوش کنید ، سپس از Escape استفاده کنید تا فوکوس را به سمت صفحه برد تغییر دهید.",
   } as TTranslations,
 };

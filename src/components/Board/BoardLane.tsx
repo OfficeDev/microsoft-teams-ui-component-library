@@ -79,15 +79,19 @@ const boardLaneBehavior = (props: GridRowBehaviorProps) => {
     "focusZone.props": {
       handleTabKey: FocusZoneTabbableElements.all,
       isCircularNavigation: true,
-      direction: FocusZoneDirection.vertical,
-      pagingSupportDisabled: true,
     },
     "attributes.root": {
-      role: "column",
+      role: "group",
       "data-is-focusable": true,
       tabIndex: -1,
     },
     "keyActions.root.focus.keyCombinations": [{ keyCode: keyboardKey.Escape }],
+    "keyActions.root.ignore.keyCombinations": [
+      { keyCode: keyboardKey.ArrowRight },
+      { keyCode: keyboardKey.ArrowDown },
+      { keyCode: keyboardKey.ArrowLeft },
+      { keyCode: keyboardKey.ArrowUp },
+    ],
   });
 };
 
@@ -218,6 +222,11 @@ export const BoardLane = (props: IBoardLaneProps) => {
           event.stopPropagation();
         }
       },
+
+      ignore: (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+      },
     },
   });
 
@@ -244,10 +253,9 @@ export const BoardLane = (props: IBoardLaneProps) => {
               borderFocus: colorScheme.default.borderFocus,
               borderFocusWithin: colorScheme.default.borderFocusWithin,
             }),
-            "aria-label": `${t["board lane"]}, ${getText(
-              t.locale,
-              lane ? lane.title : t["lane pending"]
-            )}`,
+            "aria-label": `${
+              lane ? getText(t.locale, lane.title) : t["lane pending"]
+            }, ${t["board lane instructions"]}`,
           })}
         >
           {props.pending ? (
@@ -279,7 +287,10 @@ export const BoardLane = (props: IBoardLaneProps) => {
                 style={{
                   flex: "1 0 auto",
                   padding: ".375rem 1.25rem .75rem 1.25rem",
+                  fontSize: "inherit",
+                  margin: "inherit",
                 }}
+                as="h1"
               />
               <MenuButton
                 trigger={
