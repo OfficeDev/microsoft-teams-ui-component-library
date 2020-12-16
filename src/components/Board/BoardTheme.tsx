@@ -26,18 +26,15 @@ const getLocalTheme = (themeKey: string): ThemeInput<any> => {
     componentStyles: {
       Avatar: {
         root: {
-          backgroundColor: "var(--surface-background-color)",
           borderRadius: "9999px",
         },
         image: {
           borderWidth: "1px",
           borderStyle: "solid",
-          borderColor: "var(--surface-background-color)",
         },
         label: {
           borderWidth: "1px",
           borderStyle: "solid",
-          borderColor: "var(--surface-background-color)",
         },
       },
       Box: {

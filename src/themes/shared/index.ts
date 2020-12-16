@@ -1,6 +1,7 @@
 import { mergeComponentStyles } from "@fluentui/react-northstar";
 import mergeWith from "lodash/mergeWith";
 
+import { avatarStyles } from "./components/Avatar/avatar-styles";
 import { buttonStyles } from "./components/Button/button-styles";
 import { buttonContentStyles } from "./components/Button/buttonContent-styles";
 import { checkboxStyles } from "./components/Checkbox/checkbox-styles";
@@ -21,6 +22,7 @@ type TComponentStyles = {
 };
 
 export const sharedComponentStyles: TComponentStyles = {
+  Avatar: avatarStyles,
   Button: buttonStyles,
   ButtonContent: buttonContentStyles,
   Card: cardStyles,
