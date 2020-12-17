@@ -13,7 +13,7 @@ import { object } from "@storybook/addon-knobs";
 import { Form, TInputWidth, TFormErrors } from "../components/Form/Form";
 
 export default {
-  title: "Composites/Form",
+  title: "UI Templates/Form",
   component: Form,
 };
 

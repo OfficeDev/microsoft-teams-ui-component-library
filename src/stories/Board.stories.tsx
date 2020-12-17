@@ -8,7 +8,7 @@ import shuffle from "lodash/shuffle";
 import { Board, IBoardItem, IBoardItemCardLayout, TUsers } from "..";
 
 export default {
-  title: "Composites/Board",
+  title: "UI Templates/Board",
   component: Board,
 };
 

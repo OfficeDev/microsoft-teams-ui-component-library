@@ -4,7 +4,7 @@ import { object, boolean } from "@storybook/addon-knobs";
 import { List, TSortable } from "..";
 
 export default {
-  title: "Composites/List",
+  title: "UI Templates/List",
   component: List,
 };
 
