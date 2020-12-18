@@ -21,12 +21,13 @@ import {
   Flex,
   FocusZoneTabbableElements,
   GridBehaviorProps,
+  MenuItemContent,
   ProviderConsumer as FluentUIThemeConsumer,
   SiteVariablesPrepared,
   gridNestedBehavior,
 } from "@fluentui/react-northstar";
 
-import { AddIcon } from "@fluentui/react-icons-northstar";
+import { AddIcon, EditIcon } from "@fluentui/react-icons-northstar";
 
 import { getCode, keyboardKey } from "@fluentui/keyboard-key";
 
@@ -366,6 +367,25 @@ const BoardStandalone = (props: IBoardStandaloneProps) => {
                     }}
                   />
                 }
+                editItemDialog={(boardItem: IBoardItem) => ({
+                  icon: <EditIcon outline size="small" />,
+                  content: (
+                    <BoardItemDialog
+                      action={BoardItemDialogAction.Edit}
+                      trigger={
+                        <MenuItemContent content={t["edit board item"]} />
+                      }
+                      initialState={boardItem}
+                      {...{
+                        arrangedLanes,
+                        users,
+                        t,
+                        setArrangedItems,
+                        arrangedItems,
+                      }}
+                    />
+                  ),
+                })}
                 key={`BoardLane__${laneKey}`}
                 preparedItems={arrangedItems[laneKey]}
                 users={users}

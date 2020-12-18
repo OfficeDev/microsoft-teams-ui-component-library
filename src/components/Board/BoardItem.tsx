@@ -13,12 +13,13 @@ import {
   Card,
   CardBehaviorProps,
   Flex,
+  FocusZoneTabbableElements,
   MenuButton,
+  MenuItemProps,
+  Ref,
   SiteVariablesPrepared,
   Text,
   gridCellWithFocusableElementBehavior,
-  FocusZoneTabbableElements,
-  Ref,
 } from "@fluentui/react-northstar";
 
 import { getCode, keyboardKey } from "@fluentui/keyboard-key";
@@ -52,6 +53,7 @@ export interface IBoardItemProps {
   isDragging: boolean;
   draggableProps: DraggableProvidedDraggableProps;
   dragHandleProps: DraggableProvidedDragHandleProps;
+  editItemDialog?: MenuItemProps;
   t: TTranslations;
   scrollbarWidth: number;
   item: IPreparedBoardItem;
@@ -217,6 +219,7 @@ export const BoardItem = React.memo((props: IBoardItemProps) => {
     t,
     item,
     users,
+    editItemDialog,
   } = props;
 
   const [itemNode, setItemNode] = useState<HTMLElement | null>(null);
@@ -310,7 +313,7 @@ export const BoardItem = React.memo((props: IBoardItemProps) => {
                 </Box>
                 <MenuButton
                   menu={[
-                    { content: t["edit board item"] },
+                    ...(editItemDialog ? [editItemDialog] : []),
                     { content: t["delete"] },
                   ]}
                   trigger={

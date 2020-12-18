@@ -14,6 +14,7 @@ import {
   Text,
   gridCellWithFocusableElementBehavior,
   gridRowNestedBehavior,
+  MenuItemProps,
 } from "@fluentui/react-northstar";
 
 import {
@@ -37,6 +38,7 @@ import {
   BoardItem,
   IPreparedBoardItem,
   IBoardItemCardLayout,
+  IBoardItem,
 } from "./BoardItem";
 
 import { TUsers } from "../../types/types";
@@ -49,6 +51,7 @@ export interface IBoardLaneProps {
   last?: boolean;
   first?: boolean;
   addItemDialog?: JSX.Element;
+  editItemDialog?: (boardItem: IBoardItem) => MenuItemProps;
   preparedItems: IPreparedBoardItem[];
   users: TUsers;
   t: TTranslations;
@@ -152,6 +155,7 @@ export const BoardLane = (props: IBoardLaneProps) => {
     last,
     first,
     addItemDialog,
+    editItemDialog,
     boardItemCardLayout,
     placeholderPosition,
     exitPendingLane,
@@ -400,6 +404,9 @@ export const BoardLane = (props: IBoardLaneProps) => {
                                   t,
                                   boardItemCardLayout,
                                 }}
+                                {...(editItemDialog && {
+                                  editItemDialog: editItemDialog(item),
+                                })}
                               />
                             </Ref>
                           )}
