@@ -19,7 +19,6 @@ import {
   Box,
   Button,
   Flex,
-  FocusZoneDirection,
   FocusZoneTabbableElements,
   GridBehaviorProps,
   ProviderConsumer as FluentUIThemeConsumer,

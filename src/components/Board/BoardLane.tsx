@@ -5,7 +5,6 @@ import {
   Box,
   Button,
   Flex,
-  FocusZoneDirection,
   FocusZoneTabbableElements,
   GridRowBehaviorProps,
   Input,
@@ -16,8 +15,8 @@ import {
   gridCellWithFocusableElementBehavior,
   gridRowNestedBehavior,
 } from "@fluentui/react-northstar";
+
 import {
-  AddIcon,
   ArrowLeftIcon,
   ArrowRightIcon,
   MoreIcon,
@@ -28,7 +27,7 @@ import { ICSSInJSStyle } from "@fluentui/styles";
 
 import { useAccessibility } from "@fluentui/react-bindings";
 
-import { keyboardKey } from "@fluentui/keyboard-key";
+import { getCode, keyboardKey } from "@fluentui/keyboard-key";
 
 import { Draggable, Droppable } from "react-beautiful-dnd";
 
@@ -39,8 +38,6 @@ import {
   IPreparedBoardItem,
   IBoardItemCardLayout,
 } from "./BoardItem";
-
-import { BoardItemDialog, BoardItemDialogAction } from "./BoardItemDialog";
 
 import { TUsers } from "../../types/types";
 
@@ -79,6 +76,8 @@ const boardLaneBehavior = (props: GridRowBehaviorProps) => {
     "focusZone.props": {
       handleTabKey: FocusZoneTabbableElements.all,
       isCircularNavigation: true,
+      shouldEnterInnerZone: (event: React.KeyboardEvent<HTMLElement>) =>
+        getCode(event) === keyboardKey.Enter,
     },
     "attributes.root": {
       role: "group",

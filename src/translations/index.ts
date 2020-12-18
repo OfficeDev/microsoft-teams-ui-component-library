@@ -74,6 +74,7 @@ export default {
     subtitle: "Subtitle",
     "board item body": "Description",
     "board item users": "Tagged users",
+    "board item options": "Board item options",
     "on drag start board item":
       "You have lifted the item called {itemTitle} in position {itemPosition} of {laneLength} in the {laneTitle} lane.",
     "on drag update board item same lane":
@@ -111,6 +112,7 @@ export default {
     subtitle: "عنوان فرعی",
     "board item body": "شرح",
     "board item users": "کاربران با برچسب",
+    "board item options": "گزینه های مورد هیئت مدیره",
     "on drag start board item":
       "شما آیتمی به نام {itemTitle} را در موقعیت {itemPosition} از {laneLength} در خط {laneTitle} بلند کرده اید.",
     "on drag update board item same lane":
