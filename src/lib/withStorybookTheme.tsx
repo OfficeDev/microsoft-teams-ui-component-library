@@ -3,7 +3,7 @@ import translations, { TLocale, TTranslations } from "../translations";
 import { Provider as FluentUIThemeProvider } from "@fluentui/react-northstar";
 import { StoryFn } from "@storybook/addons";
 import React, { ReactNode } from "react";
-import { themes } from "./withTheme";
+import { HVCThemeProvider, themes } from "./withTheme";
 import { TeamsTheme } from "../themes";
 
 const langKnob = () =>
@@ -36,23 +36,10 @@ export interface IStorybookThemeProviderProps {
 export const StorybookThemeProvider = ({
   children,
 }: IStorybookThemeProviderProps) => {
-  const lang = langKnob() as TLocale;
-
-  // [v-wishow] todo: translations will (presumably) eventually need to be loaded asynchronously
-
-  const theme = themes[themeKnob()];
-  const rtl = lang === "fa";
-
-  if (theme.siteVariables) {
-    theme.siteVariables.lang = lang;
-    theme.siteVariables.rtl = rtl;
-    theme.siteVariables.t = translations[lang] as TTranslations;
-  }
   return (
-    <FluentUIThemeProvider theme={theme} rtl={rtl}>
-      <style>{`html, body, #root, #root > .ui-provider { height: 100% } #root > .ui-provider { overflow: auto }`}</style>
+    <HVCThemeProvider themeName={themeKnob()} lang={langKnob()}>
       {children}
-    </FluentUIThemeProvider>
+    </HVCThemeProvider>
   );
 };
 

@@ -1,16 +1,11 @@
 import React from "react";
 import { object } from "@storybook/addon-knobs";
-import {
-  Board,
-  IBoardItem,
-  IBoardItemCardLayout,
-} from "../components/Board/Board";
 import fakerEN from "faker/locale/en_US";
 import fakerFA from "faker/locale/fa";
 import range from "lodash/range";
 import shuffle from "lodash/shuffle";
 
-import { TUsers } from "../types/types";
+import { Board, IBoardItem, IBoardItemCardLayout, TUsers } from "..";
 
 export default {
   title: "Composites/Board",

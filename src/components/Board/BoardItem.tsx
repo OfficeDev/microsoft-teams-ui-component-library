@@ -31,7 +31,7 @@ import {
   IBoardItemCardLayout,
 } from "./Board";
 
-import { TUsers } from "../../types/types";
+import { TUsers } from "../..";
 
 interface IBoardItemProps {
   isDragging: boolean;

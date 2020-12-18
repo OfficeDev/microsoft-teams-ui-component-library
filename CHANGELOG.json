@@ -2,6 +2,66 @@
   "name": "@fluentui/react-teams",
   "entries": [
     {
+      "date": "Mon, 14 Dec 2020 19:57:06 GMT",
+      "tag": "@fluentui/react-teams_v0.1.0-alpha.10",
+      "version": "0.1.0-alpha.10",
+      "comments": {
+        "prerelease": [
+          {
+            "comment": "Board height fix",
+            "author": "a.katrukhin@gmail.com",
+            "commit": "3dede3dcc7b751258be34650be6e696e049ba947",
+            "package": "@fluentui/react-teams"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Mon, 14 Dec 2020 19:20:03 GMT",
+      "tag": "@fluentui/react-teams_v0.1.0-alpha.9",
+      "version": "0.1.0-alpha.9",
+      "comments": {
+        "prerelease": [
+          {
+            "comment": "Scroll issues fix",
+            "author": "a.katrukhin@gmail.com",
+            "commit": "925e3e32ef8119de208311a881af3a0a3b58f62d",
+            "package": "@fluentui/react-teams"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Fri, 11 Dec 2020 18:35:34 GMT",
+      "tag": "@fluentui/react-teams_v0.1.0-alpha.8",
+      "version": "0.1.0-alpha.8",
+      "comments": {
+        "prerelease": [
+          {
+            "comment": "Communication and Dashboard components are added, styles updates, Teams themes support improvements",
+            "author": "a.katrukhin@gmail.com",
+            "commit": "86b5aed09cce4d40c29885dd54a53ec81887fc7b",
+            "package": "@fluentui/react-teams"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Fri, 11 Dec 2020 17:53:08 GMT",
+      "tag": "@fluentui/react-teams_v0.1.0-alpha.6",
+      "version": "0.1.0-alpha.6",
+      "comments": {
+        "none": [
+          {
+            "comment": "Styles updates",
+            "author": "a.katrukhin@gmail.com",
+            "commit": "8e00a8ab86098de706e28b8a815ba13e6f261c22",
+            "package": "@fluentui/react-teams"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 19 Nov 2020 21:09:50 GMT",
       "tag": "@fluentui/react-teams_v0.1.0-alpha.4",
       "version": "0.1.0-alpha.4",
