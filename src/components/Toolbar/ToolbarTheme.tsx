@@ -145,7 +145,7 @@ export const ToolbarTheme = ({ globalTheme, children }: IToolbarThemeProps) => {
     <FluentUIThemeProvider
       theme={theme}
       styles={{
-        paddingBottom: "1.25rem",
+        display: "grid",
         backgroundColor: theme.siteVariables?.colorScheme.default.background2,
       }}
     >
