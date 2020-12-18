@@ -14,11 +14,11 @@ import {
   CardBehaviorProps,
   Flex,
   FocusZoneTabbableElements,
-  MenuButton,
-  MenuItemProps,
+  Popup,
   Ref,
   SiteVariablesPrepared,
   Text,
+  dialogBehavior,
   gridCellWithFocusableElementBehavior,
 } from "@fluentui/react-northstar";
 
@@ -53,7 +53,7 @@ export interface IBoardItemProps {
   isDragging: boolean;
   draggableProps: DraggableProvidedDraggableProps;
   dragHandleProps: DraggableProvidedDragHandleProps;
-  editItemDialog?: MenuItemProps;
+  editItemDialog?: JSX.Element;
   t: TTranslations;
   scrollbarWidth: number;
   item: IPreparedBoardItem;
@@ -311,11 +311,8 @@ export const BoardItem = React.memo((props: IBoardItemProps) => {
                     </Text>
                   )}
                 </Box>
-                <MenuButton
-                  menu={[
-                    ...(editItemDialog ? [editItemDialog] : []),
-                    { content: t["delete"] },
-                  ]}
+                <Popup
+                  content={editItemDialog}
                   trigger={
                     <Button
                       text
@@ -326,7 +323,9 @@ export const BoardItem = React.memo((props: IBoardItemProps) => {
                       styles={{ minWidth: "1.25rem", height: "1.25rem" }}
                     />
                   }
-                  styles={{ flex: "0 0 auto", marginRight: "-.5rem" }}
+                  position="below"
+                  accessibility={dialogBehavior}
+                  autoFocus={true}
                 />
               </Flex>
             </Card.Body>

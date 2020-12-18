@@ -21,7 +21,7 @@ import {
   Flex,
   FocusZoneTabbableElements,
   GridBehaviorProps,
-  MenuItemContent,
+  MenuItem,
   ProviderConsumer as FluentUIThemeConsumer,
   SiteVariablesPrepared,
   gridNestedBehavior,
@@ -367,25 +367,26 @@ const BoardStandalone = (props: IBoardStandaloneProps) => {
                     }}
                   />
                 }
-                editItemDialog={(boardItem: IBoardItem) => ({
-                  icon: <EditIcon outline size="small" />,
-                  content: (
-                    <BoardItemDialog
-                      action={BoardItemDialogAction.Edit}
-                      trigger={
-                        <MenuItemContent content={t["edit board item"]} />
-                      }
-                      initialState={boardItem}
-                      {...{
-                        arrangedLanes,
-                        users,
-                        t,
-                        setArrangedItems,
-                        arrangedItems,
-                      }}
-                    />
-                  ),
-                })}
+                editItemDialog={(boardItem: IBoardItem) => (
+                  <BoardItemDialog
+                    action={BoardItemDialogAction.Edit}
+                    trigger={
+                      <MenuItem
+                        vertical
+                        icon={<EditIcon outline size="small" />}
+                        content={t["edit board item"]}
+                      />
+                    }
+                    initialState={boardItem}
+                    {...{
+                      arrangedLanes,
+                      users,
+                      t,
+                      setArrangedItems,
+                      arrangedItems,
+                    }}
+                  />
+                )}
                 key={`BoardLane__${laneKey}`}
                 preparedItems={arrangedItems[laneKey]}
                 users={users}

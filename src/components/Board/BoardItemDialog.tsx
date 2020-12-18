@@ -119,7 +119,14 @@ export const BoardItemDialog = ({
         },
       ]}
       submit={t["save"]}
-      cancel={t["discard"]}
+      cancel={(function () {
+        switch (action) {
+          case BoardItemDialogAction.Create:
+            return t["discard"];
+          case BoardItemDialogAction.Edit:
+            return t["cancel"];
+        }
+      })()}
       __internal_callbacks__={{
         submit: (_e, formState) => {
           if (!formState) return;

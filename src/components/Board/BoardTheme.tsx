@@ -91,6 +91,11 @@ const getLocalTheme = (themeKey: string): ThemeInput<any> => {
           },
         },
       },
+      PopupContent: {
+        content: {
+          padding: ".5rem 0",
+        },
+      },
     },
     staticStyles: [
       `html[data-whatinput="keyboard"] .board__lane:focus::before {
