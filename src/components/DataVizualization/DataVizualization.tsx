@@ -1,5 +1,13 @@
 import React, { useEffect } from "react";
-import Chart from "chart.js";
+import {
+  Chart,
+  LinearScale,
+  LineController,
+  LineElement,
+  PointElement,
+  Tooltip,
+  CategoryScale,
+} from "chart.js";
 import {
   ProviderConsumer as FluentUIThemeConsumer,
   Box,
@@ -24,15 +32,21 @@ export function DataVizualization({ config }: any) {
           >
             <LineChart
               data={{
-                labels: ["Jan", "Feb", "March"],
+                labels: [
+                  "January",
+                  "February",
+                  "March",
+                  "April",
+                  "May",
+                  "June",
+                  "July",
+                ],
                 datasets: [
                   {
-                    label: "Sales",
-                    data: [86, 67, 91],
-                  },
-                  {
-                    label: "Bookings",
-                    data: [10, 16, 18],
+                    label: "My First dataset",
+                    backgroundColor: "rgb(255, 99, 132)",
+                    borderColor: "rgb(255, 99, 132)",
+                    data: [0, 10, 5, 2, 20, 30, 45],
                   },
                 ],
               }}
@@ -52,9 +66,18 @@ export function DataVizualization({ config }: any) {
  */
 
 //--Chart Style Options--//
-(Chart as any).defaults.global.defaultFontFamily = "'Segoe UI', sans-serif";
-(Chart as any).defaults.global.legend.display = false;
+// (Chart as any).defaults.global.defaultFontFamily = "'Segoe UI', sans-serif";
+// (Chart as any).defaults.global.legend.display = false;
 //--Chart Style Options--//
+
+Chart.register(
+  LineController,
+  LineElement,
+  PointElement,
+  LinearScale,
+  Tooltip,
+  CategoryScale
+);
 
 function LineChart({ data }: { data: IChartData }) {
   console.clear();
@@ -77,7 +100,12 @@ function LineChart({ data }: { data: IChartData }) {
     }
   }
   function activate() {
-    meta!.controller.setHoverStyle(meta!.data[selectedIndex], 0, selectedIndex);
+    console.log(meta);
+    // meta!.controller.setHoverStyle(
+    //   meta!.data[selectedIndex],
+    //   null,
+    //   selectedIndex
+    // );
     showTooltip(chart, selectedDataSet, selectedIndex);
     document
       .getElementById(`tooltip-${selectedDataSet}-${selectedIndex}`)
@@ -85,9 +113,9 @@ function LineChart({ data }: { data: IChartData }) {
   }
 
   function activateNext() {
-    clearActive();
-    selectedIndex = (selectedIndex + 1) % meta!.data.length;
-    activate();
+    // clearActive();
+    // selectedIndex = (selectedIndex + 1) % meta!.data.length;
+    // activate();
   }
 
   function activatePrev() {
@@ -99,19 +127,24 @@ function LineChart({ data }: { data: IChartData }) {
   useEffect(() => {
     if (chartRef && chartRef.current) {
       const myChartRef = chartRef.current.getContext("2d");
-      chart = new Chart(myChartRef!, { ...lineChartSettings, data });
+      chart = new Chart(myChartRef!, {
+        type: "line",
+        data,
+      });
+
       meta = chart.getDatasetMeta(selectedDataSet);
     }
+
     const initFocusState = () => {
-      if (selectedIndex === -1) {
-        activateNext();
-      } else {
-        activate();
-      }
+      // if (selectedIndex === -1) {
+      //   activateNext();
+      // } else {
+      //   activate();
+      // }
     };
     const clearFocusState = () => {
-      clearActive();
-      chart.render();
+      // clearActive();
+      // chart.render();
     };
 
     const changeFocus = (e: KeyboardEvent) => {
@@ -122,28 +155,28 @@ function LineChart({ data }: { data: IChartData }) {
         case "ArrowLeft":
           activatePrev();
           break;
-        case "ArrowUp":
-          if (data.datasets.length > 1) {
-            selectedIndex -= 1;
-            selectedDataSet += 1;
-            if (selectedDataSet === data.datasets.length) {
-              selectedDataSet = 0;
-            }
-            meta = chart.getDatasetMeta(selectedDataSet);
-            activateNext();
-          }
-          break;
-        case "ArrowDown":
-          if (data.datasets.length > 1) {
-            selectedIndex -= 1;
-            selectedDataSet -= 1;
-            if (selectedDataSet < 0) {
-              selectedDataSet = data.datasets.length - 1;
-            }
-            meta = chart.getDatasetMeta(selectedDataSet);
-            activateNext();
-          }
-          break;
+        // case "ArrowUp":
+        //   if (data.datasets.length > 1) {
+        //     selectedIndex -= 1;
+        //     selectedDataSet += 1;
+        //     if (selectedDataSet === data.datasets.length) {
+        //       selectedDataSet = 0;
+        //     }
+        //     meta = chart.getDatasetMeta(selectedDataSet);
+        //     activateNext();
+        //   }
+        //   break;
+        // case "ArrowDown":
+        //   if (data.datasets.length > 1) {
+        //     selectedIndex -= 1;
+        //     selectedDataSet -= 1;
+        //     if (selectedDataSet < 0) {
+        //       selectedDataSet = data.datasets.length - 1;
+        //     }
+        //     meta = chart.getDatasetMeta(selectedDataSet);
+        //     activateNext();
+        //   }
+        //   break;
       }
     };
 
@@ -159,6 +192,7 @@ function LineChart({ data }: { data: IChartData }) {
         chartRef.current.removeEventListener("blur", clearFocusState);
         chartRef.current.removeEventListener("keydown", changeFocus);
       }
+      chart.destroy();
     };
   }, []);
 
@@ -191,6 +225,7 @@ function LineChart({ data }: { data: IChartData }) {
 
 function showTooltip(chart: any, set: number, index: number) {
   const segment = chart.getDatasetMeta(set).data[index];
+  console.log(segment);
   chart.tooltip._active = [segment];
   chart.tooltip.update();
   chart.draw();
