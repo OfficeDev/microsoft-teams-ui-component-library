@@ -22,7 +22,7 @@ export const KitchenSink = () => {
     columns: {
       c1: {
         title: "Member name",
-        sortable: "alphabetic" as TSortable,
+        sortable: "alphabetical" as TSortable,
       },
       c2: {
         title: "Location",
