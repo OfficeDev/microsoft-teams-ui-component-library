@@ -12,7 +12,7 @@ export {
 } from "./components/Board/Board";
 
 export {
-  default as Communication,
+  Communication,
   CommunicationOptions,
   TCommunication,
   TCommunicationFields,
@@ -25,7 +25,7 @@ export {
 } from "./components/Communication";
 
 export {
-  default as Dashboard,
+  Dashboard,
   IWidgetActionKey,
   IDashboardCallout,
   IWidget,
@@ -40,3 +40,5 @@ export { ITableProps, Table } from "./components/Table/Table";
 export { TSortable } from "./components/Table/tableBreakpoints";
 
 export { IToolbarProps, Toolbar } from "./components/Toolbar/Toolbar";
+
+export { DataVizualization } from "./components/DataVizualization";

@@ -5,42 +5,38 @@ import {
   Box,
 } from "@fluentui/react-northstar";
 import { DataVizualizationTheme } from "./DataVizualizationTheme";
-import Toolbar from "../Toolbar";
-
-const toolbarConfig = {
-  actionGroups: {
-    h1: {
-      b1: { title: "Edit dashboard", icon: "Edit" },
-    },
-  },
-  filters: [],
-  find: false,
-};
+import { IChartData } from "./DataVisualizationTypes";
+import { lineChartSettings } from "./Utils";
 
 export function DataVizualization({ config }: any) {
   return (
     <FluentUIThemeConsumer
       render={(globalTheme) => (
         <DataVizualizationTheme globalTheme={globalTheme}>
-          <Toolbar {...toolbarConfig} />
           <Box
             styles={{
-              backgroundColor: "white",
-              display: "grid",
-              gridGap: ".5rem",
-              gridTemplate:
-                "repeat(auto-fill, 26rem) / repeat(auto-fill, minmax(18.75rem, 1fr))",
-              gridAutoFlow: "dense",
-              gridAutoRows: "26rem",
-              padding: " 1rem 1rem 1.25rem",
-              minWidth: "20rem",
-              "@media (max-width: 986px)": {
-                gridTemplate:
-                  "repeat(auto-fill, 25rem) / repeat(auto-fill, minmax(15.75rem, 1fr))",
-              },
+              width: "600px",
+              margin: "1rem",
+              padding: "1rem",
+              borderRadius: "3px",
+              background: "white",
             }}
           >
-            <ChartContainer />
+            <LineChart
+              data={{
+                labels: ["Jan", "Feb", "March"],
+                datasets: [
+                  {
+                    label: "Sales",
+                    data: [86, 67, 91],
+                  },
+                  {
+                    label: "Bookings",
+                    data: [10, 16, 18],
+                  },
+                ],
+              }}
+            />
           </Box>
         </DataVizualizationTheme>
       )}
@@ -48,56 +44,29 @@ export function DataVizualization({ config }: any) {
   );
 }
 
+/**
+ * TODO:
+ * 1. Test keyboard access with a few charts at the page
+ * 2. Colors
+ * 3. Max/Min value to define steps
+ */
+
 //--Chart Style Options--//
 (Chart as any).defaults.global.defaultFontFamily = "'Segoe UI', sans-serif";
 (Chart as any).defaults.global.legend.display = false;
-(Chart as any).defaults.global.elements.line.tension = 0;
 //--Chart Style Options--//
 
-const useInitialfocus = (ref: any) => {
-  useEffect(() => {
-    ref.current.focus();
-  }, [ref]);
-};
-export default useInitialfocus;
-
-function ChartContainer() {
+function LineChart({ data }: { data: IChartData }) {
   console.clear();
 
   let chart: Chart;
   const chartRef = React.createRef<HTMLCanvasElement>();
-  const chartData = {
-    type: "line",
-    data: {
-      //Bring in data
-      labels: ["Jan", "Feb", "March"],
-      datasets: [
-        {
-          label: "Sales",
-          data: [86, 67, 91],
-        },
-      ],
-    },
-    options: {
-      tooltips: {},
-    },
-  };
-
-  let meta: any;
-  useEffect(() => {
-    if (chartRef && chartRef.current) {
-      const myChartRef = chartRef.current.getContext("2d");
-      chart = new Chart(myChartRef!, chartData);
-      meta = chart.getDatasetMeta(0);
-    }
-  }, []);
-
-  /* Help ScreenReaders read canvas info*/
-  const tooltips = [];
-
-  /* Keyboard manipulation */
 
   let selectedIndex = -1;
+  let selectedDataSet = 0;
+  let meta: any;
+
+  /* Keyboard manipulation */
   function clearActive() {
     if (selectedIndex > -1) {
       meta!.controller.removeHoverStyle(
@@ -109,9 +78,10 @@ function ChartContainer() {
   }
   function activate() {
     meta!.controller.setHoverStyle(meta!.data[selectedIndex], 0, selectedIndex);
-    showTooltip(chart, selectedIndex);
-    // TODO:
-    document.getElementById(`tooltip-${selectedIndex}`)?.focus();
+    showTooltip(chart, selectedDataSet, selectedIndex);
+    document
+      .getElementById(`tooltip-${selectedDataSet}-${selectedIndex}`)
+      ?.focus();
   }
 
   function activateNext() {
@@ -126,7 +96,12 @@ function ChartContainer() {
     activate();
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
+    if (chartRef && chartRef.current) {
+      const myChartRef = chartRef.current.getContext("2d");
+      chart = new Chart(myChartRef!, { ...lineChartSettings, data });
+      meta = chart.getDatasetMeta(selectedDataSet);
+    }
     const initFocusState = () => {
       if (selectedIndex === -1) {
         activateNext();
@@ -140,10 +115,35 @@ function ChartContainer() {
     };
 
     const changeFocus = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight") {
-        activateNext();
-      } else if (e.key === "ArrowLeft") {
-        activatePrev();
+      switch (e.key) {
+        case "ArrowRight":
+          activateNext();
+          break;
+        case "ArrowLeft":
+          activatePrev();
+          break;
+        case "ArrowUp":
+          if (data.datasets.length > 1) {
+            selectedIndex -= 1;
+            selectedDataSet += 1;
+            if (selectedDataSet === data.datasets.length) {
+              selectedDataSet = 0;
+            }
+            meta = chart.getDatasetMeta(selectedDataSet);
+            activateNext();
+          }
+          break;
+        case "ArrowDown":
+          if (data.datasets.length > 1) {
+            selectedIndex -= 1;
+            selectedDataSet -= 1;
+            if (selectedDataSet < 0) {
+              selectedDataSet = data.datasets.length - 1;
+            }
+            meta = chart.getDatasetMeta(selectedDataSet);
+            activateNext();
+          }
+          break;
       }
     };
 
@@ -163,41 +163,35 @@ function ChartContainer() {
   }, []);
 
   return (
-    <div style={{ width: 600 }}>
-      <canvas
-        width="600"
-        height="320"
-        ref={chartRef}
-        tabIndex={0}
-        style={{ userSelect: "none" }}
-        aria-label="Sales chart"
-      >
-        <title></title>
-        {
-          // TODO: All chart objects should be represented heres
-        }
-        {chartData.data.labels.map((item, key) => (
+    <canvas
+      width="600"
+      height="320"
+      ref={chartRef}
+      tabIndex={0}
+      style={{ userSelect: "none" }}
+      aria-label="[TODO]"
+    >
+      <title>[TODO]</title>
+      {data.datasets.map((set, setKey) =>
+        set.data.map((item, itemKey) => (
           // Should be unique ID
-          <div key={key} id={`tooltip-${key}`} tabIndex={0}>
+          <div key={itemKey} id={`tooltip-${setKey}-${itemKey}`} tabIndex={0}>
             <p>{item}</p>
             <ul>
-              {chartData.data.datasets.map((dataset, i) => (
-                <li key={i}>
-                  {dataset.label}: {dataset.data[key]}
-                </li>
-              ))}
+              <li>
+                {set.label}: {set.data[itemKey]}
+              </li>
             </ul>
           </div>
-        ))}
-      </canvas>
-    </div>
+        ))
+      )}
+    </canvas>
   );
 }
 
-function showTooltip(chart: any, index: number) {
-  var segment = chart.getDatasetMeta(0).data[index];
+function showTooltip(chart: any, set: number, index: number) {
+  const segment = chart.getDatasetMeta(set).data[index];
   chart.tooltip._active = [segment];
   chart.tooltip.update();
   chart.draw();
-  console.log(chart.getDatasetMeta(0), chart, chart.tooltip);
 }

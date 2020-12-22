@@ -1,1 +1,1 @@
-export { DataVizualization as default } from "./DataVizualization";
+export { DataVizualization } from "./DataVizualization";

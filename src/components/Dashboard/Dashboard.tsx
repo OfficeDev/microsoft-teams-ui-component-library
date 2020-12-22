@@ -11,7 +11,7 @@ import {
   WidgetFooter,
 } from "./DashboardWidget";
 import { DashboardTheme } from "./DashboardTheme";
-import { Toolbar } from "../..";
+import { Toolbar } from "../Toolbar/Toolbar";
 
 interface IDashboard {
   widgets: IWidget[];

@@ -20,10 +20,8 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
-    "@types/chart.js": "^2.9.27",
     "chart.js": "^2.9.4",
     "classnames": "^2.2.6",
-    "echarts": "^5.0.0",
     "lodash": "^4.17.15",
     "react-beautiful-dnd": "^13.0.0"
   },
@@ -47,6 +45,7 @@
     "@storybook/cli": "^6.0.26",
     "@storybook/preset-typescript": "^3.0.0",
     "@storybook/react": "^6.0.26",
+    "@types/chart.js": "^2.9.29",
     "@types/classnames": "^2.2.10",
     "@types/faker": "^5.1.2",
     "@types/jest": "^26.0.4",
