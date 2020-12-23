@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 
 import {
   AutoFocusZone,
@@ -162,52 +162,8 @@ export const BoardLane = (props: IBoardLaneProps) => {
     moveLane,
   } = props;
 
-  const [layoutState, setLayoutState] = useState<number>(-1);
-  const [scrollbarWidth, setScrollbarWidth] = useState<number>(16);
   const [laneNode, setLaneNode] = useState<HTMLElement | null>(null);
   const $laneContent = useRef<HTMLDivElement | null>(null);
-  const laneContentWidth = useRef<number | null>(null);
-
-  const onResize = () => {
-    setLayoutState(0);
-  };
-
-  useLayoutEffect(() => {
-    // [v-wishow] The lane is rendered 3 times in order to measure the scrollbar and account for
-    // its width, since it varies by the user agent and input situation:
-    //
-    // • 0: no content is rendered, in order to measure the lane width; entire lane is transparent
-    // • 1: content is rendered in order to measure the width with scrollbar; lane is still transparent
-    // • 2: content with adjusted scrollbar-side margin is rendered; lane is made visible.
-    //
-    // There is a possibility the adjusted scrollbar-side margin will change the overflow state due
-    // to wrapping text. How to handle this case is to-be-designed.
-    //
-    // todo: Remove all of this when the custom scrollbar component is available.
-
-    switch (layoutState) {
-      case -1:
-        window.addEventListener("resize", onResize);
-        setLayoutState(0);
-        break;
-      case 0:
-        if ($laneContent.current)
-          laneContentWidth.current = $laneContent.current!.clientWidth;
-        setLayoutState(1);
-        break;
-      case 1:
-        if ($laneContent.current && laneContentWidth.current)
-          setScrollbarWidth(
-            laneContentWidth.current - $laneContent.current!.clientWidth
-          );
-        setLayoutState(2);
-        break;
-    }
-
-    return () => {
-      window.removeEventListener("resize", onResize);
-    };
-  });
 
   const getA11Props = useAccessibility(boardLaneBehavior, {
     actionHandlers: {
@@ -245,7 +201,6 @@ export const BoardLane = (props: IBoardLaneProps) => {
               maxWidth: "22.5rem",
               borderRight: "1px solid transparent",
               flex: "1 0 0",
-              opacity: layoutState === 2 ? 1 : 0,
               position: "relative",
               ":focus": { outline: "none" },
               "&::before": laneFocusBorderStyles,
@@ -373,7 +328,7 @@ export const BoardLane = (props: IBoardLaneProps) => {
                 <Box
                   styles={{
                     height: "100%",
-                    overflowY: "auto",
+                    overflowY: "hidden",
                     paddingTop: "2px",
                     position: "relative",
                   }}
@@ -383,7 +338,7 @@ export const BoardLane = (props: IBoardLaneProps) => {
                   }}
                   {...provided.droppableProps}
                 >
-                  {layoutState > 0 && preparedItems?.length
+                  {preparedItems?.length
                     ? preparedItems.map((item) => (
                         <Draggable
                           draggableId={item.itemKey}
@@ -397,7 +352,6 @@ export const BoardLane = (props: IBoardLaneProps) => {
                                 draggableProps={provided.draggableProps}
                                 dragHandleProps={provided.dragHandleProps!}
                                 {...{
-                                  scrollbarWidth,
                                   item,
                                   users,
                                   t,

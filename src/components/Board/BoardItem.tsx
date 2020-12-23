@@ -55,7 +55,6 @@ export interface IBoardItemProps {
   dragHandleProps: DraggableProvidedDragHandleProps;
   editItemDialog?: JSX.Element;
   t: TTranslations;
-  scrollbarWidth: number;
   item: IPreparedBoardItem;
   boardItemCardLayout: IBoardItemCardLayout;
   users: TUsers;
@@ -211,7 +210,6 @@ const BoardItemPreview = ({ preview }: IBoardItemPreview) => {
 
 export const BoardItem = React.memo((props: IBoardItemProps) => {
   const {
-    scrollbarWidth,
     isDragging,
     draggableProps,
     dragHandleProps,
@@ -261,9 +259,7 @@ export const BoardItem = React.memo((props: IBoardItemProps) => {
             styles: {
               position: "relative",
               zIndex: 1,
-              margin: `0 ${((20 - scrollbarWidth) / 16).toFixed(
-                4
-              )}rem .5rem 1.25rem`,
+              margin: `0 1.25rem .5rem 1.25rem`,
               width: "auto",
               height: "auto",
             },
