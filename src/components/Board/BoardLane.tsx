@@ -1,4 +1,5 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
+import CustomScrollArea from "react-perfect-scrollbar";
 
 import {
   AutoFocusZone,
@@ -163,7 +164,6 @@ export const BoardLane = (props: IBoardLaneProps) => {
   } = props;
 
   const [laneNode, setLaneNode] = useState<HTMLElement | null>(null);
-  const $laneContent = useRef<HTMLDivElement | null>(null);
 
   const getA11Props = useAccessibility(boardLaneBehavior, {
     actionHandlers: {
@@ -325,16 +325,10 @@ export const BoardLane = (props: IBoardLaneProps) => {
           >
             <Droppable droppableId={laneKey}>
               {(provided, snapshot) => (
-                <Box
-                  styles={{
-                    height: "100%",
-                    overflowY: "hidden",
-                    paddingTop: "2px",
-                    position: "relative",
-                  }}
-                  ref={(element: HTMLDivElement) => {
-                    $laneContent.current = element;
-                    provided.innerRef(element);
+                <CustomScrollArea
+                  style={{ position: "relative" }}
+                  containerRef={(container: HTMLElement) => {
+                    provided.innerRef(container);
                   }}
                   {...provided.droppableProps}
                 >
@@ -370,7 +364,7 @@ export const BoardLane = (props: IBoardLaneProps) => {
                   {snapshot.isDraggingOver && (
                     <Placeholder position={placeholderPosition} />
                   )}
-                </Box>
+                </CustomScrollArea>
               )}
             </Droppable>
           </Box>

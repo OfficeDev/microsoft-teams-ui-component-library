@@ -22,7 +22,8 @@
   "dependencies": {
     "classnames": "^2.2.6",
     "lodash": "^4.17.15",
-    "react-beautiful-dnd": "^13.0.0"
+    "react-beautiful-dnd": "^13.0.0",
+    "react-perfect-scrollbar": "^1.5.8"
   },
   "peerDependencies": {
     "@fluentui/react-icons-northstar": "^0.51.0",
