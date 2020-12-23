@@ -63,6 +63,7 @@ export default {
     "move lane nearer": "Move left",
     "move lane further": "Move right",
     delete: "Delete",
+    "confirm delete": "Are you sure you want to delete “{title}”?",
     "lane options": "Lane options",
     "sort-order alphabetical descending": "A-Z",
     "sort-order alphabetical ascending": "Z-A",

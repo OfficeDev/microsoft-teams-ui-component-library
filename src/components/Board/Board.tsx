@@ -18,6 +18,7 @@ import {
 import {
   Box,
   Button,
+  Dialog,
   Flex,
   FocusZoneTabbableElements,
   GridBehaviorProps,
@@ -27,7 +28,11 @@ import {
   gridNestedBehavior,
 } from "@fluentui/react-northstar";
 
-import { AddIcon, EditIcon } from "@fluentui/react-icons-northstar";
+import {
+  AddIcon,
+  EditIcon,
+  TrashCanIcon,
+} from "@fluentui/react-icons-northstar";
 
 import { getCode, keyboardKey } from "@fluentui/keyboard-key";
 
@@ -368,24 +373,49 @@ const BoardStandalone = (props: IBoardStandaloneProps) => {
                   />
                 }
                 editItemDialog={(boardItem: IBoardItem) => (
-                  <BoardItemDialog
-                    action={BoardItemDialogAction.Edit}
-                    trigger={
-                      <MenuItem
-                        vertical
-                        icon={<EditIcon outline size="small" />}
-                        content={t["edit board item"]}
-                      />
-                    }
-                    initialState={boardItem}
-                    {...{
-                      arrangedLanes,
-                      users,
-                      t,
-                      setArrangedItems,
-                      arrangedItems,
-                    }}
-                  />
+                  <>
+                    <BoardItemDialog
+                      action={BoardItemDialogAction.Edit}
+                      trigger={
+                        <MenuItem
+                          vertical
+                          icon={<EditIcon outline size="small" />}
+                          content={t["edit board item"]}
+                        />
+                      }
+                      initialState={boardItem}
+                      {...{
+                        arrangedLanes,
+                        users,
+                        t,
+                        setArrangedItems,
+                        arrangedItems,
+                      }}
+                    />
+                    <Dialog
+                      trigger={
+                        <MenuItem
+                          vertical
+                          icon={<TrashCanIcon outline size="small" />}
+                          content={t["delete"]}
+                        />
+                      }
+                      content={getText(t.locale, t["confirm delete"], {
+                        title: getText(t.locale, boardItem.title),
+                      })}
+                      confirmButton={{ content: t["delete"] }}
+                      cancelButton={{ content: t["cancel"] }}
+                      onConfirm={() => {
+                        const pos = arrangedItems[boardItem.lane].findIndex(
+                          (laneItem) =>
+                            laneItem.itemKey ===
+                            (boardItem as IPreparedBoardItem).itemKey
+                        );
+                        arrangedItems[boardItem.lane].splice(pos, 1);
+                        setArrangedItems(cloneDeep(arrangedItems));
+                      }}
+                    />
+                  </>
                 )}
                 key={`BoardLane__${laneKey}`}
                 preparedItems={arrangedItems[laneKey]}
