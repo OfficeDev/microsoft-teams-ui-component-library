@@ -5,11 +5,7 @@ import cloneDeep from "lodash/cloneDeep";
 import { TTranslations, getText } from "../../translations";
 
 import { FormDialog } from "../Form/Form";
-import {
-  IBoardItem,
-  IPreparedBoardItem,
-  IPreparedBoardItems,
-} from "./BoardItem";
+import { IPreparedBoardItem, IPreparedBoardItems } from "./BoardItem";
 import { TBoardLanes } from "./BoardLane";
 import { TUsers } from "../../types/types";
 
@@ -21,7 +17,7 @@ export enum BoardItemDialogAction {
 export interface BoardItemDialogProps {
   action: BoardItemDialogAction;
   trigger: JSX.Element;
-  initialState: Partial<IBoardItem>;
+  initialState: Partial<IPreparedBoardItem>;
   arrangedLanes: TBoardLanes;
   setArrangedItems: Dispatch<SetStateAction<IPreparedBoardItems>>;
   arrangedItems: IPreparedBoardItems;
@@ -133,7 +129,7 @@ export const BoardItemDialog = ({
           const boardItem = Object.keys(formState).reduce(
             (
               boardItem: {
-                [boardItemPropKey: string]: string | string[] | number;
+                [boardItemPropKey: string]: any;
               },
               inputId
             ) => {
@@ -142,14 +138,41 @@ export const BoardItemDialog = ({
               if (value) boardItem[boardItemProperty] = value;
               return boardItem;
             },
-            {
-              order: -1,
-              itemKey: uniqueId("nbi"),
-            }
+            (function () {
+              switch (action) {
+                case BoardItemDialogAction.Create:
+                  return {
+                    order: -1,
+                    itemKey: uniqueId("nbi"),
+                  };
+                case BoardItemDialogAction.Edit:
+                  return cloneDeep(initialState);
+              }
+            })()
           );
-          arrangedItems[boardItem.lane as string].push(
-            (boardItem as unknown) as IPreparedBoardItem
-          );
+          switch (action) {
+            case BoardItemDialogAction.Create:
+              arrangedItems[boardItem.lane as string].push(
+                (boardItem as unknown) as IPreparedBoardItem
+              );
+              break;
+            case BoardItemDialogAction.Edit:
+              const fromPos = arrangedItems[
+                initialState.lane as string
+              ].findIndex(
+                (laneItem) => laneItem.itemKey === initialState.itemKey!
+              );
+              if (boardItem.lane !== initialState.lane) {
+                arrangedItems[initialState.lane as string].splice(fromPos, 1);
+                arrangedItems[boardItem.lane as string].push(
+                  boardItem as IPreparedBoardItem
+                );
+              } else {
+                arrangedItems[boardItem.lane as string][
+                  fromPos
+                ] = boardItem as IPreparedBoardItem;
+              }
+          }
           setArrangedItems(cloneDeep(arrangedItems));
         },
       }}
