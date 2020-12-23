@@ -7,6 +7,7 @@ import {
   teamsDarkTheme,
   teamsHighContrastTheme,
   ComponentVariablesInput,
+  ThemePrepared,
 } from "@fluentui/react-northstar";
 
 import { ComponentVariablesObject, ThemeInput } from "@fluentui/styles";
@@ -18,7 +19,7 @@ import {
   TeamsTheme,
 } from "../themes";
 
-import translations, { TLocale } from "../translations";
+import translations, { TLocale, TTranslations } from "../translations";
 
 export enum IThemeTeamsClient {
   HighContrast = "contrast",
@@ -129,6 +130,13 @@ export const themes: { [themeKey: string]: ThemeInput<any> } = {
     highContrastThemeOverrides
   ),
 };
+
+export interface IHVCTheme extends ThemePrepared<any> {
+  themeName: TeamsTheme;
+  rtl: boolean;
+  lang: TLocale;
+  t: TTranslations;
+}
 
 export const HVCThemeProvider = ({
   children,
