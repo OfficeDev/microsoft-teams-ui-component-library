@@ -27,14 +27,16 @@ import {
   selectableListBehavior,
 } from "@fluentui/react-northstar";
 
-import { getText, TTextObject, TTranslations } from "../../translations";
-
-import { WithOptionalInternalCallbacks } from "../../types/types";
-
 import {
   ExclamationCircleIcon,
   ExclamationTriangleIcon,
 } from "@fluentui/react-icons-northstar";
+
+import { getText, TTextObject, TTranslations } from "../../translations";
+
+import { WithOptionalInternalCallbacks, Surface } from "../../types/types.d";
+
+import { FormTheme } from "./FormTheme";
 
 export interface IFormState {
   [inputId: string]: string | string[];
@@ -680,75 +682,76 @@ export const Form = ({
       render={(globalTheme) => {
         const { t } = globalTheme.siteVariables;
         return (
-          <FluentUIForm
-            styles={{
-              display: "block",
-              "& > *:not(:last-child)": { marginBottom: 0 },
-              "& > :last-child": { marginTop: 0 },
-            }}
-            onSubmit={(e) => {
-              __internal_callbacks__ &&
-                __internal_callbacks__["submit"] &&
-                __internal_callbacks__["submit"](e, formState);
-            }}
-          >
-            <FormContent
-              {...{
-                headerSection,
-                sections,
-                topError,
-                errors,
-                t,
-                formState,
-                setFormState,
-              }}
-            />
-            <Box
-              variables={({ colorScheme }: SiteVariablesPrepared) => ({
-                backgroundColor: colorScheme.default.background,
-              })}
+          <FormTheme globalTheme={globalTheme} surface={Surface.base}>
+            <FluentUIForm
               styles={{
-                height: "1px",
-                position: "absolute",
-                left: 0,
-                right: 0,
-                zIndex: 1,
+                display: "block",
+                "& > *:not(:last-child)": { marginBottom: 0 },
+                "& > :last-child": { marginTop: 0 },
+                backgroundColor: "var(--surface-background)",
               }}
-            />
-            <Box
-              variables={({ colorScheme }: SiteVariablesPrepared) => ({
-                backgroundColor: colorScheme.default.border1,
-              })}
-              styles={{ height: "1px", position: "sticky", bottom: "4.5rem" }}
-            />
-            <Box
-              variables={({ colorScheme }: SiteVariablesPrepared) => ({
-                backgroundColor: colorScheme.default.background,
-              })}
-              styles={{
-                position: "sticky",
-                bottom: 0,
-                height: "4.5rem",
-                zIndex: 2,
+              onSubmit={(e) => {
+                __internal_callbacks__ &&
+                  __internal_callbacks__["submit"] &&
+                  __internal_callbacks__["submit"](e, formState);
               }}
             >
-              <MaxWidth
-                styles={{ display: "flex", justifyContent: "flex-end" }}
+              <FormContent
+                {...{
+                  headerSection,
+                  sections,
+                  topError,
+                  errors,
+                  t,
+                  formState,
+                  setFormState,
+                }}
+              />
+              <Box
+                styles={{
+                  backgroundColor: "var(--surface-background)",
+                  height: "1px",
+                  position: "absolute",
+                  left: 0,
+                  right: 0,
+                  zIndex: 1,
+                }}
+              />
+              <Box
+                styles={{
+                  backgroundColor: "var(--shadow-background)",
+                  height: "1px",
+                  position: "sticky",
+                  bottom: "4.5rem",
+                }}
+              />
+              <Box
+                styles={{
+                  backgroundColor: "var(--surface-background)",
+                  position: "sticky",
+                  bottom: 0,
+                  height: "4.5rem",
+                  zIndex: 2,
+                }}
               >
-                {cancel && (
+                <MaxWidth
+                  styles={{ display: "flex", justifyContent: "flex-end" }}
+                >
+                  {cancel && (
+                    <Button
+                      content={getText(t.locale, cancel)}
+                      styles={{ marginRight: ".5rem" }}
+                    />
+                  )}
                   <Button
-                    content={getText(t.locale, cancel)}
-                    styles={{ marginRight: ".5rem" }}
+                    primary
+                    type="submit"
+                    content={getText(t.locale, submit)}
                   />
-                )}
-                <Button
-                  primary
-                  type="submit"
-                  content={getText(t.locale, submit)}
-                />
-              </MaxWidth>
-            </Box>
-          </FluentUIForm>
+                </MaxWidth>
+              </Box>
+            </FluentUIForm>
+          </FormTheme>
         );
       }}
     />
@@ -781,20 +784,27 @@ export const FormDialog = ({
           render={(globalTheme) => {
             const { t } = globalTheme.siteVariables;
             return (
-              <FluentUIForm styles={{ display: "block" }}>
-                <FormContent
-                  flush
-                  {...{
-                    headerSection,
-                    sections,
-                    topError,
-                    errors,
-                    t,
-                    formState,
-                    setFormState,
+              <FormTheme globalTheme={globalTheme} surface={Surface.raised}>
+                <FluentUIForm
+                  styles={{
+                    display: "block",
+                    backgroundColor: "var(--surface-background)",
                   }}
-                />
-              </FluentUIForm>
+                >
+                  <FormContent
+                    flush
+                    {...{
+                      headerSection,
+                      sections,
+                      topError,
+                      errors,
+                      t,
+                      formState,
+                      setFormState,
+                    }}
+                  />
+                </FluentUIForm>
+              </FormTheme>
             );
           }}
         />

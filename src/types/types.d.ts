@@ -26,3 +26,8 @@ export interface WithOptionalInternalCallbacks<P> {
     [callbackId: string]: ComponentEventHandler<P>;
   };
 }
+
+export enum Surface {
+  base = "base",
+  raised = "raised",
+}
