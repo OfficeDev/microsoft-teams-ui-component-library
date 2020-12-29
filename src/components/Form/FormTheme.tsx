@@ -26,10 +26,17 @@ const getLocalTheme = (
   return {
     componentStyles: {
       Dropdown: {
-        container: () => ({ backgroundColor: "var(--input-background)" }),
+        container: () => ({
+          backgroundColor: "var(--input-background)",
+          "&:hover": { backgroundColor: "var(--input-background)" },
+          "&:focus": { backgroundColor: "var(--input-background)" },
+        }),
       },
       Input: {
         input: () => ({ backgroundColor: "var(--input-background)" }),
+      },
+      TextArea: {
+        root: () => ({ backgroundColor: "var(--input-background)" }),
       },
     },
   };
@@ -48,6 +55,7 @@ export const FormTheme = ({
     switch (surface) {
       case Surface.base:
         return {
+          background: "transparent",
           "--surface-background":
             globalTheme.siteVariables.colorScheme.default.background2,
           "--shadow-background":
@@ -57,12 +65,20 @@ export const FormTheme = ({
         };
       case Surface.raised:
         return {
-          "--surface-background":
-            globalTheme.siteVariables.colorScheme.default.background,
+          background: "transparent",
+          "--surface-background": "transparent",
           "--shadow-background":
             globalTheme.siteVariables.colorScheme.default.border1,
-          "--input-background":
-            globalTheme.siteVariables.colorScheme.default.background2,
+          "--input-background": (function () {
+            switch (mainTheme.siteVariables?.theme as TeamsTheme) {
+              case TeamsTheme.Dark:
+                return globalTheme.siteVariables.colorScheme.default
+                  .background1;
+              default:
+                return globalTheme.siteVariables.colorScheme.default
+                  .background2;
+            }
+          })(),
         };
     }
   })();
