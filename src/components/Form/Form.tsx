@@ -7,6 +7,8 @@ import React, {
 } from "react";
 import get from "lodash/get";
 import clone from "lodash/clone";
+import chunk from "lodash/chunk";
+import uniqueId from "lodash/uniqueId";
 
 import {
   Alert,
@@ -14,6 +16,7 @@ import {
   Button,
   Checkbox,
   Dialog,
+  Dropdown,
   DropdownItemProps,
   Flex,
   Form as FluentUIForm,
@@ -37,6 +40,7 @@ import { getText, TTextObject, TTranslations } from "../../translations";
 import { WithOptionalInternalCallbacks, Surface } from "../../types/types.d";
 
 import { FormTheme } from "./FormTheme";
+import { ICSSInJSStyle } from "@fluentui/styles";
 
 export interface IFormState {
   [inputId: string]: string | string[];
@@ -203,19 +207,26 @@ interface IErrorMessageProps {
   message: TTextObject;
   id?: string;
   t?: TTranslations;
+  styles?: ICSSInJSStyle;
 }
 
 const errorId = (describesId: string) => `${describesId}__error`;
 const labelId = (describesId: string) => `${describesId}__label`;
 const fullInputId = (inputId: string) => `input_${inputId}`;
 
-const ErrorMessage = ({ excludeIcon, message, id, t }: IErrorMessageProps) => (
+const ErrorMessage = ({
+  excludeIcon,
+  message,
+  id,
+  t,
+  styles,
+}: IErrorMessageProps) => (
   <Box
     variables={({ colorScheme }: SiteVariablesPrepared) => ({
       color: colorScheme.red.foreground,
     })}
     {...(id && { id })}
-    styles={{ paddingLeft: ".375rem" }}
+    styles={{ paddingLeft: ".375rem", ...styles }}
   >
     {!excludeIcon && (
       <ExclamationCircleIcon
@@ -288,36 +299,20 @@ const DropdownField = (
   );
 };
 
-const TextField = ({
-  placeholder,
-  t,
-  title,
-  errors,
-  inputId,
-  formState,
-  setFormState,
-}: IPreparedTextField) => {
-  const inputProps: InputProps = { label: getText(t?.locale, title) };
-  if (placeholder) inputProps.placeholder = getText(t?.locale, placeholder);
-  const id = fullInputId(inputId);
-  const error = get(errors, inputId, false);
-  return (
-    <FluentUIForm.Input
-      fluid
-      id={id}
-      {...inputProps}
-      {...(error && {
-        error: true,
-        errorMessage: <ErrorMessage excludeIcon message={error} t={t} />,
-      })}
-      value={formState[inputId] as string}
-      onChange={(e, props) => {
-        if (props?.value) formState[inputId] = props.value.toString();
-        setFormState(formState);
-      }}
-    />
-  );
-};
+const splitQuery = (rowSize: number) =>
+  `@media (min-width: ${16 * 8.25 * rowSize}px)`;
+
+const textInputStyles = (rowSize: number, group: number) => ({
+  flex: "1 0 auto",
+  marginRight: ".75rem",
+  marginBottom: group === 0 ? ".25rem" : ".75rem",
+  width: "100%",
+  [splitQuery(rowSize)]: {
+    order: group,
+    width: `calc(${(100 / rowSize).toFixed(1)}% - .75rem)`,
+  },
+  ...(group === 0 && { alignSelf: "flex-end" }),
+});
 
 const TextInputsGroup = ({
   fields,
@@ -326,46 +321,165 @@ const TextInputsGroup = ({
   formState,
   setFormState,
 }: IPreparedTextInputs) => {
+  const rows: TField[][] = [];
+  let i = 0;
+  while (i < fields.length) {
+    switch (fields[i]?.width) {
+      case "split":
+        let j = i + 1;
+        while (fields[j]?.width === "split") {
+          j += 1;
+        }
+        Array.prototype.push.apply(rows, chunk(fields.slice(i, j + 1), 3));
+        i = j;
+        break;
+      default:
+        rows.push([fields[i]]);
+        i += 1;
+        break;
+    }
+  }
+
+  const groupId = uniqueId("text-inputs-group");
+
   return (
-    <Box
-      styles={{ display: "flex", flexFlow: "row wrap", marginRight: "-.75rem" }}
-    >
-      {fields.map((field) => {
-        const key = `Form__Field-${field.inputId}`;
+    <>
+      {rows.map((rowFields, r) => {
         return (
           <Box
-            key={key}
+            key={`${groupId}__row-${r}`}
             styles={{
-              flex: "1 1 0",
-              minWidth: field.width === "split" ? "7.5rem" : "100%",
-              paddingRight: ".75rem",
-              marginBottom: ".75rem",
+              display: "flex",
+              flexFlow: "row wrap",
+              [splitQuery(rowFields.length)]: {
+                marginRight: "-.75rem",
+              },
             }}
           >
-            {(() => {
-              switch (field.type) {
-                case "dropdown":
-                  return (
-                    <DropdownField
-                      {...field}
-                      {...{ t, errors, formState, setFormState }}
+            {rowFields.map((field) => {
+              const { inputId, title, type } = field;
+              const key = `${groupId}__row-${r}__field-${inputId}`;
+              const id = fullInputId(inputId);
+              const error = get(errors, inputId, false);
+              return (
+                <React.Fragment key={key}>
+                  <Input.Label
+                    htmlFor={id}
+                    id={labelId(id)}
+                    styles={textInputStyles(rowFields.length, 0)}
+                  >
+                    {getText(t?.locale, title)}
+                  </Input.Label>
+                  {(() => {
+                    switch (type) {
+                      case "dropdown":
+                        const { options, multiple } = field as IDropdownInput;
+                        const selectedValues = Array.isArray(formState[inputId])
+                          ? formState[inputId]
+                          : formState[inputId]
+                          ? [formState[inputId]]
+                          : [];
+                        const items = options.map(({ title, value }) => ({
+                          key: `${inputId}__${value}`,
+                          selected: selectedValues.includes(value),
+                          header: getText(t?.locale, title),
+                          "data-value": value,
+                        }));
+                        return (
+                          <Dropdown
+                            fluid
+                            id={id}
+                            label={getText(t?.locale, title)}
+                            styles={{
+                              ...textInputStyles(rowFields.length, 1),
+                              ...(error && { marginBottom: 0 }),
+                            }}
+                            onChange={(_e, props) => {
+                              if (props.multiple) {
+                                const values = (get(
+                                  props,
+                                  "value",
+                                  []
+                                ) as DropdownItemProps[]).map(
+                                  (selectedItemProps: DropdownItemProps) =>
+                                    get(selectedItemProps, "data-value")
+                                );
+                                values.length
+                                  ? (formState[inputId] = values)
+                                  : delete formState[inputId];
+                              } else {
+                                formState[inputId] = get(props, [
+                                  "value",
+                                  "data-value",
+                                ]);
+                              }
+                              setFormState(formState);
+                            }}
+                            defaultValue={
+                              multiple
+                                ? items.filter(({ "data-value": value }) =>
+                                    selectedValues.includes(value)
+                                  )
+                                : items.find(({ "data-value": value }) =>
+                                    selectedValues.includes(value)
+                                  )
+                            }
+                            items={items}
+                            {...(multiple && { multiple: true })}
+                            {...(error && { error: true })}
+                          />
+                        );
+                      case "text":
+                        const { placeholder } = field as ITextField;
+                        return (
+                          <Input
+                            fluid
+                            id={id}
+                            {...(placeholder && {
+                              placeholder: getText(t.locale, placeholder),
+                            })}
+                            {...(error && { error: true })}
+                            styles={{
+                              ...textInputStyles(rowFields.length, 1),
+                              ...(error && { marginBottom: 0 }),
+                            }}
+                            aria-labelledby={[labelId(id)]
+                              .concat(error ? errorId(id) : [])
+                              .join(" ")}
+                            value={formState[inputId] as string}
+                            onChange={(e, props) => {
+                              if (props?.value)
+                                formState[inputId] = props.value.toString();
+                              setFormState(formState);
+                            }}
+                          />
+                        );
+                      default:
+                        return null;
+                    }
+                  })()}
+                  {error ? (
+                    <ErrorMessage
+                      message={error}
+                      t={t}
+                      id={errorId(id)}
+                      styles={textInputStyles(rowFields.length, 2)}
                     />
-                  );
-                case "text":
-                  return (
-                    <TextField
-                      {...field}
-                      {...{ t, errors, formState, setFormState }}
+                  ) : (
+                    <Box
+                      styles={{
+                        ...textInputStyles(rowFields.length, 2),
+                        marginBottom: 0,
+                      }}
                     />
-                  );
-                default:
-                  return null;
-              }
-            })()}
+                  )}
+                </React.Fragment>
+              );
+            })}
           </Box>
         );
       })}
-    </Box>
+    </>
   );
 };
 
@@ -425,7 +539,7 @@ const CheckboxesGroup = ({
           );
         })}
       </Box>
-      {error && <ErrorMessage message={error} t={t} />}
+      {error && <ErrorMessage message={error} t={t} id={errorId(id)} />}
     </Box>
   );
 };
