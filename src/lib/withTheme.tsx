@@ -187,7 +187,17 @@ export const HVCThemeProvider = ({
           }
           ::-webkit-scrollbar-thumb:hover {
             background-color: ${theme.siteVariables?.colorScheme.default.foreground2};
-          } 
+          }
+          canvas {
+            margin: -3px;
+            padding: 3px;
+            border-radius: 3px;
+            border: 1px dashed transparent;
+          }
+          canvas:focus {
+            outline: none;
+            border: 1px dashed ${theme.siteVariables?.colorScheme.default.foregroundFocus2};
+          }
         `}
       </style>
       {children}

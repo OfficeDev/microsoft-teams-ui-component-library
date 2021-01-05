@@ -8,6 +8,30 @@ const chartAxis = (value: number): string => {
   return value / Math.pow(1000, exp) + suffixes[exp - 1] + " ";
 };
 
+export const random = (min: number, max: number): number =>
+  Math.round(Math.random() * (max - min) + min);
+
+export const randomNumber = (
+  count?: number,
+  startPoint?: number,
+  gap?: number
+) => {
+  if (!startPoint) {
+    startPoint = 150;
+  }
+  if (!gap) {
+    gap = Math.round(startPoint * 0.0);
+  }
+  if (!count) {
+    count = 0;
+  }
+  const min = Math.round(startPoint - gap);
+  const max = Math.round(startPoint + gap);
+  return count
+    ? Array.from({ length: count }, () => random(min, max))
+    : random(min, max);
+};
+
 export const lineChartSettings = {
   type: "line",
   options: {
@@ -20,7 +44,7 @@ export const lineChartSettings = {
     },
     elements: {
       line: {
-        tension: 0.4, // disables bezier curves
+        tension: 0.4,
       },
     },
     scales: {
@@ -28,27 +52,26 @@ export const lineChartSettings = {
         {
           ticks: {
             fontSize: 10,
-            fontColor: "#717070",
             padding: 0,
-            labelOffset: 4, // Padding label X
+            labelOffset: 4,
             maxRotation: 0,
             minRotation: 0,
           },
           gridLines: {
             display: false,
             offsetGridLines: true,
-            zeroLineWidth: 10,
+            zeroLineWidth: 0,
           },
         },
       ],
       yAxes: [
         {
           ticks: {
-            userCallback: (v: any) => chartAxis(v),
+            callback: (v: number) => chartAxis(v),
             fontSize: 10,
-            fontColor: "#717070",
             padding: -24,
             labelOffset: 10,
+            maxTicksLimit: 5,
           },
           gridLines: {
             lineWidth: 1,
