@@ -1,7 +1,0 @@
-{
-  "type": "prerelease",
-  "comment": "Add Form HVC to library; use Form HVC in board item creation flow in Board HVC; improve accessibility of Board HVC.",
-  "packageName": "@fluentui/react-teams",
-  "email": "v-wishow@microsoft.com",
-  "dependentChangeType": "patch"
-}

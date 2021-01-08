@@ -1,8 +1,16 @@
 # Change Log - @fluentui/react-teams
 
-This log was last generated on Mon, 14 Dec 2020 19:57:06 GMT and should not be manually modified.
+This log was last generated on Fri, 08 Jan 2021 20:56:16 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 0.1.0-alpha.11
+
+Fri, 08 Jan 2021 20:56:16 GMT
+
+### Changes
+
+- Add Form HVC to library; use Form HVC in board item creation flow in Board HVC; improve accessibility of Board HVC. (v-wishow@microsoft.com)
 
 ## 0.1.0-alpha.10
 
