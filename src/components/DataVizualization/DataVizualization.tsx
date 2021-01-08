@@ -7,6 +7,7 @@ import {
   SiteVariablesPrepared,
   Toolbar as Legend,
   Button,
+  BoldIcon,
 } from "@fluentui/react-northstar";
 import { DataVizualizationTheme } from "./DataVizualizationTheme";
 import { IChartData, IChartDataSet } from "./DataVisualizationTypes";
@@ -110,6 +111,7 @@ const LineChart = ({
   siteVariables: SiteVariablesPrepared;
 }) => {
   const [overflowOpen, setOverflowOpen] = useState(false);
+  const [overflowItems, setOverflowItems] = useState<number>(0);
 
   let chart: any;
   const chartRef = React.createRef<HTMLCanvasElement>();
@@ -356,7 +358,7 @@ const LineChart = ({
                 ctx.lineTo(x, bottomY);
                 ctx.setLineDash([5, 5]);
                 ctx.lineWidth = 0.75;
-                ctx.strokeStyle = chartColorPalette[activePoint._datasetIndex];
+                ctx.strokeStyle = siteVariables.colorScheme.default.border;
                 ctx.stroke();
                 // Point
                 ctx.beginPath();
@@ -364,6 +366,7 @@ const LineChart = ({
                 ctx.arc(x, y, 5, 0, 2 * Math.PI, true);
                 ctx.lineWidth = 2;
                 ctx.fillStyle = siteVariables.colorScheme.white.foreground;
+                ctx.strokeStyle = chartColorPalette[activePoint._datasetIndex];
                 ctx.closePath();
                 ctx.fill();
                 ctx.stroke();
@@ -498,16 +501,43 @@ const LineChart = ({
         overflow
         overflowOpen={overflowOpen}
         overflowItem={{
-          title: "More",
+          icon: (
+            <BoldIcon
+              as="button"
+              styles={{
+                position: "relative",
+                width: "3.5rem",
+                height: "1rem",
+                borderRadius: "4px",
+                "& svg": {
+                  display: "none",
+                },
+                "&::after": {
+                  content: `"${overflowItems} more"`,
+                  display: "block",
+                  position: "absolute",
+                  top: 0,
+                  left: ".5rem",
+                  minWidth: "3rem",
+                  textAlign: "left",
+                  fontSize: ".75rem",
+                  color: siteVariables.colorScheme.brand.foreground,
+                },
+              }}
+            />
+          ),
+          content: <div>21134</div>,
         }}
         onOverflowOpenChange={(e, props) => {
           setOverflowOpen(!!props?.overflowOpen);
         }}
+        onOverflow={(items) => setOverflowItems(toolbarItems.length - items)}
         getOverflowItems={(startIndex) => legendItems.slice(startIndex)}
         styles={{
           margin: "0 .8rem",
         }}
       />
+      {console.log(siteVariables)}
     </Box>
   );
 };
