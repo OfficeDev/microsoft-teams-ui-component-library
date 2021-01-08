@@ -189,14 +189,12 @@ export const HVCThemeProvider = ({
             background-color: ${theme.siteVariables?.colorScheme.default.foreground2};
           }
           canvas {
-            margin: -3px;
-            padding: 3px;
             border-radius: 3px;
-            border: 1px dashed transparent;
+            transition: box-shadow .05s .1s ease-out;
           }
           canvas:focus {
             outline: none;
-            border: 1px dashed ${theme.siteVariables?.colorScheme.default.foregroundFocus2};
+            box-shadow: 0 0 0 2px ${theme.siteVariables?.colorScheme.default.foregroundFocus}, inset 0 0 0 1px ${theme.siteVariables?.colorScheme.default.foregroundFocus3};
           }
         `}
       </style>

@@ -1,26 +1,20 @@
 import React, { useEffect, useState } from "react";
 import Chart from "chart.js";
+import _ from "lodash";
 import {
   ProviderConsumer as FluentUIThemeConsumer,
   Box,
   SiteVariablesPrepared,
   Toolbar as Legend,
-  BoldIcon,
-  ItalicIcon,
   Button,
-  UnderlineIcon,
 } from "@fluentui/react-northstar";
 import { DataVizualizationTheme } from "./DataVizualizationTheme";
-import { IChartData } from "./DataVisualizationTypes";
-import { lineChartSettings, randomNumber } from "./Utils";
+import { IChartData, IChartDataSet } from "./DataVisualizationTypes";
+import { lineChartSettings } from "./Utils";
+import { TeamsTheme } from "../../themes";
 
-//--Chart Global Options--//
-(Chart as any).defaults.global.defaultFontFamily = "'Segoe UI', sans-serif";
-(Chart as any).defaults.global.legend.display = false;
-//--Chart Global Options--//
-
-export function DataVizualization({ config }: any) {
-  // console.clear();
+export function DataVizualization({}: any) {
+  console.clear();
   return (
     <FluentUIThemeConsumer
       render={(globalTheme) => (
@@ -30,6 +24,7 @@ export function DataVizualization({ config }: any) {
               margin: "1rem",
               padding: "1rem",
               borderRadius: "3px",
+              maxWidth: "30rem",
               background:
                 globalTheme.siteVariables.colorScheme.default.background,
             }}
@@ -39,24 +34,28 @@ export function DataVizualization({ config }: any) {
                 labels: ["Jan", "Feb", "March", "April", "May"],
                 datasets: [
                   {
-                    label: "Sales",
-                    data: randomNumber(5) as number[],
+                    label: "Tablets",
+                    data: [860, 6700, 3100, 2012, 1930],
                   },
                   {
-                    label: "Bookings",
-                    data: randomNumber(5) as number[],
+                    label: "Phones",
+                    data: [100, 1600, 180, 3049, 3596],
                   },
                   {
-                    label: "Bookings1",
-                    data: randomNumber(5) as number[],
+                    label: "Laptops",
+                    data: [1860, 7700, 4100, 3012, 2930],
                   },
                   {
-                    label: "Bookings2",
-                    data: randomNumber(5) as number[],
+                    label: "Watches",
+                    data: [200, 3600, 480, 5049, 4596],
                   },
                   {
-                    label: "Bookings3",
-                    data: randomNumber(5) as number[],
+                    label: "TV",
+                    data: [960, 8700, 5100, 5012, 3930],
+                  },
+                  {
+                    label: "Displayes",
+                    data: [1000, 4600, 480, 4049, 3596],
                   },
                 ],
               }}
@@ -102,6 +101,7 @@ export function DataVizualization({ config }: any) {
  * (x). Max/Min value to define steps
  */
 
+(Chart as any).defaults.global.legend.display = false;
 const LineChart = ({
   data,
   siteVariables,
@@ -122,27 +122,51 @@ const LineChart = ({
   let selectedDataSet = 0;
   let meta: any;
 
-  function activate() {
-    meta!.controller.setHoverStyle(meta!.data[selectedIndex], 0, selectedIndex);
-    showTooltip(chart, selectedDataSet, selectedIndex);
+  function removeFocusStyleOnClick() {
+    if (chartRef && chartRef.current) {
+      chartRef.current.style.boxShadow = "none";
+    }
+  }
+
+  function removeDataPointsHoverStates() {
+    if (selectedIndex > -1) {
+      meta!.controller.removeHoverStyle(
+        meta!.data[selectedIndex],
+        0,
+        selectedIndex
+      );
+    }
+  }
+
+  function hoverDataPoint(pointID: number) {
+    meta!.controller.setHoverStyle(
+      meta!.data[pointID],
+      selectedDataSet,
+      pointID
+    );
+  }
+
+  function showFocusedDataPoint() {
+    hoverDataPoint(selectedIndex);
+    showTooltip(chart, data, selectedDataSet, selectedIndex);
     document
       .getElementById(`${chartId}-tooltip-${selectedDataSet}-${selectedIndex}`)
       ?.focus();
   }
-  function activateNext() {
-    selectedIndex = (selectedIndex + 1) % meta!.data.length;
-    activate();
-  }
-  function activatePrev() {
-    selectedIndex = (selectedIndex || meta!.data.length) - 1;
-    activate();
-  }
 
-  function clearFocusState() {
+  function resetChartStates() {
+    removeDataPointsHoverStates();
     const activeElements = chart.tooltip._active;
     const requestedElem = chart.getDatasetMeta(selectedDataSet).data[
       selectedIndex
     ];
+    activeElements.find((v: any, i: number) => {
+      if (requestedElem._index === v._index) {
+        activeElements.splice(i, 1);
+        return true;
+      }
+    });
+
     for (let i = 0; i < activeElements.length; i++) {
       if (requestedElem._index === activeElements[i]._index) {
         activeElements.splice(i, 1);
@@ -155,42 +179,49 @@ const LineChart = ({
   }
 
   function changeFocus(e: KeyboardEvent) {
-    /**
-     * TODO:
-     * 1. Focus styles
-     * 2. Show focus just on Tab
-     */
-
+    e.preventDefault();
+    removeDataPointsHoverStates();
     switch (e.key) {
       case "ArrowRight":
-        activateNext();
+        selectedIndex = (selectedIndex + 1) % meta!.data.length;
         break;
       case "ArrowLeft":
-        activatePrev();
+        selectedIndex = (selectedIndex || meta!.data.length) - 1;
         break;
       case "ArrowUp":
-        if (data.datasets.length > 1) {
-          selectedIndex -= 1;
-          selectedDataSet += 1;
-          if (selectedDataSet === data.datasets.length) {
-            selectedDataSet = 0;
-          }
-          meta = chart.getDatasetMeta(selectedDataSet);
-          activateNext();
-        }
-        break;
       case "ArrowDown":
         if (data.datasets.length > 1) {
-          selectedIndex -= 1;
-          selectedDataSet -= 1;
-          if (selectedDataSet < 0) {
-            selectedDataSet = data.datasets.length - 1;
+          // Get all values for the current data point
+          const values = data.datasets.map(
+            (dataset) => dataset.data[selectedIndex]
+          );
+          // Sort an array to define next available number
+          const sorted = [...Array.from(new Set(values))].sort((a, b) => a - b);
+          let nextValue =
+            sorted[
+              sorted.findIndex((v) => v === values[selectedDataSet]) +
+                (e.key === "ArrowUp" ? 1 : -1)
+            ];
+
+          // Find dataset ID by the next higher number after current
+          let nextDataSet = values.findIndex((v) => v === nextValue);
+
+          // If there is no next number that could selected, get number from oposite side
+          if (nextDataSet < 0) {
+            nextDataSet = values.findIndex(
+              (v) =>
+                v === sorted[e.key === "ArrowUp" ? 0 : data.datasets.length - 1]
+            );
           }
+          selectedDataSet = nextDataSet;
+
           meta = chart.getDatasetMeta(selectedDataSet);
-          activateNext();
+          selectedIndex = selectedIndex % meta!.data.length;
         }
         break;
     }
+
+    showFocusedDataPoint();
   }
 
   /**
@@ -198,53 +229,176 @@ const LineChart = ({
    */
   const chartColorPalette = [
     siteVariables.colorScheme.brand.background,
-    siteVariables.colorScheme.brand.background2,
+    siteVariables.colorScheme.brand.borderHover,
     siteVariables.colorScheme.brand.background4,
-    siteVariables.colorScheme.brand.foregroundDisabled,
+    siteVariables.colorScheme.default.background4,
+    siteVariables.colorScheme.default.foreground2,
+    siteVariables.colorScheme.default.foreground,
   ];
-
-  console.log(siteVariables.colorScheme);
+  const chartPattern = [
+    { line: [], point: "circle" },
+    { line: [], point: "rect" },
+    { line: [], point: "triangle" },
+    { line: [5, 5], point: "cross" },
+    { line: [5, 5], point: "rectRot" },
+    { line: [5, 5], point: "crossRot" },
+  ];
 
   /**
    * Chart initialization
    */
+  console.log({ color: siteVariables.colorScheme, chartColorPalette });
   useEffect(() => {
     if (chartRef && chartRef.current) {
       const ctx = chartRef.current.getContext("2d");
-      chart = new Chart(ctx!, {
-        ...lineChartSettings,
-        data: {
-          labels: data.labels,
-          datasets: Array.from(data.datasets, (set, index) => ({
-            label: set.label,
-            data: set.data,
-            borderColor: chartColorPalette[index],
-            backgroundColor: "transparent",
-            borderWidth: 2,
-            pointBorderColor: chartColorPalette[index],
-            pointBackgroundColor: chartColorPalette[index],
-            pointHoverBackgroundColor: chartColorPalette[index],
-            pointHoverBorderColor: chartColorPalette[index],
-            borderCapStyle: "round",
-            borderJoinStyle: "round",
-            pointBorderWidth: 0,
-            pointRadius: 2,
-          })),
+      const config = _.merge(lineChartSettings, {
+        options: {
+          tooltips: {
+            backgroundColor:
+              siteVariables.theme === TeamsTheme.Dark
+                ? siteVariables.colorScheme.default.border2
+                : siteVariables.colorScheme.default.foregroundFocus,
+            bodySpacing: 4,
+            bodyFontSize: 10,
+            bodyFontStyle: "100",
+            yPadding: 12,
+            xPadding: 20,
+            caretPadding: 10,
+            multiKeyBackground: siteVariables.colorScheme.white.foreground,
+
+            titleFontFamily: siteVariables.bodyFontFamily,
+            titleFontStyle: "100",
+            titleFontSize: 20,
+            bodyFontFamily: siteVariables.bodyFontFamily,
+
+            footerFontFamily: siteVariables.bodyFontFamily,
+            footerFontStyle: "100",
+            footerFontSize: 10,
+
+            footerFontColor:
+              siteVariables.colorScheme.default.foregroundDisabled1,
+            bodyFontColor: siteVariables.colorScheme.default.foreground3,
+            titleFontColor: siteVariables.colorScheme.default.foreground3,
+
+            callbacks: {
+              title: (tooltipItems: any) => {
+                return tooltipItems[0].yLabel;
+              },
+              label: (tooltipItem: any, data: any) => {
+                return data.datasets[tooltipItem.datasetIndex].label;
+              },
+              labelColor: (tooltipItem: any) => {
+                return {
+                  borderColor: "transparent",
+                  backgroundColor: chartColorPalette[tooltipItem.datasetIndex],
+                };
+              },
+              footer: (tooltipItems: any, data: any) => {
+                return tooltipItems[0].xLabel;
+              },
+            },
+          },
         },
       });
+      chart = new Chart(ctx!, {
+        ...config,
+        data: {
+          labels: data.labels,
+          datasets: Array.from(data.datasets, (set, index) => {
+            const dataColor =
+              siteVariables.theme === TeamsTheme.HighContrast
+                ? siteVariables.colorScheme.default.borderHover
+                : chartColorPalette[index];
+            return {
+              label: set.label,
+              data: set.data,
+              borderColor: dataColor,
+              backgroundColor: "transparent",
+              borderWidth: 2,
+              pointBorderColor: dataColor,
+              pointBackgroundColor: dataColor,
+              pointHoverBackgroundColor: dataColor,
+              pointHoverBorderColor: dataColor,
+              pointHoverBorderWidth: 0,
+              borderCapStyle: "round",
+              borderJoinStyle: "round",
+              pointBorderWidth: 0,
+              pointRadius:
+                siteVariables.theme === TeamsTheme.HighContrast ? 4 : 2,
+              pointHoverRadius:
+                siteVariables.theme === TeamsTheme.HighContrast ? 4 : 2,
+              pointStyle:
+                siteVariables.theme === TeamsTheme.HighContrast
+                  ? (chartPattern[index].point as any)
+                  : "circle",
+              borderDash:
+                siteVariables.theme === TeamsTheme.HighContrast
+                  ? chartPattern[index].line
+                  : [],
+            };
+          }),
+        },
+        plugins: [
+          {
+            afterDatasetsDraw: ({ ctx, tooltip }: any) => {
+              if (tooltip._active && tooltip._active.length) {
+                const activePoint = tooltip._active[0],
+                  y = activePoint.tooltipPosition().y,
+                  x = activePoint.tooltipPosition().x,
+                  y_axis = chart.scales["y-axis-0"],
+                  topY = y_axis.top,
+                  bottomY = y_axis.bottom;
+
+                ctx.save();
+                // Line
+                ctx.beginPath();
+                ctx.moveTo(x, topY);
+                ctx.lineTo(x, bottomY);
+                ctx.setLineDash([5, 5]);
+                ctx.lineWidth = 0.75;
+                ctx.strokeStyle = chartColorPalette[activePoint._datasetIndex];
+                ctx.stroke();
+                // Point
+                ctx.beginPath();
+                ctx.setLineDash([]);
+                ctx.arc(x, y, 5, 0, 2 * Math.PI, true);
+                ctx.lineWidth = 2;
+                ctx.fillStyle = siteVariables.colorScheme.white.foreground;
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+
+                ctx.restore();
+              }
+            },
+          },
+        ],
+      });
+
+      /**
+       * Globals
+       */
+      chart.options.fontFamily = siteVariables.bodyFontFamily;
+      chart.options.defaultFontFamily = siteVariables.bodyFontFamily;
       /**
        * Color scheme updates
+       *
+       * "axesXGridLines" gradient to hide top part of the line, hidden gap applied by "borderDash"
        */
-      chart.config.options.scales.xAxes.forEach((xAxes: any, index: number) => {
+      const axesXGridLines = ctx!.createLinearGradient(100, 100, 100, 0);
+      axesXGridLines.addColorStop(0.01, siteVariables.colorScheme.grey.border);
+      axesXGridLines.addColorStop(0.01, "transparent");
+
+      chart.options.scales.xAxes.forEach((xAxes: any, index: number) => {
         xAxes.ticks.fontColor = siteVariables.colorScheme.default.foreground2;
         if (index < 1) {
-          xAxes.gridLines.color = siteVariables.colorScheme.grey.border;
-          xAxes.gridLines.zeroLineColor = siteVariables.colorScheme.grey.border;
+          xAxes.gridLines.color = axesXGridLines;
+          xAxes.gridLines.zeroLineColor = axesXGridLines;
         } else {
           xAxes.gridLines.color = "transparent";
         }
       });
-      chart.config.options.scales.yAxes.forEach((yAxes: any, index: number) => {
+      chart.options.scales.yAxes.forEach((yAxes: any, index: number) => {
         yAxes.ticks.fontColor = siteVariables.colorScheme.default.foreground2;
         if (index < 1) {
           yAxes.gridLines.color = siteVariables.colorScheme.grey.border;
@@ -257,12 +411,14 @@ const LineChart = ({
        * Color scheme updates
        */
       meta = chart.getDatasetMeta(selectedDataSet);
+      chartRef.current.addEventListener("click", removeFocusStyleOnClick);
       chartRef.current.addEventListener("keydown", changeFocus);
-      chartRef.current.addEventListener("focusout", clearFocusState);
+      chartRef.current.addEventListener("focusout", resetChartStates);
     }
     return () => {
       if (chartRef && chartRef.current) {
-        chartRef.current.removeEventListener("focusout", clearFocusState);
+        chartRef.current.addEventListener("click", removeFocusStyleOnClick);
+        chartRef.current.removeEventListener("focusout", resetChartStates);
         chartRef.current.removeEventListener("keydown", changeFocus);
         chart.destroy();
       }
@@ -277,24 +433,27 @@ const LineChart = ({
     key: i,
     kind: "custom",
     content: (
-      <div
-        style={{
+      <Button
+        styles={{
           display: "flex",
           alignItems: "center",
-          padding: "0 1rem",
           fontSize: ".75rem",
+          minWidth: "30px",
+          color: siteVariables.colorScheme.default.foreground2,
         }}
+        text
       >
-        <div
-          style={{
+        <Box
+          styles={{
             width: ".6rem",
             height: ".6rem",
             backgroundColor: chartColorPalette[i],
-            margin: "0 .4rem",
+            margin: "0 0 -1px",
+            marginRight: ".4rem",
           }}
-        ></div>{" "}
+        />
         {dataset.label}
-      </div>
+      </Button>
     ),
     fitted: "horizontally",
   }));
@@ -302,14 +461,19 @@ const LineChart = ({
   const toolbarItems = legendItems;
 
   return (
-    <>
+    <Box
+      styles={{
+        margin: "0 -1rem",
+        width: "calc(100% + 1rem)",
+      }}
+    >
       <canvas
         id={chartId}
-        width="600"
-        height="320"
         ref={chartRef}
         tabIndex={0}
-        style={{ userSelect: "none" }}
+        style={{
+          userSelect: "none",
+        }}
         aria-label="[TODO]"
       >
         <title>[TODO]</title>
@@ -327,6 +491,7 @@ const LineChart = ({
           ))
         )}
       </canvas>
+
       <Legend
         aria-label="Toolbar overflow menu"
         items={toolbarItems}
@@ -339,15 +504,27 @@ const LineChart = ({
           setOverflowOpen(!!props?.overflowOpen);
         }}
         getOverflowItems={(startIndex) => legendItems.slice(startIndex)}
+        styles={{
+          margin: "0 .8rem",
+        }}
       />
-    </>
+    </Box>
   );
 };
 
-function showTooltip(chart: any, set: number, index: number) {
-  const segment = chart.getDatasetMeta(set).data[index];
-  chart.tooltip._active = [segment];
-  // console.log("chart.tooltip ", chart.tooltip);
+function showTooltip(chart: any, data: IChartData, set: number, index: number) {
+  const duplicates: number[] = [];
+  const segments: any[] = [];
+  // Check fro equal data points
+  data.datasets.filter((dataset: IChartDataSet, i: number) => {
+    if (dataset.data[index] === data.datasets[set].data[index]) {
+      duplicates.push(i);
+    }
+  });
+  duplicates.forEach((segmentId) => {
+    segments.push(chart.getDatasetMeta(segmentId).data[index]);
+  });
+  chart.tooltip._active = segments;
   chart.tooltip.update();
   chart.draw();
 }
