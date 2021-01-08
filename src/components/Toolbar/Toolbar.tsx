@@ -253,6 +253,7 @@ export const Toolbar = (props: IToolbarProps) => {
               elevation: colorScheme.elevations[16],
             })}
             styles={{
+              width: "100vw",
               display: "flex",
               justifyContent: "space-between",
               padding: "0 1.25rem",

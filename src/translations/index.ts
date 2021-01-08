@@ -87,7 +87,7 @@ export default {
     "on drag cancel board item":
       "You have cancelled dragging the item called {itemTitle}.",
     "board lane instructions":
-      "Press Enter to explore board lane iteems, then use Escape to shift focus back to the board lane.",
+      "Press Enter to explore board lane items, then use Escape to shift focus back to the board lane.",
   } as TTranslations,
   fa: {
     locale: "fa",
