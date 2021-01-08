@@ -12,7 +12,7 @@ import {
 } from "@fluentui/react-northstar";
 
 export default {
-  title: "Composites/Dashboard",
+  title: "UI Templates/Dashboard",
   component: Dashboard,
 };
 

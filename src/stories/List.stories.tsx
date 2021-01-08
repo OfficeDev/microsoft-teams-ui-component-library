@@ -4,7 +4,7 @@ import { object, boolean } from "@storybook/addon-knobs";
 import { List, TSortable } from "..";
 
 export default {
-  title: "Composites/List",
+  title: "UI Templates/List",
   component: List,
 };
 
@@ -22,7 +22,7 @@ export const KitchenSink = () => {
     columns: {
       c1: {
         title: "Member name",
-        sortable: "alphabetic" as TSortable,
+        sortable: "alphabetical" as TSortable,
       },
       c2: {
         title: "Location",

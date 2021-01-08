@@ -1,3 +1,4 @@
+import { ComponentEventHandler } from "@fluentui/react-northstar";
 import { TTextObject } from "../translations";
 
 export type TAction = {
@@ -19,3 +20,14 @@ export type TUser = {
 export type TUsers = {
   [userKey: string]: TUser;
 };
+
+export interface WithOptionalInternalCallbacks<P> {
+  __internal_callbacks__?: {
+    [callbackId: string]: ComponentEventHandler<P>;
+  };
+}
+
+export enum Surface {
+  base = "base",
+  raised = "raised",
+}

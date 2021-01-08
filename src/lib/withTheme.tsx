@@ -7,6 +7,7 @@ import {
   teamsDarkTheme,
   teamsHighContrastTheme,
   ComponentVariablesInput,
+  ThemePrepared,
 } from "@fluentui/react-northstar";
 
 import { ComponentVariablesObject, ThemeInput } from "@fluentui/styles";
@@ -18,7 +19,7 @@ import {
   TeamsTheme,
 } from "../themes";
 
-import translations, { TLocale } from "../translations";
+import translations, { TLocale, TTranslations } from "../translations";
 
 export enum IThemeTeamsClient {
   HighContrast = "contrast",
@@ -40,13 +41,9 @@ export const teamsNextVariableAssignments = {
   componentStyles: {
     Box: {
       root: ({ variables }: ComponentVariablesObject) => ({
+        color: variables.color,
         backgroundColor: variables.backgroundColor,
         boxShadow: variables.elevation,
-      }),
-    },
-    Button: {
-      root: ({ variables }: ComponentVariablesObject) => ({
-        color: variables.color,
       }),
     },
     ButtonContent: {
@@ -134,6 +131,13 @@ export const themes: { [themeKey: string]: ThemeInput<any> } = {
   ),
 };
 
+export interface IHVCTheme extends ThemePrepared<any> {
+  themeName: TeamsTheme;
+  rtl: boolean;
+  lang: TLocale;
+  t: TTranslations;
+}
+
 export const HVCThemeProvider = ({
   children,
   lang,
@@ -174,7 +178,7 @@ export const HVCThemeProvider = ({
     >
       <style>
         {`
-          html, body, #root, #root > .ui-provider { height: 100%; overflow: auto }
+          html, body, #root, #root > .ui-provider { height: 100% }
           ::-webkit-scrollbar { width: .75rem } 
           ::-webkit-scrollbar-track {
             background-color: ${theme.siteVariables?.colorScheme.default.background2};
