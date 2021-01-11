@@ -1,6 +1,6 @@
-import {withKnobs} from "@storybook/addon-knobs";
-import {withA11y} from "@storybook/addon-a11y";
-import {withStorybookTheme} from '../src/lib/withStorybookTheme'
+import { withKnobs } from "@storybook/addon-knobs";
+import { withA11y } from "@storybook/addon-a11y";
+import { withStorybookTheme } from "../src/lib/withStorybookTheme";
 
 export const parameters = {
   options: {
@@ -12,8 +12,4 @@ export const parameters = {
   layout: "fullscreen",
 };
 
-export const decorators = [
-  withKnobs,
-  withA11y,
-  withStorybookTheme,
-]
+export const decorators = [withKnobs, withA11y, withStorybookTheme];

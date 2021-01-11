@@ -131,7 +131,13 @@ export const KitchenSink = () => {
     <Form {...object("Configuration", kitchenSinkConfig, formKnobGroupID)} />
   );
 };
-7;
+
+KitchenSink.parameters = {
+  design: {
+    type: "figma",
+    url: "https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/?node-id=1%3A34",
+  },
+};
 
 export const KitchenSinkWithErrors = () => {
   const kitchenSinkWithErrorsConfig = Object.assign(
@@ -149,4 +155,11 @@ export const KitchenSinkWithErrors = () => {
       {...object("Configuration", kitchenSinkWithErrorsConfig, formKnobGroupID)}
     />
   );
+};
+
+KitchenSinkWithErrors.parameters = {
+  design: {
+    type: "figma",
+    url: "https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/?node-id=1%3A34",
+  },
 };

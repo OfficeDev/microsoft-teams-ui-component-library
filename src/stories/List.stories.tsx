@@ -1,11 +1,13 @@
 import React from "react";
 import { object, boolean } from "@storybook/addon-knobs";
+import { withDesign } from "storybook-addon-designs";
 
 import { List, TSortable } from "..";
 
 export default {
   title: "UI Templates/List",
   component: List,
+  decorators: [withDesign],
 };
 
 const listKnobGroupID = "List";
@@ -90,4 +92,11 @@ export const KitchenSink = () => {
       {...object("Configuration", listConfig, listKnobGroupID)}
     />
   );
+};
+
+KitchenSink.parameters = {
+  design: {
+    type: "figma",
+    url: "https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/?node-id=1%3A31",
+  },
 };

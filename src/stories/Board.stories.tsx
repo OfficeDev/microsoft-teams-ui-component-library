@@ -4,12 +4,14 @@ import fakerEN from "faker/locale/en_US";
 import fakerFA from "faker/locale/fa";
 import range from "lodash/range";
 import shuffle from "lodash/shuffle";
+import { withDesign } from "storybook-addon-designs";
 
 import { Board, IBoardItem, IBoardItemCardLayout, TUsers } from "..";
 
 export default {
   title: "UI Templates/Board",
   component: Board,
+  decorators: [withDesign],
 };
 
 const boardKnobGroupID = "Board";
@@ -101,4 +103,11 @@ export const KitchenSink = () => {
       )}
     />
   );
+};
+
+KitchenSink.parameters = {
+  design: {
+    type: "figma",
+    url: "https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/?node-id=1%3A33",
+  },
 };
