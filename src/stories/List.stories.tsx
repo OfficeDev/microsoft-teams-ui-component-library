@@ -5,12 +5,12 @@ import { withDesign } from "storybook-addon-designs";
 import { List, TSortable } from "..";
 
 export default {
-  title: "UI Templates/List",
+  title: "UI Templates/Lists",
   component: List,
   decorators: [withDesign],
 };
 
-const listKnobGroupID = "List";
+const listKnobGroupID = "Lists";
 
 export const KitchenSink = () => {
   const listConfig = {

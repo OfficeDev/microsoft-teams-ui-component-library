@@ -13,11 +13,11 @@ import { object } from "@storybook/addon-knobs";
 import { Form, TInputWidth, TFormErrors } from "../components/Form/Form";
 
 export default {
-  title: "UI Templates/Form",
+  title: "UI Templates/Forms",
   component: Form,
 };
 
-const formKnobGroupID = "Form";
+const formKnobGroupID = "Forms";
 
 const kitchenSinkConfig = {
   submit: {

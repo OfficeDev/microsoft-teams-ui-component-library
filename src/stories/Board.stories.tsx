@@ -9,12 +9,12 @@ import { withDesign } from "storybook-addon-designs";
 import { Board, IBoardItem, IBoardItemCardLayout, TUsers } from "..";
 
 export default {
-  title: "UI Templates/Board",
+  title: "UI Templates/Task boards",
   component: Board,
   decorators: [withDesign],
 };
 
-const boardKnobGroupID = "Board";
+const boardKnobGroupID = "Task boards";
 
 const fake = (template: string) => {
   return { "en-US": fakerEN.fake(template), fa: fakerFA.fake(template) };

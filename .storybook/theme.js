@@ -3,7 +3,7 @@ import { create } from "@storybook/theming/create";
 export default create({
   base: "light",
   brandTitle: "React Teams",
-  brandImage: "https://i.ibb.co/M72sq2q/logo.jpg",
+  brandImage: "https://i.ibb.co/T1GptPT/react-library-logo-v2.jpg",
 
   colorPrimary: "#6264A7",
   colorSecondary: "#616161",
