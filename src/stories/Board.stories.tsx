@@ -2,6 +2,7 @@ import React from "react";
 import { object } from "@storybook/addon-knobs";
 import fakerEN from "faker/locale/en_US";
 import fakerFA from "faker/locale/fa";
+import { TestImages } from "@fluentui/example-data";
 import range from "lodash/range";
 import shuffle from "lodash/shuffle";
 
@@ -29,7 +30,14 @@ export const KitchenSink = () => {
     users: usersRange.reduce((acc: TUsers, i) => {
       acc[`u${i}`] = {
         name: fake("{{name.findName}}"),
-        ...(Math.random() > 0.33 ? { image: fakerEN.internet.avatar() } : {}),
+        ...(Math.random() > 0.33
+          ? {
+              image:
+                Math.random() > 0.5
+                  ? TestImages.personaFemale
+                  : TestImages.personaMale,
+            }
+          : {}),
       };
       return acc;
     }, {}),
