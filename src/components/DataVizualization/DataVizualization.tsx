@@ -6,7 +6,7 @@ import {
   Box,
   SiteVariablesPrepared,
   Toolbar as Legend,
-  Button,
+  Button as LegendItem,
   BoldIcon,
 } from "@fluentui/react-northstar";
 import { DataVizualizationTheme } from "./DataVizualizationTheme";
@@ -103,6 +103,7 @@ export function DataVizualization({}: any) {
  */
 
 (Chart as any).defaults.global.legend.display = false;
+(Chart as any).defaults.global.defaultFontFamily = `"Segoe UI", system-ui, "Apple Color Emoji", "Segoe UI Emoji", sans-serif`;
 const LineChart = ({
   data,
   siteVariables,
@@ -181,17 +182,19 @@ const LineChart = ({
   }
 
   function changeFocus(e: KeyboardEvent) {
-    e.preventDefault();
     removeDataPointsHoverStates();
     switch (e.key) {
       case "ArrowRight":
+        e.preventDefault();
         selectedIndex = (selectedIndex + 1) % meta!.data.length;
         break;
       case "ArrowLeft":
+        e.preventDefault();
         selectedIndex = (selectedIndex || meta!.data.length) - 1;
         break;
       case "ArrowUp":
       case "ArrowDown":
+        e.preventDefault();
         if (data.datasets.length > 1) {
           // Get all values for the current data point
           const values = data.datasets.map(
@@ -249,7 +252,6 @@ const LineChart = ({
   /**
    * Chart initialization
    */
-  console.log({ color: siteVariables.colorScheme, chartColorPalette });
   useEffect(() => {
     if (chartRef && chartRef.current) {
       const ctx = chartRef.current.getContext("2d");
@@ -379,11 +381,6 @@ const LineChart = ({
       });
 
       /**
-       * Globals
-       */
-      chart.options.fontFamily = siteVariables.bodyFontFamily;
-      chart.options.defaultFontFamily = siteVariables.bodyFontFamily;
-      /**
        * Color scheme updates
        *
        * "axesXGridLines" gradient to hide top part of the line, hidden gap applied by "borderDash"
@@ -436,7 +433,7 @@ const LineChart = ({
     key: i,
     kind: "custom",
     content: (
-      <Button
+      <LegendItem
         styles={{
           display: "flex",
           alignItems: "center",
@@ -453,10 +450,11 @@ const LineChart = ({
             backgroundColor: chartColorPalette[i],
             margin: "0 0 -1px",
             marginRight: ".4rem",
+            borderRadius: siteVariables.borderRadius,
           }}
         />
         {dataset.label}
-      </Button>
+      </LegendItem>
     ),
     fitted: "horizontally",
   }));
@@ -503,7 +501,6 @@ const LineChart = ({
         overflowItem={{
           icon: (
             <BoldIcon
-              as="button"
               styles={{
                 position: "relative",
                 width: "3.5rem",
@@ -537,7 +534,6 @@ const LineChart = ({
           margin: "0 .8rem",
         }}
       />
-      {console.log(siteVariables)}
     </Box>
   );
 };
