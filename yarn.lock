@@ -1261,13 +1261,6 @@
     "@uifabric/set-version" "^7.0.23"
     tslib "^1.10.0"
 
-"@fluentui/example-data@^8.0.0-beta.0":
-  version "8.0.0-beta.0"
-  resolved "https://registry.yarnpkg.com/@fluentui/example-data/-/example-data-8.0.0-beta.0.tgz#b5856403dee8b368e8c72efa97889a9a23e77e40"
-  integrity sha512-i69f/AqgntlybNCIxjzvmoN3D5eEm3t4g3K3+DTC3gP/cX90b40JNINfqIJEn/5B8Zilgb+p236b73sGsXlEyg==
-  dependencies:
-    tslib "^1.10.0"
-
 "@fluentui/keyboard-key@^0.2.7":
   version "0.2.12"
   resolved "https://registry.yarnpkg.com/@fluentui/keyboard-key/-/keyboard-key-0.2.12.tgz#74eddf4657c164193b6c8855746e691af466441a"
@@ -7462,9 +7455,9 @@ extsprintf@^1.2.0:
   resolved "https://registry.yarnpkg.com/extsprintf/-/extsprintf-1.4.0.tgz#e2689f8f356fad62cca65a3a91c5df5f9551692f"
   integrity sha1-4mifjzVvrWLMplo6kcXfX5VRaS8=
 
-faker@Marak/faker.js:
-  version "5.1.0"
-  resolved "https://codeload.github.com/Marak/faker.js/tar.gz/91dc8a3372426bc691be56153b33e81a16459f49"
+faker@thure/faker.js#v5.1.1:
+  version "5.1.1"
+  resolved "https://codeload.github.com/thure/faker.js/tar.gz/3e9db39ce9d63f1d8729b8506969644e413e1304"
 
 fast-deep-equal@^2.0.1:
   version "2.0.1"

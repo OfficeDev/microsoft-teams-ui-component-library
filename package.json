@@ -33,7 +33,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
-    "@fluentui/example-data": "^8.0.0-beta.0",
     "@fluentui/react-icons-northstar": "^0.51.3",
     "@fluentui/react-northstar": "^0.51.3",
     "@storybook/addon-a11y": "^5.3.19",
@@ -66,7 +65,7 @@
     "eslint-plugin-jsx-a11y": "6.3.0",
     "eslint-plugin-react": "7.20.0",
     "eslint-plugin-react-hooks": "4.0.0",
-    "faker": "Marak/faker.js",
+    "faker": "thure/faker.js#v5.1.1",
     "file-loader": "^6.0.0",
     "fork-ts-checker-webpack-plugin": "^5.0.7",
     "html-webpack-plugin": "^4.3.0",
