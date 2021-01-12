@@ -32,7 +32,11 @@ import {
   WELCOME_MESSAGE,
 } from "./CommunicationOptions";
 
-export function Communication({ option, fields }: TCommunication) {
+export function Communication({
+  option,
+  fields,
+  onInteraction,
+}: TCommunication) {
   const [componentTheme, setComponentTheme] = React.useState<TeamsTheme>(
     TeamsTheme.Default
   );
@@ -85,6 +89,20 @@ export function Communication({ option, fields }: TCommunication) {
       setSafeImageUrl(themedImage[componentTheme]);
     });
   }
+
+  const onClick = onInteraction
+    ? function (target: string) {
+        return function () {
+          return onInteraction({
+            event: "click",
+            target,
+          });
+        };
+      }
+    : function () {
+        return function () {};
+      };
+
   return (
     <FluentUIThemeConsumer
       render={(globalTheme) => {
@@ -187,7 +205,7 @@ export function Communication({ option, fields }: TCommunication) {
                     {actions.primary && (
                       <Button
                         content={actions.primary.label}
-                        onClick={actions.primary.action}
+                        onClick={onClick(actions.primary.target)}
                         aria-label={actions.primary.label}
                         styles={{ width: "100%" }}
                         primary
@@ -196,7 +214,7 @@ export function Communication({ option, fields }: TCommunication) {
                     {actions.secondary && (
                       <Button
                         content={actions.secondary.label}
-                        onClick={actions.secondary.action}
+                        onClick={onClick(actions.secondary.target)}
                         aria-label={actions.secondary.label}
                         styles={{ width: "100%" }}
                       />
@@ -205,7 +223,7 @@ export function Communication({ option, fields }: TCommunication) {
                       <Button text primary>
                         <Text
                           content={actions.tertiary.label}
-                          onClick={actions.tertiary.action}
+                          onClick={onClick(actions.tertiary.target)}
                           weight="light"
                         />
                       </Button>
