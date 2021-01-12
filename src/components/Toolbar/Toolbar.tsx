@@ -307,7 +307,6 @@ export const Toolbar = (props: IToolbarProps) => {
                 paddingLeft: displayFindOnly ? "0" : "2.5rem",
               }}
             >
-              asdasd
               {!displayFindOnly && filters && (
                 <ToolbarFilter
                   layout={layout}

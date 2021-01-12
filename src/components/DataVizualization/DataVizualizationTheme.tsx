@@ -25,17 +25,6 @@ const menuContentStyles = ({ theme }: ComponentVariablesObject) => {
         : colorScheme.default.foregroundFocus,
   };
 };
-const menuContentItemStyles = ({ theme }: ComponentVariablesObject) => {
-  const { theme: themeKey, colorScheme } = theme.siteVariables;
-  return {
-    "&:hover": {
-      backgroundColor:
-        themeKey === TeamsTheme.Dark
-          ? colorScheme.default.border2
-          : colorScheme.default.foregroundFocus,
-    },
-  };
-};
 const getLocalTheme = () => {
   return {
     componentStyles: {
@@ -45,8 +34,12 @@ const getLocalTheme = () => {
             theme.siteVariables.colorScheme.default.foreground2,
         }),
       },
-      ToolbarMenu: { root: menuContentStyles },
-      ToolbarMenuItem: { root: menuContentItemStyles },
+      // ToolbarMenu: { root: menuContentStyles },
+      ToolbarMenuItem: {
+        root: {
+          padding: 0,
+        },
+      },
     },
   };
 };
@@ -56,7 +49,6 @@ export const DataVizualizationTheme = ({
   children,
 }: IDashabordThemeProps) => {
   const theme = mergeThemes(globalTheme, getLocalTheme());
-  console.log({ theme });
   return (
     <FluentUIThemeProvider
       theme={theme}

@@ -104,6 +104,7 @@ export function DataVizualization({}: any) {
 
 (Chart as any).defaults.global.legend.display = false;
 (Chart as any).defaults.global.defaultFontFamily = `"Segoe UI", system-ui, "Apple Color Emoji", "Segoe UI Emoji", sans-serif`;
+
 const LineChart = ({
   data,
   siteVariables,
@@ -232,7 +233,7 @@ const LineChart = ({
   /**
    * Color palette
    */
-  const chartColorPalette = [
+  const chartInitColorPalette = [
     siteVariables.colorScheme.brand.background,
     siteVariables.colorScheme.brand.borderHover,
     siteVariables.colorScheme.brand.background4,
@@ -240,6 +241,9 @@ const LineChart = ({
     siteVariables.colorScheme.default.foreground2,
     siteVariables.colorScheme.default.foreground,
   ];
+
+  const chartCurrentColorPalette = [...chartInitColorPalette];
+
   const chartPattern = [
     { line: [], point: "circle" },
     { line: [], point: "rect" },
@@ -263,20 +267,20 @@ const LineChart = ({
                 ? siteVariables.colorScheme.default.border2
                 : siteVariables.colorScheme.default.foregroundFocus,
             bodySpacing: 4,
-            bodyFontSize: 10,
-            bodyFontStyle: "100",
+            bodyFontSize: 11.5,
+            bodyFontStyle: "400",
             yPadding: 12,
             xPadding: 20,
             caretPadding: 10,
             multiKeyBackground: siteVariables.colorScheme.white.foreground,
 
             titleFontFamily: siteVariables.bodyFontFamily,
-            titleFontStyle: "100",
+            titleFontStyle: "200",
             titleFontSize: 20,
             bodyFontFamily: siteVariables.bodyFontFamily,
 
             footerFontFamily: siteVariables.bodyFontFamily,
-            footerFontStyle: "100",
+            footerFontStyle: "300",
             footerFontSize: 10,
 
             footerFontColor:
@@ -294,7 +298,8 @@ const LineChart = ({
               labelColor: (tooltipItem: any) => {
                 return {
                   borderColor: "transparent",
-                  backgroundColor: chartColorPalette[tooltipItem.datasetIndex],
+                  backgroundColor:
+                    chartCurrentColorPalette[tooltipItem.datasetIndex],
                 };
               },
               footer: (tooltipItems: any, data: any) => {
@@ -304,6 +309,7 @@ const LineChart = ({
           },
         },
       });
+
       chart = new Chart(ctx!, {
         ...config,
         data: {
@@ -312,7 +318,7 @@ const LineChart = ({
             const dataColor =
               siteVariables.theme === TeamsTheme.HighContrast
                 ? siteVariables.colorScheme.default.borderHover
-                : chartColorPalette[index];
+                : chartCurrentColorPalette[index];
             return {
               label: set.label,
               data: set.data,
@@ -368,7 +374,8 @@ const LineChart = ({
                 ctx.arc(x, y, 5, 0, 2 * Math.PI, true);
                 ctx.lineWidth = 2;
                 ctx.fillStyle = siteVariables.colorScheme.white.foreground;
-                ctx.strokeStyle = chartColorPalette[activePoint._datasetIndex];
+                ctx.strokeStyle =
+                  chartCurrentColorPalette[activePoint._datasetIndex];
                 ctx.closePath();
                 ctx.fill();
                 ctx.stroke();
@@ -440,6 +447,15 @@ const LineChart = ({
           fontSize: ".75rem",
           minWidth: "30px",
           color: siteVariables.colorScheme.default.foreground2,
+          border: data.datasets[i].isSelected ? "1px solid red" : "none",
+        }}
+        onClick={() => {
+          data.datasets[i].isSelected = !data.datasets[i].isSelected;
+          data.datasets.map((dataset, index) => {
+            if (!dataset.isSelected) {
+              console.log(index);
+            }
+          });
         }}
         text
       >
@@ -447,7 +463,7 @@ const LineChart = ({
           styles={{
             width: ".6rem",
             height: ".6rem",
-            backgroundColor: chartColorPalette[i],
+            backgroundColor: chartInitColorPalette[i],
             margin: "0 0 -1px",
             marginRight: ".4rem",
             borderRadius: siteVariables.borderRadius,
@@ -523,7 +539,6 @@ const LineChart = ({
               }}
             />
           ),
-          content: <div>21134</div>,
         }}
         onOverflowOpenChange={(e, props) => {
           setOverflowOpen(!!props?.overflowOpen);
