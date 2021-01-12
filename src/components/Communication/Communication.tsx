@@ -91,17 +91,14 @@ export function Communication({
   }
 
   const onClick = onInteraction
-    ? function (target: string) {
-        return function () {
-          return onInteraction({
+    ? (target: string) => ({
+        onClick: () =>
+          onInteraction({
             event: "click",
             target,
-          });
-        };
-      }
-    : function () {
-        return function () {};
-      };
+          }),
+      })
+    : () => ({});
 
   return (
     <FluentUIThemeConsumer
@@ -205,26 +202,26 @@ export function Communication({
                     {actions.primary && (
                       <Button
                         content={actions.primary.label}
-                        onClick={onClick(actions.primary.target)}
                         aria-label={actions.primary.label}
                         styles={{ width: "100%" }}
                         primary
+                        {...onClick(actions.primary.target)}
                       />
                     )}
                     {actions.secondary && (
                       <Button
                         content={actions.secondary.label}
-                        onClick={onClick(actions.secondary.target)}
                         aria-label={actions.secondary.label}
                         styles={{ width: "100%" }}
+                        {...onClick(actions.secondary.target)}
                       />
                     )}
                     {actions.tertiary && (
                       <Button text primary>
                         <Text
                           content={actions.tertiary.label}
-                          onClick={onClick(actions.tertiary.target)}
                           weight="light"
+                          {...onClick(actions.tertiary.target)}
                         />
                       </Button>
                     )}
