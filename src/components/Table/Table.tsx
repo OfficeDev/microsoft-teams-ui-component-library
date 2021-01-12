@@ -1,5 +1,6 @@
 import React, { useLayoutEffect, useState, useRef } from "react";
 import omit from "lodash/omit";
+import debounce from "lodash/debounce";
 
 import {
   Button,
@@ -159,22 +160,16 @@ export const Table = (props: ITableProps) => {
       const nextInFlowColumns = breakpoints.get(
         widths[Math.max(0, firstBreak - 1)]
       )!;
-      // update the set of in-flow columns if the next set is a different size or contains different elements
-      if (
-        nextInFlowColumns.size !== inFlowColumns.size ||
-        new Set(
-          Array.from(nextInFlowColumns).filter((x) => !inFlowColumns.has(x))
-        ).size > 0
-      )
-        setInFlowColumns(nextInFlowColumns);
+      setInFlowColumns(nextInFlowColumns);
     }
   };
 
   useLayoutEffect(() => {
-    window.addEventListener("resize", onResize);
+    const debouncedResize = debounce(onResize, 100);
+    window.addEventListener("resize", debouncedResize);
     onResize();
-    return () => window.removeEventListener("resize", onResize);
-  });
+    return () => window.removeEventListener("resize", debouncedResize);
+  }, []);
 
   const rowWidthStyles = (truncate: boolean) => {
     const minWidth = Array.from(inFlowColumns).reduce(

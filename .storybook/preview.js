@@ -5,7 +5,7 @@ import {withStorybookTheme} from '../src/lib/withStorybookTheme'
 export const parameters = {
   options: {
     storySort: {
-      order: ["Composites", "Components"],
+      order: ["UI Templates", "Components"],
     },
   },
   // Remove an additional padding in canvas body (Added in v.6)

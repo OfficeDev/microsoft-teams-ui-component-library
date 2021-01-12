@@ -2,14 +2,17 @@ export { HVCThemeProvider as Provider } from "./lib/withTheme";
 
 export { TeamsTheme as themeNames } from "./themes";
 
-export { TAction, TActions, TUser, TUsers } from "./types/types.d";
-
 export {
-  IBoardProps,
-  IBoardItem,
-  IBoardItemCardLayout,
-  Board,
-} from "./components/Board/Board";
+  TAction,
+  TActions,
+  TUser,
+  TUsers,
+  WithOptionalInternalCallbacks,
+} from "./types/types.d";
+
+export { IBoardProps, Board } from "./components/Board/Board";
+
+export { IBoardItem, IBoardItemCardLayout } from "./components/Board/BoardItem";
 
 export {
   Communication,

@@ -2,6 +2,21 @@
   "name": "@fluentui/react-teams",
   "entries": [
     {
+      "date": "Fri, 08 Jan 2021 20:56:16 GMT",
+      "tag": "@fluentui/react-teams_v0.1.0-alpha.11",
+      "version": "0.1.0-alpha.11",
+      "comments": {
+        "prerelease": [
+          {
+            "comment": "Add Form HVC to library; use Form HVC in board item creation flow in Board HVC; improve accessibility of Board HVC.",
+            "author": "v-wishow@microsoft.com",
+            "commit": "731ef2d3d65da382286eecc300d3c09d8e6e56d3",
+            "package": "@fluentui/react-teams"
+          }
+        ]
+      }
+    },
+    {
       "date": "Mon, 14 Dec 2020 19:57:06 GMT",
       "tag": "@fluentui/react-teams_v0.1.0-alpha.10",
       "version": "0.1.0-alpha.10",

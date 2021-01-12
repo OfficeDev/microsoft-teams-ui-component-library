@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import range from "lodash/range";
 
 import {
@@ -9,14 +9,22 @@ import {
 import {
   Avatar,
   Box,
+  Button,
   Card,
+  CardBehaviorProps,
   Flex,
-  gridCellBehavior,
+  FocusZoneTabbableElements,
+  Popup,
+  Ref,
   SiteVariablesPrepared,
   Text,
+  dialogBehavior,
+  gridCellWithFocusableElementBehavior,
 } from "@fluentui/react-northstar";
 
-import { PaperclipIcon } from "@fluentui/react-icons-northstar";
+import { getCode, keyboardKey } from "@fluentui/keyboard-key";
+
+import { MoreIcon, PaperclipIcon } from "@fluentui/react-icons-northstar";
 
 import {
   getText,
@@ -25,23 +33,63 @@ import {
   TTranslations,
 } from "../../translations";
 
-import {
-  IPreparedBoardItem,
-  IBoardItemBadges,
-  IBoardItemCardLayout,
-} from "./Board";
-
 import { TUsers } from "../..";
 
-interface IBoardItemProps {
+import setMultiple from "../../lib/setMultiple";
+import { useAccessibility } from "@fluentui/react-bindings";
+
+const boardItemBehavior = (props: CardBehaviorProps) =>
+  setMultiple(gridCellWithFocusableElementBehavior(props), {
+    "focusZone.props": {
+      handleTabKey: FocusZoneTabbableElements.all,
+      isCircularNavigation: true,
+      shouldEnterInnerZone: (event: React.KeyboardEvent<HTMLElement>) =>
+        getCode(event) === keyboardKey.Enter,
+    },
+    "keyActions.root.focus.keyCombinations": [{ keyCode: keyboardKey.Escape }],
+  });
+
+export interface IBoardItemProps {
   isDragging: boolean;
   draggableProps: DraggableProvidedDraggableProps;
   dragHandleProps: DraggableProvidedDragHandleProps;
+  editItemDialog?: JSX.Element;
   t: TTranslations;
-  scrollbarWidth: number;
   item: IPreparedBoardItem;
   boardItemCardLayout: IBoardItemCardLayout;
   users: TUsers;
+}
+
+export interface IBoardItemBadges {
+  attachments?: number;
+}
+
+export interface IBoardItem {
+  lane: string;
+  order: number;
+  title: TTextObject;
+  subtitle?: TTextObject;
+  body?: TTextObject | TTextObject[];
+  users?: string[];
+  badges?: IBoardItemBadges;
+  preview?: string;
+}
+
+export type TBoardItems = {
+  [itemKey: string]: IBoardItem;
+};
+
+export interface IPreparedBoardItem extends IBoardItem {
+  itemKey: string;
+}
+
+export interface IPreparedBoardItems {
+  [laneKey: string]: IPreparedBoardItem[];
+}
+
+export interface IBoardItemCardLayout {
+  previewPosition: "top" | "afterHeader";
+  overflowPosition: "preview" | "header" | "footer";
 }
 
 interface IBoardItemBadgesProps {
@@ -49,7 +97,7 @@ interface IBoardItemBadgesProps {
   t: TTranslations;
 }
 
-const BoardItemBadges = ({ badges, t }: IBoardItemBadgesProps) => {
+const BoardItemBadges = ({ badges }: IBoardItemBadgesProps) => {
   return (
     <Box>
       {Object.keys(badges).map((badgeKey) => {
@@ -162,7 +210,6 @@ const BoardItemPreview = ({ preview }: IBoardItemPreview) => {
 
 export const BoardItem = React.memo((props: IBoardItemProps) => {
   const {
-    scrollbarWidth,
     isDragging,
     draggableProps,
     dragHandleProps,
@@ -170,110 +217,169 @@ export const BoardItem = React.memo((props: IBoardItemProps) => {
     t,
     item,
     users,
+    editItemDialog,
   } = props;
+
+  const [itemNode, setItemNode] = useState<HTMLElement | null>(null);
+
+  const getA11Props = useAccessibility(boardItemBehavior, {
+    actionHandlers: {
+      preventDefault: (event) => {
+        // preventDefault only if event coming from inside the lane
+        if (event.currentTarget !== event.target) {
+          event.preventDefault();
+        }
+      },
+
+      focus: (event) => {
+        if (itemNode && event.target !== event.currentTarget) {
+          itemNode.focus();
+          event.stopPropagation();
+        }
+      },
+    },
+  });
+
   return (
-    <Card
-      elevated
-      variables={({ colorScheme }: SiteVariablesPrepared) => ({
-        elevation: isDragging
-          ? colorScheme.elevations[8]
-          : colorScheme.elevations[4],
-        hoverElevation: colorScheme.elevations[8],
-        backgroundColor: colorScheme.default.background,
-        borderColor: isDragging
-          ? colorScheme.default.borderHover
-          : colorScheme.default.border,
-      })}
-      styles={{
-        position: "relative",
-        zIndex: 1,
-        margin: `0 ${((20 - scrollbarWidth) / 16).toFixed(4)}rem .5rem 1.25rem`,
-        width: "auto",
-        height: "auto",
-      }}
-      accessibility={gridCellBehavior}
-      {...draggableProps}
-      {...dragHandleProps}
-      aria-label={`${t["board item"]}, ${getText(t.locale, item.title)}`}
-      {...(isDragging ? { "data-isdragging": true } : {})}
-    >
-      <Box
-        styles={{
-          borderRadius: "4px",
-          overflow: "hidden",
-        }}
-      >
-        {item.preview && boardItemCardLayout.previewPosition === "top" && (
-          <BoardItemPreview preview={item.preview} />
-        )}
-        <Card.Body
-          {...(!item.preview || boardItemCardLayout.previewPosition !== "top"
-            ? { styles: { marginTop: "1.25rem" } }
-            : {})}
+    <Ref innerRef={setItemNode}>
+      {getA11Props.unstable_wrapWithFocusZone(
+        <Card
+          {...getA11Props("root", {
+            elevated: true,
+            variables: ({ colorScheme }: SiteVariablesPrepared) => ({
+              elevation: isDragging
+                ? colorScheme.elevations[8]
+                : colorScheme.elevations[4],
+              hoverElevation: colorScheme.elevations[8],
+              backgroundColor: colorScheme.default.background,
+              borderColor: isDragging
+                ? colorScheme.default.borderHover
+                : colorScheme.default.border,
+            }),
+            styles: {
+              position: "relative",
+              zIndex: 1,
+              margin: `0 1.25rem .5rem 1.25rem`,
+              width: "auto",
+              height: "auto",
+            },
+            ...draggableProps,
+            ...dragHandleProps,
+            "aria-label": `${t["board item"]}, ${getText(
+              t.locale,
+              item.title
+            )}`,
+            ...(isDragging ? { "data-isdragging": true } : {}),
+          })}
         >
-          <Text weight="semibold">{getText(t.locale, item.title)}</Text>
-          {item.subtitle && (
-            <Text
-              size="small"
-              variables={({ colorScheme }: SiteVariablesPrepared) => ({
-                color: colorScheme.foreground1,
-              })}
-            >
-              {getText(t.locale, item.subtitle)}
-            </Text>
-          )}
-        </Card.Body>
-        {item.preview &&
-          boardItemCardLayout.previewPosition === "afterHeader" && (
-            <BoardItemPreview preview={item.preview} />
-          )}
-        {item.body && (
-          <Card.Body>
-            {Array.isArray(item.body) ? (
-              item.body.map((bodyItem, bi) => (
-                <BoardItemBody
-                  locale={t.locale}
-                  textObject={bodyItem}
-                  key={`BoardItem__${item.itemKey}__${bi}`}
-                />
-              ))
-            ) : (
-              <BoardItemBody
-                locale={t.locale}
-                textObject={item.body as TTextObject}
-              />
+          <Box
+            styles={{
+              borderRadius: "4px",
+              overflow: "hidden",
+            }}
+          >
+            {item.preview && boardItemCardLayout.previewPosition === "top" && (
+              <BoardItemPreview preview={item.preview} />
             )}
-          </Card.Body>
-        )}
-        {(item.users || item.badges) && (
-          <Card.Footer>
-            <Flex>
-              <Box
-                styles={{
-                  flex: "1 0 auto",
-                  display: "flex",
-                }}
-              >
-                {item.users && (
-                  <BoardItemUsers
+            <Card.Body
+              {...(!item.preview ||
+              boardItemCardLayout.previewPosition !== "top"
+                ? { styles: { marginTop: "1.25rem" } }
+                : {})}
+            >
+              <Flex>
+                <Box styles={{ flex: "1 0 0" }}>
+                  <Text
+                    weight="semibold"
+                    as="h2"
+                    styles={{ margin: 0, fontSize: "inherit" }}
+                  >
+                    {getText(t.locale, item.title)}
+                  </Text>
+                  {item.subtitle && (
+                    <Text
+                      size="small"
+                      variables={({ colorScheme }: SiteVariablesPrepared) => ({
+                        color: colorScheme.foreground1,
+                      })}
+                    >
+                      {getText(t.locale, item.subtitle)}
+                    </Text>
+                  )}
+                </Box>
+                <Popup
+                  content={editItemDialog}
+                  trigger={
+                    <Button
+                      text
+                      iconOnly
+                      data-is-focusable="true"
+                      aria-label={t["board item options"]}
+                      icon={<MoreIcon size="small" outline />}
+                      styles={{ minWidth: "1.25rem", height: "1.25rem" }}
+                    />
+                  }
+                  position="below"
+                  accessibility={dialogBehavior}
+                  autoFocus={true}
+                />
+              </Flex>
+            </Card.Body>
+            {item.preview &&
+              boardItemCardLayout.previewPosition === "afterHeader" && (
+                <BoardItemPreview preview={item.preview} />
+              )}
+            {item.body && (
+              <Card.Body>
+                {Array.isArray(item.body) ? (
+                  item.body.map((bodyItem, bi) => (
+                    <BoardItemBody
+                      locale={t.locale}
+                      textObject={bodyItem}
+                      key={`BoardItem__${item.itemKey}__${bi}`}
+                    />
+                  ))
+                ) : (
+                  <BoardItemBody
                     locale={t.locale}
-                    associatedUserKeys={item.users}
-                    users={users}
+                    textObject={item.body as TTextObject}
                   />
                 )}
-              </Box>
-              {item.badges && <BoardItemBadges t={t} badges={item.badges} />}
-            </Flex>
-          </Card.Footer>
-        )}
-        <b
-          style={{
-            display: "block",
-            marginTop: "1.25rem",
-          }}
-          role="presentation"
-        />
-      </Box>
-    </Card>
+              </Card.Body>
+            )}
+            {(item.users || item.badges) && (
+              <Card.Footer>
+                <Flex>
+                  <Box
+                    styles={{
+                      flex: "1 0 auto",
+                      display: "flex",
+                    }}
+                  >
+                    {item.users && (
+                      <BoardItemUsers
+                        locale={t.locale}
+                        associatedUserKeys={item.users}
+                        users={users}
+                      />
+                    )}
+                  </Box>
+                  {item.badges && (
+                    <BoardItemBadges t={t} badges={item.badges} />
+                  )}
+                </Flex>
+              </Card.Footer>
+            )}
+            <b
+              style={{
+                display: "block",
+                marginTop: "1.25rem",
+              }}
+              role="presentation"
+            />
+          </Box>
+        </Card>
+      )}
+    </Ref>
   );
 });
