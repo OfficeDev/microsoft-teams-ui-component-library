@@ -8,11 +8,11 @@ import shuffle from "lodash/shuffle";
 import { Board, IBoardItem, IBoardItemCardLayout, TUsers } from "..";
 
 export default {
-  title: "UI Templates/Board",
+  title: "UI Templates/Boards",
   component: Board,
 };
 
-const boardKnobGroupID = "Board";
+const boardKnobGroupID = "Boards";
 
 const fake = (template: string) => {
   return { "en-US": fakerEN.fake(template), fa: fakerFA.fake(template) };

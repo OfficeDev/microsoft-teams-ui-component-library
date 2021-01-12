@@ -11,7 +11,7 @@ import {
 } from "@fluentui/react-northstar";
 
 export default {
-  title: "UI Templates/Dashboard",
+  title: "UI Templates/Dashboards",
   component: Dashboard,
 };
 
@@ -113,10 +113,18 @@ const defaultWidgets: IWidget[] = [
   },
 ];
 
-const dashboardKnobGroupID = "Dashboard";
+const dashboardKnobGroupID = "Dashboards";
 const dafaultConfig = { widgets: defaultWidgets };
 
 export const Default = () => {
+  return (
+    <Dashboard
+      {...object("Configuration", dafaultConfig, dashboardKnobGroupID)}
+    />
+  );
+};
+
+export const WithDataVizualization = () => {
   return (
     <Dashboard
       {...object("Configuration", dafaultConfig, dashboardKnobGroupID)}
