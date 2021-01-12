@@ -1,5 +1,6 @@
 import React from "react";
 import { object, boolean } from "@storybook/addon-knobs";
+import { actions } from "@storybook/addon-actions";
 
 import { List, TSortable } from "..";
 
@@ -7,6 +8,8 @@ export default {
   title: "UI Templates/List",
   component: List,
 };
+
+const eventsFromNames = actions("onInteraction");
 
 const listKnobGroupID = "List";
 
@@ -16,7 +19,7 @@ export const KitchenSink = () => {
     filters: ["c2", "c3"],
     emptySelectionActionGroups: {
       g1: {
-        a1: { title: "Add", icon: "Add" },
+        a1: { title: "Add", icon: "Add", subject: ["list", "add"] },
       },
     },
     columns: {
@@ -88,6 +91,7 @@ export const KitchenSink = () => {
       truncate={boolean("Truncate", false, listKnobGroupID)}
       selectable={boolean("Selectable", true, listKnobGroupID)}
       {...object("Configuration", listConfig, listKnobGroupID)}
+      {...eventsFromNames}
     />
   );
 };

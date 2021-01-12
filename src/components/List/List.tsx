@@ -4,23 +4,42 @@ import {
   Table,
   ITableProps,
   TSelected,
+  TTableInteraction,
   columnKey,
   rowKey,
   IRow,
 } from "../Table/Table";
-import { Toolbar, TActionGroups, TFilters } from "../Toolbar/Toolbar";
+import {
+  Toolbar,
+  TActionGroups,
+  TFilters,
+  TToolbarInteraction,
+} from "../Toolbar/Toolbar";
 import { TActions } from "../..";
+
+export type TListInteraction = TTableInteraction | TToolbarInteraction;
 
 export interface IListProps extends ITableProps {
   emptySelectionActionGroups: TActionGroups;
   filters?: columnKey[];
   filtersSingleSelect?: boolean;
   find?: boolean;
+  onInteraction?: (interaction: TListInteraction) => void;
 }
 
 export const List = (props: IListProps) => {
-  const tableProps = pick(props, ["columns", "rows", "selectable", "truncate"]);
-  const toolbarProps = pick(props, ["filtersSingleSelect", "find"]);
+  const tableProps = pick(props, [
+    "columns",
+    "rows",
+    "selectable",
+    "truncate",
+    "onInteraction",
+  ]);
+  const toolbarProps = pick(props, [
+    "filtersSingleSelect",
+    "find",
+    "onInteraction",
+  ]);
 
   // Row selection and common actions
 
@@ -36,7 +55,16 @@ export const List = (props: IListProps) => {
     const firstActions = props.rows[selectedRowsArr[0]].actions as TActions;
     if (firstActions) {
       // return the only selected row's actions if just one is selected
-      if (selectedRowsArr.length === 1) return { g1: firstActions };
+      if (selectedRowsArr.length === 1)
+        return {
+          g1: Object.keys(firstActions).reduce((acc: TActions, actionKey) => {
+            acc[actionKey] = {
+              ...firstActions[actionKey],
+              subject: selectedRowsArr,
+            };
+            return acc;
+          }, {}),
+        };
       else {
         // find all common actions where `multi` is truthy
         const firstMultiActionKeys = new Set(
@@ -62,7 +90,10 @@ export const List = (props: IListProps) => {
         return {
           g1: Array.from(commonMultiActionKeys).reduce(
             (acc: TActions, actionKey) => {
-              acc[actionKey] = firstActions[actionKey];
+              acc[actionKey] = {
+                ...firstActions[actionKey],
+                subject: selectedRowsArr,
+              };
               return acc;
             },
             {}

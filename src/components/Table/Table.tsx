@@ -41,7 +41,7 @@ import getBreakpoints, {
   TSortable,
 } from "./tableBreakpoints";
 
-import { TActions } from "../..";
+import { TActionsWithoutSubjects, actionKey } from "../..";
 import { TeamsTheme } from "../../themes";
 import { TTranslations } from "../../translations";
 
@@ -52,9 +52,14 @@ type sortOrder = [columnKey | "__rowKey__", "asc" | "desc"];
 export type TSelected = Set<rowKey>;
 
 export interface IRow {
-  [columnKey: string]: string | TActions | undefined;
-  actions?: TActions;
+  [columnKey: string]: string | TActionsWithoutSubjects | undefined;
+  actions?: TActionsWithoutSubjects;
 }
+
+export type TTableInteraction = {
+  event: "click";
+  target: ["table", rowKey, actionKey];
+};
 
 export interface ITableProps extends PropsOfElement<"div"> {
   columns: { [columnKey: string]: IColumn };
@@ -64,6 +69,7 @@ export interface ITableProps extends PropsOfElement<"div"> {
   onSelectedChange?: (selected: TSelected) => TSelected;
   findQuery?: string;
   filterBy?: (row: IRow) => boolean;
+  onInteraction?: (interaction: TTableInteraction) => void;
 }
 
 interface ISortOrderIndicatorProps {
@@ -462,6 +468,17 @@ export const Table = (props: ITableProps) => {
                                                       />
                                                     ),
                                                     content: "Details",
+                                                    ...(props.onInteraction && {
+                                                      onClick: () =>
+                                                        props.onInteraction!({
+                                                          event: "click",
+                                                          target: [
+                                                            "table",
+                                                            rowKey,
+                                                            rowActionKey,
+                                                          ],
+                                                        }),
+                                                    }),
                                                   };
                                                 default:
                                                   return {
@@ -478,6 +495,17 @@ export const Table = (props: ITableProps) => {
                                                     content: row.actions![
                                                       rowActionKey
                                                     ].title,
+                                                    ...(props.onInteraction && {
+                                                      onClick: () =>
+                                                        props.onInteraction!({
+                                                          event: "click",
+                                                          target: [
+                                                            "table",
+                                                            rowKey,
+                                                            rowActionKey,
+                                                          ],
+                                                        }),
+                                                    }),
                                                   };
                                               }
                                             }

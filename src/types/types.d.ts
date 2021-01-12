@@ -3,13 +3,19 @@ import { TTextObject } from "../translations";
 
 export type TAction = {
   title: string;
+  subject: string[] | string;
   icon?: string;
   multi?: boolean;
-  __internal_callback__?: string;
 };
+
+export type actionKey = string;
 
 export type TActions = {
   [actionKey: string]: TAction;
+};
+
+export type TActionsWithoutSubjects = {
+  [actionKey: string]: Omit<TAction, "subject">;
 };
 
 export type TUser = {

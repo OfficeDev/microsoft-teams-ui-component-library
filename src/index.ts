@@ -3,8 +3,10 @@ export { HVCThemeProvider as Provider } from "./lib/withTheme";
 export { TeamsTheme as themeNames } from "./themes";
 
 export {
+  actionKey,
   TAction,
   TActions,
+  TActionsWithoutSubjects,
   TUser,
   TUsers,
   WithOptionalInternalCallbacks,
