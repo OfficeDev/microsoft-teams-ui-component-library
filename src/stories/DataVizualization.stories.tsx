@@ -55,7 +55,7 @@ const stackedKnobGroupID = "Stacked";
 
 export const StackedChart = () => {
   const dataVizProps = {
-    chartType: ChartType.Stacked,
+    chartType: ChartType.LineStacked,
     data: {
       labels: ["Jan", "Feb", "March", "April", "May"],
       datasets: [
