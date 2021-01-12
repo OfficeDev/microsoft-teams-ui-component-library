@@ -87,6 +87,8 @@ export interface IBoardProps {
   lanes: TBoardLanes;
   items: TBoardItems;
   boardItemCardLayout?: IBoardItemCardLayout;
+  onUpdateItems?: (items: IPreparedBoardItems) => void;
+  onUpdateLanes?: (lanes: TBoardLanes) => void;
 }
 
 interface IBoardStandaloneProps {
@@ -468,13 +470,25 @@ const BoardStandalone = (props: IBoardStandaloneProps) => {
 };
 
 export const Board = (props: IBoardProps) => {
-  const [arrangedLanes, setArrangedLanes] = useState<TBoardLanes>(props.lanes);
+  const [arrangedLanes, setStateArrangedLanes] = useState<TBoardLanes>(
+    props.lanes
+  );
 
-  const [arrangedItems, setArrangedItems] = useState<IPreparedBoardItems>(
+  const [arrangedItems, setStateArrangedItems] = useState<IPreparedBoardItems>(
     prepareBoardItems(props.items, props.lanes)
   );
 
   const [addingLane, setAddingLane] = useState<boolean>(false);
+
+  const setArrangedLanes = (lanes: TBoardLanes) => {
+    if (props.onUpdateLanes) props.onUpdateLanes(lanes);
+    return setStateArrangedLanes(lanes as SetStateAction<TBoardLanes>);
+  };
+
+  const setArrangedItems = (items: IPreparedBoardItems) => {
+    if (props.onUpdateItems) props.onUpdateItems(items);
+    return setStateArrangedItems(items as SetStateAction<IPreparedBoardItems>);
+  };
 
   return (
     <FluentUIThemeConsumer
@@ -509,10 +523,14 @@ export const Board = (props: IBoardProps) => {
                   rtl,
                   arrangedLanes,
                   arrangedItems,
-                  setArrangedItems,
+                  setArrangedItems: setArrangedItems as Dispatch<
+                    SetStateAction<IPreparedBoardItems>
+                  >,
                   addingLane,
                   setAddingLane,
-                  setArrangedLanes,
+                  setArrangedLanes: setArrangedLanes as Dispatch<
+                    SetStateAction<TBoardLanes>
+                  >,
                 }}
                 {...pick(props, ["users", "boardItemCardLayout"])}
               />
