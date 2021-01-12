@@ -1,5 +1,7 @@
 import React from "react";
-import { object } from "@storybook/addon-knobs";
+import { withKnobs, object } from "@storybook/addon-knobs";
+import { withA11y } from "@storybook/addon-a11y";
+import { withDesign } from "storybook-addon-designs";
 
 import {
   Communication,
@@ -12,6 +14,7 @@ import { TeamsTheme } from "../themes";
 export default {
   title: "Components/Communication",
   component: Communication,
+  decorators: [withDesign],
 };
 
 const communicationKnobGroupID = "Communication";
@@ -28,6 +31,13 @@ export const Default = () => {
   );
 };
 
+Default.parameters = {
+  design: {
+    type: "figma",
+    url: "https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/?node-id=1%3A39",
+  },
+};
+
 /*
   Welcome
 */
@@ -38,6 +48,13 @@ export const Welcome = () => {
       {...object("Configuration", welcomeConfig, communicationKnobGroupID)}
     />
   );
+};
+
+Welcome.parameters = {
+  design: {
+    type: "figma",
+    url: "https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/?node-id=1%3A39",
+  },
 };
 
 /*
@@ -52,6 +69,13 @@ export const Hello = () => {
   );
 };
 
+Hello.parameters = {
+  design: {
+    type: "figma",
+    url: "https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/?node-id=1%3A39",
+  },
+};
+
 /*
   Empty
 */
@@ -62,6 +86,13 @@ export const Empty = () => {
       {...object("Configuration", emptyConfig, communicationKnobGroupID)}
     />
   );
+};
+
+Empty.parameters = {
+  design: {
+    type: "figma",
+    url: "https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/?node-id=1%3A39",
+  },
 };
 
 /*
@@ -76,6 +107,13 @@ export const Error = () => {
   );
 };
 
+Error.parameters = {
+  design: {
+    type: "figma",
+    url: "https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/?node-id=1%3A39",
+  },
+};
+
 /*
   Thanks
 */
@@ -86,6 +124,13 @@ export const Thanks = () => {
       {...object("Configuration", thanksConfig, communicationKnobGroupID)}
     />
   );
+};
+
+Thanks.parameters = {
+  design: {
+    type: "figma",
+    url: "https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/?node-id=1%3A39",
+  },
 };
 
 /*
@@ -120,6 +165,13 @@ export const Custom = () => {
       {...object("Configuration", customConfig, communicationKnobGroupID)}
     />
   );
+};
+
+Custom.parameters = {
+  design: {
+    type: "figma",
+    url: "https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/?node-id=1%3A39",
+  },
 };
 
 /*
@@ -161,4 +213,11 @@ export const CustomImageThemeSupport = () => {
       )}
     />
   );
+};
+
+CustomImageThemeSupport.parameters = {
+  design: {
+    type: "figma",
+    url: "https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/?node-id=1%3A39",
+  },
 };

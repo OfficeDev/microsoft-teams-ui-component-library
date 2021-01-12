@@ -26,8 +26,10 @@ export const random = (min: number, max: number): number =>
 
 export const lineChartSettings = {
   type: "line",
-  aspectRatio: 1.875,
+  // aspectRatio: 1.875,
   options: {
+    responsive: true,
+    maintainAspectRatio: false,
     animation: {
       duration: 1000,
     },
@@ -39,7 +41,6 @@ export const lineChartSettings = {
         bottom: 0,
       },
     },
-    responsive: true,
     scaleLabel: {
       display: false,
     },
@@ -86,6 +87,83 @@ export const lineChartSettings = {
       ],
     },
   },
+};
+
+export const stackedChartSettings = {
+  type: "line",
+  // aspectRatio: 1.875,
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    animation: {
+      duration: 1000,
+    },
+    layout: {
+      padding: {
+        left: 16,
+        right: 16,
+        top: 0,
+        bottom: 0,
+      },
+    },
+    scaleLabel: {
+      display: false,
+    },
+    elements: {
+      line: {
+        tension: 0.4,
+      },
+    },
+    tooltips: {
+      intersect: false,
+    },
+    scales: {
+      xAxes: [
+        {
+          ticks: {
+            fontSize: 10,
+            padding: 0,
+            labelOffset: 4,
+            maxRotation: 0,
+            minRotation: 0,
+          },
+          gridLines: {
+            borderDash: [5, 9999],
+            zeroLineBorderDash: [5, 9999],
+          },
+        },
+      ],
+      yAxes: [
+        {
+          stacked: true,
+          ticks: {
+            callback: (v: number) => chartAxis(v),
+            fontSize: 10,
+            padding: -16,
+            labelOffset: 10,
+            maxTicksLimit: 5,
+          },
+          gridLines: {
+            lineWidth: 1,
+            drawBorder: false,
+            drawTicks: true,
+            tickMarkLength: 44,
+          },
+        },
+      ],
+    },
+  },
+};
+
+export const hexToRgb = (hex: string) => {
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result
+    ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16),
+      }
+    : null;
 };
 
 export const customTooltips = (

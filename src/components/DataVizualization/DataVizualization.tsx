@@ -10,85 +10,43 @@ import {
   BoldIcon,
 } from "@fluentui/react-northstar";
 import { DataVizualizationTheme } from "./DataVizualizationTheme";
-import { IChartData, IChartDataSet } from "./DataVisualizationTypes";
-import { lineChartSettings } from "./Utils";
+import { IChartData, IChartDataSet, ChartType } from "./DataVisualizationTypes";
+import { hexToRgb, lineChartSettings } from "./Utils";
 import { TeamsTheme } from "../../themes";
 
-export function DataVizualization({}: any) {
+export function DataVizualization({
+  chartType,
+  data,
+}: {
+  chartType: ChartType;
+  data: IChartData;
+}) {
   console.clear();
+  let chartSettings = {
+    settings: lineChartSettings,
+    stacked: false,
+    area: false,
+  };
+  switch (chartType) {
+    case ChartType.Line:
+    default:
+      break;
+    case ChartType.LineStacked:
+      chartSettings.stacked = true;
+      break;
+    case ChartType.LineArea:
+      chartSettings.area = true;
+      break;
+  }
   return (
     <FluentUIThemeConsumer
       render={(globalTheme) => (
         <DataVizualizationTheme globalTheme={globalTheme}>
-          <Box
-            styles={{
-              margin: "1rem",
-              padding: "1rem",
-              borderRadius: "3px",
-              maxWidth: "30rem",
-              background:
-                globalTheme.siteVariables.colorScheme.default.background,
-            }}
-          >
-            <LineChart
-              data={{
-                labels: ["Jan", "Feb", "March", "April", "May"],
-                datasets: [
-                  {
-                    label: "Tablets",
-                    data: [860, 6700, 3100, 2012, 1930],
-                  },
-                  {
-                    label: "Phones",
-                    data: [100, 1600, 180, 3049, 3596],
-                  },
-                  {
-                    label: "Laptops",
-                    data: [1860, 7700, 4100, 3012, 2930],
-                  },
-                  {
-                    label: "Watches",
-                    data: [200, 3600, 480, 5049, 4596],
-                  },
-                  {
-                    label: "TV",
-                    data: [960, 8700, 5100, 5012, 3930],
-                  },
-                  {
-                    label: "Displayes",
-                    data: [1000, 4600, 480, 4049, 3596],
-                  },
-                ],
-              }}
-              siteVariables={globalTheme.siteVariables}
-            />
-          </Box>
-          <Box
-            styles={{
-              margin: "1rem",
-              padding: "1rem",
-              borderRadius: "3px",
-              background:
-                globalTheme.siteVariables.colorScheme.default.background,
-            }}
-          >
-            <LineChart
-              data={{
-                labels: ["Jan", "Feb", "March", "April", "May"],
-                datasets: [
-                  {
-                    label: "Sales",
-                    data: [860, 6700, 3100, 2012, 1930],
-                  },
-                  {
-                    label: "Bookings",
-                    data: [100, 1600, 180, 3049, 3596],
-                  },
-                ],
-              }}
-              siteVariables={globalTheme.siteVariables}
-            />
-          </Box>
+          <LineChart
+            data={data}
+            siteVariables={globalTheme.siteVariables}
+            {...chartSettings}
+          />
         </DataVizualizationTheme>
       )}
     />
@@ -108,9 +66,15 @@ export function DataVizualization({}: any) {
 const LineChart = ({
   data,
   siteVariables,
+  settings,
+  stacked,
+  area,
 }: {
   data: IChartData;
   siteVariables: SiteVariablesPrepared;
+  settings: any;
+  stacked: boolean;
+  area: boolean;
 }) => {
   const [overflowOpen, setOverflowOpen] = useState(false);
   const [overflowItems, setOverflowItems] = useState<number>(0);
@@ -237,7 +201,7 @@ const LineChart = ({
     siteVariables.colorScheme.brand.background,
     siteVariables.colorScheme.brand.borderHover,
     siteVariables.colorScheme.brand.background4,
-    siteVariables.colorScheme.default.background4,
+    siteVariables.colorScheme.default.borderHover,
     siteVariables.colorScheme.default.foreground2,
     siteVariables.colorScheme.default.foreground,
   ];
@@ -259,34 +223,38 @@ const LineChart = ({
   useEffect(() => {
     if (chartRef && chartRef.current) {
       const ctx = chartRef.current.getContext("2d");
-      const config = _.merge(lineChartSettings, {
+      const config = _.merge(settings, {
         options: {
           tooltips: {
             backgroundColor:
               siteVariables.theme === TeamsTheme.Dark
                 ? siteVariables.colorScheme.default.border2
                 : siteVariables.colorScheme.default.foregroundFocus,
-            bodySpacing: 4,
-            bodyFontSize: 11.5,
-            bodyFontStyle: "400",
+
             yPadding: 12,
             xPadding: 20,
             caretPadding: 10,
+            borderColor: siteVariables.colorScheme.onyx.border,
+            borderWidth:
+              siteVariables.theme === TeamsTheme.HighContrast ? 1 : 0,
             multiKeyBackground: siteVariables.colorScheme.white.foreground,
 
+            // Tooltip Title
             titleFontFamily: siteVariables.bodyFontFamily,
             titleFontStyle: "200",
             titleFontSize: 20,
+            titleFontColor: siteVariables.colorScheme.default.foreground3,
+            // Tooltip Body
             bodyFontFamily: siteVariables.bodyFontFamily,
-
+            bodySpacing: 4,
+            bodyFontSize: 11.5,
+            bodyFontStyle: "400",
+            bodyFontColor: siteVariables.colorScheme.default.foreground3,
+            // Tooltip Footer
             footerFontFamily: siteVariables.bodyFontFamily,
             footerFontStyle: "300",
             footerFontSize: 10,
-
-            footerFontColor:
-              siteVariables.colorScheme.default.foregroundDisabled1,
-            bodyFontColor: siteVariables.colorScheme.default.foreground3,
-            titleFontColor: siteVariables.colorScheme.default.foreground3,
+            footerFontColor: siteVariables.colorScheme.default.foreground3,
 
             callbacks: {
               title: (tooltipItems: any) => {
@@ -310,6 +278,12 @@ const LineChart = ({
         },
       });
 
+      let pointRadius = 2;
+      if (stacked) {
+        pointRadius = 0;
+      } else if (siteVariables.theme === TeamsTheme.HighContrast) {
+        pointRadius = 4;
+      }
       chart = new Chart(ctx!, {
         ...config,
         data: {
@@ -319,11 +293,26 @@ const LineChart = ({
               siteVariables.theme === TeamsTheme.HighContrast
                 ? siteVariables.colorScheme.default.borderHover
                 : chartCurrentColorPalette[index];
+            let backgroundColor = "transparent";
+            if (stacked) {
+              backgroundColor = dataColor;
+            }
+            if (area) {
+              const gradientStroke = ctx!.createLinearGradient(0, 0, 0, 160); // Chart height
+              const colorRGB = hexToRgb(dataColor);
+              const colorRGBString = `${colorRGB!.r}, ${colorRGB!.g}, ${
+                colorRGB!.b
+              }`;
+              console.log(colorRGBString);
+              gradientStroke.addColorStop(0, `rgba(${colorRGBString}, .55)`);
+              gradientStroke.addColorStop(1, `rgba(${colorRGBString}, .0)`);
+              backgroundColor = gradientStroke as any;
+            }
             return {
               label: set.label,
               data: set.data,
               borderColor: dataColor,
-              backgroundColor: "transparent",
+              backgroundColor,
               borderWidth: 2,
               pointBorderColor: dataColor,
               pointBackgroundColor: dataColor,
@@ -333,10 +322,8 @@ const LineChart = ({
               borderCapStyle: "round",
               borderJoinStyle: "round",
               pointBorderWidth: 0,
-              pointRadius:
-                siteVariables.theme === TeamsTheme.HighContrast ? 4 : 2,
-              pointHoverRadius:
-                siteVariables.theme === TeamsTheme.HighContrast ? 4 : 2,
+              pointRadius,
+              pointHoverRadius: pointRadius,
               pointStyle:
                 siteVariables.theme === TeamsTheme.HighContrast
                   ? (chartPattern[index].point as any)
@@ -404,12 +391,14 @@ const LineChart = ({
         } else {
           xAxes.gridLines.color = "transparent";
         }
+        console.log({ xAxes });
       });
       chart.options.scales.yAxes.forEach((yAxes: any, index: number) => {
         yAxes.ticks.fontColor = siteVariables.colorScheme.default.foreground2;
         if (index < 1) {
           yAxes.gridLines.color = siteVariables.colorScheme.grey.border;
           yAxes.gridLines.zeroLineColor = siteVariables.colorScheme.grey.border;
+          yAxes.stacked = stacked;
         } else {
           yAxes.gridLines.color = "transparent";
         }
@@ -482,6 +471,8 @@ const LineChart = ({
       styles={{
         margin: "0 -1rem",
         width: "calc(100% + 1rem)",
+        // height: "234px",
+        backgroundColor: siteVariables.colorScheme.grey.background,
       }}
     >
       <canvas
@@ -547,6 +538,8 @@ const LineChart = ({
         getOverflowItems={(startIndex) => legendItems.slice(startIndex)}
         styles={{
           margin: "0 .8rem",
+          width: "calc(100% + .8rem)",
+          backgroundColor: siteVariables.colorScheme.grey.background,
         }}
       />
     </Box>

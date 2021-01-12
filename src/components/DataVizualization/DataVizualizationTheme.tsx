@@ -50,16 +50,6 @@ export const DataVizualizationTheme = ({
 }: IDashabordThemeProps) => {
   const theme = mergeThemes(globalTheme, getLocalTheme());
   return (
-    <FluentUIThemeProvider
-      theme={theme}
-      style={{
-        backgroundColor:
-          theme.siteVariables.theme === TeamsTheme.HighContrast
-            ? theme.siteVariables.colorScheme.grey.background
-            : theme.siteVariables.colorScheme.default.background2,
-      }}
-    >
-      {children}
-    </FluentUIThemeProvider>
+    <FluentUIThemeProvider theme={theme}>{children}</FluentUIThemeProvider>
   );
 };
