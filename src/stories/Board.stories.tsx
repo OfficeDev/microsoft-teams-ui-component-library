@@ -13,7 +13,7 @@ export default {
   component: Board,
 };
 
-const eventsFromNames = actions("onUpdateItems", "onUpdateLanes");
+const eventsFromNames = actions("onInteraction");
 
 const boardKnobGroupID = "Board";
 

@@ -82,13 +82,28 @@ const defaultBoardItemCardLayout: IBoardItemCardLayout = {
   overflowPosition: "footer",
 };
 
+interface IBoardInteractionUpdateLanes {
+  event: "update";
+  target: "lanes";
+  lanes: TBoardLanes;
+}
+
+interface IBoardInteractionUpdateItems {
+  event: "update";
+  target: "items";
+  items: IPreparedBoardItems;
+}
+
+export type TBoardInteraction =
+  | IBoardInteractionUpdateLanes
+  | IBoardInteractionUpdateItems;
+
 export interface IBoardProps {
   users: TUsers;
   lanes: TBoardLanes;
   items: TBoardItems;
   boardItemCardLayout?: IBoardItemCardLayout;
-  onUpdateItems?: (items: IPreparedBoardItems) => void;
-  onUpdateLanes?: (lanes: TBoardLanes) => void;
+  onInteraction?: (interaction: TBoardInteraction) => void;
 }
 
 interface IBoardStandaloneProps {
@@ -481,12 +496,14 @@ export const Board = (props: IBoardProps) => {
   const [addingLane, setAddingLane] = useState<boolean>(false);
 
   const setArrangedLanes = (lanes: TBoardLanes) => {
-    if (props.onUpdateLanes) props.onUpdateLanes(lanes);
+    if (props.onInteraction)
+      props.onInteraction({ event: "update", target: "lanes", lanes });
     return setStateArrangedLanes(lanes as SetStateAction<TBoardLanes>);
   };
 
   const setArrangedItems = (items: IPreparedBoardItems) => {
-    if (props.onUpdateItems) props.onUpdateItems(items);
+    if (props.onInteraction)
+      props.onInteraction({ event: "update", target: "items", items });
     return setStateArrangedItems(items as SetStateAction<IPreparedBoardItems>);
   };
 
