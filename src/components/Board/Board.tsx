@@ -526,12 +526,12 @@ export const Board = (props: IBoardProps) => {
                     a1: {
                       icon: "Add",
                       title: t["add lane"],
-                      __internal_callback__: "add_column",
+                      subject: "add_column",
                     },
                   },
                 }}
-                __internal_callbacks__={{
-                  add_column: () => setAddingLane(true),
+                onInteraction={({ subject }) => {
+                  if (subject === "add_column") setAddingLane(true);
                 }}
               />
               <BoardStandalone

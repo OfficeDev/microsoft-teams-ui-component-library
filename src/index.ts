@@ -6,7 +6,6 @@ export {
   actionKey,
   TAction,
   TActions,
-  TActionsWithoutSubjects,
   TUser,
   TUsers,
   WithOptionalInternalCallbacks,

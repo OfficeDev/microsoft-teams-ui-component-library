@@ -41,7 +41,9 @@ export type TFilters = ObjectShorthandCollection<TreeItemProps, never>;
 
 export type TToolbarInteraction = {
   event: "click";
-  target: ["toolbar", string | string[], actionKey];
+  target: "toolbar";
+  subject: string | string[] | null;
+  action: actionKey;
 };
 
 export interface IToolbarProps {
@@ -205,7 +207,9 @@ export const Toolbar = (props: IToolbarProps) => {
           onClick: () =>
             props.onInteraction!({
               event: "click",
-              target: ["toolbar", action.subject, actionKey],
+              target: "toolbar",
+              subject: action.subject || null,
+              action: actionKey.split("__").pop()!,
             }),
         }),
       });
@@ -233,7 +237,9 @@ export const Toolbar = (props: IToolbarProps) => {
           onClick: () =>
             props.onInteraction!({
               event: "click",
-              target: ["toolbar", action.subject, actionKey],
+              target: "toolbar",
+              action: actionKey.split("__").pop()!,
+              subject: action.subject || null,
             }),
         }),
       });
