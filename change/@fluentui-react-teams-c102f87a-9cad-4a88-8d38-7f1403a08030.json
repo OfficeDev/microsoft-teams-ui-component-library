@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "Adjust interaction ontology",
+  "packageName": "@fluentui/react-teams",
+  "email": "v-wishow@microsoft.com",
+  "dependentChangeType": "patch"
+}
