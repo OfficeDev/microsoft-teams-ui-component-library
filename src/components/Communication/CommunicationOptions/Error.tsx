@@ -8,11 +8,11 @@ export const ERROR_MESSAGE = {
   actions: {
     primary: {
       label: "Refresh",
-      action: () => alert("Refresh action called"),
+      target: "refresh",
     },
     tertiary: {
       label: "Start over",
-      action: () => alert("Start over action called"),
+      target: "start-over",
     },
   },
 };

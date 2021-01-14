@@ -82,11 +82,28 @@ const defaultBoardItemCardLayout: IBoardItemCardLayout = {
   overflowPosition: "footer",
 };
 
+interface IBoardInteractionUpdateLanes {
+  event: "update";
+  target: "lanes";
+  lanes: TBoardLanes;
+}
+
+interface IBoardInteractionUpdateItems {
+  event: "update";
+  target: "items";
+  items: IPreparedBoardItems;
+}
+
+export type TBoardInteraction =
+  | IBoardInteractionUpdateLanes
+  | IBoardInteractionUpdateItems;
+
 export interface IBoardProps {
   users: TUsers;
   lanes: TBoardLanes;
   items: TBoardItems;
   boardItemCardLayout?: IBoardItemCardLayout;
+  onInteraction?: (interaction: TBoardInteraction) => void;
 }
 
 interface IBoardStandaloneProps {
@@ -468,13 +485,27 @@ const BoardStandalone = (props: IBoardStandaloneProps) => {
 };
 
 export const Board = (props: IBoardProps) => {
-  const [arrangedLanes, setArrangedLanes] = useState<TBoardLanes>(props.lanes);
+  const [arrangedLanes, setStateArrangedLanes] = useState<TBoardLanes>(
+    props.lanes
+  );
 
-  const [arrangedItems, setArrangedItems] = useState<IPreparedBoardItems>(
+  const [arrangedItems, setStateArrangedItems] = useState<IPreparedBoardItems>(
     prepareBoardItems(props.items, props.lanes)
   );
 
   const [addingLane, setAddingLane] = useState<boolean>(false);
+
+  const setArrangedLanes = (lanes: TBoardLanes) => {
+    if (props.onInteraction)
+      props.onInteraction({ event: "update", target: "lanes", lanes });
+    return setStateArrangedLanes(lanes as SetStateAction<TBoardLanes>);
+  };
+
+  const setArrangedItems = (items: IPreparedBoardItems) => {
+    if (props.onInteraction)
+      props.onInteraction({ event: "update", target: "items", items });
+    return setStateArrangedItems(items as SetStateAction<IPreparedBoardItems>);
+  };
 
   return (
     <FluentUIThemeConsumer
@@ -495,12 +526,12 @@ export const Board = (props: IBoardProps) => {
                     a1: {
                       icon: "Add",
                       title: t["add lane"],
-                      __internal_callback__: "add_column",
+                      subject: "add_column",
                     },
                   },
                 }}
-                __internal_callbacks__={{
-                  add_column: () => setAddingLane(true),
+                onInteraction={({ subject }) => {
+                  if (subject === "add_column") setAddingLane(true);
                 }}
               />
               <BoardStandalone
@@ -509,10 +540,14 @@ export const Board = (props: IBoardProps) => {
                   rtl,
                   arrangedLanes,
                   arrangedItems,
-                  setArrangedItems,
+                  setArrangedItems: setArrangedItems as Dispatch<
+                    SetStateAction<IPreparedBoardItems>
+                  >,
                   addingLane,
                   setAddingLane,
-                  setArrangedLanes,
+                  setArrangedLanes: setArrangedLanes as Dispatch<
+                    SetStateAction<TBoardLanes>
+                  >,
                 }}
                 {...pick(props, ["users", "boardItemCardLayout"])}
               />

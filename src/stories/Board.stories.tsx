@@ -1,5 +1,6 @@
 import React from "react";
 import { object } from "@storybook/addon-knobs";
+import { actions } from "@storybook/addon-actions";
 import fakerEN from "faker/locale/en_US";
 import fakerFA from "faker/locale/fa";
 import range from "lodash/range";
@@ -11,6 +12,8 @@ export default {
   title: "UI Templates/Board",
   component: Board,
 };
+
+const eventsFromNames = actions("onInteraction");
 
 const boardKnobGroupID = "Board";
 
@@ -94,6 +97,7 @@ export const KitchenSink = () => {
   return (
     <Board
       {...object("Content", boardContent, boardKnobGroupID)}
+      {...eventsFromNames}
       boardItemCardLayout={object(
         "Board item card layout",
         boardItemCardLayout,

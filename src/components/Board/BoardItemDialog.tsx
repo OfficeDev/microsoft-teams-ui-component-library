@@ -123,58 +123,56 @@ export const BoardItemDialog = ({
             return t["cancel"];
         }
       })()}
-      __internal_callbacks__={{
-        submit: (_e, formState) => {
-          if (!formState) return;
-          const boardItem = Object.keys(formState).reduce(
-            (
-              boardItem: {
-                [boardItemPropKey: string]: any;
-              },
-              inputId
-            ) => {
-              const [_prefix, boardItemProperty] = inputId.split("__");
-              const value = formState[inputId];
-              if (value) boardItem[boardItemProperty] = value;
-              return boardItem;
+      onInteraction={({ formState }) => {
+        if (!formState) return;
+        const boardItem = Object.keys(formState).reduce(
+          (
+            boardItem: {
+              [boardItemPropKey: string]: any;
             },
-            (function () {
-              switch (action) {
-                case BoardItemDialogAction.Create:
-                  return {
-                    order: -1,
-                    itemKey: uniqueId("nbi"),
-                  };
-                case BoardItemDialogAction.Edit:
-                  return cloneDeep(initialState);
-              }
-            })()
-          );
-          switch (action) {
-            case BoardItemDialogAction.Create:
+            inputId
+          ) => {
+            const [_prefix, boardItemProperty] = inputId.split("__");
+            const value = formState[inputId];
+            if (value) boardItem[boardItemProperty] = value;
+            return boardItem;
+          },
+          (function () {
+            switch (action) {
+              case BoardItemDialogAction.Create:
+                return {
+                  order: -1,
+                  itemKey: uniqueId("nbi"),
+                };
+              case BoardItemDialogAction.Edit:
+                return cloneDeep(initialState);
+            }
+          })()
+        );
+        switch (action) {
+          case BoardItemDialogAction.Create:
+            arrangedItems[boardItem.lane as string].push(
+              (boardItem as unknown) as IPreparedBoardItem
+            );
+            break;
+          case BoardItemDialogAction.Edit:
+            const fromPos = arrangedItems[
+              initialState.lane as string
+            ].findIndex(
+              (laneItem) => laneItem.itemKey === initialState.itemKey!
+            );
+            if (boardItem.lane !== initialState.lane) {
+              arrangedItems[initialState.lane as string].splice(fromPos, 1);
               arrangedItems[boardItem.lane as string].push(
-                (boardItem as unknown) as IPreparedBoardItem
+                boardItem as IPreparedBoardItem
               );
-              break;
-            case BoardItemDialogAction.Edit:
-              const fromPos = arrangedItems[
-                initialState.lane as string
-              ].findIndex(
-                (laneItem) => laneItem.itemKey === initialState.itemKey!
-              );
-              if (boardItem.lane !== initialState.lane) {
-                arrangedItems[initialState.lane as string].splice(fromPos, 1);
-                arrangedItems[boardItem.lane as string].push(
-                  boardItem as IPreparedBoardItem
-                );
-              } else {
-                arrangedItems[boardItem.lane as string][
-                  fromPos
-                ] = boardItem as IPreparedBoardItem;
-              }
-          }
-          setArrangedItems(cloneDeep(arrangedItems));
-        },
+            } else {
+              arrangedItems[boardItem.lane as string][
+                fromPos
+              ] = boardItem as IPreparedBoardItem;
+            }
+        }
+        setArrangedItems(cloneDeep(arrangedItems));
       }}
     />
   );

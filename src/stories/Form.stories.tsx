@@ -8,6 +8,7 @@ const fake = (template: string) => {
   return { "en-US": fakerEN.fake(template), fa: fakerFA.fake(template) };
 };
 
+import { actions } from "@storybook/addon-actions";
 import { object } from "@storybook/addon-knobs";
 
 import { Form, TInputWidth, TFormErrors } from "../components/Form/Form";
@@ -16,6 +17,8 @@ export default {
   title: "UI Templates/Form",
   component: Form,
 };
+
+const eventsFromNames = actions("onInteraction");
 
 const formKnobGroupID = "Form";
 
@@ -128,7 +131,10 @@ const kitchenSinkConfig = {
 
 export const KitchenSink = () => {
   return (
-    <Form {...object("Configuration", kitchenSinkConfig, formKnobGroupID)} />
+    <Form
+      {...object("Configuration", kitchenSinkConfig, formKnobGroupID)}
+      {...eventsFromNames}
+    />
   );
 };
 7;
@@ -147,6 +153,7 @@ export const KitchenSinkWithErrors = () => {
   return (
     <Form
       {...object("Configuration", kitchenSinkWithErrorsConfig, formKnobGroupID)}
+      {...eventsFromNames}
     />
   );
 };

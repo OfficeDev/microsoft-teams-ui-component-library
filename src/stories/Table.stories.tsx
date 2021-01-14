@@ -1,5 +1,6 @@
 import React from "react";
 import { object, boolean } from "@storybook/addon-knobs";
+import { actions } from "@storybook/addon-actions";
 
 import { Table, TSortable } from "..";
 
@@ -7,6 +8,8 @@ export default {
   title: "Components/Table",
   component: Table,
 };
+
+const eventsFromNames = actions("onInteraction");
 
 const tableKnobGroupID = "Table";
 
@@ -81,6 +84,7 @@ export const KitchenSink = () => {
       truncate={boolean("Truncate", false, tableKnobGroupID)}
       selectable={boolean("Selectable", true, tableKnobGroupID)}
       {...object("Configuration", tableConfig, tableKnobGroupID)}
+      {...eventsFromNames}
     />
   );
 };

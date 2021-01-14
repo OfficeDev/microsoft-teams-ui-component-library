@@ -7,11 +7,11 @@ export const HELLO_MESSAGE = {
   actions: {
     primary: {
       label: "Create a board",
-      action: () => alert("Create a board action called"),
+      target: "create",
     },
     secondary: {
       label: "Find an existing board",
-      action: () => alert("Find an existing board action called"),
+      target: "find",
     },
   },
 };

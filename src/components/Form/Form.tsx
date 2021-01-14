@@ -21,7 +21,6 @@ import {
   Flex,
   Form as FluentUIForm,
   Input,
-  InputProps,
   ProviderConsumer as FluentUIThemeConsumer,
   RadioGroupItemProps,
   SiteVariablesPrepared,
@@ -87,8 +86,6 @@ interface ITextField extends ITextInputBase {
   type: "text";
   width?: TInputWidth;
 }
-
-interface IPreparedTextField extends ITextField, IPreparedInput {}
 
 interface IMultilineTextInput extends ITextInputBase {
   type: "multiline-text";
@@ -163,6 +160,12 @@ interface ISection {
 
 export type TFormErrors = { [inputId: string]: TTextObject };
 
+export type TFormInteraction = {
+  event: "submit";
+  target: "form";
+  formState: IFormState;
+};
+
 export interface IFormProps extends WithOptionalInternalCallbacks<IFormState> {
   headerSection?: ISection;
   sections: ISection[];
@@ -170,6 +173,7 @@ export interface IFormProps extends WithOptionalInternalCallbacks<IFormState> {
   topError?: TTextObject;
   submit: TTextObject;
   cancel?: TTextObject;
+  onInteraction?: (interaction: TFormInteraction) => void;
 }
 
 export interface IFormDialogProps extends IFormProps {
@@ -561,7 +565,7 @@ const MultilineTextGroup = ({
         {getText(t?.locale, title)}
       </Input.Label>
       <TextArea
-        fluid
+        fluid={true}
         resize="vertical"
         id={id}
         value={(formState[inputId] as string) || ""}
@@ -721,59 +725,61 @@ interface IFormContentProps extends Omit<IFormProps, "submit"> {
   flush?: boolean;
 }
 
-const FormContent = ({
-  topError,
-  flush,
-  t,
-  headerSection,
-  sections,
-  errors,
-  formState,
-  setFormState,
-}: IFormContentProps) => {
-  return (
-    <MaxWidth flush={flush}>
-      {topError && (
-        <Alert
-          danger
-          visible
-          dismissible
-          content={
-            <Flex vAlign="center">
-              <ExclamationTriangleIcon
-                outline
-                styles={{ marginRight: ".25rem" }}
-              />
-              <Text
-                styles={{ margin: ".25rem 0" }}
-                content={getText(t.locale, topError)}
-              />
-            </Flex>
-          }
-        />
-      )}
-      {headerSection && (
-        <FormSection header section={headerSection} {...{ t, errors }} />
-      )}
-      {sections.map((section, si) => {
-        const key = `Form__Section-${si}`;
-        return (
-          <FormSection
-            {...{
-              section,
-              t,
-              key,
-              keyPrefix: key,
-              errors,
-              formState,
-              setFormState,
-            }}
+const FormContent = React.memo(
+  ({
+    topError,
+    flush,
+    t,
+    headerSection,
+    sections,
+    errors,
+    formState,
+    setFormState,
+  }: IFormContentProps) => {
+    return (
+      <MaxWidth flush={flush}>
+        {topError && (
+          <Alert
+            danger
+            visible
+            dismissible
+            content={
+              <Flex vAlign="center">
+                <ExclamationTriangleIcon
+                  outline
+                  styles={{ marginRight: ".25rem" }}
+                />
+                <Text
+                  styles={{ margin: ".25rem 0" }}
+                  content={getText(t.locale, topError)}
+                />
+              </Flex>
+            }
           />
-        );
-      })}
-    </MaxWidth>
-  );
-};
+        )}
+        {headerSection && (
+          <FormSection header section={headerSection} {...{ t, errors }} />
+        )}
+        {sections.map((section, si) => {
+          const key = `Form__Section-${si}`;
+          return (
+            <FormSection
+              {...{
+                section,
+                t,
+                key,
+                keyPrefix: key,
+                errors,
+                formState,
+                setFormState,
+              }}
+            />
+          );
+        })}
+      </MaxWidth>
+    );
+  }
+);
 
 export const Form = ({
   cancel,
@@ -782,7 +788,7 @@ export const Form = ({
   sections,
   submit,
   topError,
-  __internal_callbacks__,
+  onInteraction,
 }: IFormProps) => {
   const [formState, setUnclonedFormState] = useState<IFormState>(
     initialFormState(sections)
@@ -804,11 +810,14 @@ export const Form = ({
                 "& > :last-child": { marginTop: 0 },
                 backgroundColor: "var(--surface-background)",
               }}
-              onSubmit={(e) => {
-                __internal_callbacks__ &&
-                  __internal_callbacks__["submit"] &&
-                  __internal_callbacks__["submit"](e, formState);
-              }}
+              {...(onInteraction && {
+                onSubmit: () =>
+                  onInteraction({
+                    event: "submit",
+                    target: "form",
+                    formState,
+                  }),
+              })}
             >
               <FormContent
                 {...{
@@ -880,7 +889,7 @@ export const FormDialog = ({
   submit,
   topError,
   trigger,
-  __internal_callbacks__,
+  onInteraction,
 }: IFormDialogProps) => {
   const [formState, setUnclonedFormState] = useState<IFormState>(
     initialFormState(sections)
@@ -925,11 +934,14 @@ export const FormDialog = ({
       }
       confirmButton={{
         content: submit,
-        onClick: (e) => {
-          __internal_callbacks__ &&
-            __internal_callbacks__["submit"] &&
-            __internal_callbacks__["submit"](e, formState);
-        },
+        ...(onInteraction && {
+          onClick: () =>
+            onInteraction({
+              event: "submit",
+              target: "form",
+              formState,
+            }),
+        }),
       }}
       cancelButton={{
         content: cancel,
