@@ -8,6 +8,7 @@ import {
   Toolbar as Legend,
   Button as LegendItem,
   BoldIcon,
+  Flex,
 } from "@fluentui/react-northstar";
 import { DataVizualizationTheme } from "./DataVizualizationTheme";
 import { IChartData, IChartDataSet, ChartType } from "./DataVisualizationTypes";
@@ -80,7 +81,9 @@ const LineChart = ({
   const [overflowItems, setOverflowItems] = useState<number>(0);
 
   let chart: any;
+  let ctx: any;
   const chartRef = React.createRef<HTMLCanvasElement>();
+  // const test = React.createRef<HTMLDivElement>();
   const chartId = Math.random().toString(36).substr(2, 9);
 
   /**
@@ -116,7 +119,7 @@ const LineChart = ({
 
   function showFocusedDataPoint() {
     hoverDataPoint(selectedIndex);
-    showTooltip(chart, data, selectedDataSet, selectedIndex);
+    // showTooltip(chart, data, selectedDataSet, selectedIndex);
     document
       .getElementById(`${chartId}-tooltip-${selectedDataSet}-${selectedIndex}`)
       ?.focus();
@@ -194,6 +197,39 @@ const LineChart = ({
     showFocusedDataPoint();
   }
 
+  function axisYHighLight({ ctx, tooltip }: any) {
+    if (tooltip._active && tooltip._active.length) {
+      const activePoint = tooltip._active[0],
+        y = activePoint.tooltipPosition().y,
+        x = activePoint.tooltipPosition().x,
+        y_axis = chart.scales["y-axis-0"],
+        topY = y_axis.top,
+        bottomY = y_axis.bottom;
+
+      ctx.save();
+      // Line
+      ctx.beginPath();
+      ctx.moveTo(x, topY);
+      ctx.lineTo(x, bottomY);
+      ctx.setLineDash([5, 5]);
+      ctx.lineWidth = 0.75;
+      ctx.strokeStyle = siteVariables.colorScheme.default.border;
+      ctx.stroke();
+      // Point
+      ctx.beginPath();
+      ctx.setLineDash([]);
+      ctx.arc(x, y, 5, 0, 2 * Math.PI, true);
+      ctx.lineWidth = 2;
+      ctx.fillStyle = siteVariables.colorScheme.white.foreground;
+      ctx.strokeStyle = chartCurrentColorPalette[activePoint._datasetIndex];
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.restore();
+    }
+  }
+
   /**
    * Color palette
    */
@@ -217,75 +253,106 @@ const LineChart = ({
     { line: [5, 5], point: "crossRot" },
   ];
 
+  const config = _.merge(settings, {
+    options: {
+      tooltips: {
+        backgroundColor:
+          siteVariables.theme === TeamsTheme.Dark
+            ? siteVariables.colorScheme.default.border2
+            : siteVariables.colorScheme.default.foregroundFocus,
+
+        yPadding: 12,
+        xPadding: 20,
+        caretPadding: 10,
+        borderColor: siteVariables.colorScheme.onyx.border,
+        borderWidth: siteVariables.theme === TeamsTheme.HighContrast ? 1 : 0,
+        multiKeyBackground: siteVariables.colorScheme.white.foreground,
+
+        // Tooltip Title
+        titleFontFamily: siteVariables.bodyFontFamily,
+        titleFontStyle: "200",
+        titleFontSize: 20,
+        titleFontColor: siteVariables.colorScheme.default.foreground3,
+        // Tooltip Body
+        bodyFontFamily: siteVariables.bodyFontFamily,
+        bodySpacing: 4,
+        bodyFontSize: 11.5,
+        bodyFontStyle: "400",
+        bodyFontColor: siteVariables.colorScheme.default.foreground3,
+        // Tooltip Footer
+        footerFontFamily: siteVariables.bodyFontFamily,
+        footerFontStyle: "300",
+        footerFontSize: 10,
+        footerFontColor: siteVariables.colorScheme.default.foreground3,
+
+        callbacks: {
+          title: (tooltipItems: any) => {
+            return tooltipItems[0].yLabel;
+          },
+          label: (tooltipItem: any, data: any) => {
+            return data.datasets[tooltipItem.datasetIndex].label;
+          },
+          labelColor: (tooltipItem: any) => {
+            return {
+              borderColor: "transparent",
+              backgroundColor:
+                chartCurrentColorPalette[tooltipItem.datasetIndex],
+            };
+          },
+          footer: (tooltipItems: any, data: any) => {
+            return tooltipItems[0].xLabel;
+          },
+        },
+      },
+    },
+  });
+
   /**
    * Chart initialization
    */
   useEffect(() => {
     if (chartRef && chartRef.current) {
-      const ctx = chartRef.current.getContext("2d");
-      const config = _.merge(settings, {
-        options: {
-          tooltips: {
-            backgroundColor:
-              siteVariables.theme === TeamsTheme.Dark
-                ? siteVariables.colorScheme.default.border2
-                : siteVariables.colorScheme.default.foregroundFocus,
+      chartRef.current.addEventListener("click", removeFocusStyleOnClick);
+      chartRef.current.addEventListener("keydown", changeFocus);
+      chartRef.current.addEventListener("focusout", resetChartStates);
+    }
+    return () => {
+      if (chartRef && chartRef.current) {
+        chartRef.current.addEventListener("click", removeFocusStyleOnClick);
+        chartRef.current.removeEventListener("focusout", resetChartStates);
+        chartRef.current.removeEventListener("keydown", changeFocus);
+        chart.destroy();
+      }
+    };
+  }, []);
 
-            yPadding: 12,
-            xPadding: 20,
-            caretPadding: 10,
-            borderColor: siteVariables.colorScheme.onyx.border,
-            borderWidth:
-              siteVariables.theme === TeamsTheme.HighContrast ? 1 : 0,
-            multiKeyBackground: siteVariables.colorScheme.white.foreground,
-
-            // Tooltip Title
-            titleFontFamily: siteVariables.bodyFontFamily,
-            titleFontStyle: "200",
-            titleFontSize: 20,
-            titleFontColor: siteVariables.colorScheme.default.foreground3,
-            // Tooltip Body
-            bodyFontFamily: siteVariables.bodyFontFamily,
-            bodySpacing: 4,
-            bodyFontSize: 11.5,
-            bodyFontStyle: "400",
-            bodyFontColor: siteVariables.colorScheme.default.foreground3,
-            // Tooltip Footer
-            footerFontFamily: siteVariables.bodyFontFamily,
-            footerFontStyle: "300",
-            footerFontSize: 10,
-            footerFontColor: siteVariables.colorScheme.default.foreground3,
-
-            callbacks: {
-              title: (tooltipItems: any) => {
-                return tooltipItems[0].yLabel;
-              },
-              label: (tooltipItem: any, data: any) => {
-                return data.datasets[tooltipItem.datasetIndex].label;
-              },
-              labelColor: (tooltipItem: any) => {
-                return {
-                  borderColor: "transparent",
-                  backgroundColor:
-                    chartCurrentColorPalette[tooltipItem.datasetIndex],
-                };
-              },
-              footer: (tooltipItems: any, data: any) => {
-                return tooltipItems[0].xLabel;
-              },
-            },
-          },
-        },
-      });
+  useEffect(() => {
+    if (chartRef && chartRef.current) {
+      ctx = chartRef.current.getContext("2d");
 
       let pointRadius = 2;
       if (stacked) {
-        pointRadius = 0;
+        pointRadius = 1;
       } else if (siteVariables.theme === TeamsTheme.HighContrast) {
         pointRadius = 4;
       }
       chart = new Chart(ctx!, {
         ...config,
+        // data: {
+        //   labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        //   datasets: [
+        //     {
+        //       label: "Votes",
+        //       data: [12, 19, 3, 5, 2, 5],
+        //     },
+        //   ],
+        // },
+
+        plugins: [
+          {
+            afterDatasetsDraw: axisYHighLight,
+          },
+        ],
         data: {
           labels: data.labels,
           datasets: Array.from(data.datasets, (set, index) => {
@@ -335,43 +402,6 @@ const LineChart = ({
             };
           }),
         },
-        plugins: [
-          {
-            afterDatasetsDraw: ({ ctx, tooltip }: any) => {
-              if (tooltip._active && tooltip._active.length) {
-                const activePoint = tooltip._active[0],
-                  y = activePoint.tooltipPosition().y,
-                  x = activePoint.tooltipPosition().x,
-                  y_axis = chart.scales["y-axis-0"],
-                  topY = y_axis.top,
-                  bottomY = y_axis.bottom;
-
-                ctx.save();
-                // Line
-                ctx.beginPath();
-                ctx.moveTo(x, topY);
-                ctx.lineTo(x, bottomY);
-                ctx.setLineDash([5, 5]);
-                ctx.lineWidth = 0.75;
-                ctx.strokeStyle = siteVariables.colorScheme.default.border;
-                ctx.stroke();
-                // Point
-                ctx.beginPath();
-                ctx.setLineDash([]);
-                ctx.arc(x, y, 5, 0, 2 * Math.PI, true);
-                ctx.lineWidth = 2;
-                ctx.fillStyle = siteVariables.colorScheme.white.foreground;
-                ctx.strokeStyle =
-                  chartCurrentColorPalette[activePoint._datasetIndex];
-                ctx.closePath();
-                ctx.fill();
-                ctx.stroke();
-
-                ctx.restore();
-              }
-            },
-          },
-        ],
       });
 
       /**
@@ -391,7 +421,6 @@ const LineChart = ({
         } else {
           xAxes.gridLines.color = "transparent";
         }
-        console.log({ xAxes });
       });
       chart.options.scales.yAxes.forEach((yAxes: any, index: number) => {
         yAxes.ticks.fontColor = siteVariables.colorScheme.default.foreground2;
@@ -403,23 +432,10 @@ const LineChart = ({
           yAxes.gridLines.color = "transparent";
         }
       });
-      /**
-       * Color scheme updates
-       */
+
       meta = chart.getDatasetMeta(selectedDataSet);
-      chartRef.current.addEventListener("click", removeFocusStyleOnClick);
-      chartRef.current.addEventListener("keydown", changeFocus);
-      chartRef.current.addEventListener("focusout", resetChartStates);
     }
-    return () => {
-      if (chartRef && chartRef.current) {
-        chartRef.current.addEventListener("click", removeFocusStyleOnClick);
-        chartRef.current.removeEventListener("focusout", resetChartStates);
-        chartRef.current.removeEventListener("keydown", changeFocus);
-        chart.destroy();
-      }
-    };
-  }, [siteVariables]);
+  }, [siteVariables.colorScheme]);
 
   /**
    * Legend
@@ -467,98 +483,84 @@ const LineChart = ({
   const toolbarItems = legendItems;
 
   return (
-    <Box
-      styles={{
-        margin: "0 -1rem",
-        width: "calc(100% + 1rem)",
-        // height: "234px",
-        backgroundColor: siteVariables.colorScheme.grey.background,
-      }}
-    >
-      <canvas
-        id={chartId}
-        ref={chartRef}
-        tabIndex={0}
-        style={{
-          userSelect: "none",
-        }}
-        aria-label="[TODO]"
-      >
-        <title>[TODO]</title>
-        {data.datasets.map((set, setKey) =>
-          set.data.map((item, itemKey) => (
-            // Generated tooltips for screen readers
-            <div key={itemKey} id={`${chartId}-tooltip-${setKey}-${itemKey}`}>
-              <p>{item}</p>
-              <ul>
-                <li>
-                  {set.label}: {set.data[itemKey]}
-                </li>
-              </ul>
-            </div>
-          ))
-        )}
-      </canvas>
-
-      <Legend
-        aria-label="Toolbar overflow menu"
-        items={toolbarItems}
-        overflow
-        overflowOpen={overflowOpen}
-        overflowItem={{
-          icon: (
-            <BoldIcon
-              styles={{
-                position: "relative",
-                width: "3.5rem",
-                height: "1rem",
-                borderRadius: "4px",
-                "& svg": {
-                  display: "none",
-                },
-                "&::after": {
-                  content: `"${overflowItems} more"`,
-                  display: "block",
-                  position: "absolute",
-                  top: 0,
-                  left: ".5rem",
-                  minWidth: "3rem",
-                  textAlign: "left",
-                  fontSize: ".75rem",
-                  color: siteVariables.colorScheme.brand.foreground,
-                },
-              }}
-            />
-          ),
-        }}
-        onOverflowOpenChange={(e, props) => {
-          setOverflowOpen(!!props?.overflowOpen);
-        }}
-        onOverflow={(items) => setOverflowItems(toolbarItems.length - items)}
-        getOverflowItems={(startIndex) => legendItems.slice(startIndex)}
+    <Flex column style={{ height: "100%" }}>
+      <Box
         styles={{
-          margin: "0 .8rem",
-          width: "calc(100% + .8rem)",
+          flexGrow: 1,
           backgroundColor: siteVariables.colorScheme.grey.background,
         }}
-      />
-    </Box>
+      >
+        {/* <div ref={test}>test</div> */}
+        <canvas
+          id={chartId}
+          ref={chartRef}
+          tabIndex={0}
+          style={{
+            userSelect: "none",
+          }}
+          aria-label="[TODO]"
+        />
+      </Box>
+      <Box>
+        <Legend
+          aria-label="Toolbar overflow menu"
+          items={toolbarItems}
+          overflow
+          overflowOpen={overflowOpen}
+          overflowItem={{
+            icon: (
+              <BoldIcon
+                styles={{
+                  position: "relative",
+                  width: "3.5rem",
+                  height: "1rem",
+                  borderRadius: "4px",
+                  "& svg": {
+                    display: "none",
+                  },
+                  "&::after": {
+                    content: `"${overflowItems} more"`,
+                    display: "block",
+                    position: "absolute",
+                    top: 0,
+                    left: ".5rem",
+                    minWidth: "3rem",
+                    textAlign: "left",
+                    fontSize: ".75rem",
+                    color: siteVariables.colorScheme.brand.foreground,
+                  },
+                }}
+              />
+            ),
+          }}
+          onOverflowOpenChange={(e, props) => {
+            setOverflowOpen(!!props?.overflowOpen);
+          }}
+          onOverflow={(items) => setOverflowItems(toolbarItems.length - items)}
+          getOverflowItems={(startIndex) => legendItems.slice(startIndex)}
+          styles={{
+            width: "calc(100% + .8rem)",
+            backgroundColor: siteVariables.colorScheme.grey.background,
+          }}
+        />
+      </Box>
+    </Flex>
   );
 };
 
-function showTooltip(chart: any, data: IChartData, set: number, index: number) {
-  const duplicates: number[] = [];
-  const segments: any[] = [];
-  // Check fro equal data points
-  data.datasets.filter((dataset: IChartDataSet, i: number) => {
-    if (dataset.data[index] === data.datasets[set].data[index]) {
-      duplicates.push(i);
-    }
-  });
-  duplicates.forEach((segmentId) => {
-    segments.push(chart.getDatasetMeta(segmentId).data[index]);
-  });
-  chart.tooltip._active = segments;
-  chart.tooltip.update();
-  chart.draw();
-}
+// function showTooltip(chart: any, data: IChartData, set: number, index: number) {
+//   const duplicates: number[] = [];
+//   const segments: any[] = [];
+//   // Check fro equal data points
+//   data.datasets.filter((dataset: IChartDataSet, i: number) => {
+//     if (dataset.data[index] === data.datasets[set].data[index]) {
+//       duplicates.push(i);
+//     }
+//   });
+//   duplicates.forEach((segmentId) => {
+//     segments.push(chart.getDatasetMeta(segmentId).data[index]);
+//   });
+//   chart.tooltip._active = segments;
+//   chart.tooltip.update();
+//   chart.draw();
+// }

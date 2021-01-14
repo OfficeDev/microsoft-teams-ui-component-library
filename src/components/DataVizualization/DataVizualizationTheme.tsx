@@ -50,6 +50,8 @@ export const DataVizualizationTheme = ({
 }: IDashabordThemeProps) => {
   const theme = mergeThemes(globalTheme, getLocalTheme());
   return (
-    <FluentUIThemeProvider theme={theme}>{children}</FluentUIThemeProvider>
+    <FluentUIThemeProvider theme={theme} styles={{ height: "100%" }}>
+      {children}
+    </FluentUIThemeProvider>
   );
 };

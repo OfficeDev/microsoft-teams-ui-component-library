@@ -231,7 +231,11 @@ const dataVizWidgets: IWidget[] = [
               datasets: [
                 {
                   label: "Laptops",
-                  data: [1860, 2700, 4100, 3012, 2930],
+                  data: [1860, 7700, 4100, 3012, 2930],
+                },
+                {
+                  label: "Watches",
+                  data: [200, 3600, 480, 5049, 4596],
                 },
               ],
             }}

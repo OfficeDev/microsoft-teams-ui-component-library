@@ -198,7 +198,7 @@ export const HVCThemeProvider = ({
           }
           canvas:focus {
             outline: none;
-            box-shadow: 0 0 0 2px ${theme.siteVariables?.colorScheme.default.foregroundFocus}, inset 0 0 0 1px ${theme.siteVariables?.colorScheme.default.foregroundFocus3};
+            box-shadow: inset 0 0 0 2px ${theme.siteVariables?.colorScheme.default.foregroundFocus};
           }
         `}
       </style>

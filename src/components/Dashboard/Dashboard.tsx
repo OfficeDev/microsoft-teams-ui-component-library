@@ -38,9 +38,9 @@ export function Dashboard({ widgets }: IDashboard) {
               display: "grid",
               gridGap: ".5rem",
               gridTemplate:
-                "repeat(auto-fill, 26rem) / repeat(auto-fill, minmax(18.75rem, 1fr))",
+                "repeat(auto-fill, 25rem) / repeat(auto-fill, minmax(18.75rem, 1fr))",
               gridAutoFlow: "dense",
-              gridAutoRows: "26rem",
+              gridAutoRows: "25rem",
               padding: "0 1rem 1.25rem",
               minWidth: "20rem",
               "@media (max-width: 986px)": {
