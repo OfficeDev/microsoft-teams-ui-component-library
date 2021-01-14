@@ -8,6 +8,7 @@ import {
   Toolbar as Legend,
   Button as LegendItem,
   BoldIcon,
+  Flex,
 } from "@fluentui/react-northstar";
 import { DataVizualizationTheme } from "./DataVizualizationTheme";
 import { IChartData, IChartDataSet, ChartType } from "./DataVisualizationTypes";
@@ -482,12 +483,10 @@ const LineChart = ({
   const toolbarItems = legendItems;
 
   return (
-    <>
+    <Flex column style={{ height: "100%" }}>
       <Box
         styles={{
-          margin: "0 -1rem",
-          width: "calc(100% + 1rem)",
-          // height: "234px",
+          flexGrow: 1,
           backgroundColor: siteVariables.colorScheme.grey.background,
         }}
       >
@@ -554,13 +553,12 @@ const LineChart = ({
           onOverflow={(items) => setOverflowItems(toolbarItems.length - items)}
           getOverflowItems={(startIndex) => legendItems.slice(startIndex)}
           styles={{
-            margin: "0 .8rem",
             width: "calc(100% + .8rem)",
             backgroundColor: siteVariables.colorScheme.grey.background,
           }}
         />
       </Box>
-    </>
+    </Flex>
   );
 };
 
