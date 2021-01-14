@@ -482,82 +482,85 @@ const LineChart = ({
   const toolbarItems = legendItems;
 
   return (
-    <Box
-      styles={{
-        margin: "0 -1rem",
-        width: "calc(100% + 1rem)",
-        // height: "234px",
-        backgroundColor: siteVariables.colorScheme.grey.background,
-      }}
-    >
-      <canvas
-        id={chartId}
-        ref={canvasRef}
-        tabIndex={0}
-        style={{
-          userSelect: "none",
-        }}
-        aria-label="[TODO]"
-      >
-        <title>[TODO]</title>
-        {data.datasets.map((set, setKey) =>
-          set.data.map((item, itemKey) => (
-            // Generated tooltips for screen readers
-            <div key={itemKey} id={`${chartId}-tooltip-${setKey}-${itemKey}`}>
-              <p>{item}</p>
-              <ul>
-                <li>
-                  {set.label}: {set.data[itemKey]}
-                </li>
-              </ul>
-            </div>
-          ))
-        )}
-      </canvas>
-
-      <Legend
-        aria-label="Toolbar overflow menu"
-        items={toolbarItems}
-        overflow
-        overflowOpen={overflowOpen}
-        overflowItem={{
-          icon: (
-            <BoldIcon
-              styles={{
-                position: "relative",
-                width: "3.5rem",
-                height: "1rem",
-                borderRadius: "4px",
-                "& svg": {
-                  display: "none",
-                },
-                "&::after": {
-                  content: `"${overflowItems} more"`,
-                  display: "block",
-                  position: "absolute",
-                  top: 0,
-                  left: ".5rem",
-                  minWidth: "3rem",
-                  textAlign: "left",
-                  fontSize: ".75rem",
-                  color: siteVariables.colorScheme.brand.foreground,
-                },
-              }}
-            />
-          ),
-        }}
-        onOverflowOpenChange={(e, props) => {
-          setOverflowOpen(!!props?.overflowOpen);
-        }}
-        onOverflow={(items) => setOverflowItems(toolbarItems.length - items)}
-        getOverflowItems={(startIndex) => legendItems.slice(startIndex)}
+    <>
+      <Box
         styles={{
-          margin: "0 .8rem",
-          width: "calc(100% + .8rem)",
+          margin: "0 -1rem",
+          width: "calc(100% + 1rem)",
+          // height: "234px",
           backgroundColor: siteVariables.colorScheme.grey.background,
         }}
-      />
-    </Box>
+      >
+        <canvas
+          id={chartId}
+          ref={canvasRef}
+          tabIndex={0}
+          style={{
+            userSelect: "none",
+          }}
+          aria-label="[TODO]"
+        >
+          <title>[TODO]</title>
+          {data.datasets.map((set, setKey) =>
+            set.data.map((item, itemKey) => (
+              // Generated tooltips for screen readers
+              <div key={itemKey} id={`${chartId}-tooltip-${setKey}-${itemKey}`}>
+                <p>{item}</p>
+                <ul>
+                  <li>
+                    {set.label}: {set.data[itemKey]}
+                  </li>
+                </ul>
+              </div>
+            ))
+          )}
+        </canvas>
+      </Box>
+      <Box>
+        <Legend
+          aria-label="Toolbar overflow menu"
+          items={toolbarItems}
+          overflow
+          overflowOpen={overflowOpen}
+          overflowItem={{
+            icon: (
+              <BoldIcon
+                styles={{
+                  position: "relative",
+                  width: "3.5rem",
+                  height: "1rem",
+                  borderRadius: "4px",
+                  "& svg": {
+                    display: "none",
+                  },
+                  "&::after": {
+                    content: `"${overflowItems} more"`,
+                    display: "block",
+                    position: "absolute",
+                    top: 0,
+                    left: ".5rem",
+                    minWidth: "3rem",
+                    textAlign: "left",
+                    fontSize: ".75rem",
+                    color: siteVariables.colorScheme.brand.foreground,
+                  },
+                }}
+              />
+            ),
+          }}
+          onOverflowOpenChange={(e, props) => {
+            setOverflowOpen(!!props?.overflowOpen);
+          }}
+          onOverflow={(items) => setOverflowItems(toolbarItems.length - items)}
+          getOverflowItems={(startIndex) => legendItems.slice(startIndex)}
+          styles={{
+            margin: "0 .8rem",
+            width: "calc(100% + .8rem)",
+            backgroundColor: siteVariables.colorScheme.grey.background,
+          }}
+        />
+      </Box>
+    </>
   );
 };
 
