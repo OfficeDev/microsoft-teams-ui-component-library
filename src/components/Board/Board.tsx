@@ -16,16 +16,15 @@ import {
 } from "react-beautiful-dnd";
 
 import {
+  Accessibility,
   Box,
   Button,
   Dialog,
   Flex,
   FocusZoneTabbableElements,
-  GridBehaviorProps,
   MenuItem,
   ProviderConsumer as FluentUIThemeConsumer,
   SiteVariablesPrepared,
-  gridNestedBehavior,
 } from "@fluentui/react-northstar";
 
 import {
@@ -59,23 +58,20 @@ import {
 
 import { BoardItemDialog, BoardItemDialogAction } from "./BoardItemDialog";
 
-const boardBehavior = (props: GridBehaviorProps) =>
-  setMultiple(gridNestedBehavior(props), {
-    "focusZone.props": {
-      handleTabKey: FocusZoneTabbableElements.all,
-      isCircularNavigation: true,
-      pagingSupportDisabled: true,
-      shouldEnterInnerZone: (event: React.KeyboardEvent<HTMLElement>) =>
-        getCode(event) === keyboardKey.Enter,
-    },
-    "attributes.root": {
+const boardBehavior: Accessibility = () => ({
+  attributes: {
+    root: {
       role: "region",
       "aria-label": "Board lanes",
-      "data-is-focusable": true,
-      tabIndex: -1,
     },
-    "keyActions.root.focus.keyCombinations": [{ keyCode: keyboardKey.Escape }],
-  });
+  },
+  focusZone: {
+    props: {
+      shouldEnterInnerZone: (event) => getCode(event) === keyboardKey.Enter,
+      handleTabKey: FocusZoneTabbableElements.all,
+    },
+  },
+});
 
 const defaultBoardItemCardLayout: IBoardItemCardLayout = {
   previewPosition: "top",
