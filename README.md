@@ -18,6 +18,10 @@ Now open up your browser and go to:
 http://localhost:3000
 ```
 
+# Localization
+
+Developers can override all text with their own wording by providing a `TTranslations` object to the `translations` prop on the `HVCThemeProvider`. US English is already built-in.
+
 # Contributing
 
 This project welcomes contributions and suggestions. Most contributions require you to agree to a

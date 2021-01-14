@@ -19,7 +19,11 @@ import {
   TeamsTheme,
 } from "../themes";
 
-import translations, { TLocale, TTranslations } from "../translations";
+import {
+  TLocale,
+  TTranslations,
+  default as builtInTranslations,
+} from "../translations";
 
 export enum IThemeTeamsClient {
   HighContrast = "contrast",
@@ -30,6 +34,7 @@ export interface IThemeProviderProps {
   children: ReactNode;
   lang: TLocale;
   themeName: TeamsTheme | IThemeTeamsClient;
+  translations?: { [locale: string]: TTranslations };
 }
 
 export const teamsNextVariableAssignments = {
@@ -142,6 +147,7 @@ export const HVCThemeProvider = ({
   children,
   lang,
   themeName,
+  translations,
 }: IThemeProviderProps) => {
   // [v-wishow] todo: translations will (presumably) eventually need to be loaded asynchronously
 
@@ -163,7 +169,8 @@ export const HVCThemeProvider = ({
   if (theme.siteVariables) {
     theme.siteVariables.lang = lang;
     theme.siteVariables.rtl = rtl;
-    theme.siteVariables.t = translations[lang];
+    theme.siteVariables.t =
+      (translations && translations[lang]) || builtInTranslations[lang];
   }
 
   return (
