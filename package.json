@@ -81,6 +81,7 @@
     "react-docgen-typescript": "^1.18.0",
     "react-dom": "^16.8.0",
     "react-is": "^16.8.0",
+    "rimraf": "^3.0.2",
     "storybook": "^5.3.19",
     "style-loader": "^1.2.1",
     "ts-jest": "^26.1.3",
