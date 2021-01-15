@@ -8,16 +8,13 @@
   "scripts": {
     "build": "just-scripts build",
     "build:storybook": "just-scripts build:storybook",
-    "bundle": "just-scripts bundle",
     "change": "beachball change --branch origin/main",
     "checkchange": "beachball check --branch origin/main",
     "prepare": "node ./scripts/prepare",
     "lint": "just-scripts lint",
     "release": "beachball publish --branch origin/main",
     "start": "just-scripts start",
-    "test": "just-scripts test",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "test": "just-scripts test"
   },
   "dependencies": {
     "lodash": "^4.17.15",
