@@ -10,7 +10,7 @@ const isImage = (url: string) =>
 
 export const isImageOrNot = (input: string) =>
   new Promise((resolve) => {
-    if (/(jpg|JPG|gif|GIF|png|PNG|jpeg|JPEG|svg|SVG|webp|WEBP)$/.test(input)) {
+    if (/(jpg|gif|png|jpeg|svg|webp)$/i.test(input)) {
       isImage(input).then(
         (value: unknown): void => {
           if (
