@@ -1,8 +1,11 @@
 import React from "react";
 import { object } from "@storybook/addon-knobs";
 
-import Dashboard from "../components/Dashboard";
-import { IWidget, WidgetSize } from "../components/Dashboard/DashboardWidget";
+import Dashboard from "../src/components/Dashboard";
+import {
+  IWidget,
+  WidgetSize,
+} from "../src/components/Dashboard/DashboardWidget";
 import {
   ExclamationCircleIcon,
   Flex,

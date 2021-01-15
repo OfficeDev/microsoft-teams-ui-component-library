@@ -6,7 +6,7 @@ import fakerFA from "faker/locale/fa";
 import range from "lodash/range";
 import shuffle from "lodash/shuffle";
 
-import { Board, IBoardItem, IBoardItemCardLayout, TUsers } from "..";
+import { Board, IBoardItem, IBoardItemCardLayout, TUsers } from "../src";
 
 export default {
   title: "UI Templates/Board",
