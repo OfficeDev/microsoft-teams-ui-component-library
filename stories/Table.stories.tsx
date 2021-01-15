@@ -2,7 +2,7 @@ import React from "react";
 import { object, boolean } from "@storybook/addon-knobs";
 import { actions } from "@storybook/addon-actions";
 
-import { Table, TSortable } from "..";
+import { Table, TSortable } from "../src";
 
 export default {
   title: "Components/Table",

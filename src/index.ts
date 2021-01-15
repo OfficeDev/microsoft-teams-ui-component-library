@@ -9,7 +9,7 @@ export {
   TUser,
   TUsers,
   WithOptionalInternalCallbacks,
-} from "./types/types.d";
+} from "./types/types";
 
 export { IBoardProps, Board } from "./components/Board/Board";
 

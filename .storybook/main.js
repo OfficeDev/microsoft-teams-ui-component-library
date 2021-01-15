@@ -2,7 +2,7 @@ const path = require("path");
 const tsconfig = path.resolve(__dirname, "../tsconfig.json");
 
 module.exports = {
-  stories: ["../src/stories/**/*.stories.+(ts|tsx)"],
+  stories: ["../stories/**/*.stories.+(ts|tsx)"],
   addons: [
     "@storybook/addon-actions",
     "@storybook/addon-links",

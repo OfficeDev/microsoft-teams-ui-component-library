@@ -1,5 +1,4 @@
 import { argv } from "just-scripts";
-import fs from "fs";
 import path from "path";
 
 import storybook from "@storybook/react/standalone";

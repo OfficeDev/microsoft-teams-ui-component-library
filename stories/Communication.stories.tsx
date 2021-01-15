@@ -7,8 +7,8 @@ import Communication, {
   CommunicationOptions,
   ICommunicationImage,
   ICommunicationThemedImage,
-} from "../components/Communication";
-import { TeamsTheme } from "../themes";
+} from "../src/components/Communication";
+import { TeamsTheme } from "../src/themes";
 
 export default {
   title: "Components/Communication",
