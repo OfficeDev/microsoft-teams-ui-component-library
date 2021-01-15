@@ -2,7 +2,7 @@ import React from "react";
 import { object, boolean } from "@storybook/addon-knobs";
 import { actions } from "@storybook/addon-actions";
 
-import { List, TSortable } from "..";
+import { List, TSortable } from "../src";
 
 export default {
   title: "UI Templates/List",

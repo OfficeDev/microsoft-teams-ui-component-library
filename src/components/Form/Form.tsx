@@ -36,7 +36,7 @@ import {
 
 import { getText, TTextObject, TTranslations } from "../../translations";
 
-import { WithOptionalInternalCallbacks, Surface } from "../../types/types.d";
+import { WithOptionalInternalCallbacks, Surface } from "../../types/types";
 
 import { FormTheme } from "./FormTheme";
 import { ICSSInJSStyle } from "@fluentui/styles";

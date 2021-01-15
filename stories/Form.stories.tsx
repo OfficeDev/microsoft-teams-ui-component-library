@@ -11,7 +11,7 @@ const fake = (template: string) => {
 import { actions } from "@storybook/addon-actions";
 import { object } from "@storybook/addon-knobs";
 
-import { Form, TInputWidth, TFormErrors } from "../components/Form/Form";
+import { Form, TInputWidth, TFormErrors } from "../src/components/Form/Form";
 
 export default {
   title: "UI Templates/Form",

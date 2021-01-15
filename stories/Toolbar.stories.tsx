@@ -1,7 +1,7 @@
 import React from "react";
 import { object } from "@storybook/addon-knobs";
 import { actions } from "@storybook/addon-actions";
-import { Toolbar } from "..";
+import { Toolbar } from "../src";
 
 export default {
   title: "Components/Toolbar",
