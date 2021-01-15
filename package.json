@@ -80,9 +80,6 @@
     "typescript": "^3.9.7",
     "webpack": "~4.43.0"
   },
-  "resolutions": {
-    "@types/react": "^16.8.25"
-  },
   "files": [
     "lib"
   ],
