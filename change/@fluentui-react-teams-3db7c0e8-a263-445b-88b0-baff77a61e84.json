@@ -1,0 +1,7 @@
+{
+  "type": "major",
+  "comment": "Release v1.",
+  "packageName": "@fluentui/react-teams",
+  "email": "v-wishow@microsoft.com",
+  "dependentChangeType": "patch"
+}

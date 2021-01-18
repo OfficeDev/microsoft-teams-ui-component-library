@@ -13,7 +13,6 @@ import {
   Ref,
   SiteVariablesPrepared,
   Text,
-  gridCellWithFocusableElementBehavior,
   gridRowNestedBehavior,
 } from "@fluentui/react-northstar";
 
@@ -175,7 +174,7 @@ export const BoardLane = (props: IBoardLaneProps) => {
       },
 
       focus: (event) => {
-        if (laneNode) {
+        if (laneNode && event.target !== event.currentTarget) {
           laneNode.focus();
           event.stopPropagation();
         }
@@ -309,7 +308,6 @@ export const BoardLane = (props: IBoardLaneProps) => {
               padding: "0 1.25rem .75rem 1.25rem",
               ...(last ? {} : separatorStyles),
             }}
-            accessibility={gridCellWithFocusableElementBehavior}
           >
             {addItemDialog}
           </Box>
