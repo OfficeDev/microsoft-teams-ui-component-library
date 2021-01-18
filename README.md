@@ -111,7 +111,7 @@ For more information see the [Code of Conduct FAQ](https://opensource.microsoft.
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
 
-[sb]: https://dev.teams.microsoft.com/storybook/main/index.html
+[sb]: https://appstudiolocal.blob.core.windows.net/storybook/main/index.html
 [npm]: https://www.npmjs.com/package/@fluentui/react-teams
 [as]: https://github.com/OfficeDev/microsoft-teams-app-sample
 [fc]: https://www.figma.com/community/file/916836509871353159/Microsoft-Teams-UI-Kit
