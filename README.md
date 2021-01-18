@@ -4,7 +4,7 @@
 
 ### [Storybook demos ↗️][sb] | [App sample ↗️][as]
 
-This library of React components implements many of the designs released in [**Microsoft Teams UI Kit**][fc]. With these components, your Teams app can offer accessible, high-quality experiences in a design system that aligns with Microsoft Teams.
+This library of React components implements many of the designs released in the [**Microsoft Teams UI Kit**][fc]. With these components, your Teams app can offer accessible, high-quality experiences that align with Microsoft Teams.
 
 ## Installation
 
@@ -27,13 +27,13 @@ or
 npm i --save @fluentui/react-teams
 ```
 
-Since the components require fairly specific, structured props, development will be easier in projects that use TypeScript.
+Since the components require fairly specific, structured props, development is easier in projects that use TypeScript.
 
 ## Getting started
 
 ### Always use the provider
 
-In order for these components to work properly, they need their provider.
+For these components to work properly, they need their provider.
 
 ```tsx
 import {Provider as RTProvider, Board } from "@fluentui/react-teams";
@@ -49,17 +49,17 @@ export default (props) => {
 }
 ```
 
-The provider accepts a `themeName`, which is either `teamsTheme` for the light Teams theme, or `teamsDarkTheme` or `teamsHighContrastTheme`.
+The provider accepts a `themeName`, which can be `teamsTheme` for the default (light) Teams theme, `teamsDarkTheme`, or `teamsHighContrastTheme`.
 
 ### Content
 
-Each component’s content props are designed to accept data that can be serialized to JSON. This means that instead of nesting components with fairly atomic props, components in this library don’t accept children and take props with fairly specific structures.
+Each component’s content props accept data that can be serialized to JSON. This means that instead of nesting components with fairly atomic props, components in this library don’t accept children and take props with fairly specific structures.
 
-Consider modeling your use-case after examples provided in [this library’s Storybook][sb], or by examining the componnt’s TypeScript types.
+Consider modeling your use case after examples provided in [this library’s Storybook][sb] or by examining the componnt’s TypeScript types.
 
 ### Interactions
 
-Components with interactivity accept an `onInteraction` handler, which will call your function any time a user triggers an event you can respond to. The handler is called with a payload (also designed to be serialized to JSON) like this:
+Components with interactivity accept an `onInteraction` handler, which calls your function any time a user triggers an event you can respond to. The handler is called with a payload (also designed to be serialized to JSON) like this:
 
 ```json
 {
@@ -72,7 +72,7 @@ Components with interactivity accept an `onInteraction` handler, which will call
 
 This payload differs depending on the component and the kinds of interactions it supports; consider checking the type of `onInteraction` on the component you want to use.
 
-## Localizing
+## Localization
 
 Developers can override all text with their own wording by providing a `TTranslations` object to the `translations` prop on the `HVCThemeProvider` component. US English is already built-in.
 
