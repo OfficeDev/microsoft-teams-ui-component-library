@@ -1,8 +1,16 @@
 # Change Log - @fluentui/react-teams
 
-This log was last generated on Thu, 14 Jan 2021 00:59:25 GMT and should not be manually modified.
+This log was last generated on Mon, 18 Jan 2021 20:57:22 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 2.0.0
+
+Mon, 18 Jan 2021 20:57:22 GMT
+
+### Major changes
+
+- Release v1. (v-wishow@microsoft.com)
 
 ## 0.1.0
 
