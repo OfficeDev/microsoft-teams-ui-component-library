@@ -50,7 +50,7 @@ export type TTranslations = {
 };
 
 export default {
-  "en-US": {
+  ["en-US" as TLocale]: {
     locale: "en-US",
     hello: "Hello",
     "add lane": "Add lane",
@@ -88,43 +88,5 @@ export default {
       "You have cancelled dragging the item called {itemTitle}.",
     "board lane instructions":
       "Press Enter to explore board lane items, then use Escape to shift focus back to the board lane.",
-  } as TTranslations,
-  fa: {
-    locale: "fa",
-    hello: "سلام",
-    "add lane": "خط اضافه کنید",
-    "add board item": "مورد را به تخته اضافه کنید",
-    "edit board item": "ویرایش آیتم",
-    "board lane": "خط تخته",
-    "board item": "مورد هیئت مدیره",
-    "name lane": "این خط را نامگذاری کنید…",
-    "lane pending": "خط جدید",
-    "move lane further": "به سمت چپ حرکت کنید",
-    "move lane nearer": "حرکت به سمت راست",
-    delete: "حذف",
-    "lane options": "گزینه های خط",
-    "sort-order alphabetical descending": "A-Z",
-    "sort-order alphabetical ascending": "Z-A",
-    cancel: "لغو",
-    confirm: "تایید",
-    discard: "دور انداختن",
-    save: "صرفه جویی",
-    title: "عنوان",
-    subtitle: "عنوان فرعی",
-    "board item body": "شرح",
-    "board item users": "کاربران با برچسب",
-    "board item options": "گزینه های مورد هیئت مدیره",
-    "on drag start board item":
-      "شما آیتمی به نام {itemTitle} را در موقعیت {itemPosition} از {laneLength} در خط {laneTitle} بلند کرده اید.",
-    "on drag update board item same lane":
-      "شما موردی را به نام {itemTitle} به موقعیت {itemPosition} {laneLength} منتقل کرده اید.",
-    "on drag update board item different lane":
-      "You have moved the item called {itemTitle} to position {itemPosition} of {laneLength} in the {laneTitle} lane.",
-    "on drag end board item":
-      "شما موردی را به نام {itemTitle} به موقعیت {itemPosition} {laneLength} در خط {laneTitle} منتقل کرده اید.",
-    "on drag cancel board item":
-      "شما کشیدن موردی به نام {itemTitle} را لغو کرده اید.",
-    "board lane instructions":
-      "Enter را فشار دهید تا موارد خط تخته را کاوش کنید ، سپس از Escape استفاده کنید تا فوکوس را به سمت صفحه برد تغییر دهید.",
   } as TTranslations,
 };

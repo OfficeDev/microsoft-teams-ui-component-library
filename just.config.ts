@@ -1,19 +1,16 @@
+import * as util from "util";
+import _rimraf from "rimraf";
 import { task, series, jestTask, tscTask, eslintTask } from "just-scripts";
-import cpx from "cpx";
-import util from "util";
 import {
   startStorybookTask,
   buildStorybookTask,
 } from "./scripts/tasks/storybook";
 
-const copy = util.promisify(cpx.copy);
+const rimraf = util.promisify(_rimraf as any);
 
+task("clean", () => rimraf("lib"));
 task("build:tsc", tscTask());
-task("build:cp", async function () {
-  await copy("./src/types/*", "./lib/types");
-});
-
-task("build", series("build:cp", "build:tsc"));
+task("build", series("clean", "build:tsc"));
 
 task("test", jestTask());
 task("start", startStorybookTask());

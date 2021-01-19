@@ -9,9 +9,22 @@ export enum CommunicationOptions {
   Thanks = "thanks",
 }
 
+export type TCommunicationInteraction = {
+  event: "click";
+  target: string;
+};
+
 export type TCommunication =
-  | { option?: CommunicationOptions; fields: TCommunicationFields }
-  | { option: CommunicationOptions; fields?: TCommunicationFields };
+  | {
+      option?: CommunicationOptions;
+      fields: TCommunicationFields;
+      onInteraction?: (interaction: TCommunicationInteraction) => void;
+    }
+  | {
+      option: CommunicationOptions;
+      fields?: TCommunicationFields;
+      onInteraction?: (interaction: TCommunicationInteraction) => void;
+    };
 
 export type TCommunicationFields =
   | ICommunicationFields
@@ -67,5 +80,5 @@ export type CommunicationActions =
 
 export interface ICommunicationAction {
   label: string;
-  action: () => void;
+  target: string;
 }

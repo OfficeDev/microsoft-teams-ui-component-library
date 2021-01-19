@@ -8,15 +8,15 @@ export const DEFAULT_MESSAGE = {
   actions: {
     primary: {
       label: "Primary action",
-      action: () => alert("Primary action called"),
+      target: "primary",
     },
     secondary: {
       label: "Secondary action",
-      action: () => alert("Secondary action called"),
+      target: "secondary",
     },
     tertiary: {
       label: "Tertiary action",
-      action: () => alert("Tertiary action called"),
+      target: "tertiary",
     },
   },
 };

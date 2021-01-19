@@ -3,12 +3,13 @@ export { HVCThemeProvider as Provider } from "./lib/withTheme";
 export { TeamsTheme as themeNames } from "./themes";
 
 export {
+  actionKey,
   TAction,
   TActions,
   TUser,
   TUsers,
   WithOptionalInternalCallbacks,
-} from "./types/types.d";
+} from "./types/types";
 
 export { IBoardProps, Board } from "./components/Board/Board";
 

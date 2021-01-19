@@ -1,8 +1,11 @@
 import React from "react";
 import { object } from "@storybook/addon-knobs";
 
-import Dashboard from "../components/Dashboard";
-import { IWidget, WidgetSize } from "../components/Dashboard/DashboardWidget";
+import Dashboard from "../src/components/Dashboard";
+import {
+  IWidget,
+  WidgetSize,
+} from "../src/components/Dashboard/DashboardWidget";
 import {
   ExclamationCircleIcon,
   Flex,
@@ -114,18 +117,18 @@ const defaultWidgets: IWidget[] = [
   },
 ];
 
-const dashboardKnobGroupID = "Dashboard";
-const kitchenSinkConfig = { widgets: defaultWidgets };
+const dashboardKnobGroupID = "Dashboards";
+const dafaultConfig = { widgets: defaultWidgets };
 
-export const KitchenSink = () => {
+export const Default = () => {
   return (
     <Dashboard
-      {...object("Configuration", kitchenSinkConfig, dashboardKnobGroupID)}
+      {...object("Configuration", dafaultConfig, dashboardKnobGroupID)}
     />
   );
 };
 
-KitchenSink.parameters = {
+Default.parameters = {
   design: {
     type: "figma",
     url: "https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/?node-id=1%3A32",

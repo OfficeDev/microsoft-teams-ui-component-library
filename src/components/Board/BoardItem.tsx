@@ -270,6 +270,7 @@ export const BoardItem = React.memo((props: IBoardItemProps) => {
               item.title
             )}`,
             ...(isDragging ? { "data-isdragging": true } : {}),
+            tabIndex: -1,
           })}
         >
           <Box

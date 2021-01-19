@@ -1,17 +1,29 @@
 import React from "react";
 import { object, boolean } from "@storybook/addon-knobs";
+import { withDesign } from "storybook-addon-designs";
+import { actions } from "@storybook/addon-actions";
 
-import { Table, TSortable } from "..";
+import { List, TSortable } from "../src";
 
 export default {
-  title: "Components/Table",
-  component: Table,
+  title: "UI Templates/Lists",
+  component: List,
+  decorators: [withDesign],
 };
 
-const tableKnobGroupID = "Table";
+const eventsFromNames = actions("onInteraction");
+
+const listKnobGroupID = "List";
 
 export const KitchenSink = () => {
-  const tableConfig = {
+  const listConfig = {
+    find: true,
+    filters: ["c2", "c3"],
+    emptySelectionActionGroups: {
+      g1: {
+        a1: { title: "Add", icon: "Add", subject: ["list", "add"] },
+      },
+    },
     columns: {
       c1: {
         title: "Member name",
@@ -77,10 +89,18 @@ export const KitchenSink = () => {
     },
   };
   return (
-    <Table
-      truncate={boolean("Truncate", false, tableKnobGroupID)}
-      selectable={boolean("Selectable", true, tableKnobGroupID)}
-      {...object("Configuration", tableConfig, tableKnobGroupID)}
+    <List
+      truncate={boolean("Truncate", false, listKnobGroupID)}
+      selectable={boolean("Selectable", true, listKnobGroupID)}
+      {...object("Configuration", listConfig, listKnobGroupID)}
+      {...eventsFromNames}
     />
   );
+};
+
+KitchenSink.parameters = {
+  design: {
+    type: "figma",
+    url: "https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/?node-id=1%3A31",
+  },
 };

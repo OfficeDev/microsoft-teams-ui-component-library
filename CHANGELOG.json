@@ -2,6 +2,36 @@
   "name": "@fluentui/react-teams",
   "entries": [
     {
+      "date": "Mon, 18 Jan 2021 20:57:22 GMT",
+      "tag": "@fluentui/react-teams_v2.0.0",
+      "version": "2.0.0",
+      "comments": {
+        "major": [
+          {
+            "comment": "Release v1.",
+            "author": "v-wishow@microsoft.com",
+            "commit": "4cdd1a431925ac959e4877342ee614879836a163",
+            "package": "@fluentui/react-teams"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Thu, 14 Jan 2021 00:59:25 GMT",
+      "tag": "@fluentui/react-teams_v0.1.0",
+      "version": "0.1.0",
+      "comments": {
+        "minor": [
+          {
+            "comment": "This PR adds the onInteraction optional handler to interactive HVCs, which allows developers to handle user interactions in the HVCs in a way that is forward-compatible with a JSON API.\n\nAll HVCs will call onInteraction for interactions designed for developer response with a monolithic object payload.",
+            "author": "v-wishow@microsoft.com",
+            "commit": "53a89ac77fff75a648b27347a9227b7b7602c740",
+            "package": "@fluentui/react-teams"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 08 Jan 2021 20:56:16 GMT",
       "tag": "@fluentui/react-teams_v0.1.0-alpha.11",
       "version": "0.1.0-alpha.11",

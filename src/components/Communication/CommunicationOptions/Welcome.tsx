@@ -4,15 +4,15 @@ export const WELCOME_MESSAGE = {
   actions: {
     primary: {
       label: "Sign In",
-      action: () => alert("Sign In action called"),
+      target: "sign-in",
     },
     secondary: {
       label: "Sign Up",
-      action: () => alert("Sign Up action called"),
+      target: "register",
     },
     tertiary: {
       label: "Learn more about {{appName}}",
-      action: () => alert("Learn more action called"),
+      target: "info:{{appName}}",
     },
   },
 };
