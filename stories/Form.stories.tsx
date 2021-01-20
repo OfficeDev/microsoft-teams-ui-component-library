@@ -14,7 +14,7 @@ import { object } from "@storybook/addon-knobs";
 import { Form, TInputWidth, TFormErrors } from "../src/components/Form/Form";
 
 export default {
-  title: "UI Templates/Form",
+  title: "UI Templates/Forms",
   component: Form,
 };
 
@@ -137,7 +137,13 @@ export const KitchenSink = () => {
     />
   );
 };
-7;
+
+KitchenSink.parameters = {
+  design: {
+    type: "figma",
+    url: "https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/?node-id=1%3A34",
+  },
+};
 
 export const KitchenSinkWithErrors = () => {
   const kitchenSinkWithErrorsConfig = Object.assign(
@@ -156,4 +162,11 @@ export const KitchenSinkWithErrors = () => {
       {...eventsFromNames}
     />
   );
+};
+
+KitchenSinkWithErrors.parameters = {
+  design: {
+    type: "figma",
+    url: "https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/?node-id=1%3A34",
+  },
 };

@@ -1,12 +1,14 @@
 import React from "react";
 import { object, boolean } from "@storybook/addon-knobs";
+import { withDesign } from "storybook-addon-designs";
 import { actions } from "@storybook/addon-actions";
 
 import { List, TSortable } from "../src";
 
 export default {
-  title: "UI Templates/List",
+  title: "UI Templates/Lists",
   component: List,
+  decorators: [withDesign],
 };
 
 const eventsFromNames = actions("onInteraction");
@@ -94,4 +96,11 @@ export const KitchenSink = () => {
       {...eventsFromNames}
     />
   );
+};
+
+KitchenSink.parameters = {
+  design: {
+    type: "figma",
+    url: "https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/?node-id=1%3A31",
+  },
 };
