@@ -1,19 +1,17 @@
 import React from "react";
 import { object } from "@storybook/addon-knobs";
-
-import { DataVizualization } from "..";
-import { ChartType } from "../components/DataVizualization/DataVisualizationTypes";
+import { Chart, ChartOptions } from "../components/Chart/index";
 
 export default {
-  title: "Components/DataVizualization",
-  component: DataVizualization,
+  title: "Components/Charts",
+  component: Chart,
 };
 
 const dataVizKnobGroupID = "Line Chart";
 
 export const LineChart = () => {
   const dataVizProps = {
-    chartType: ChartType.Line,
+    type: ChartOptions.Line,
     data: {
       labels: ["Jan", "Feb", "March", "April", "May"],
       datasets: [
@@ -45,9 +43,7 @@ export const LineChart = () => {
     },
   };
   return (
-    <DataVizualization
-      {...object("Configuration", dataVizProps, dataVizKnobGroupID)}
-    />
+    <Chart {...object("Configuration", dataVizProps, dataVizKnobGroupID)} />
   );
 };
 
@@ -55,7 +51,7 @@ const stackedKnobGroupID = "Stacked";
 
 export const StackedChart = () => {
   const dataVizProps = {
-    chartType: ChartType.LineStacked,
+    type: ChartOptions.LineStacked,
     data: {
       labels: ["Jan", "Feb", "March", "April", "May"],
       datasets: [
@@ -75,8 +71,6 @@ export const StackedChart = () => {
     },
   };
   return (
-    <DataVizualization
-      {...object("Configuration", dataVizProps, stackedKnobGroupID)}
-    />
+    <Chart {...object("Configuration", dataVizProps, stackedKnobGroupID)} />
   );
 };

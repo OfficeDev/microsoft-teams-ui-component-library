@@ -10,21 +10,21 @@ import {
 import { ThemePrepared } from "@fluentui/styles";
 import { TeamsTheme } from "../../themes";
 
-export interface IDashabordThemeProps {
+export interface IChartThemeProps {
   globalTheme: ThemePrepared;
   children: ReactNode;
 }
-const menuContentStyles = ({ theme }: ComponentVariablesObject) => {
-  const { theme: themeKey, colorScheme } = theme.siteVariables;
-  return {
-    borderWidth: themeKey === TeamsTheme.HighContrast ? "1px" : 0,
-    boxShadow: colorScheme.elevations[8],
-    backgroundColor:
-      themeKey === TeamsTheme.Dark
-        ? colorScheme.default.border2
-        : colorScheme.default.foregroundFocus,
-  };
-};
+// const menuContentStyles = ({ theme }: ComponentVariablesObject) => {
+//   const { theme: themeKey, colorScheme } = theme.siteVariables;
+//   return {
+//     borderWidth: themeKey === TeamsTheme.HighContrast ? "1px" : 0,
+//     boxShadow: colorScheme.elevations[8],
+//     backgroundColor:
+//       themeKey === TeamsTheme.Dark
+//         ? colorScheme.default.border2
+//         : colorScheme.default.foregroundFocus,
+//   };
+// };
 const getLocalTheme = () => {
   return {
     componentStyles: {
@@ -44,14 +44,9 @@ const getLocalTheme = () => {
   };
 };
 
-export const DataVizualizationTheme = ({
-  globalTheme,
-  children,
-}: IDashabordThemeProps) => {
+export const ChartTheme = ({ globalTheme, children }: IChartThemeProps) => {
   const theme = mergeThemes(globalTheme, getLocalTheme());
   return (
-    <FluentUIThemeProvider theme={theme} styles={{ height: "100%" }}>
-      {children}
-    </FluentUIThemeProvider>
+    <FluentUIThemeProvider theme={theme}>{children}</FluentUIThemeProvider>
   );
 };

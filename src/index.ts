@@ -44,4 +44,4 @@ export { TSortable } from "./components/Table/tableBreakpoints";
 
 export { IToolbarProps, Toolbar } from "./components/Toolbar/Toolbar";
 
-export { DataVizualization } from "./components/DataVizualization";
+export { Chart, ChartOptions } from "./components/Chart";

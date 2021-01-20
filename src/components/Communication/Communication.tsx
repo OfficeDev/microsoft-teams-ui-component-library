@@ -40,28 +40,28 @@ export function Communication({ option, fields }: TCommunication) {
   let _fields: TCommunicationFields = {};
   let illustration: ICommunicationIllustration;
   if (option) {
-    switch (true) {
-      case option === CommunicationOptions.Default:
+    switch (option) {
+      case CommunicationOptions.Default:
         _fields = DEFAULT_MESSAGE;
         illustration = DEFAULT_ILLUSTRATIONS;
         break;
-      case option === CommunicationOptions.Empty:
+      case CommunicationOptions.Empty:
         _fields = EMPTY_MESSAGE;
         illustration = EMPTY_ILLUSTRATIONS;
         break;
-      case option === CommunicationOptions.Error:
+      case CommunicationOptions.Error:
         _fields = ERROR_MESSAGE;
         illustration = ERROR_ILLUSTRATIONS;
         break;
-      case option === CommunicationOptions.Hello:
+      case CommunicationOptions.Hello:
         _fields = HELLO_MESSAGE;
         illustration = HELLO_ILLUSTRATIONS;
         break;
-      case option === CommunicationOptions.Thanks:
+      case CommunicationOptions.Thanks:
         _fields = THANKS_MESSAGE;
         illustration = THANKS_ILLUSTRATIONS;
         break;
-      case option === CommunicationOptions.Welcome:
+      case CommunicationOptions.Welcome:
         _fields = WELCOME_MESSAGE;
         illustration = DEFAULT_ILLUSTRATIONS;
         break;

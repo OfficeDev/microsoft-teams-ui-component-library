@@ -9,7 +9,7 @@ import {
   ShareGenericIcon,
   Text,
 } from "@fluentui/react-northstar";
-import { DataVizualization, ChartType } from "../components/DataVizualization";
+import { Chart, ChartOptions } from "../components/Chart";
 
 export default {
   title: "UI Templates/Dashboards",
@@ -143,8 +143,8 @@ const dataVizWidgets: IWidget[] = [
         id: "t1",
         title: "Tab 1",
         content: (
-          <DataVizualization
-            chartType={ChartType.Line}
+          <Chart
+            type={ChartOptions.Line}
             data={{
               labels: ["Jan", "Feb", "March", "April", "May"],
               datasets: [
@@ -224,8 +224,8 @@ const dataVizWidgets: IWidget[] = [
         id: "1",
         title: "",
         content: (
-          <DataVizualization
-            chartType={ChartType.LineArea}
+          <Chart
+            type={ChartOptions.LineArea}
             data={{
               labels: ["Jan", "Feb", "March", "April", "May"],
               datasets: [

@@ -9,8 +9,8 @@ export interface IChartDataSet {
   isSelected?: boolean;
 }
 
-export enum ChartType {
+export enum ChartOptions {
   Line = "line",
-  LineStacked = "line-stacked",
-  LineArea = "line-area",
+  LineStacked = "lineStacked",
+  LineArea = "lineArea",
 }

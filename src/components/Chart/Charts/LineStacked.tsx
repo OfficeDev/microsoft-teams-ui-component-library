@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Chart from "chart.js";
 import _ from "lodash";
 import {
-  ProviderConsumer as FluentUIThemeConsumer,
   Box,
   SiteVariablesPrepared,
   Toolbar as Legend,
@@ -10,72 +9,80 @@ import {
   BoldIcon,
   Flex,
 } from "@fluentui/react-northstar";
-import { DataVizualizationTheme } from "./DataVizualizationTheme";
-import { IChartData, IChartDataSet, ChartType } from "./DataVisualizationTypes";
-import { hexToRgb, lineChartSettings } from "./Utils";
-import { TeamsTheme } from "../../themes";
+import { IChartData } from "../ChartTypes";
+import { chartAxis, tooltipTrigger, hexToRgb } from "../ChartUtils";
+import { TeamsTheme } from "../../../themes";
 
-export function DataVizualization({
-  chartType,
-  data,
-}: {
-  chartType: ChartType;
-  data: IChartData;
-}) {
-  console.clear();
-  let chartSettings = {
-    settings: lineChartSettings,
-    stacked: false,
-    area: false,
-  };
-  switch (chartType) {
-    case ChartType.Line:
-    default:
-      break;
-    case ChartType.LineStacked:
-      chartSettings.stacked = true;
-      break;
-    case ChartType.LineArea:
-      chartSettings.area = true;
-      break;
-  }
-  return (
-    <FluentUIThemeConsumer
-      render={(globalTheme) => (
-        <DataVizualizationTheme globalTheme={globalTheme}>
-          <LineChart
-            data={data}
-            siteVariables={globalTheme.siteVariables}
-            {...chartSettings}
-          />
-        </DataVizualizationTheme>
-      )}
-    />
-  );
-}
+const lineChartConfig = {
+  type: "line",
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    animation: {
+      duration: 1000,
+    },
+    layout: {
+      padding: {
+        left: 16,
+        right: 16,
+        top: 0,
+        bottom: 0,
+      },
+    },
+    scaleLabel: {
+      display: false,
+    },
+    elements: {
+      line: {
+        tension: 0.4,
+      },
+    },
+    tooltips: {
+      intersect: false,
+    },
+    scales: {
+      xAxes: [
+        {
+          ticks: {
+            fontSize: 10,
+            padding: 0,
+            labelOffset: 4,
+            maxRotation: 0,
+            minRotation: 0,
+          },
+          gridLines: {
+            borderDash: [5, 9999],
+            zeroLineBorderDash: [5, 9999],
+          },
+        },
+      ],
+      yAxes: [
+        {
+          ticks: {
+            callback: (v: number) => chartAxis(v),
+            fontSize: 10,
+            padding: -16,
+            labelOffset: 10,
+            maxTicksLimit: 5,
+          },
+          gridLines: {
+            lineWidth: 1,
+            drawBorder: false,
+            drawTicks: true,
+            tickMarkLength: 44,
+          },
+        },
+      ],
+    },
+  },
+};
 
-/**
- * TODO:
- * (x). Test keyboard access with a few charts at the page
- * 2. Colors
- * (x). Max/Min value to define steps
- */
-
-(Chart as any).defaults.global.legend.display = false;
-(Chart as any).defaults.global.defaultFontFamily = `"Segoe UI", system-ui, "Apple Color Emoji", "Segoe UI Emoji", sans-serif`;
-
-const LineChart = ({
+export const LineStackedChart = ({
   data,
   siteVariables,
-  settings,
-  stacked,
-  area,
 }: {
   data: IChartData;
   siteVariables: SiteVariablesPrepared;
-  settings: any;
-  stacked: boolean;
-  area: boolean;
 }) => {
   const [overflowOpen, setOverflowOpen] = useState(false);
   const [overflowItems, setOverflowItems] = useState<number>(0);
@@ -153,7 +160,7 @@ const LineChart = ({
 
     function showFocusedDataPoint() {
       hoverDataPoint(selectedIndex);
-      showTooltip(chart, data, selectedDataSet, selectedIndex);
+      tooltipTrigger(chart, data, selectedDataSet, selectedIndex);
       document
         .getElementById(
           `${chartId}-tooltip-${selectedDataSet}-${selectedIndex}`
@@ -244,7 +251,7 @@ const LineChart = ({
     ];
 
     const ctx = canvasRef.current.getContext("2d");
-    const config = _.merge(settings, {
+    const config = _.merge(lineChartConfig, {
       options: {
         tooltips: {
           backgroundColor:
@@ -289,7 +296,7 @@ const LineChart = ({
                 backgroundColor: colors[tooltipItem.datasetIndex],
               };
             },
-            footer: (tooltipItems: any, data: any) => {
+            footer: (tooltipItems: any) => {
               return tooltipItems[0].xLabel;
             },
           },
@@ -297,12 +304,6 @@ const LineChart = ({
       },
     });
 
-    let pointRadius = 2;
-    if (stacked) {
-      pointRadius = 0;
-    } else if (siteVariables.theme === TeamsTheme.HighContrast) {
-      pointRadius = 4;
-    }
     chart = new Chart(ctx!, {
       ...config,
       data: {
@@ -312,26 +313,11 @@ const LineChart = ({
             siteVariables.theme === TeamsTheme.HighContrast
               ? siteVariables.colorScheme.default.borderHover
               : colors[index];
-          let backgroundColor = "transparent";
-          if (stacked) {
-            backgroundColor = dataColor;
-          }
-          if (area) {
-            const gradientStroke = ctx!.createLinearGradient(0, 0, 0, 160); // Chart height
-            const colorRGB = hexToRgb(dataColor);
-            const colorRGBString = `${colorRGB!.r}, ${colorRGB!.g}, ${
-              colorRGB!.b
-            }`;
-            console.log(colorRGBString);
-            gradientStroke.addColorStop(0, `rgba(${colorRGBString}, .55)`);
-            gradientStroke.addColorStop(1, `rgba(${colorRGBString}, .0)`);
-            backgroundColor = gradientStroke as any;
-          }
           return {
             label: set.label,
             data: set.data,
             borderColor: dataColor,
-            backgroundColor,
+            backgroundColor: dataColor,
             borderWidth: 2,
             pointBorderColor: dataColor,
             pointBackgroundColor: dataColor,
@@ -341,8 +327,8 @@ const LineChart = ({
             borderCapStyle: "round",
             borderJoinStyle: "round",
             pointBorderWidth: 0,
-            pointRadius,
-            pointHoverRadius: pointRadius,
+            pointRadius: 0,
+            pointHoverRadius: 0,
             pointStyle:
               siteVariables.theme === TeamsTheme.HighContrast
                 ? (chartPattern[index].point as any)
@@ -416,7 +402,7 @@ const LineChart = ({
       if (index < 1) {
         yAxes.gridLines.color = siteVariables.colorScheme.grey.border;
         yAxes.gridLines.zeroLineColor = siteVariables.colorScheme.grey.border;
-        yAxes.stacked = stacked;
+        yAxes.stacked = true;
       } else {
         yAxes.gridLines.color = "transparent";
       }
@@ -561,20 +547,3 @@ const LineChart = ({
     </Flex>
   );
 };
-
-function showTooltip(chart: any, data: IChartData, set: number, index: number) {
-  const duplicates: number[] = [];
-  const segments: any[] = [];
-  // Check fro equal data points
-  data.datasets.filter((dataset: IChartDataSet, i: number) => {
-    if (dataset.data[index] === data.datasets[set].data[index]) {
-      duplicates.push(i);
-    }
-  });
-  duplicates.forEach((segmentId) => {
-    segments.push(chart.getDatasetMeta(segmentId).data[index]);
-  });
-  chart.tooltip._active = segments;
-  chart.tooltip.update();
-  chart.draw();
-}
