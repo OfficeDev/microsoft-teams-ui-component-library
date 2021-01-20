@@ -2,7 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/%40fluentui%2Freact-teams.svg)][npm]
 
-### [Playground ↗️](https://dev-int.teams.microsoft.com/storybook/main/index.html) | [Sample app ↗️](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/tab-ui-templates/ts)
+### [Playground ↗️][sb] | [Sample app ↗️][as]
 
 This library of React components implements many of the designs released in the [**Microsoft Teams UI Kit**][fc]. With these components, your Teams app can offer accessible, high-quality experiences that align with Microsoft Teams.
 
@@ -111,7 +111,7 @@ For more information see the [Code of Conduct FAQ](https://opensource.microsoft.
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
 
-[sb]: https://appstudiolocal.blob.core.windows.net/storybook/main/index.html
+[sb]: https://dev-int.teams.microsoft.com/storybook/main/index.html
 [npm]: https://www.npmjs.com/package/@fluentui/react-teams
-[as]: https://github.com/OfficeDev/microsoft-teams-app-sample
+[as]: https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/tab-ui-templates/ts
 [fc]: https://www.figma.com/community/file/916836509871353159/Microsoft-Teams-UI-Kit
