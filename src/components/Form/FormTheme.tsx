@@ -11,7 +11,7 @@ import { teamsNextVariableAssignments, themes } from "../../lib/withTheme";
 
 import { TeamsTheme } from "../../themes";
 
-import { Surface } from "../../types/types.d";
+import { Surface } from "../../types/types";
 
 export interface IFormThemeProps {
   globalTheme: ThemePrepared;

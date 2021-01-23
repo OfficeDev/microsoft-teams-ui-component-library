@@ -1,5 +1,6 @@
 import React from "react";
 import { withKnobs, object } from "@storybook/addon-knobs";
+import { actions } from "@storybook/addon-actions";
 import { withA11y } from "@storybook/addon-a11y";
 import { withDesign } from "storybook-addon-designs";
 
@@ -8,14 +9,16 @@ import {
   CommunicationOptions,
   ICommunicationImage,
   ICommunicationThemedImage,
-} from "../components/Communication";
-import { TeamsTheme } from "../themes";
+} from "../src/components/Communication";
+import { TeamsTheme } from "../src/themes";
 
 export default {
   title: "Components/Communication",
   component: Communication,
   decorators: [withDesign],
 };
+
+const eventsFromNames = actions("onInteraction");
 
 const communicationKnobGroupID = "Communication";
 
@@ -27,6 +30,7 @@ export const Default = () => {
   return (
     <Communication
       {...object("Configuration", defaultConfig, communicationKnobGroupID)}
+      {...eventsFromNames}
     />
   );
 };
@@ -46,6 +50,7 @@ export const Welcome = () => {
   return (
     <Communication
       {...object("Configuration", welcomeConfig, communicationKnobGroupID)}
+      {...eventsFromNames}
     />
   );
 };
@@ -65,6 +70,7 @@ export const Hello = () => {
   return (
     <Communication
       {...object("Configuration", helloConfig, communicationKnobGroupID)}
+      {...eventsFromNames}
     />
   );
 };
@@ -84,6 +90,7 @@ export const Empty = () => {
   return (
     <Communication
       {...object("Configuration", emptyConfig, communicationKnobGroupID)}
+      {...eventsFromNames}
     />
   );
 };
@@ -103,6 +110,7 @@ export const Error = () => {
   return (
     <Communication
       {...object("Configuration", errorConfig, communicationKnobGroupID)}
+      {...eventsFromNames}
     />
   );
 };
@@ -122,6 +130,7 @@ export const Thanks = () => {
   return (
     <Communication
       {...object("Configuration", thanksConfig, communicationKnobGroupID)}
+      {...eventsFromNames}
     />
   );
 };
@@ -150,11 +159,11 @@ const customConfig = {
     actions: {
       primary: {
         label: "Documentation",
-        action: () => alert("Documentation button clicked"),
+        target: "documentation",
       },
       secondary: {
         label: "Samples",
-        action: () => alert("Samples button clicked"),
+        target: "samples",
       },
     },
   },
@@ -163,6 +172,7 @@ export const Custom = () => {
   return (
     <Communication
       {...object("Configuration", customConfig, communicationKnobGroupID)}
+      {...eventsFromNames}
     />
   );
 };
@@ -194,11 +204,11 @@ const customThemedImageConfig = {
     actions: {
       primary: {
         label: "Documentation",
-        action: () => alert("Documentation button clicked"),
+        target: "documentation",
       },
       secondary: {
         label: "Samples",
-        action: () => alert("Samples button clicked"),
+        target: "samples",
       },
     },
   },
@@ -211,6 +221,7 @@ export const CustomImageThemeSupport = () => {
         customThemedImageConfig,
         communicationKnobGroupID
       )}
+      {...eventsFromNames}
     />
   );
 };

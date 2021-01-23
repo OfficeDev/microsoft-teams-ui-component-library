@@ -16,16 +16,15 @@ import {
 } from "react-beautiful-dnd";
 
 import {
+  Accessibility,
   Box,
   Button,
   Dialog,
   Flex,
   FocusZoneTabbableElements,
-  GridBehaviorProps,
   MenuItem,
   ProviderConsumer as FluentUIThemeConsumer,
   SiteVariablesPrepared,
-  gridNestedBehavior,
 } from "@fluentui/react-northstar";
 
 import {
@@ -59,34 +58,48 @@ import {
 
 import { BoardItemDialog, BoardItemDialogAction } from "./BoardItemDialog";
 
-const boardBehavior = (props: GridBehaviorProps) =>
-  setMultiple(gridNestedBehavior(props), {
-    "focusZone.props": {
-      handleTabKey: FocusZoneTabbableElements.all,
-      isCircularNavigation: true,
-      pagingSupportDisabled: true,
-      shouldEnterInnerZone: (event: React.KeyboardEvent<HTMLElement>) =>
-        getCode(event) === keyboardKey.Enter,
-    },
-    "attributes.root": {
+const boardBehavior: Accessibility = () => ({
+  attributes: {
+    root: {
       role: "region",
       "aria-label": "Board lanes",
-      "data-is-focusable": true,
-      tabIndex: -1,
     },
-    "keyActions.root.focus.keyCombinations": [{ keyCode: keyboardKey.Escape }],
-  });
+  },
+  focusZone: {
+    props: {
+      shouldEnterInnerZone: (event) => getCode(event) === keyboardKey.Enter,
+      handleTabKey: FocusZoneTabbableElements.all,
+    },
+  },
+});
 
 const defaultBoardItemCardLayout: IBoardItemCardLayout = {
   previewPosition: "top",
   overflowPosition: "footer",
 };
 
+interface IBoardInteractionUpdateLanes {
+  event: "update";
+  target: "lanes";
+  lanes: TBoardLanes;
+}
+
+interface IBoardInteractionUpdateItems {
+  event: "update";
+  target: "items";
+  items: IPreparedBoardItems;
+}
+
+export type TBoardInteraction =
+  | IBoardInteractionUpdateLanes
+  | IBoardInteractionUpdateItems;
+
 export interface IBoardProps {
   users: TUsers;
   lanes: TBoardLanes;
   items: TBoardItems;
   boardItemCardLayout?: IBoardItemCardLayout;
+  onInteraction?: (interaction: TBoardInteraction) => void;
 }
 
 interface IBoardStandaloneProps {
@@ -468,13 +481,27 @@ const BoardStandalone = (props: IBoardStandaloneProps) => {
 };
 
 export const Board = (props: IBoardProps) => {
-  const [arrangedLanes, setArrangedLanes] = useState<TBoardLanes>(props.lanes);
+  const [arrangedLanes, setStateArrangedLanes] = useState<TBoardLanes>(
+    props.lanes
+  );
 
-  const [arrangedItems, setArrangedItems] = useState<IPreparedBoardItems>(
+  const [arrangedItems, setStateArrangedItems] = useState<IPreparedBoardItems>(
     prepareBoardItems(props.items, props.lanes)
   );
 
   const [addingLane, setAddingLane] = useState<boolean>(false);
+
+  const setArrangedLanes = (lanes: TBoardLanes) => {
+    if (props.onInteraction)
+      props.onInteraction({ event: "update", target: "lanes", lanes });
+    return setStateArrangedLanes(lanes as SetStateAction<TBoardLanes>);
+  };
+
+  const setArrangedItems = (items: IPreparedBoardItems) => {
+    if (props.onInteraction)
+      props.onInteraction({ event: "update", target: "items", items });
+    return setStateArrangedItems(items as SetStateAction<IPreparedBoardItems>);
+  };
 
   return (
     <FluentUIThemeConsumer
@@ -495,12 +522,12 @@ export const Board = (props: IBoardProps) => {
                     a1: {
                       icon: "Add",
                       title: t["add lane"],
-                      __internal_callback__: "add_column",
+                      subject: "add_column",
                     },
                   },
                 }}
-                __internal_callbacks__={{
-                  add_column: () => setAddingLane(true),
+                onInteraction={({ subject }) => {
+                  if (subject === "add_column") setAddingLane(true);
                 }}
               />
               <BoardStandalone
@@ -509,10 +536,14 @@ export const Board = (props: IBoardProps) => {
                   rtl,
                   arrangedLanes,
                   arrangedItems,
-                  setArrangedItems,
+                  setArrangedItems: setArrangedItems as Dispatch<
+                    SetStateAction<IPreparedBoardItems>
+                  >,
                   addingLane,
                   setAddingLane,
-                  setArrangedLanes,
+                  setArrangedLanes: setArrangedLanes as Dispatch<
+                    SetStateAction<TBoardLanes>
+                  >,
                 }}
                 {...pick(props, ["users", "boardItemCardLayout"])}
               />

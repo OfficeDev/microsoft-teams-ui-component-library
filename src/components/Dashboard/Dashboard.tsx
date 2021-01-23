@@ -20,7 +20,7 @@ interface IDashboard {
 const toolbarConfig = {
   actionGroups: {
     h1: {
-      b1: { title: "Edit dashboard", icon: "Edit" },
+      edit: { title: "Edit dashboard", icon: "Edit" },
     },
   },
   filters: [],

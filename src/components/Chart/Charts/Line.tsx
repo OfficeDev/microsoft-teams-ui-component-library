@@ -1,96 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Chart from "chart.js";
-import _ from "lodash";
-import {
-  Box,
-  SiteVariablesPrepared,
-  Toolbar as Legend,
-  Button as LegendItem,
-  BoldIcon,
-  Flex,
-} from "@fluentui/react-northstar";
+import { SiteVariablesPrepared } from "@fluentui/react-northstar";
 import { IChartData } from "../ChartTypes";
 import {
-  chartAxis,
   tooltipTrigger,
-  hexToRgb,
   tooltipAxesYLine,
+  lineChartPatterns,
+  lineChartConfig,
 } from "../ChartUtils";
 import { TeamsTheme } from "../../../themes";
-
-const lineChartConfig = {
-  type: "line",
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    animation: {
-      duration: 1000,
-    },
-    layout: {
-      padding: {
-        left: 16,
-        right: 16,
-        top: 0,
-        bottom: 0,
-      },
-    },
-    scaleLabel: {
-      display: false,
-    },
-    elements: {
-      line: {
-        tension: 0.4,
-      },
-    },
-    tooltips: {
-      intersect: false,
-    },
-    scales: {
-      xAxes: [
-        {
-          ticks: {
-            fontSize: 10,
-            padding: 0,
-            labelOffset: 4,
-            maxRotation: 0,
-            minRotation: 0,
-          },
-          gridLines: {
-            borderDash: [5, 9999],
-            zeroLineBorderDash: [5, 9999],
-          },
-        },
-      ],
-      yAxes: [
-        {
-          ticks: {
-            callback: (v: number) => chartAxis(v),
-            fontSize: 10,
-            padding: -16,
-            labelOffset: 10,
-            maxTicksLimit: 5,
-          },
-          gridLines: {
-            lineWidth: 1,
-            drawBorder: false,
-            drawTicks: true,
-            tickMarkLength: 44,
-          },
-        },
-      ],
-    },
-  },
-};
+import { ChartContainer } from "./ChartContainer";
 
 export const LineChart = ({
+  title,
   data,
   siteVariables,
 }: {
+  title: string;
   data: IChartData;
   siteVariables: SiteVariablesPrepared;
 }) => {
-  const [overflowOpen, setOverflowOpen] = useState(false);
-  const [overflowItems, setOverflowItems] = useState<number>(0);
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
   const chartId = React.useMemo(
     () => Math.random().toString(36).substr(2, 9),
@@ -107,6 +36,47 @@ export const LineChart = ({
     ],
     [siteVariables]
   );
+
+  const createDataPoints = (): Chart.ChartDataSets[] =>
+    Array.from(data.datasets, (set, i) => {
+      const dataColor =
+        siteVariables.theme === TeamsTheme.HighContrast
+          ? siteVariables.colorScheme.brand.background
+          : chartDataPointColors[i];
+      return {
+        label: set.label,
+        data: set.data,
+        borderColor: dataColor,
+        hoverBorderColor:
+          siteVariables.theme === TeamsTheme.HighContrast
+            ? siteVariables.colorScheme.default.borderHover
+            : dataColor,
+        hoverBorderWidth:
+          siteVariables.theme === TeamsTheme.HighContrast ? 4 : 2,
+        backgroundColor: "transparent",
+        hoverBackgroundColor: "transparent",
+        borderWidth: 2,
+        pointBorderColor: dataColor,
+        pointBackgroundColor: dataColor,
+        pointHoverBackgroundColor: dataColor,
+        pointHoverBorderColor: dataColor,
+        pointHoverBorderWidth: 0,
+        borderCapStyle: "round",
+        borderJoinStyle: "round",
+        pointBorderWidth: 0,
+        pointRadius: siteVariables.theme === TeamsTheme.HighContrast ? 4 : 2,
+        pointHoverRadius:
+          siteVariables.theme === TeamsTheme.HighContrast ? 4 : 2,
+        pointStyle:
+          siteVariables.theme === TeamsTheme.HighContrast
+            ? (lineChartPatterns[i].point as any)
+            : "circle",
+        borderDash:
+          siteVariables.theme === TeamsTheme.HighContrast
+            ? lineChartPatterns[i].line
+            : [],
+      };
+    });
 
   /**
    * Chart initialization
@@ -165,7 +135,14 @@ export const LineChart = ({
 
     function showFocusedDataPoint() {
       hoverDataPoint(selectedIndex);
-      tooltipTrigger(chart, data, selectedDataSet, selectedIndex);
+      tooltipTrigger(
+        chart,
+        data,
+        selectedDataSet,
+        selectedIndex,
+        siteVariables,
+        true
+      );
       document
         .getElementById(
           `${chartId}-tooltip-${selectedDataSet}-${selectedIndex}`
@@ -191,6 +168,13 @@ export const LineChart = ({
           activeElements.splice(i, 1);
           break;
         }
+      }
+      if (siteVariables.theme === TeamsTheme.HighContrast) {
+        chart.data.datasets.map((dataset: any) => {
+          dataset.borderColor = siteVariables.colorScheme.default.border;
+          dataset.borderWidth = 2;
+        });
+        chart.update();
       }
       chart.tooltip._active = activeElements;
       chart.tooltip.update(true);
@@ -246,105 +230,13 @@ export const LineChart = ({
       showFocusedDataPoint();
     }
 
-    const chartPattern = [
-      { line: [], point: "circle" },
-      { line: [], point: "rect" },
-      { line: [], point: "triangle" },
-      { line: [5, 5], point: "cross" },
-      { line: [5, 5], point: "rectRot" },
-      { line: [5, 5], point: "crossRot" },
-    ];
-
     const ctx = canvasRef.current.getContext("2d");
-    const config = _.merge(lineChartConfig, {
-      options: {
-        tooltips: {
-          backgroundColor:
-            siteVariables.theme === TeamsTheme.Dark
-              ? siteVariables.colorScheme.default.border2
-              : siteVariables.colorScheme.default.foregroundFocus,
-
-          yPadding: 12,
-          xPadding: 20,
-          caretPadding: 10,
-          borderColor: siteVariables.colorScheme.onyx.border,
-          borderWidth: siteVariables.theme === TeamsTheme.HighContrast ? 1 : 0,
-          multiKeyBackground: siteVariables.colorScheme.white.foreground,
-
-          // Tooltip Title
-          titleFontFamily: siteVariables.bodyFontFamily,
-          titleFontStyle: "200",
-          titleFontSize: 20,
-          titleFontColor: siteVariables.colorScheme.default.foreground3,
-          // Tooltip Body
-          bodyFontFamily: siteVariables.bodyFontFamily,
-          bodySpacing: 4,
-          bodyFontSize: 11.5,
-          bodyFontStyle: "400",
-          bodyFontColor: siteVariables.colorScheme.default.foreground3,
-          // Tooltip Footer
-          footerFontFamily: siteVariables.bodyFontFamily,
-          footerFontStyle: "300",
-          footerFontSize: 10,
-          footerFontColor: siteVariables.colorScheme.default.foreground3,
-
-          callbacks: {
-            title: (tooltipItems: any) => {
-              return tooltipItems[0].yLabel;
-            },
-            label: (tooltipItem: any, data: any) => {
-              return data.datasets[tooltipItem.datasetIndex].label;
-            },
-            labelColor: (tooltipItem: any) => {
-              return {
-                borderColor: "transparent",
-                backgroundColor: chartDataPointColors[tooltipItem.datasetIndex],
-              };
-            },
-            footer: (tooltipItems: any) => {
-              return tooltipItems[0].xLabel;
-            },
-          },
-        },
-      },
-    });
 
     chart = new Chart(ctx!, {
-      ...config,
+      ...(lineChartConfig(siteVariables, chartDataPointColors) as any),
       data: {
         labels: data.labels,
-        datasets: Array.from(data.datasets, (set, index) => {
-          const dataColor =
-            siteVariables.theme === TeamsTheme.HighContrast
-              ? siteVariables.colorScheme.default.borderHover
-              : chartDataPointColors[index];
-          return {
-            label: set.label,
-            data: set.data,
-            borderColor: dataColor,
-            backgroundColor: "transparent",
-            borderWidth: 2,
-            pointBorderColor: dataColor,
-            pointBackgroundColor: dataColor,
-            pointHoverBackgroundColor: dataColor,
-            pointHoverBorderColor: dataColor,
-            pointHoverBorderWidth: 0,
-            borderCapStyle: "round",
-            borderJoinStyle: "round",
-            pointBorderWidth: 0,
-            pointRadius:
-              siteVariables.theme === TeamsTheme.HighContrast ? 4 : 2,
-            pointHoverRadius: 2,
-            pointStyle:
-              siteVariables.theme === TeamsTheme.HighContrast
-                ? (chartPattern[index].point as any)
-                : "circle",
-            borderDash:
-              siteVariables.theme === TeamsTheme.HighContrast
-                ? chartPattern[index].line
-                : [],
-          };
-        }),
+        datasets: createDataPoints(),
       },
       plugins: [
         {
@@ -354,7 +246,7 @@ export const LineChart = ({
                 chart,
                 ctx,
                 tooltip,
-                colorScheme: siteVariables.colorScheme,
+                siteVariables,
                 chartDataPointColors,
               });
             }
@@ -391,9 +283,7 @@ export const LineChart = ({
         yAxes.gridLines.color = "transparent";
       }
     });
-    /**
-     * Color scheme updates
-     */
+
     canvasRef.current.addEventListener("click", removeFocusStyleOnClick);
     canvasRef.current.addEventListener("keydown", changeFocus);
     canvasRef.current.addEventListener("focusout", resetChartStates);
@@ -407,127 +297,35 @@ export const LineChart = ({
     };
   }, [siteVariables]);
 
-  /**
-   * Legend
-   */
-
-  const legendItems = data.datasets.map((dataset, i) => ({
-    key: i,
-    kind: "custom",
-    content: (
-      <LegendItem
-        styles={{
-          display: "flex",
-          alignItems: "center",
-          fontSize: ".75rem",
-          minWidth: "30px",
-          color: siteVariables.colorScheme.default.foreground2,
-          border: data.datasets[i].isSelected ? "1px solid red" : "none",
-        }}
-        onClick={() => {
-          data.datasets[i].isSelected = !data.datasets[i].isSelected;
-          data.datasets.map((dataset, index) => {
-            if (!dataset.isSelected) {
-              console.log(index);
-            }
-          });
-        }}
-        text
-      >
-        <Box
-          styles={{
-            width: ".6rem",
-            height: ".6rem",
-            backgroundColor: chartDataPointColors[i],
-            margin: "0 0 -1px",
-            marginRight: ".4rem",
-            borderRadius: siteVariables.borderRadius,
-          }}
-        />
-        {dataset.label}
-      </LegendItem>
-    ),
-    fitted: "horizontally",
-  }));
-
-  const toolbarItems = legendItems;
-
   return (
-    <Flex column style={{ height: "100%" }}>
-      <Box
-        styles={{
-          flexGrow: 1,
-          backgroundColor: siteVariables.colorScheme.grey.background,
+    <ChartContainer
+      siteVariables={siteVariables}
+      data={data}
+      chartDataPointColors={chartDataPointColors}
+    >
+      <canvas
+        id={chartId}
+        ref={canvasRef}
+        tabIndex={0}
+        style={{
+          userSelect: "none",
         }}
+        aria-label={title}
       >
-        <canvas
-          id={chartId}
-          ref={canvasRef}
-          tabIndex={0}
-          style={{
-            userSelect: "none",
-          }}
-          aria-label="[TODO]"
-        >
-          <title>[TODO]</title>
-          {data.datasets.map((set, setKey) =>
-            set.data.map((item, itemKey) => (
-              // Generated tooltips for screen readers
-              <div key={itemKey} id={`${chartId}-tooltip-${setKey}-${itemKey}`}>
-                <p>{item}</p>
-                <ul>
-                  <li>
-                    {set.label}: {set.data[itemKey]}
-                  </li>
-                </ul>
-              </div>
-            ))
-          )}
-        </canvas>
-      </Box>
-      <Box>
-        <Legend
-          aria-label="Toolbar overflow menu"
-          items={toolbarItems}
-          overflow
-          overflowOpen={overflowOpen}
-          overflowItem={{
-            icon: (
-              <BoldIcon
-                styles={{
-                  position: "relative",
-                  width: "3.5rem",
-                  height: "1rem",
-                  borderRadius: "4px",
-                  "& svg": {
-                    display: "none",
-                  },
-                  "&::after": {
-                    content: `"${overflowItems} more"`,
-                    display: "block",
-                    position: "absolute",
-                    top: 0,
-                    left: ".5rem",
-                    minWidth: "3rem",
-                    textAlign: "left",
-                    fontSize: ".75rem",
-                    color: siteVariables.colorScheme.brand.foreground,
-                  },
-                }}
-              />
-            ),
-          }}
-          onOverflowOpenChange={(e, props) => {
-            setOverflowOpen(!!props?.overflowOpen);
-          }}
-          onOverflow={(items) => setOverflowItems(toolbarItems.length - items)}
-          getOverflowItems={(startIndex) => legendItems.slice(startIndex)}
-          styles={{
-            width: "calc(100% + .8rem)",
-            backgroundColor: siteVariables.colorScheme.grey.background,
-          }}
-        />
-      </Box>
-    </Flex>
+        {data.datasets.map((set, setKey) =>
+          set.data.map((item, itemKey) => (
+            // Generated tooltips for screen readers
+            <div key={itemKey} id={`${chartId}-tooltip-${setKey}-${itemKey}`}>
+              <p>{item}</p>
+              <ul>
+                <li>
+                  {set.label}: {set.data[itemKey]}
+                </li>
+              </ul>
+            </div>
+          ))
+        )}
+      </canvas>
+    </ChartContainer>
   );
 };

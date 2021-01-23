@@ -1,16 +1,17 @@
 import React from "react";
 import { object } from "@storybook/addon-knobs";
-import { Chart, ChartOptions } from "../components/Chart/index";
+import { Chart, ChartOptions } from "../src/components/Chart";
 
 export default {
   title: "Components/Charts",
   component: Chart,
 };
 
-const dataVizKnobGroupID = "Line Chart";
+const dataVizKnobGroupID = "Line chart";
 
 export const LineChart = () => {
   const dataVizProps = {
+    title: "Line chart sample",
     type: ChartOptions.Line,
     data: {
       labels: ["Jan", "Feb", "March", "April", "May"],
@@ -47,25 +48,26 @@ export const LineChart = () => {
   );
 };
 
-const stackedKnobGroupID = "Stacked";
+const stackedKnobGroupID = "Stacked chart";
 
 export const StackedChart = () => {
   const dataVizProps = {
+    title: "Stacked chart sample",
     type: ChartOptions.LineStacked,
     data: {
       labels: ["Jan", "Feb", "March", "April", "May"],
       datasets: [
         {
           label: "Tablets",
-          data: [860, 6700, 3100, 2012, 1930],
+          data: [1860, 4700, 3100, 2012, 1930],
         },
         {
           label: "Phones",
-          data: [100, 1600, 180, 3049, 3596],
+          data: [1860, 1600, 180, 3049, 3596],
         },
         {
           label: "Laptops",
-          data: [1860, 7700, 4100, 3012, 2930],
+          data: [1860, 5700, 4100, 3012, 2930],
         },
       ],
     },
@@ -73,4 +75,27 @@ export const StackedChart = () => {
   return (
     <Chart {...object("Configuration", dataVizProps, stackedKnobGroupID)} />
   );
+};
+
+const areaKnobGroupID = "Area chart";
+
+export const AreaChart = () => {
+  const dataVizProps = {
+    title: "Area chart sample",
+    type: ChartOptions.LineArea,
+    data: {
+      labels: ["Jan", "Feb", "March", "April", "May"],
+      datasets: [
+        {
+          label: "Laptops",
+          data: [1860, 7700, 4100, 3012, 2930],
+        },
+        {
+          label: "Watches",
+          data: [200, 3600, 480, 5049, 4596],
+        },
+      ],
+    },
+  };
+  return <Chart {...object("Configuration", dataVizProps, areaKnobGroupID)} />;
 };

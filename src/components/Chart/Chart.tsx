@@ -9,7 +9,7 @@ import { IChartData, ChartOptions } from "./ChartTypes";
 import { LineChart, LineAreaChart, LineStackedChart } from "./Charts";
 
 (ChartJS as any).defaults.global.legend.display = false;
-(ChartJS as any).defaults.global.defaultFontFamily = `"Segoe UI", system-ui, "Apple Color Emoji", "Segoe UI Emoji", sans-serif`;
+(ChartJS as any).defaults.global.defaultFontFamily = `Segoe UI, system-ui, sans-serif`;
 const CHARTS = {
   [ChartOptions.Line]: LineChart,
   [ChartOptions.LineArea]: LineAreaChart,
@@ -27,9 +27,11 @@ const CHARTS = {
  */
 
 export function Chart({
+  title,
   type,
   data,
 }: {
+  title: string;
   type: ChartOptions;
   data?: IChartData;
 }) {
@@ -38,15 +40,17 @@ export function Chart({
     <FluentUIThemeConsumer
       render={(globalTheme) => (
         <ChartTheme globalTheme={globalTheme}>
-          {data ? (
-            <ChartContainer
-              data={data}
-              siteVariables={globalTheme.siteVariables}
-            />
-          ) : (
-            <ChartEmptyState />
-          )}
-          <React.Suspense fallback={<Loader />}></React.Suspense>
+          <React.Suspense fallback={<Loader />}>
+            {data ? (
+              <ChartContainer
+                title={title}
+                data={data}
+                siteVariables={globalTheme.siteVariables}
+              />
+            ) : (
+              <ChartEmptyState />
+            )}
+          </React.Suspense>
         </ChartTheme>
       )}
     />

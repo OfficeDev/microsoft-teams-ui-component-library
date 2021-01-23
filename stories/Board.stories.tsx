@@ -1,12 +1,13 @@
 import React from "react";
 import { object } from "@storybook/addon-knobs";
+import { actions } from "@storybook/addon-actions";
 import fakerEN from "faker/locale/en_US";
 import fakerFA from "faker/locale/fa";
 import range from "lodash/range";
 import shuffle from "lodash/shuffle";
 import { withDesign } from "storybook-addon-designs";
 
-import { Board, IBoardItem, IBoardItemCardLayout, TUsers } from "..";
+import { Board, IBoardItem, IBoardItemCardLayout, TUsers } from "../src";
 
 export default {
   title: "UI Templates/Task boards",
@@ -14,7 +15,9 @@ export default {
   decorators: [withDesign],
 };
 
-const boardKnobGroupID = "Task boards";
+const eventsFromNames = actions("onInteraction");
+
+const boardKnobGroupID = "Task board";
 
 const fake = (template: string) => {
   return { "en-US": fakerEN.fake(template), fa: fakerFA.fake(template) };
@@ -96,6 +99,7 @@ export const KitchenSink = () => {
   return (
     <Board
       {...object("Content", boardContent, boardKnobGroupID)}
+      {...eventsFromNames}
       boardItemCardLayout={object(
         "Board item card layout",
         boardItemCardLayout,

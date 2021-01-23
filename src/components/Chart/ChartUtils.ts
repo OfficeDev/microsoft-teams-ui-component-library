@@ -1,4 +1,7 @@
+import { SiteVariablesPrepared } from "@fluentui/react-northstar";
 import { IChartData, IChartDataSet } from ".";
+import { TeamsTheme } from "../../themes";
+import { Shapes, buildPattern } from "./ChartPatterns";
 
 // TODO: Localization
 const suffixes = ["K", "M", "G", "T", "P", "E"];
@@ -25,72 +28,6 @@ export const chartAxis = (value: number | string): string => {
 
 export const random = (min: number, max: number): number =>
   Math.round(Math.random() * (max - min) + min);
-
-export const stackedChartSettings = {
-  type: "line",
-  // aspectRatio: 1.875,
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    animation: {
-      duration: 1000,
-    },
-    layout: {
-      padding: {
-        left: 16,
-        right: 16,
-        top: 0,
-        bottom: 0,
-      },
-    },
-    scaleLabel: {
-      display: false,
-    },
-    elements: {
-      line: {
-        tension: 0.4,
-      },
-    },
-    tooltips: {
-      intersect: false,
-    },
-    scales: {
-      xAxes: [
-        {
-          ticks: {
-            fontSize: 10,
-            padding: 0,
-            labelOffset: 4,
-            maxRotation: 0,
-            minRotation: 0,
-          },
-          gridLines: {
-            borderDash: [5, 9999],
-            zeroLineBorderDash: [5, 9999],
-          },
-        },
-      ],
-      yAxes: [
-        {
-          stacked: true,
-          ticks: {
-            callback: (v: number) => chartAxis(v),
-            fontSize: 10,
-            padding: -16,
-            labelOffset: 10,
-            maxTicksLimit: 5,
-          },
-          gridLines: {
-            lineWidth: 1,
-            drawBorder: false,
-            drawTicks: true,
-            tickMarkLength: 44,
-          },
-        },
-      ],
-    },
-  },
-};
 
 export const hexToRgb = (hex: string) => {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -120,24 +57,89 @@ export const hexToRgb = (hex: string) => {
 //   }
 // };
 
+export const chartDataPointPatterns = (colorScheme: any) => {
+  console.log();
+  return [
+    {
+      shapeType: Shapes.Square,
+      backgroundColor: colorScheme.default.background,
+      patternColor: colorScheme.brand.background,
+      size: 10,
+    },
+    {
+      shapeType: Shapes.DiagonalRightLeft,
+      backgroundColor: colorScheme.default.background,
+      patternColor: colorScheme.brand.background,
+      size: 5,
+    },
+    {
+      shapeType: Shapes.Grid,
+      backgroundColor: colorScheme.default.background,
+      patternColor: colorScheme.brand.background,
+      size: 10,
+    },
+  ];
+};
+
 export function tooltipTrigger(
   chart: any,
   data: IChartData,
   set: number,
-  index: number
+  index: number,
+  siteVariables: SiteVariablesPrepared,
+  mergeDuplicates?: boolean
 ) {
-  const duplicates: number[] = [];
-  const segments: any[] = [];
-  // Check fro equal data points
-  data.datasets.filter((dataset: IChartDataSet, i: number) => {
-    if (dataset.data[index] === data.datasets[set].data[index]) {
-      duplicates.push(i);
+  if (mergeDuplicates) {
+    const duplicates: number[] = [];
+    const segments: any[] = [];
+    // Check for equal data points
+    data.datasets.filter((dataset: IChartDataSet, i: number) => {
+      if (dataset.data[index] === data.datasets[set].data[index]) {
+        duplicates.push(i);
+      }
+      if (siteVariables.theme === TeamsTheme.HighContrast) {
+        chart.data.datasets[i].borderColor =
+          siteVariables.colorScheme.default.border;
+        chart.data.datasets[i].borderWidth = 2;
+      }
+    });
+    duplicates.forEach((segmentId) => {
+      segments.push(chart.getDatasetMeta(segmentId).data[index]);
+      if (siteVariables.theme === TeamsTheme.HighContrast) {
+        chart.data.datasets[segmentId].borderColor =
+          siteVariables.colorScheme.default.borderHover;
+        chart.data.datasets[segmentId].borderWidth = 4;
+      }
+    });
+    if (siteVariables.theme === TeamsTheme.HighContrast) {
+      chart.update();
     }
-  });
-  duplicates.forEach((segmentId) => {
-    segments.push(chart.getDatasetMeta(segmentId).data[index]);
-  });
-  chart.tooltip._active = segments;
+    chart.tooltip._active = segments;
+  } else {
+    const segment = chart.getDatasetMeta(set).data[index];
+    chart.tooltip._active = [segment];
+    if (siteVariables.theme === TeamsTheme.HighContrast) {
+      chart.data.datasets.map((dataset: any, i: number) => {
+        dataset.borderColor = siteVariables.colorScheme.default.border;
+        dataset.borderWidth = 2;
+        dataset.backgroundColor = buildPattern(
+          chartDataPointPatterns(siteVariables.colorScheme)[i]
+        );
+      });
+      chart.data.datasets[set].borderColor =
+        siteVariables.colorScheme.default.borderHover;
+      chart.data.datasets[set].borderWidth = 4;
+      chart.data.datasets[set].backgroundColor = buildPattern({
+        shapeType: chartDataPointPatterns(siteVariables.colorScheme)[set]
+          .shapeType,
+        backgroundColor: chartDataPointPatterns(siteVariables.colorScheme)[set]
+          .backgroundColor,
+        patternColor: siteVariables.colorScheme.default.borderHover,
+        size: chartDataPointPatterns(siteVariables.colorScheme)[set].size,
+      });
+      chart.update();
+    }
+  }
   chart.tooltip.update();
   chart.draw();
 }
@@ -146,7 +148,7 @@ export const tooltipAxesYLine = ({
   chart,
   ctx,
   tooltip,
-  colorScheme,
+  siteVariables,
   chartDataPointColors,
 }: any) => {
   const activePoint = tooltip._active[0],
@@ -163,18 +165,155 @@ export const tooltipAxesYLine = ({
   ctx.lineTo(x, bottomY);
   ctx.setLineDash([5, 5]);
   ctx.lineWidth = 0.75;
-  ctx.strokeStyle = colorScheme.default.border;
+  ctx.strokeStyle = siteVariables.colorScheme.default.border;
   ctx.stroke();
   // Point
   ctx.beginPath();
   ctx.setLineDash([]);
   ctx.arc(x, y, 5, 0, 2 * Math.PI, true);
   ctx.lineWidth = 2;
-  ctx.fillStyle = colorScheme.white.foreground;
-  ctx.strokeStyle = chartDataPointColors[activePoint._datasetIndex];
+  ctx.fillStyle = siteVariables.colorScheme.white.foreground;
+  ctx.strokeStyle =
+    siteVariables.theme === TeamsTheme.HighContrast
+      ? siteVariables.colorScheme.default.borderHover
+      : chartDataPointColors[activePoint._datasetIndex];
   ctx.closePath();
   ctx.fill();
   ctx.stroke();
-
   ctx.restore();
 };
+
+export const lineChartPatterns = [
+  { line: [], point: "circle" },
+  { line: [], point: "rect" },
+  { line: [], point: "triangle" },
+  { line: [5, 5], point: "cross" },
+  { line: [5, 5], point: "rectRot" },
+  { line: [5, 5], point: "crossRot" },
+];
+
+export const lineChartConfig = (
+  siteVariables: SiteVariablesPrepared,
+  chartDataPointColors: string[]
+) => ({
+  type: "line",
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    animation: {
+      duration: 1000,
+    },
+    layout: {
+      padding: {
+        left: 16,
+        right: 16,
+        top: 0,
+        bottom: 0,
+      },
+    },
+    scaleLabel: {
+      display: false,
+    },
+    elements: {
+      line: {
+        tension: 0.4,
+      },
+    },
+    hover: {
+      mode: "dataset",
+      intersect: false,
+    },
+    tooltips: tooltipConfig(siteVariables, chartDataPointColors),
+    scales: {
+      xAxes: [
+        {
+          ticks: {
+            fontSize: 10,
+            padding: 0,
+            labelOffset: 4,
+            maxRotation: 0,
+            minRotation: 0,
+          },
+          gridLines: {
+            borderDash: [5, 9999],
+            zeroLineBorderDash: [5, 9999],
+          },
+        },
+      ],
+      yAxes: [
+        {
+          stacked: false,
+          ticks: {
+            callback: (v: number) => chartAxis(v),
+            fontSize: 10,
+            padding: -16,
+            labelOffset: 10,
+            maxTicksLimit: 5,
+          },
+          gridLines: {
+            lineWidth:
+              siteVariables.theme === TeamsTheme.HighContrast ? 0.5 : 1,
+            drawBorder: false,
+            drawTicks: true,
+            tickMarkLength: 44,
+          },
+        },
+      ],
+    },
+  },
+});
+
+const tooltipConfig = (
+  siteVariables: SiteVariablesPrepared,
+  chartDataPointColors: string[]
+) => ({
+  backgroundColor:
+    siteVariables.theme === TeamsTheme.Dark
+      ? siteVariables.colorScheme.default.border2
+      : siteVariables.colorScheme.default.foregroundFocus,
+
+  yPadding: 12,
+  xPadding: 20,
+  caretPadding: 10,
+  borderColor: siteVariables.colorScheme.default.borderHover,
+  borderWidth: siteVariables.theme === TeamsTheme.HighContrast ? 2 : 0,
+  multiKeyBackground: siteVariables.colorScheme.white.foreground,
+
+  // Tooltip Title
+  titleFontFamily: siteVariables.bodyFontFamily,
+  titleFontStyle: "200",
+  titleFontSize: 20,
+  titleFontColor: siteVariables.colorScheme.default.foreground3,
+  // Tooltip Body
+  bodyFontFamily: siteVariables.bodyFontFamily,
+  bodySpacing: 4,
+  bodyFontSize: 11.5,
+  bodyFontStyle: "400",
+  bodyFontColor: siteVariables.colorScheme.default.foreground3,
+  // Tooltip Footer
+  footerFontFamily: siteVariables.bodyFontFamily,
+  footerFontStyle: "300",
+  footerFontSize: 10,
+  footerFontColor: siteVariables.colorScheme.default.foreground3,
+
+  callbacks: {
+    title: (tooltipItems: any) => {
+      return tooltipItems[0].yLabel;
+    },
+    afterTitle: (tooltipItems: any) => {
+      return "";
+    },
+    label: (tooltipItem: any, data: any) => {
+      return data.datasets[tooltipItem.datasetIndex].label;
+    },
+    labelColor: (tooltipItem: any) => {
+      return {
+        borderColor: "transparent",
+        backgroundColor: chartDataPointColors[tooltipItem.datasetIndex],
+      };
+    },
+    footer: (tooltipItems: any) => {
+      return tooltipItems[0].xLabel;
+    },
+  },
+});

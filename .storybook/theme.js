@@ -15,7 +15,7 @@ export default create({
   appBorderRadius: 4,
 
   // Typography
-  fontBase: `"Segoe UI", system-ui, "Apple Color Emoji", "Segoe UI Emoji", sans-serif`,
+  fontBase: `"Segoe UI", Segoe UI, system-ui, "Apple Color Emoji", "Segoe UI Emoji", sans-serif`,
   fontCode: "monospace",
 
   // Text colors

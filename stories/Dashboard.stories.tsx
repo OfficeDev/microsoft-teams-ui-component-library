@@ -1,7 +1,11 @@
 import React from "react";
 import { object } from "@storybook/addon-knobs";
 
-import { Dashboard, IWidget, WidgetSize } from "..";
+import { Dashboard } from "../src/components/Dashboard";
+import {
+  IWidget,
+  WidgetSize,
+} from "../src/components/Dashboard/DashboardWidget";
 import {
   ExclamationCircleIcon,
   Flex,
@@ -9,11 +13,18 @@ import {
   ShareGenericIcon,
   Text,
 } from "@fluentui/react-northstar";
-import { Chart, ChartOptions } from "../components/Chart";
+import { Chart, ChartOptions } from "../src/components/Chart";
 
 export default {
   title: "UI Templates/Dashboards",
   component: Dashboard,
+};
+
+const figmaSource = {
+  design: {
+    type: "figma",
+    url: "https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/?node-id=1%3A32",
+  },
 };
 
 const calloutItemsExample = [
@@ -114,7 +125,7 @@ const defaultWidgets: IWidget[] = [
   },
 ];
 
-const dashboardKnobGroupID = "Dashboard Properties";
+const dashboardKnobGroupID = "Dashboards";
 const dafaultConfig = { widgets: defaultWidgets };
 
 export const Default = () => {
@@ -125,53 +136,49 @@ export const Default = () => {
   );
 };
 
-Default.parameters = {
-  design: {
-    type: "figma",
-    url: "https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/?node-id=1%3A32",
-  },
-};
+Default.parameters = figmaSource;
 
 const dataVizWidgets: IWidget[] = [
   {
     title: "Line Chart",
     desc: "Last updated Monday, April 4 at 11:15 AM (PT)",
     widgetActionGroup: calloutItemsExample,
-    size: WidgetSize.Triple,
+    size: WidgetSize.Double,
     body: [
       {
         id: "t1",
         title: "Tab 1",
         content: (
           <Chart
+            title="Line chart sample"
             type={ChartOptions.Line}
             data={{
               labels: ["Jan", "Feb", "March", "April", "May"],
               datasets: [
                 {
                   label: "Tablets",
-                  data: [860, 4700, 3100, 2012, 1930],
+                  data: [860, 6700, 3100, 2012, 1930],
                 },
                 {
                   label: "Phones",
-                  data: [200, 1600, 4180, 3049, 3596],
+                  data: [100, 1600, 180, 3049, 3596],
                 },
                 {
                   label: "Laptops",
-                  data: [2060, 700, 200, 3012, 2930],
+                  data: [1860, 7700, 4100, 3012, 2930],
                 },
-                // {
-                //   label: "Watches",
-                //   data: [200, 3600, 480, 5049, 4596],
-                // },
-                // {
-                //   label: "TV",
-                //   data: [960, 8700, 5100, 5012, 3930],
-                // },
-                // {
-                //   label: "Displayes",
-                //   data: [1000, 4600, 480, 4049, 3596],
-                // },
+                {
+                  label: "Watches",
+                  data: [200, 3600, 480, 5049, 4596],
+                },
+                {
+                  label: "TV",
+                  data: [960, 8700, 5100, 5012, 3930],
+                },
+                {
+                  label: "Displayes",
+                  data: [1000, 4600, 480, 4049, 3596],
+                },
               ],
             }}
           />
@@ -181,15 +188,27 @@ const dataVizWidgets: IWidget[] = [
         id: "t2",
         title: "Tab 2",
         content: (
-          <Flex
-            vAlign="center"
-            hAlign="center"
-            styles={{ height: "100%", border: "1px dashed rgb(179, 176, 173)" }}
-          >
-            <Text size="large" weight="semibold">
-              Content #2
-            </Text>
-          </Flex>
+          <Chart
+            title="Area chart sample"
+            type={ChartOptions.LineStacked}
+            data={{
+              labels: ["Jan", "Feb", "March", "April", "May"],
+              datasets: [
+                {
+                  label: "Laptops",
+                  data: [1860, 7700, 4100, 3012, 2930],
+                },
+                {
+                  label: "Watches",
+                  data: [200, 3600, 480, 5049, 4596],
+                },
+                {
+                  label: "TV",
+                  data: [960, 8700, 5100, 5012, 3930],
+                },
+              ],
+            }}
+          />
         ),
       },
       {
@@ -211,12 +230,41 @@ const dataVizWidgets: IWidget[] = [
     link: linkExample,
   },
   {
-    title: "Card 2",
-    size: WidgetSize.Single,
+    title: "Stacked chart sample",
+    size: WidgetSize.Double,
+    body: [
+      {
+        id: "1",
+        title: "",
+        content: (
+          <Chart
+            title="Stacked chart sample"
+            type={ChartOptions.LineStacked}
+            data={{
+              labels: ["Jan", "Feb", "March", "April", "May"],
+              datasets: [
+                {
+                  label: "Tablets",
+                  data: [1860, 4700, 3100, 2012, 1930],
+                },
+                {
+                  label: "Phones",
+                  data: [1860, 1600, 180, 3049, 3596],
+                },
+                {
+                  label: "Laptops",
+                  data: [1860, 5700, 4100, 3012, 2930],
+                },
+              ],
+            }}
+          />
+        ),
+      },
+    ],
     link: linkExample,
   },
   {
-    title: "Area Chart",
+    title: "Area chart sample",
     size: WidgetSize.Double,
     link: linkExample,
     body: [
@@ -225,6 +273,7 @@ const dataVizWidgets: IWidget[] = [
         title: "",
         content: (
           <Chart
+            title="Area chart"
             type={ChartOptions.LineArea}
             data={{
               labels: ["Jan", "Feb", "March", "April", "May"],
@@ -271,9 +320,4 @@ export const WithDataVizualization = () => {
   );
 };
 
-WithDataVizualization.parameters = {
-  design: {
-    type: "figma",
-    url: "https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/?node-id=1%3A32",
-  },
-};
+WithDataVizualization.parameters = figmaSource;

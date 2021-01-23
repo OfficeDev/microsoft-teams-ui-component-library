@@ -1,8 +1,26 @@
 # Change Log - @fluentui/react-teams
 
-This log was last generated on Fri, 08 Jan 2021 20:56:16 GMT and should not be manually modified.
+This log was last generated on Mon, 18 Jan 2021 20:57:22 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 2.0.0
+
+Mon, 18 Jan 2021 20:57:22 GMT
+
+### Major changes
+
+- Release v1. (v-wishow@microsoft.com)
+
+## 0.1.0
+
+Thu, 14 Jan 2021 00:59:25 GMT
+
+### Minor changes
+
+- This PR adds the onInteraction optional handler to interactive HVCs, which allows developers to handle user interactions in the HVCs in a way that is forward-compatible with a JSON API.
+
+All HVCs will call onInteraction for interactions designed for developer response with a monolithic object payload. (v-wishow@microsoft.com)
 
 ## 0.1.0-alpha.11
 

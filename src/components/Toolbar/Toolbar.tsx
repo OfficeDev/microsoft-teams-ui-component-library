@@ -7,7 +7,6 @@ import {
   ButtonContent,
   ObjectShorthandCollection,
   Position,
-  PropsOfElement,
   ProviderConsumer as FluentUIThemeConsumer,
   ShorthandCollection,
   Toolbar as FluentUIToolbar,
@@ -23,7 +22,7 @@ import { SiteVariablesPrepared } from "@fluentui/styles";
 import Icon from "../../lib/Icon";
 import { TeamsTheme } from "../../themes";
 
-import { TAction, TActions, WithOptionalInternalCallbacks } from "../..";
+import { actionKey, TAction, TActions } from "../..";
 
 import { ToolbarFilter } from "./ToolbarFilter";
 import { ToolbarFind } from "./ToolbarFind";
@@ -35,20 +34,26 @@ type TToolbarItems = ShorthandCollection<
 >;
 
 export type TActionGroups = {
-  [slug: string]: TActions;
+  [actionKey: string]: TActions;
 };
 
 export type TFilters = ObjectShorthandCollection<TreeItemProps, never>;
 
-export interface IToolbarProps
-  extends PropsOfElement<"div">,
-    WithOptionalInternalCallbacks<ToolbarItemProps> {
+export type TToolbarInteraction = {
+  event: "click";
+  target: "toolbar";
+  subject: string | string[] | null;
+  action: actionKey;
+};
+
+export interface IToolbarProps {
   actionGroups: TActionGroups;
   filters?: TFilters;
   find?: boolean;
   filtersSingleSelect?: boolean;
   onSelectedFiltersChange?: (selectedFilters: string[]) => string[];
   onFindQueryChange?: (findQuery: string) => string;
+  onInteraction?: (interaction: TToolbarInteraction) => void;
 }
 
 export type TToolbarLayout = "compact" | "verbose";
@@ -87,9 +92,9 @@ function flattenedActions(actionGroups: TActionGroups): TActions {
   return Object.keys(actionGroups).reduce(
     (acc_i: TActions, actionGroupSlug: string) => {
       const actionGroup = actionGroups[actionGroupSlug];
-      return Object.keys(actionGroup).reduce((acc_j, actionSlug) => {
-        const action = actionGroup[actionSlug];
-        acc_j[`${actionGroupSlug}${slugSeparator}${actionSlug}`] = action;
+      return Object.keys(actionGroup).reduce((acc_j, actionKey) => {
+        const action = actionGroup[actionKey];
+        acc_j[`${actionGroupSlug}${slugSeparator}${actionKey}`] = action;
         return acc_j;
       }, acc_i);
     },
@@ -98,14 +103,14 @@ function flattenedActions(actionGroups: TActionGroups): TActions {
 }
 
 function needsSeparator(
-  actionSlug: string,
+  actionKey: string,
   index: number,
-  actionSlugs: string[]
+  actionKeys: string[]
 ): boolean {
   return index === 0
     ? false
-    : actionSlugs[index - 1]?.split(slugSeparator)[0] !==
-        actionSlug.split(slugSeparator)[0];
+    : actionKeys[index - 1]?.split(slugSeparator)[0] !==
+        actionKey.split(slugSeparator)[0];
 }
 
 interface IInFlowToolbarItemProps {
@@ -181,16 +186,11 @@ export const Toolbar = (props: IToolbarProps) => {
   });
 
   const inFlowToolbarItems: TToolbarItems = Object.keys(allActions).reduce(
-    (acc: TToolbarItems, actionSlug, index, actionSlugs) => {
-      const action = allActions[actionSlug];
-
-      const onClick =
-        action.__internal_callback__ &&
-        props.__internal_callbacks__ &&
-        props.__internal_callbacks__[action.__internal_callback__];
+    (acc: TToolbarItems, actionKey, index, actionKeys) => {
+      const action = allActions[actionKey];
 
       acc.push({
-        key: actionSlug,
+        key: actionKey,
         children: <InFlowToolbarItem action={action} layout={layout} />,
         title: action.title,
         "aria-label": action.title,
@@ -203,9 +203,17 @@ export const Toolbar = (props: IToolbarProps) => {
           justifyContent: "center",
           alignItems: "center",
         },
-        ...(onClick ? { onClick } : {}),
+        ...(props.onInteraction && {
+          onClick: () =>
+            props.onInteraction!({
+              event: "click",
+              target: "toolbar",
+              subject: action.subject || null,
+              action: actionKey.split("__").pop()!,
+            }),
+        }),
       });
-      if (needsSeparator(actionSlug, index, actionSlugs))
+      if (needsSeparator(actionKey, index, actionKeys))
         acc.push({
           key: `divider${slugSeparator}${index}`,
           kind: "divider",
@@ -216,17 +224,26 @@ export const Toolbar = (props: IToolbarProps) => {
   );
 
   const overflowToolbarItems: TToolbarItems = Object.keys(allActions).reduce(
-    (acc: TToolbarItems, actionSlug, index, actionSlugs) => {
-      const action = allActions[actionSlug];
+    (acc: TToolbarItems, actionKey, index, actionKeys) => {
+      const action = allActions[actionKey];
       acc.push({
-        key: actionSlug,
+        key: actionKey,
         content: action.title,
         icon: <Icon icon={action.icon} />,
         title: action.title,
         "aria-label": action.title,
         styles: { padding: ".375rem .5rem" },
+        ...(props.onInteraction && {
+          onClick: () =>
+            props.onInteraction!({
+              event: "click",
+              target: "toolbar",
+              action: actionKey.split("__").pop()!,
+              subject: action.subject || null,
+            }),
+        }),
       });
-      if (needsSeparator(actionSlug, index, actionSlugs))
+      if (needsSeparator(actionKey, index, actionKeys))
         acc.push({
           key: `divider${slugSeparator}${index}`,
           kind: "divider",
@@ -253,7 +270,6 @@ export const Toolbar = (props: IToolbarProps) => {
               elevation: colorScheme.elevations[16],
             })}
             styles={{
-              width: "100vw",
               display: "flex",
               justifyContent: "space-between",
               padding: "0 1.25rem",

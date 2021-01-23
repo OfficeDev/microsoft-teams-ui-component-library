@@ -41,7 +41,7 @@ import getBreakpoints, {
   TSortable,
 } from "./tableBreakpoints";
 
-import { TActions } from "../..";
+import { TActions, actionKey } from "../..";
 import { TeamsTheme } from "../../themes";
 import { TTranslations } from "../../translations";
 
@@ -56,6 +56,13 @@ export interface IRow {
   actions?: TActions;
 }
 
+export type TTableInteraction = {
+  event: "click";
+  target: "table";
+  subject: rowKey | rowKey[];
+  action: actionKey;
+};
+
 export interface ITableProps extends PropsOfElement<"div"> {
   columns: { [columnKey: string]: IColumn };
   rows: { [rowKey: string]: IRow };
@@ -64,6 +71,7 @@ export interface ITableProps extends PropsOfElement<"div"> {
   onSelectedChange?: (selected: TSelected) => TSelected;
   findQuery?: string;
   filterBy?: (row: IRow) => boolean;
+  onInteraction?: (interaction: TTableInteraction) => void;
 }
 
 interface ISortOrderIndicatorProps {
@@ -462,6 +470,15 @@ export const Table = (props: ITableProps) => {
                                                       />
                                                     ),
                                                     content: "Details",
+                                                    ...(props.onInteraction && {
+                                                      onClick: () =>
+                                                        props.onInteraction!({
+                                                          event: "click",
+                                                          target: "table",
+                                                          subject: rowKey,
+                                                          action: rowActionKey,
+                                                        }),
+                                                    }),
                                                   };
                                                 default:
                                                   return {
@@ -478,6 +495,15 @@ export const Table = (props: ITableProps) => {
                                                     content: row.actions![
                                                       rowActionKey
                                                     ].title,
+                                                    ...(props.onInteraction && {
+                                                      onClick: () =>
+                                                        props.onInteraction!({
+                                                          event: "click",
+                                                          target: "table",
+                                                          subject: rowKey,
+                                                          action: rowActionKey,
+                                                        }),
+                                                    }),
                                                   };
                                               }
                                             }
