@@ -50,11 +50,13 @@ export const ChartContainer = ({
   children,
   siteVariables,
   chartDataPointColors,
+  chartDataPointPatterns,
 }: {
   data: IChartData;
   children: React.ReactNode;
   siteVariables: SiteVariablesPrepared;
   chartDataPointColors: any;
+  chartDataPointPatterns?: any;
 }) => {
   const [overflowOpen, setOverflowOpen] = useState(false);
   const [overflowItems, setOverflowItems] = useState<number>(0);

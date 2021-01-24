@@ -10,6 +10,7 @@ import {
 } from "../ChartUtils";
 import { TeamsTheme } from "../../../themes";
 import { ChartContainer } from "./ChartContainer";
+import { buildPattern, Shapes } from "../ChartPatterns";
 
 export const LineChart = ({
   title,
@@ -20,6 +21,7 @@ export const LineChart = ({
   data: IChartData;
   siteVariables: SiteVariablesPrepared;
 }) => {
+  const { theme, colorScheme } = siteVariables;
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
   const chartId = React.useMemo(
     () => Math.random().toString(36).substr(2, 9),
@@ -27,32 +29,31 @@ export const LineChart = ({
   );
   const chartDataPointColors = React.useMemo(
     () => [
-      siteVariables.colorScheme.brand.background,
-      siteVariables.colorScheme.brand.borderHover,
-      siteVariables.colorScheme.brand.background4,
-      siteVariables.colorScheme.default.borderHover,
-      siteVariables.colorScheme.default.foreground2,
-      siteVariables.colorScheme.default.foreground,
+      colorScheme.brand.background,
+      colorScheme.brand.borderHover,
+      colorScheme.brand.background4,
+      colorScheme.default.borderHover,
+      colorScheme.default.foreground2,
+      colorScheme.default.foreground,
     ],
-    [siteVariables]
+    [theme]
   );
 
   const createDataPoints = (): Chart.ChartDataSets[] =>
     Array.from(data.datasets, (set, i) => {
       const dataColor =
-        siteVariables.theme === TeamsTheme.HighContrast
-          ? siteVariables.colorScheme.brand.background
+        theme === TeamsTheme.HighContrast
+          ? colorScheme.brand.background
           : chartDataPointColors[i];
       return {
         label: set.label,
         data: set.data,
         borderColor: dataColor,
         hoverBorderColor:
-          siteVariables.theme === TeamsTheme.HighContrast
-            ? siteVariables.colorScheme.default.borderHover
+          theme === TeamsTheme.HighContrast
+            ? colorScheme.default.borderHover
             : dataColor,
-        hoverBorderWidth:
-          siteVariables.theme === TeamsTheme.HighContrast ? 4 : 2,
+        hoverBorderWidth: theme === TeamsTheme.HighContrast ? 4 : 2,
         backgroundColor: "transparent",
         hoverBackgroundColor: "transparent",
         borderWidth: 2,
@@ -64,17 +65,14 @@ export const LineChart = ({
         borderCapStyle: "round",
         borderJoinStyle: "round",
         pointBorderWidth: 0,
-        pointRadius: siteVariables.theme === TeamsTheme.HighContrast ? 4 : 2,
-        pointHoverRadius:
-          siteVariables.theme === TeamsTheme.HighContrast ? 4 : 2,
+        pointRadius: theme === TeamsTheme.HighContrast ? 4 : 2,
+        pointHoverRadius: theme === TeamsTheme.HighContrast ? 4 : 2,
         pointStyle:
-          siteVariables.theme === TeamsTheme.HighContrast
+          theme === TeamsTheme.HighContrast
             ? (lineChartPatterns[i].point as any)
             : "circle",
         borderDash:
-          siteVariables.theme === TeamsTheme.HighContrast
-            ? lineChartPatterns[i].line
-            : [],
+          theme === TeamsTheme.HighContrast ? lineChartPatterns[i].line : [],
       };
     });
 
@@ -169,9 +167,9 @@ export const LineChart = ({
           break;
         }
       }
-      if (siteVariables.theme === TeamsTheme.HighContrast) {
+      if (theme === TeamsTheme.HighContrast) {
         chart.data.datasets.map((dataset: any) => {
-          dataset.borderColor = siteVariables.colorScheme.default.border;
+          dataset.borderColor = colorScheme.default.border;
           dataset.borderWidth = 2;
         });
         chart.update();
@@ -231,9 +229,13 @@ export const LineChart = ({
     }
 
     const ctx = canvasRef.current.getContext("2d");
+    const chartConfig = lineChartConfig(siteVariables, chartDataPointColors);
+    if (theme === TeamsTheme.HighContrast) {
+      (chartConfig.options.tooltips as any).displayColors = false;
+    }
 
     chart = new Chart(ctx!, {
-      ...(lineChartConfig(siteVariables, chartDataPointColors) as any),
+      ...(chartConfig as any),
       data: {
         labels: data.labels,
         datasets: createDataPoints(),
@@ -272,7 +274,6 @@ export const LineChart = ({
       } else {
         xAxes.gridLines.color = "transparent";
       }
-      console.log({ xAxes });
     });
     chart.options.scales.yAxes.forEach((yAxes: any, index: number) => {
       yAxes.ticks.fontColor = siteVariables.colorScheme.default.foreground2;

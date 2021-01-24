@@ -30,6 +30,9 @@ export const random = (min: number, max: number): number =>
   Math.round(Math.random() * (max - min) + min);
 
 export const hexToRgb = (hex: string) => {
+  if (hex.length < 6) {
+    hex = `#${hex[1]}${hex[1]}${hex[2]}${hex[2]}${hex[3]}${hex[3]}`;
+  }
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   return result
     ? {
@@ -58,7 +61,6 @@ export const hexToRgb = (hex: string) => {
 // };
 
 export const chartDataPointPatterns = (colorScheme: any) => {
-  console.log();
   return [
     {
       shapeType: Shapes.Square,
@@ -187,9 +189,9 @@ export const lineChartPatterns = [
   { line: [], point: "circle" },
   { line: [], point: "rect" },
   { line: [], point: "triangle" },
-  { line: [5, 5], point: "cross" },
+  { line: [5, 5], point: "circle" },
   { line: [5, 5], point: "rectRot" },
-  { line: [5, 5], point: "crossRot" },
+  { line: [5, 5], point: "triangle" },
 ];
 
 export const lineChartConfig = (
