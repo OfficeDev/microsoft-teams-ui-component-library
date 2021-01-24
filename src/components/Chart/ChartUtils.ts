@@ -254,7 +254,7 @@ export const lineChartConfig = (
           },
           gridLines: {
             lineWidth:
-              siteVariables.theme === TeamsTheme.HighContrast ? 0.5 : 1,
+              siteVariables.theme === TeamsTheme.HighContrast ? 0.25 : 1,
             drawBorder: false,
             drawTicks: true,
             tickMarkLength: 44,

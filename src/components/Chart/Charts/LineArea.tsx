@@ -49,15 +49,25 @@ export const LineAreaChart = ({
           : chartDataPointColors[i];
 
       const gradientStroke = ctx!.createLinearGradient(0, 0, 0, 160); // Chart height
+      const hoverGradientStroke = ctx!.createLinearGradient(0, 0, 0, 160);
       const colorRGB = hexToRgb(dataColor);
       const colorRGBString = `${colorRGB!.r}, ${colorRGB!.g}, ${colorRGB!.b}`;
-      gradientStroke.addColorStop(
-        0,
-        `rgba(${colorRGBString}, ${
-          theme === TeamsTheme.HighContrast ? ".2" : ".55"
-        })`
-      );
-      gradientStroke.addColorStop(1, `rgba(${colorRGBString}, .0)`);
+      if (theme === TeamsTheme.HighContrast) {
+        gradientStroke.addColorStop(0, `rgba(${colorRGBString}, .2)`);
+        gradientStroke.addColorStop(1, `rgba(${colorRGBString}, .0)`);
+        const hoverColorRGB = hexToRgb(colorScheme.default.borderHover);
+        const hoverColorRGBString = `${hoverColorRGB!.r}, ${
+          hoverColorRGB!.g
+        }, ${hoverColorRGB!.b}`;
+        hoverGradientStroke.addColorStop(0, `rgba(${hoverColorRGBString}, .4)`);
+        hoverGradientStroke.addColorStop(1, `rgba(${hoverColorRGBString}, .0)`);
+      } else {
+        gradientStroke.addColorStop(0, `rgba(${colorRGBString}, .45)`);
+        gradientStroke.addColorStop(1, `rgba(${colorRGBString}, .0)`);
+        hoverGradientStroke.addColorStop(0, `rgba(${colorRGBString}, .6)`);
+        hoverGradientStroke.addColorStop(1, `rgba(${colorRGBString}, .0)`);
+      }
+
       return {
         label: set.label,
         data: set.data,
@@ -68,7 +78,7 @@ export const LineAreaChart = ({
             : dataColor,
         hoverBorderWidth: theme === TeamsTheme.HighContrast ? 4 : 2,
         backgroundColor: gradientStroke as any,
-        hoverBackgroundColor: gradientStroke as any,
+        hoverBackgroundColor: hoverGradientStroke as any,
         borderWidth: 2,
         pointBorderColor: dataColor,
         pointBackgroundColor: dataColor,
