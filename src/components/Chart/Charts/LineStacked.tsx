@@ -1,17 +1,19 @@
 import React, { useEffect } from "react";
 import Chart from "chart.js";
 import { SiteVariablesPrepared } from "@fluentui/react-northstar";
+import { TeamsTheme } from "../../../themes";
 import { IChartData } from "../ChartTypes";
 import {
   tooltipTrigger,
-  lineChartPatterns,
   tooltipAxesYLine,
   lineChartConfig,
-  chartDataPointPatterns,
 } from "../ChartUtils";
-import { TeamsTheme } from "../../../themes";
 import { ChartContainer } from "./ChartContainer";
-import { buildPattern } from "../ChartPatterns";
+import {
+  buildPattern,
+  chartDataPointPatterns,
+  lineChartPatterns,
+} from "../ChartPatterns";
 
 export const LineStackedChart = ({
   title,
@@ -90,7 +92,7 @@ export const LineStackedChart = ({
           siteVariables.theme === TeamsTheme.HighContrast ? 4 : 0,
         pointStyle:
           siteVariables.theme === TeamsTheme.HighContrast
-            ? (lineChartPatterns[i].point as any)
+            ? lineChartPatterns[i].pointStyle
             : "circle",
         borderDash: [],
       };
@@ -340,6 +342,7 @@ export const LineStackedChart = ({
       siteVariables={siteVariables}
       data={data}
       chartDataPointColors={chartDataPointColors}
+      chartDataPointPatterns={chartDataPointPatterns(colorScheme)}
     >
       <canvas
         id={chartId}

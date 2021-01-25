@@ -99,3 +99,28 @@ export const AreaChart = () => {
   };
   return <Chart {...object("Configuration", dataVizProps, areaKnobGroupID)} />;
 };
+
+const noDataKnobGroupID = "Chart empty state";
+
+export const NoDataState = () => {
+  const dataVizProps = {
+    title: "Chart no data",
+    type: ChartOptions.LineStacked,
+    data: {
+      labels: [],
+      datasets: [],
+    },
+  };
+  return (
+    <Chart {...object("Configuration", dataVizProps, noDataKnobGroupID)} />
+  );
+};
+
+const errorKnobGroupID = "Chart error state";
+export const ErrorState = () => {
+  const dataVizProps = {
+    title: "Error",
+    type: ChartOptions.LineStacked,
+  };
+  return <Chart {...object("Configuration", dataVizProps, errorKnobGroupID)} />;
+};

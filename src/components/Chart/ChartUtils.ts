@@ -1,7 +1,7 @@
 import { SiteVariablesPrepared } from "@fluentui/react-northstar";
 import { IChartData, IChartDataSet } from ".";
 import { TeamsTheme } from "../../themes";
-import { Shapes, buildPattern } from "./ChartPatterns";
+import { Shapes, buildPattern, chartDataPointPatterns } from "./ChartPatterns";
 
 // TODO: Localization
 const suffixes = ["K", "M", "G", "T", "P", "E"];
@@ -59,29 +59,6 @@ export const hexToRgb = (hex: string) => {
 //     tooltipContainer.style.top = positionY + tooltip.caretY + "px";
 //   }
 // };
-
-export const chartDataPointPatterns = (colorScheme: any) => {
-  return [
-    {
-      shapeType: Shapes.Square,
-      backgroundColor: colorScheme.default.background,
-      patternColor: colorScheme.brand.background,
-      size: 10,
-    },
-    {
-      shapeType: Shapes.DiagonalRightLeft,
-      backgroundColor: colorScheme.default.background,
-      patternColor: colorScheme.brand.background,
-      size: 5,
-    },
-    {
-      shapeType: Shapes.Grid,
-      backgroundColor: colorScheme.default.background,
-      patternColor: colorScheme.brand.background,
-      size: 10,
-    },
-  ];
-};
 
 export function tooltipTrigger(
   chart: any,
@@ -184,15 +161,6 @@ export const tooltipAxesYLine = ({
   ctx.stroke();
   ctx.restore();
 };
-
-export const lineChartPatterns = [
-  { line: [], point: "circle" },
-  { line: [], point: "rect" },
-  { line: [], point: "triangle" },
-  { line: [5, 5], point: "circle" },
-  { line: [5, 5], point: "rectRot" },
-  { line: [5, 5], point: "triangle" },
-];
 
 export const lineChartConfig = (
   siteVariables: SiteVariablesPrepared,

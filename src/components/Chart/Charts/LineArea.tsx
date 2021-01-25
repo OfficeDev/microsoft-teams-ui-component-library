@@ -1,16 +1,16 @@
 import React, { useEffect } from "react";
 import Chart from "chart.js";
 import { SiteVariablesPrepared } from "@fluentui/react-northstar";
+import { TeamsTheme } from "../../../themes";
 import { IChartData } from "../ChartTypes";
 import {
   tooltipTrigger,
   tooltipAxesYLine,
-  lineChartPatterns,
   lineChartConfig,
   hexToRgb,
 } from "../ChartUtils";
-import { TeamsTheme } from "../../../themes";
 import { ChartContainer } from "./ChartContainer";
+import { lineChartPatterns } from "../ChartPatterns";
 
 export const LineAreaChart = ({
   title,
@@ -92,10 +92,12 @@ export const LineAreaChart = ({
         pointHoverRadius: theme === TeamsTheme.HighContrast ? 4 : 2,
         pointStyle:
           theme === TeamsTheme.HighContrast
-            ? (lineChartPatterns[i].point as any)
+            ? lineChartPatterns[i].pointStyle
             : "circle",
         borderDash:
-          theme === TeamsTheme.HighContrast ? lineChartPatterns[i].line : [],
+          theme === TeamsTheme.HighContrast
+            ? lineChartPatterns[i].lineBorderDash
+            : [],
       };
     });
 

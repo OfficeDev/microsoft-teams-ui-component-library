@@ -60,12 +60,12 @@ export const ChartContainer = ({
 }) => {
   const [overflowOpen, setOverflowOpen] = useState(false);
   const [overflowItems, setOverflowItems] = useState<number>(0);
-
+  const { theme, colorScheme } = siteVariables;
   let _legendItems = legendItems(data, siteVariables, chartDataPointColors);
 
   useEffect(() => {
     _legendItems = legendItems(data, siteVariables, chartDataPointColors);
-  }, [siteVariables.theme]);
+  }, [theme]);
 
   return (
     <Flex
@@ -80,7 +80,7 @@ export const ChartContainer = ({
       <Box
         styles={{
           flexGrow: 1,
-          backgroundColor: siteVariables.colorScheme.grey.background,
+          backgroundColor: colorScheme.grey.background,
         }}
       >
         {children}
@@ -111,7 +111,7 @@ export const ChartContainer = ({
                     minWidth: "3rem",
                     textAlign: "left",
                     fontSize: ".75rem",
-                    color: siteVariables.colorScheme.brand.foreground,
+                    color: colorScheme.brand.foreground,
                   },
                 }}
               />
@@ -124,7 +124,7 @@ export const ChartContainer = ({
           getOverflowItems={(startIndex) => _legendItems.slice(startIndex)}
           styles={{
             width: "100%",
-            backgroundColor: siteVariables.colorScheme.grey.background,
+            backgroundColor: colorScheme.grey.background,
           }}
         />
       </Box>

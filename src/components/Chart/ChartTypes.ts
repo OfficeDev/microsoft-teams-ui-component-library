@@ -14,3 +14,15 @@ export enum ChartOptions {
   LineStacked = "lineStacked",
   LineArea = "lineArea",
 }
+
+export enum PointStyles {
+  Circle = "circle",
+  Rectangle = "rect",
+  Triangle = "triangle",
+  RectangleRotated = "rectRot",
+}
+
+export interface ILineChartPatterns {
+  lineBorderDash: number[];
+  pointStyle: PointStyles;
+}

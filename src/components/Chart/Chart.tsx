@@ -6,7 +6,13 @@ import {
 } from "@fluentui/react-northstar";
 import { ChartTheme } from "./ChartTheme";
 import { IChartData, ChartOptions } from "./ChartTypes";
-import { LineChart, LineAreaChart, LineStackedChart } from "./Charts";
+import {
+  LineChart,
+  LineAreaChart,
+  LineStackedChart,
+  ChartEmptyState,
+  ChartErrorState,
+} from "./Charts";
 
 (ChartJS as any).defaults.global.legend.display = false;
 (ChartJS as any).defaults.global.defaultFontFamily = `Segoe UI, system-ui, sans-serif`;
@@ -18,9 +24,6 @@ const CHARTS = {
 
 /**
  * TODO:
- *    [ ] Chart Empty state
- *    [ ] Error message
- *    [ ] Patterns
  *    [ ] Legend
  *    [ ] Legend patterns
  *    [ ] Dashboard integration
@@ -35,6 +38,12 @@ export function Chart({
   type: ChartOptions;
   data?: IChartData;
 }) {
+  if (data && data.datasets && data.datasets.length > 6) {
+    data.datasets = data.datasets.slice(0, 6);
+    console.warn(
+      "Please follow design guidence and apply 6 or less data points per one chart."
+    );
+  }
   const ChartContainer = CHARTS[type];
   return (
     <FluentUIThemeConsumer
@@ -42,21 +51,21 @@ export function Chart({
         <ChartTheme globalTheme={globalTheme}>
           <React.Suspense fallback={<Loader />}>
             {data ? (
-              <ChartContainer
-                title={title}
-                data={data}
-                siteVariables={globalTheme.siteVariables}
-              />
+              data?.datasets.length || data?.labels.length ? (
+                <ChartContainer
+                  title={title}
+                  data={data}
+                  siteVariables={globalTheme.siteVariables}
+                />
+              ) : (
+                <ChartEmptyState siteVariables={globalTheme.siteVariables} />
+              )
             ) : (
-              <ChartEmptyState />
+              <ChartErrorState siteVariables={globalTheme.siteVariables} />
             )}
           </React.Suspense>
         </ChartTheme>
       )}
     />
   );
-}
-
-function ChartEmptyState() {
-  return <div>Empty State</div>;
 }

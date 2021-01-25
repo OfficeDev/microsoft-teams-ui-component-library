@@ -5,12 +5,11 @@ import { IChartData } from "../ChartTypes";
 import {
   tooltipTrigger,
   tooltipAxesYLine,
-  lineChartPatterns,
   lineChartConfig,
 } from "../ChartUtils";
 import { TeamsTheme } from "../../../themes";
 import { ChartContainer } from "./ChartContainer";
-import { buildPattern, Shapes } from "../ChartPatterns";
+import { lineChartPatterns } from "../ChartPatterns";
 
 export const LineChart = ({
   title,
@@ -69,10 +68,12 @@ export const LineChart = ({
         pointHoverRadius: theme === TeamsTheme.HighContrast ? 4 : 2,
         pointStyle:
           theme === TeamsTheme.HighContrast
-            ? (lineChartPatterns[i].point as any)
+            ? lineChartPatterns[i].pointStyle
             : "circle",
         borderDash:
-          theme === TeamsTheme.HighContrast ? lineChartPatterns[i].line : [],
+          theme === TeamsTheme.HighContrast
+            ? lineChartPatterns[i].lineBorderDash
+            : [],
       };
     });
 
