@@ -122,7 +122,7 @@ const LabelColorValue = ({
           width: theme === TeamsTheme.HighContrast ? "1.25rem" : "0.6rem", // .6rem
           height: theme === TeamsTheme.HighContrast ? "1rem" : "0.6rem",
           userSelect: "none",
-          // border: `1px solid ${colors.white}`,
+          border: patterns ? `1px solid ${colors.white}` : "none",
           borderRadius: borderRadius,
         }}
       />
@@ -148,7 +148,7 @@ const LegendItems = (
             fontSize: ".75rem",
             minWidth: "30px",
             color: siteVariables.colorScheme.default.foreground2,
-            border: data.datasets[i].isSelected ? "1px solid red" : "none",
+            margin: "2px 0",
           }}
           text
         >
@@ -181,7 +181,12 @@ export const ChartContainer = ({
   const [overflowOpen, setOverflowOpen] = useState(false);
   const [overflowItems, setOverflowItems] = useState<number>(0);
   const { theme, colorScheme } = siteVariables;
-  let legendItems: ILegendItem[];
+  let legendItems: ILegendItem[] = LegendItems(
+    data,
+    siteVariables,
+    chartDataPointColors,
+    patterns
+  );
 
   useEffect(() => {
     legendItems = LegendItems(
@@ -198,9 +203,9 @@ export const ChartContainer = ({
       style={{
         height: "100%",
         minHeight: "14rem",
-        margin: "0 -1rem",
+        margin: "0 -1rem 0 0",
         paddingBottom: ".5rem",
-        width: "calc(100% + 1rem)",
+        width: "100%",
       }}
     >
       <Box
@@ -211,15 +216,11 @@ export const ChartContainer = ({
       >
         {children}
       </Box>
-      <Box styles={{ margin: "0 1rem" }}>
+      {/* Legend should be in differen container to avoid FluentUI window resize issue */}
+      <Box>
         <Legend
           aria-label="Toolbar overflow menu"
-          items={LegendItems(
-            data,
-            siteVariables,
-            chartDataPointColors,
-            patterns
-          )}
+          items={legendItems}
           overflow
           overflowOpen={overflowOpen}
           overflowItem={{

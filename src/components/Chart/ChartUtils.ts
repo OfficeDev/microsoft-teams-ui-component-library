@@ -175,7 +175,7 @@ export const lineChartConfig = (
     },
     layout: {
       padding: {
-        left: 16,
+        left: 0,
         right: 16,
         top: 0,
         bottom: 0,
