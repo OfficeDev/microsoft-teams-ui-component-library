@@ -251,7 +251,7 @@ export const LineStackedChart = ({
       })`;
     };
     if (theme === TeamsTheme.HighContrast) {
-      chartConfig.options.tooltips.callbacks.labelColor = (
+      (chartConfig as any).options.tooltips.callbacks.labelColor = (
         tooltipItem: any
       ) => {
         return {
@@ -342,7 +342,7 @@ export const LineStackedChart = ({
       siteVariables={siteVariables}
       data={data}
       chartDataPointColors={chartDataPointColors}
-      chartDataPointPatterns={chartDataPointPatterns(colorScheme)}
+      patterns
     >
       <canvas
         id={chartId}

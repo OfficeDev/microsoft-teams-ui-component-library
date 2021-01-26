@@ -22,13 +22,6 @@ const CHARTS = {
   [ChartOptions.LineStacked]: LineStackedChart,
 };
 
-/**
- * TODO:
- *    [ ] Legend
- *    [ ] Legend patterns
- *    [ ] Dashboard integration
- */
-
 export function Chart({
   title,
   type,

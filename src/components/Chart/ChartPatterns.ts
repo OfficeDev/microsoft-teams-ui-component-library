@@ -320,7 +320,7 @@ export function buildPattern({
   const Shape = shapes[shapeType];
   const shape = new Shape({ size, backgroundColor, patternColor });
 
-  const pattern: any = patternContext!.createPattern(
+  const pattern: CanvasPattern | null = patternContext!.createPattern(
     shape.drawTile()!,
     "repeat"
   );
@@ -328,7 +328,9 @@ export function buildPattern({
   patternCanvas.width = outerSize;
   patternCanvas.height = outerSize;
 
-  pattern.shapeType = shapeType;
+  if (pattern) {
+    (pattern as any).shapeType = shapeType;
+  }
 
   return pattern;
 }
