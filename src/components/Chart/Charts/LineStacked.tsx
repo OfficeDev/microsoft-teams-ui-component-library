@@ -82,14 +82,14 @@ export const LineStackedChart = ({
         pointBorderColor: dataColor,
         pointBackgroundColor: dataColor,
         pointHoverBackgroundColor: dataColor,
-        pointHoverBorderColor: dataColor,
-        pointHoverBorderWidth: 0,
+        pointHoverBorderColor: backgroundColor,
+        pointHoverBorderWidth: 2,
         borderCapStyle: "round",
         borderJoinStyle: "round",
         pointBorderWidth: 0,
         pointRadius: 0,
         pointHoverRadius:
-          siteVariables.theme === TeamsTheme.HighContrast ? 4 : 0,
+          siteVariables.theme === TeamsTheme.HighContrast ? 4 : 3,
         pointStyle:
           siteVariables.theme === TeamsTheme.HighContrast
             ? lineChartPatterns[i].pointStyle
