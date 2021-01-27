@@ -174,7 +174,13 @@ export interface IWidgetLink {
   href: string;
 }
 
-export const WidgetFooter = ({ link }: { link: IWidgetLink }) => (
+export const WidgetFooter = ({
+  link,
+  siteVariables,
+}: {
+  link: IWidgetLink;
+  siteVariables: SiteVariablesPrepared;
+}) => (
   <Card.Footer fitted>
     <Flex space="between" vAlign="center">
       <Text
@@ -184,7 +190,12 @@ export const WidgetFooter = ({ link }: { link: IWidgetLink }) => (
         content="View more"
         size="small"
         color="brand"
-        style={{ textDecoration: "none" }}
+        styles={{
+          textDecoration: "none",
+          "&:focus": {
+            outlineColor: siteVariables.colorScheme.default.foregroundActive,
+          },
+        }}
       />
     </Flex>
   </Card.Footer>

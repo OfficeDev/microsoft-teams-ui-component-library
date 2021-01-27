@@ -172,11 +172,11 @@ const dataVizWidgets: IWidget[] = [
                   data: [200, 3600, 480, 5049, 4596],
                 },
                 {
-                  label: "TV",
+                  label: "TVs",
                   data: [960, 8700, 5100, 5012, 3930],
                 },
                 {
-                  label: "Displayes",
+                  label: "Displays",
                   data: [1000, 4600, 480, 4049, 3596],
                 },
               ],
@@ -203,7 +203,7 @@ const dataVizWidgets: IWidget[] = [
                   data: [200, 3600, 480, 5049, 4596],
                 },
                 {
-                  label: "TV",
+                  label: "TVs",
                   data: [960, 8700, 5100, 5012, 3930],
                 },
               ],
@@ -294,13 +294,38 @@ const dataVizWidgets: IWidget[] = [
     ],
   },
   {
-    title: "Card 4",
+    title: "Error chart state",
     size: WidgetSize.Single,
+    body: [
+      {
+        id: "1",
+        title: "",
+        content: (
+          <Chart title="Chart error state" type={ChartOptions.LineStacked} />
+        ),
+      },
+    ],
     link: linkExample,
   },
   {
-    title: "Card 5",
+    title: "No data chart state",
     size: WidgetSize.Single,
+    body: [
+      {
+        id: "1",
+        title: "",
+        content: (
+          <Chart
+            title="Chart no data state"
+            type={ChartOptions.LineStacked}
+            data={{
+              labels: [],
+              datasets: [],
+            }}
+          />
+        ),
+      },
+    ],
     link: linkExample,
   },
   {

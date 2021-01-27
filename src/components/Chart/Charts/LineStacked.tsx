@@ -98,24 +98,6 @@ export const LineStackedChart = ({
       };
     });
 
-  /**
-   * Chart initialization
-   *
-   * Alex: I fixed the stale variable issues by moving all chart state into
-   * a single scope. This is a _temporary_ fix to fix the theming bug. Note
-   * that you will lose _all chart state_ (selected index, etc.) when the
-   * theme changes, since those variables are local to the chart instance.
-   * This was the case before, but now it should be more obvious.
-   *
-   * What you probably want to do is the following:
-   * 1. Setup variables (e.g. useState) to track current selection/data set.
-   * These variables should be reset whenever the input dataset changes!
-   * 2. When the canvas is created, initialize the chart.
-   * 3. When the theme changes, _do not recreate the entire chart_. Instead,
-   * see if it's possible to just apply the new theme.
-   * 4. When this component unmounts (e.g. useEffect callback from #2) only
-   * then should you destroy the chart instance.
-   */
   useEffect(() => {
     if (!canvasRef.current) {
       return;

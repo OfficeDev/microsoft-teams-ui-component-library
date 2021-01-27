@@ -22,6 +22,12 @@ const CHARTS = {
   [ChartOptions.LineStacked]: LineStackedChart,
 };
 
+/**
+ * TODO:
+ *    [ ] Legend behavior
+ *    [ ] Storybook chart container
+ */
+
 export function Chart({
   title,
   type,

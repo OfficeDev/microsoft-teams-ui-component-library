@@ -14,7 +14,6 @@ import {
   chartDataPointPatterns,
   lineChartPatterns,
 } from "../ChartPatterns";
-import { chartAxis } from "../ChartUtils";
 
 interface ILegendItem {
   key: number;

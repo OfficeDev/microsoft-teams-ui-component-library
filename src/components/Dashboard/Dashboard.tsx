@@ -66,7 +66,12 @@ export function Dashboard({ widgets }: IDashboard) {
                       body={body}
                       siteVariables={globalTheme.siteVariables}
                     />
-                    {link && <WidgetFooter link={link} />}
+                    {link && (
+                      <WidgetFooter
+                        siteVariables={globalTheme.siteVariables}
+                        link={link}
+                      />
+                    )}
                   </Widget>
                 )
               )}
