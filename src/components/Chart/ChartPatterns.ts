@@ -1,3 +1,4 @@
+import { TeamsTheme } from "../../themes";
 import { ILineChartPatterns, PointStyles } from "./ChartTypes";
 
 const BACKGROUND_COLOR = "transparent";
@@ -13,6 +14,75 @@ export const lineChartPatterns: ILineChartPatterns[] = [
   { lineBorderDash: [5, 5], pointStyle: PointStyles.RectangleRotated },
   { lineBorderDash: [5, 5], pointStyle: PointStyles.Triangle },
 ];
+
+export const legendLabels = ({
+  canvasRef,
+  theme,
+  colorScheme,
+  usingPatterns,
+  dataPointColor,
+  index,
+}: {
+  canvasRef: HTMLCanvasElement;
+  theme: TeamsTheme;
+  colorScheme: any;
+  usingPatterns: boolean;
+  dataPointColor: string;
+  index: number;
+}) => {
+  if (!canvasRef) return;
+  const ctx: any = canvasRef.getContext("2d");
+  if (!ctx) return;
+  if (theme === TeamsTheme.HighContrast) {
+    if (usingPatterns) {
+      ctx.setTransform(1.4, 0, 0, 1, 0, 0);
+      ctx.scale(12, 10);
+      (ctx.fillStyle as any) = buildPattern(
+        chartDataPointPatterns(colorScheme)[index]
+      );
+      ctx.fillRect(-15, -15, canvasRef.width, canvasRef.height);
+    } else {
+      ctx.scale(15, 15);
+      ctx.fillStyle = colorScheme.brand.shadow;
+      ctx.fillRect(-15, -15, canvasRef.width, canvasRef.height);
+      ctx.fillStyle = colorScheme.default.foreground3;
+      switch (lineChartPatterns[index].pointStyle) {
+        case PointStyles.Triangle:
+          ctx.moveTo(9.5, 2.5);
+          ctx.lineTo(5.5, 7.5);
+          ctx.lineTo(13.5, 7.5);
+          break;
+        case PointStyles.Rectangle:
+          ctx.rect(6.5, 2.5, 8, 5);
+          break;
+        case PointStyles.RectangleRotated:
+          ctx.moveTo(10, 2);
+          ctx.lineTo(14.5, 5);
+          ctx.lineTo(10, 8);
+          ctx.lineTo(5.5, 5);
+          break;
+        case PointStyles.Circle:
+        default:
+          ctx.ellipse(10, 5, 3.5, 2.5, 0, 0, 2 * Math.PI);
+          break;
+      }
+      ctx.fill();
+
+      // Line Style
+      ctx.strokeStyle = colorScheme.default.foreground3;
+      ctx.beginPath();
+      ctx.setLineDash(
+        lineChartPatterns[index].lineBorderDash.length ? [2, 2] : []
+      );
+      ctx.moveTo(-1.5, 5);
+      ctx.lineTo(20, 5);
+      ctx.stroke();
+    }
+  } else {
+    ctx.fillStyle = dataPointColor;
+    ctx.fillRect(0, 0, canvasRef.width, canvasRef.height);
+  }
+};
 
 export const chartDataPointPatterns = (colorScheme: any) => {
   return [

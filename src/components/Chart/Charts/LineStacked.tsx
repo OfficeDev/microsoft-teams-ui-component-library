@@ -292,7 +292,7 @@ export const LineStackedChart = ({
       chart: chartRef.current,
       siteVariables,
       chartDataPointColors,
-      applyPatterns: true,
+      usingPatterns: true,
     });
     // Update axeses
     axesConfig({ chart: chartRef.current, ctx, colorScheme });
@@ -305,7 +305,7 @@ export const LineStackedChart = ({
       siteVariables={siteVariables}
       data={data}
       chartDataPointColors={chartDataPointColors}
-      patterns
+      usingPatterns
     >
       <canvas
         id={chartId}

@@ -246,12 +246,12 @@ export const setTooltipColorScheme = ({
   chart,
   siteVariables,
   chartDataPointColors,
-  applyPatterns = false,
+  usingPatterns: applyPatterns = false,
 }: {
   chart: Chart;
   siteVariables: SiteVariablesPrepared;
   chartDataPointColors: string[];
-  applyPatterns?: boolean;
+  usingPatterns?: boolean;
 }) => {
   const { colorScheme, theme } = siteVariables;
   chart.options.tooltips = {
