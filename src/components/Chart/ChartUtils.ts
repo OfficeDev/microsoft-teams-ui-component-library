@@ -1,4 +1,5 @@
 import { SiteVariablesPrepared } from "@fluentui/react-northstar";
+import Chart from "chart.js";
 import { IChartData, IChartDataSet } from ".";
 import { TeamsTheme } from "../../themes";
 import { Shapes, buildPattern, chartDataPointPatterns } from "./ChartPatterns";
@@ -26,39 +27,18 @@ export const chartAxis = (value: number | string): string => {
   }
 };
 
-export const random = (min: number, max: number): number =>
-  Math.round(Math.random() * (max - min) + min);
-
 export const hexToRgb = (hex: string) => {
   if (hex.length < 6) {
     hex = `#${hex[1]}${hex[1]}${hex[2]}${hex[2]}${hex[3]}${hex[3]}`;
   }
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   return result
-    ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16),
-      }
+    ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(
+        result[3],
+        16
+      )}`
     : null;
 };
-
-// export const customTooltips = (
-//   { current: chart }: React.RefObject<HTMLCanvasElement>,
-//   { current: tooltipContainer }: React.RefObject<HTMLDivElement>,
-//   tooltip: any
-// ) => {
-//   if (chart && tooltip && tooltipContainer) {
-//     // Tooltip Element
-//     const chartRect = chart.getBoundingClientRect();
-//     // Calculate position
-//     const positionY = chartRect.top + tooltip.yPadding;
-//     const positionX = chartRect.left + tooltip.xPadding;
-//     tooltipContainer.style.position = "fixed";
-//     tooltipContainer.style.left = positionX + tooltip.caretX + "px";
-//     tooltipContainer.style.top = positionY + tooltip.caretY + "px";
-//   }
-// };
 
 export function tooltipTrigger(
   chart: any,
@@ -162,10 +142,7 @@ export const tooltipAxesYLine = ({
   ctx.restore();
 };
 
-export const lineChartConfig = (
-  siteVariables: SiteVariablesPrepared,
-  chartDataPointColors: string[]
-) => ({
+export const lineChartConfig = () => ({
   type: "line",
   options: {
     responsive: true,
@@ -193,7 +170,7 @@ export const lineChartConfig = (
       mode: "dataset",
       intersect: false,
     },
-    tooltips: tooltipConfig(siteVariables, chartDataPointColors),
+    tooltips: tooltipConfig(),
     scales: {
       xAxes: [
         {
@@ -221,8 +198,7 @@ export const lineChartConfig = (
             maxTicksLimit: 5,
           },
           gridLines: {
-            lineWidth:
-              siteVariables.theme === TeamsTheme.HighContrast ? 0.25 : 1,
+            lineWidth: 1,
             drawBorder: false,
             drawTicks: true,
             tickMarkLength: 44,
@@ -233,38 +209,110 @@ export const lineChartConfig = (
   },
 });
 
-const tooltipConfig = (
-  siteVariables: SiteVariablesPrepared,
-  chartDataPointColors: string[]
-) => ({
-  backgroundColor:
-    siteVariables.theme === TeamsTheme.Dark
-      ? siteVariables.colorScheme.default.border2
-      : siteVariables.colorScheme.default.foregroundFocus,
+export const axesConfig = ({
+  chart,
+  ctx,
+  colorScheme,
+}: {
+  chart: any;
+  ctx: CanvasRenderingContext2D;
+  colorScheme: any;
+}) => {
+  const axesXGridLines = ctx!.createLinearGradient(100, 100, 100, 0);
+  axesXGridLines.addColorStop(0.01, colorScheme.grey.border);
+  axesXGridLines.addColorStop(0.01, "transparent");
 
+  chart.options.scales.xAxes.forEach((xAxes: any, index: number) => {
+    xAxes.ticks.fontColor = colorScheme.default.foreground2;
+    if (index < 1) {
+      xAxes.gridLines.color = axesXGridLines;
+      xAxes.gridLines.zeroLineColor = axesXGridLines;
+    } else {
+      xAxes.gridLines.color = "transparent";
+    }
+  });
+  chart.options.scales.yAxes.forEach((yAxes: any, index: number) => {
+    yAxes.ticks.fontColor = colorScheme.default.foreground2;
+    if (index < 1) {
+      yAxes.gridLines.color = colorScheme.grey.border;
+      yAxes.gridLines.zeroLineColor = colorScheme.grey.border;
+    } else {
+      yAxes.gridLines.color = "transparent";
+    }
+  });
+};
+
+export const setTooltipColorScheme = ({
+  chart,
+  siteVariables,
+  chartDataPointColors,
+  applyPatterns = false,
+}: {
+  chart: Chart;
+  siteVariables: SiteVariablesPrepared;
+  chartDataPointColors: string[];
+  applyPatterns?: boolean;
+}) => {
+  const { colorScheme, theme } = siteVariables;
+  chart.options.tooltips = {
+    ...chart.options.tooltips,
+    displayColors: theme === TeamsTheme.HighContrast && applyPatterns,
+    backgroundColor:
+      theme === TeamsTheme.Dark
+        ? colorScheme.default.border2
+        : colorScheme.default.foregroundFocus,
+    borderColor: colorScheme.default.borderHover,
+    multiKeyBackground: colorScheme.white.foreground,
+    titleFontColor: colorScheme.default.foreground3,
+    bodyFontColor: colorScheme.default.foreground3,
+    footerFontColor: colorScheme.default.foreground3,
+    borderWidth: theme === TeamsTheme.HighContrast ? 2 : 0,
+    callbacks: {
+      ...chart.options.tooltips?.callbacks,
+      labelColor:
+        applyPatterns && theme === TeamsTheme.HighContrast
+          ? (tooltipItem: any) => ({
+              borderColor: "transparent",
+              backgroundColor: buildPattern({
+                shapeType: chartDataPointPatterns(colorScheme)[
+                  tooltipItem.datasetIndex
+                ].shapeType,
+                backgroundColor: chartDataPointPatterns(colorScheme)[
+                  tooltipItem.datasetIndex
+                ].backgroundColor,
+                patternColor: colorScheme.default.borderHover,
+                size: chartDataPointPatterns(colorScheme)[
+                  tooltipItem.datasetIndex
+                ].size,
+              }) as any,
+            })
+          : (tooltipItem: any) => ({
+              borderColor: "transparent",
+              backgroundColor: chartDataPointColors[tooltipItem.datasetIndex],
+            }),
+    },
+  };
+  if (siteVariables.theme === TeamsTheme.HighContrast) {
+    (chart as any).options.scales.yAxes[0].gridLines.lineWidth = 0.25;
+  } else {
+    (chart as any).options.scales.yAxes[0].gridLines.lineWidth = 1;
+  }
+};
+
+export const tooltipConfig = () => ({
   yPadding: 12,
   xPadding: 20,
   caretPadding: 10,
-  borderColor: siteVariables.colorScheme.default.borderHover,
-  borderWidth: siteVariables.theme === TeamsTheme.HighContrast ? 2 : 0,
-  multiKeyBackground: siteVariables.colorScheme.white.foreground,
-
   // Tooltip Title
-  titleFontFamily: siteVariables.bodyFontFamily,
   titleFontStyle: "200",
   titleFontSize: 20,
-  titleFontColor: siteVariables.colorScheme.default.foreground3,
   // Tooltip Body
-  bodyFontFamily: siteVariables.bodyFontFamily,
   bodySpacing: 4,
   bodyFontSize: 11.5,
   bodyFontStyle: "400",
-  bodyFontColor: siteVariables.colorScheme.default.foreground3,
   // Tooltip Footer
-  footerFontFamily: siteVariables.bodyFontFamily,
   footerFontStyle: "300",
   footerFontSize: 10,
-  footerFontColor: siteVariables.colorScheme.default.foreground3,
 
   callbacks: {
     title: (tooltipItems: any) => {
@@ -275,12 +323,6 @@ const tooltipConfig = (
     },
     label: (tooltipItem: any, data: any) => {
       return data.datasets[tooltipItem.datasetIndex].label;
-    },
-    labelColor: (tooltipItem: any) => {
-      return {
-        borderColor: "transparent",
-        backgroundColor: chartDataPointColors[tooltipItem.datasetIndex],
-      };
     },
     footer: (tooltipItems: any) => {
       return tooltipItems[0].xLabel;

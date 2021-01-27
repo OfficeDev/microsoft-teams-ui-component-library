@@ -7,6 +7,8 @@ import {
   tooltipTrigger,
   tooltipAxesYLine,
   lineChartConfig,
+  axesConfig,
+  setTooltipColorScheme,
 } from "../ChartUtils";
 import { ChartContainer } from "./ChartContainer";
 import {
@@ -26,95 +28,123 @@ export const LineStackedChart = ({
 }) => {
   const { colorScheme, theme, colors } = siteVariables;
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
+  const chartRef = React.useRef<Chart | undefined>();
   const chartId = React.useMemo(
     () => Math.random().toString(36).substr(2, 9),
     []
   );
-  const chartDataPointColors = React.useMemo(
-    () => [
-      colors.brand["600"],
-      colors.brand["200"],
-      colors.brand["800"],
-      colors.grey["400"],
-      colors.grey["500"],
-      colorScheme.default.borderHover,
-    ],
-    [theme]
-  );
+  const [chartDataPointColors, setChartDataPointColors] = React.useState([
+    colors.brand["600"],
+    colors.brand["200"],
+    colors.brand["800"],
+    colors.grey["400"],
+    colors.grey["500"],
+    colorScheme.default.borderHover,
+  ]);
 
-  const createDataPoints = (
-    ctx: CanvasRenderingContext2D | null
-  ): Chart.ChartDataSets[] =>
+  const createDataPoints = (): Chart.ChartDataSets[] =>
     Array.from(data.datasets, (set, i) => {
-      const dataColor =
-        theme === TeamsTheme.HighContrast
-          ? colorScheme.default.border
-          : colorScheme.default.background;
-      const backgroundColor =
-        theme === TeamsTheme.HighContrast
-          ? buildPattern(chartDataPointPatterns(colorScheme)[i])
-          : chartDataPointColors[i];
-      const hoverBackgroundColor =
-        theme === TeamsTheme.HighContrast
-          ? buildPattern({
-              shapeType: chartDataPointPatterns(colorScheme)[i].shapeType,
-              backgroundColor: chartDataPointPatterns(
-                siteVariables.colorScheme
-              )[i].backgroundColor,
-              patternColor: colorScheme.default.borderHover,
-              size: chartDataPointPatterns(colorScheme)[i].size,
-            })
-          : backgroundColor;
-
-      return {
+      let dataPointConfig = {
         label: set.label,
         data: set.data,
-        borderWidth: theme === TeamsTheme.HighContrast ? 3 : 1,
-        borderColor: dataColor,
-        hoverBorderColor:
-          theme === TeamsTheme.HighContrast
-            ? colorScheme.default.borderHover
-            : backgroundColor,
-        backgroundColor,
-        hoverBorderWidth:
-          siteVariables.theme === TeamsTheme.HighContrast ? 4 : 2,
-        hoverBackgroundColor,
-        pointBorderColor: dataColor,
-        pointBackgroundColor: dataColor,
-        pointHoverBackgroundColor: dataColor,
-        pointHoverBorderColor:
-          theme === TeamsTheme.HighContrast
-            ? colorScheme.default.borderHover
-            : backgroundColor,
+        borderWidth: 1,
+        borderColor: colorScheme.default.background,
+        hoverBorderColor: chartDataPointColors[i],
+        backgroundColor: chartDataPointColors[i],
+        hoverBorderWidth: 2,
+        hoverBackgroundColor: chartDataPointColors[i],
+        pointBorderColor: colorScheme.default.background,
+        pointBackgroundColor: colorScheme.default.foreground3,
+        pointHoverBackgroundColor: colorScheme.default.foreground3,
+        pointHoverBorderColor: chartDataPointColors[i],
         pointHoverBorderWidth: 2,
         borderCapStyle: "round",
         borderJoinStyle: "round",
         pointBorderWidth: 0,
         pointRadius: 0,
-        pointHoverRadius:
-          siteVariables.theme === TeamsTheme.HighContrast ? 4 : 3,
-        pointStyle:
-          siteVariables.theme === TeamsTheme.HighContrast
-            ? lineChartPatterns[i].pointStyle
-            : "circle",
+        pointHoverRadius: 3,
+        pointStyle: "circle",
         borderDash: [],
       };
+      if (theme === TeamsTheme.HighContrast) {
+        dataPointConfig = {
+          ...dataPointConfig,
+          borderWidth: 3,
+          hoverBorderColor: colorScheme.default.borderHover,
+          hoverBorderWidth: 4,
+          pointBorderColor: colorScheme.default.border,
+          pointHoverBorderColor: colorScheme.default.borderHover,
+          pointHoverRadius: 5,
+          pointStyle: lineChartPatterns[i].pointStyle,
+          borderColor: colorScheme.brand.background,
+          backgroundColor: buildPattern(chartDataPointPatterns(colorScheme)[i]),
+          hoverBackgroundColor: buildPattern({
+            shapeType: chartDataPointPatterns(colorScheme)[i].shapeType,
+            backgroundColor: chartDataPointPatterns(siteVariables.colorScheme)[
+              i
+            ].backgroundColor,
+            patternColor: colorScheme.default.borderHover,
+            size: chartDataPointPatterns(colorScheme)[i].size,
+          }),
+        };
+      }
+      return dataPointConfig as Chart.ChartDataSets;
     });
 
   useEffect(() => {
-    if (!canvasRef.current) {
-      return;
-    }
-    let chart: any;
-    let chartId = Math.random().toString(36).substr(2, 9);
     let selectedIndex = -1;
     let selectedDataSet = 0;
 
+    if (!canvasRef.current) return;
+    const ctx = canvasRef.current.getContext("2d");
+    if (!ctx) return;
+    const chartConfig = lineChartConfig();
+
+    // Stacked chart custom settings
+    chartConfig.options.tooltips.callbacks.title = (tooltipItems: any) => {
+      let total = 0;
+      data.datasets.map(
+        (dataset) => (total += dataset.data[tooltipItems[0].index])
+      );
+      return `${((tooltipItems[0].yLabel / total) * 100).toPrecision(2)}% (${
+        tooltipItems[0].yLabel
+      })`;
+    };
+    chartConfig.options.scales.yAxes[0].stacked = true;
+
+    chartRef.current = new Chart(ctx, {
+      ...(chartConfig as any),
+      data: {
+        labels: data.labels,
+        datasets: [],
+      },
+      plugins: [
+        {
+          afterDatasetsDraw: ({ ctx, tooltip }: any) => {
+            if (tooltip._active && tooltip._active.length) {
+              tooltipAxesYLine({
+                chart: chartRef.current,
+                ctx,
+                tooltip,
+                siteVariables,
+                chartDataPointColors,
+              });
+            }
+          },
+        },
+      ],
+    });
+    const chart: any = chartRef.current;
+
+    /**
+     * Keyboard manipulations
+     */
     function meta() {
       return chart.getDatasetMeta(selectedDataSet);
     }
 
     function removeFocusStyleOnClick() {
+      // Remove focus state style if selected by mouse
       if (canvasRef.current) {
         canvasRef.current.style.boxShadow = "none";
       }
@@ -141,7 +171,7 @@ export const LineStackedChart = ({
     function showFocusedDataPoint() {
       hoverDataPoint(selectedIndex);
       tooltipTrigger(
-        chart,
+        chartRef.current as any,
         data,
         selectedDataSet,
         selectedIndex,
@@ -174,13 +204,15 @@ export const LineStackedChart = ({
         }
       }
       if (siteVariables.theme === TeamsTheme.HighContrast) {
-        chart.data.datasets.map((dataset: any, i: number) => {
-          dataset.borderColor = siteVariables.colorScheme.default.border;
-          dataset.borderWidth = 2;
-          dataset.backgroundColor = buildPattern(
-            chartDataPointPatterns(colorScheme)[i]
-          );
-        });
+        (chartRef.current as any).data.datasets.map(
+          (dataset: any, i: number) => {
+            dataset.borderColor = siteVariables.colorScheme.default.border;
+            dataset.borderWidth = 2;
+            dataset.backgroundColor = buildPattern(
+              chartDataPointPatterns(colorScheme)[i]
+            );
+          }
+        );
         chart.update();
       }
       chart.tooltip._active = activeElements;
@@ -222,105 +254,51 @@ export const LineStackedChart = ({
       showFocusedDataPoint();
     }
 
-    const ctx = canvasRef.current.getContext("2d");
-
-    const chartConfig = lineChartConfig(siteVariables, chartDataPointColors);
-    chartConfig.options.scales.yAxes[0].stacked = true;
-    chartConfig.options.tooltips.callbacks.title = (tooltipItems: any) => {
-      let total = 0;
-      data.datasets.map(
-        (dataset) => (total += dataset.data[tooltipItems[0].index])
-      );
-      return `${((tooltipItems[0].yLabel / total) * 100).toPrecision(2)}% (${
-        tooltipItems[0].yLabel
-      })`;
-    };
-    if (theme === TeamsTheme.HighContrast) {
-      (chartConfig as any).options.tooltips.callbacks.labelColor = (
-        tooltipItem: any
-      ) => {
-        return {
-          borderColor: "transparent",
-          backgroundColor: buildPattern({
-            shapeType: chartDataPointPatterns(colorScheme)[
-              tooltipItem.datasetIndex
-            ].shapeType,
-            backgroundColor: chartDataPointPatterns(colorScheme)[
-              tooltipItem.datasetIndex
-            ].backgroundColor,
-            patternColor: colorScheme.default.borderHover,
-            size: chartDataPointPatterns(colorScheme)[tooltipItem.datasetIndex]
-              .size,
-          }),
-        };
-      };
-    }
-    chartConfig.options.tooltips.callbacks;
-    chart = new Chart(ctx!, {
-      ...(chartConfig as any),
-      data: {
-        labels: data.labels,
-        datasets: createDataPoints(ctx),
-      },
-      plugins: [
-        {
-          afterDatasetsDraw: ({ ctx, tooltip }: any) => {
-            if (tooltip._active && tooltip._active.length) {
-              tooltipAxesYLine({
-                chart,
-                ctx,
-                tooltip,
-                siteVariables,
-                chartDataPointColors,
-              });
-            }
-          },
-        },
-      ],
-    });
-
-    /**
-     * Color scheme updates
-     *
-     * "axesXGridLines" gradient to hide top part of the line, hidden gap applied by "borderDash"
-     */
-    const axesXGridLines = ctx!.createLinearGradient(100, 100, 100, 0);
-    axesXGridLines.addColorStop(0.01, siteVariables.colorScheme.grey.border);
-    axesXGridLines.addColorStop(0.01, "transparent");
-
-    chart.options.scales.xAxes.forEach((xAxes: any, index: number) => {
-      xAxes.ticks.fontColor = siteVariables.colorScheme.default.foreground2;
-      if (index < 1) {
-        xAxes.gridLines.color = axesXGridLines;
-        xAxes.gridLines.zeroLineColor = axesXGridLines;
-      } else {
-        xAxes.gridLines.color = "transparent";
-      }
-    });
-    chart.options.scales.yAxes.forEach((yAxes: any, index: number) => {
-      yAxes.ticks.fontColor = siteVariables.colorScheme.default.foreground2;
-      if (index < 1) {
-        yAxes.gridLines.color = siteVariables.colorScheme.grey.border;
-        yAxes.gridLines.zeroLineColor = siteVariables.colorScheme.grey.border;
-      } else {
-        yAxes.gridLines.color = "transparent";
-      }
-    });
-    /**
-     * Color scheme updates
-     */
     canvasRef.current.addEventListener("click", removeFocusStyleOnClick);
     canvasRef.current.addEventListener("keydown", changeFocus);
     canvasRef.current.addEventListener("focusout", resetChartStates);
     return () => {
+      if (!chartRef.current) return;
       if (canvasRef.current) {
         canvasRef.current.removeEventListener("click", removeFocusStyleOnClick);
         canvasRef.current.removeEventListener("keydown", changeFocus);
         canvasRef.current.removeEventListener("focusout", resetChartStates);
       }
-      chart.destroy();
+      chartRef.current.destroy();
     };
-  }, [siteVariables]);
+  }, []);
+
+  /**
+   * Theme updates
+   */
+  useEffect(() => {
+    if (!chartRef.current) return;
+    if (!canvasRef.current) return;
+    const ctx = canvasRef.current.getContext("2d");
+    if (!ctx) return;
+    // Update color palette
+    setChartDataPointColors([
+      colors.brand["600"],
+      colors.brand["200"],
+      colors.brand["800"],
+      colors.grey["400"],
+      colors.grey["500"],
+      colorScheme.default.borderHover,
+    ]);
+    // Apply new colors scheme for data points
+    chartRef.current.data.datasets = createDataPoints();
+    // Update tooltip colors scheme
+    setTooltipColorScheme({
+      chart: chartRef.current,
+      siteVariables,
+      chartDataPointColors,
+      applyPatterns: true,
+    });
+    // Update axeses
+    axesConfig({ chart: chartRef.current, ctx, colorScheme });
+
+    chartRef.current.update();
+  }, [theme]);
 
   return (
     <ChartContainer
@@ -343,11 +321,9 @@ export const LineStackedChart = ({
             // Generated tooltips for screen readers
             <div key={itemKey} id={`${chartId}-tooltip-${setKey}-${itemKey}`}>
               <p>{item}</p>
-              <ul>
-                <li>
-                  {set.label}: {set.data[itemKey]}
-                </li>
-              </ul>
+              <span>
+                {set.label}: {set.data[itemKey]}
+              </span>
             </div>
           ))
         )}
