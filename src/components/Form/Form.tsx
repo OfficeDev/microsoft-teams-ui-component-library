@@ -180,6 +180,10 @@ export interface IFormDialogProps extends IFormProps {
   trigger: JSX.Element;
 }
 
+export interface IFormWizardStepProps extends IFormProps {
+  back?: TTextObject;
+}
+
 interface IFormSectionProps extends IPreparedInput {
   section: ISection;
   header?: false;
@@ -193,10 +197,22 @@ interface IFormHeaderSectionProps {
   t: TTranslations;
 }
 
-const MaxWidth = ({ children, styles, flush }: PropsWithChildren<any>) => (
+const MaxWidth = ({
+  children,
+  styles,
+  flush,
+  align = "center",
+}: PropsWithChildren<any>) => (
   <Box
     styles={{
-      margin: "0 auto",
+      margin: (function () {
+        switch (align) {
+          case "left":
+            return "0 auto 0 0";
+          default:
+            return "0 auto";
+        }
+      })(),
       maxWidth: flush ? "none" : "29.75rem",
       padding: flush ? 0 : "1.25rem",
       ...styles,
@@ -723,6 +739,7 @@ interface IFormContentProps extends Omit<IFormProps, "submit"> {
   setFormState: Dispatch<SetStateAction<IFormState>>;
   t: TTranslations;
   flush?: boolean;
+  align?: string;
 }
 
 const FormContent = React.memo(
@@ -735,9 +752,10 @@ const FormContent = React.memo(
     errors,
     formState,
     setFormState,
+    align,
   }: IFormContentProps) => {
     return (
-      <MaxWidth flush={flush}>
+      <MaxWidth {...{ flush, align }}>
         {topError && (
           <Alert
             danger
@@ -945,6 +963,107 @@ export const FormDialog = ({
       }}
       cancelButton={{
         content: cancel,
+      }}
+    />
+  );
+};
+
+export const FormWizardStep = ({
+  headerSection,
+  sections,
+  topError,
+  errors,
+  cancel,
+  submit,
+  back,
+  onInteraction,
+}: IFormWizardStepProps) => {
+  const [formState, setUnclonedFormState] = useState<IFormState>(
+    initialFormState(sections)
+  );
+
+  const setFormState = (formState: SetStateAction<IFormState>) =>
+    setUnclonedFormState(clone(formState));
+
+  return (
+    <FluentUIThemeConsumer
+      render={(globalTheme) => {
+        const { t } = globalTheme.siteVariables;
+        return (
+          <FormTheme globalTheme={globalTheme} surface={Surface.base}>
+            <FluentUIForm
+              styles={{
+                display: "block",
+                "& > *:not(:last-child)": { marginBottom: 0 },
+                "& > :last-child": { marginTop: 0 },
+                backgroundColor: "var(--surface-background)",
+                paddingBottom: "8rem",
+                "@media screen and (min-width: 34rem)": {
+                  paddingLeft: "14rem",
+                },
+              }}
+              {...(onInteraction && {
+                onSubmit: () =>
+                  onInteraction({
+                    event: "submit",
+                    target: "form",
+                    formState,
+                  }),
+              })}
+            >
+              <FormContent
+                {...{
+                  headerSection,
+                  sections,
+                  topError,
+                  errors,
+                  t,
+                  formState,
+                  setFormState,
+                  align: "left",
+                }}
+              />
+
+              <Box
+                styles={{
+                  display: "flex",
+                  backgroundColor: "var(--overlay-background)",
+                  position: "fixed",
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  padding: "2rem 2.5rem",
+                  zIndex: 2,
+                  "@media screen and (min-width: 34rem)": {
+                    left: "14rem",
+                  },
+                }}
+                variables={({ colorScheme }: SiteVariablesPrepared) => ({
+                  elevation: colorScheme.elevations[16],
+                })}
+              >
+                {cancel && (
+                  <Button
+                    content={getText(t.locale, cancel)}
+                    styles={{ marginRight: ".5rem" }}
+                  />
+                )}
+                <Box role="none" styles={{ flexGrow: 1 }} />
+                {back && (
+                  <Button
+                    content={getText(t.locale, back)}
+                    styles={{ marginRight: ".5rem" }}
+                  />
+                )}
+                <Button
+                  primary
+                  type="submit"
+                  content={getText(t.locale, submit)}
+                />
+              </Box>
+            </FluentUIForm>
+          </FormTheme>
+        );
       }}
     />
   );

@@ -48,6 +48,7 @@ export const teamsNextVariableAssignments = {
       root: ({ variables }: ComponentVariablesObject) => ({
         color: variables.color,
         backgroundColor: variables.backgroundColor,
+        borderColor: variables.borderColor,
         boxShadow: variables.elevation,
       }),
     },
@@ -68,6 +69,12 @@ export const teamsNextVariableAssignments = {
         color: variables.color,
         backgroundColor: variables.backgroundColor,
         boxShadow: variables.elevation,
+      }),
+    },
+    ListItem: {
+      root: ({ variables }: ComponentVariablesObject) => ({
+        color: variables.color,
+        backgroundColor: variables.backgroundColor,
       }),
     },
     ToolbarItem: {

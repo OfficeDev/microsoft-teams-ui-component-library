@@ -5,7 +5,7 @@ import {
   Provider as FluentUIThemeProvider,
 } from "@fluentui/react-northstar";
 
-import { ThemeInput, ThemePrepared } from "@fluentui/styles";
+import { ICSSInJSStyle, ThemeInput, ThemePrepared } from "@fluentui/styles";
 
 import { teamsNextVariableAssignments, themes } from "../../lib/withTheme";
 
@@ -17,6 +17,7 @@ export interface IFormThemeProps {
   globalTheme: ThemePrepared;
   children: ReactNode;
   surface: Surface;
+  styles?: ICSSInJSStyle;
 }
 
 const getLocalTheme = (
@@ -46,6 +47,7 @@ export const FormTheme = ({
   globalTheme,
   children,
   surface,
+  styles,
 }: IFormThemeProps) => {
   const mainTheme = globalTheme.siteVariables?.theme
     ? globalTheme
@@ -58,6 +60,8 @@ export const FormTheme = ({
           background: "transparent",
           "--surface-background":
             globalTheme.siteVariables.colorScheme.default.background2,
+          "--overlay-background":
+            globalTheme.siteVariables.colorScheme.default.background,
           "--shadow-background":
             globalTheme.siteVariables.colorScheme.default.border2,
           "--input-background":
@@ -67,6 +71,8 @@ export const FormTheme = ({
         return {
           background: "transparent",
           "--surface-background": "transparent",
+          "--overlay-background":
+            globalTheme.siteVariables.colorScheme.default.background,
           "--shadow-background":
             globalTheme.siteVariables.colorScheme.default.border1,
           "--input-background": (function () {
@@ -90,7 +96,7 @@ export const FormTheme = ({
         teamsNextVariableAssignments,
         getLocalTheme(globalTheme.siteVariables.theme, surface)
       )}
-      styles={cssProperties}
+      styles={{ ...cssProperties, ...styles }}
     >
       {children}
     </FluentUIThemeProvider>
