@@ -1,4 +1,5 @@
 import React from "react";
+import omit from "lodash/omit";
 import {
   Box,
   List,
@@ -8,19 +9,33 @@ import {
 
 import { AcceptIcon } from "@fluentui/react-icons-northstar";
 
-import { IFormWizardStepProps, FormWizardStep } from "../Form/Form";
+import {
+  IFormWizardStepProps,
+  FormWizardStep,
+  TFormInteraction,
+} from "../Form/Form";
 import { getText, TTextObject } from "../../translations";
+
+interface IWizardSidebarInteraction {
+  event: "click";
+  target: "wizard-sidebar";
+  subject: string;
+}
+
+export type TWizardInteraction = TFormInteraction | IWizardSidebarInteraction;
 
 export interface IWizardProps {
   stepTitles: TTextObject[];
   activeStepIndex: number;
   activeStep: IFormWizardStepProps;
+  onInteraction?: (interaction: TWizardInteraction) => void;
 }
 
 const WizardSidebar = ({
   stepTitles,
   activeStepIndex,
-}: Pick<IWizardProps, "stepTitles" | "activeStepIndex">) => {
+  onInteraction,
+}: Pick<IWizardProps, "stepTitles" | "activeStepIndex" | "onInteraction">) => {
   return (
     <FluentUIThemeConsumer
       render={(globalTheme) => {
@@ -28,6 +43,7 @@ const WizardSidebar = ({
         return (
           <Box
             styles={{
+              display: "none",
               position: "fixed",
               top: 0,
               bottom: 0,
@@ -37,6 +53,9 @@ const WizardSidebar = ({
               borderRightWidth: "1px",
               borderRightStyle: "solid",
               zIndex: 3,
+              "@media screen and (min-width: 34rem)": {
+                display: "block",
+              },
             }}
             variables={({ colorScheme }: SiteVariablesPrepared) => ({
               borderColor: colorScheme.default.border2,
@@ -81,9 +100,27 @@ const WizardSidebar = ({
                   }),
                   ...(si === activeStepIndex && {
                     backgroundColor: colorScheme.default.background,
+                    hoverBackgroundColor: colorScheme.default.background,
                   }),
                 }),
+                styles: {
+                  minHeight: "none",
+                  paddingTop: ".4375rem",
+                  paddingBottom: ".4375rem",
+                  borderRadius: ".1875rem",
+                },
+                ...(onInteraction && {
+                  onClick: () =>
+                    onInteraction({
+                      event: "click",
+                      target: "wizard-sidebar",
+                      subject: `wizard-step__${si}`,
+                    }),
+                }),
               }))}
+              styles={{
+                padding: ".5rem",
+              }}
             />
           </Box>
         );
@@ -98,11 +135,15 @@ export const Wizard = ({
   stepTitles,
   activeStepIndex,
   activeStep,
+  onInteraction,
 }: IWizardProps) => {
   return (
     <>
-      <WizardSidebar {...{ stepTitles, activeStepIndex }} />
-      <FormWizardStep {...activeStep} />
+      <WizardSidebar {...{ stepTitles, activeStepIndex, onInteraction }} />
+      <FormWizardStep
+        {...{ onInteraction }}
+        {...omit(activeStep, activeStepIndex === 0 ? ["back"] : [])}
+      />
     </>
   );
 };

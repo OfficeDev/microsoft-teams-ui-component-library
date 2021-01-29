@@ -75,6 +75,11 @@ export const teamsNextVariableAssignments = {
       root: ({ variables }: ComponentVariablesObject) => ({
         color: variables.color,
         backgroundColor: variables.backgroundColor,
+        ...(variables.hoverBackgroundColor && {
+          "&:hover": {
+            backgroundColor: variables.hoverBackgroundColor,
+          },
+        }),
       }),
     },
     ToolbarItem: {

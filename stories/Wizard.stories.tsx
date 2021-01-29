@@ -1,12 +1,16 @@
 import React from "react";
+import range from "lodash/range";
+import uniqueId from "lodash/uniqueId";
+
+import { actions } from "@storybook/addon-actions";
 import { object } from "@storybook/addon-knobs";
 import fakerEN from "faker/locale/en_US";
 import fakerFA from "faker/locale/fa";
 
 import { Wizard } from "../src";
-import range from "lodash/range";
 import { TInputWidth } from "../src/components/Form/Form";
-import uniqueId from "lodash/uniqueId";
+
+const eventsFromNames = actions("onInteraction");
 
 const fake = (template: string) => {
   return { "en-US": fakerEN.fake(template), fa: fakerFA.fake(template) };
@@ -141,6 +145,7 @@ export const KitchenSink = () => {
   return (
     <Wizard
       {...object("Configuration", kitchenSinkConfig, wizardKnobGroupID)}
+      {...eventsFromNames}
     />
   );
 };

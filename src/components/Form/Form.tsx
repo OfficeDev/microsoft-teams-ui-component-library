@@ -161,7 +161,7 @@ interface ISection {
 export type TFormErrors = { [inputId: string]: TTextObject };
 
 export type TFormInteraction = {
-  event: "submit";
+  event: "submit" | "cancel" | "back";
   target: "form";
   formState: IFormState;
 };
@@ -214,7 +214,7 @@ const MaxWidth = ({
         }
       })(),
       maxWidth: flush ? "none" : "29.75rem",
-      padding: flush ? 0 : "1.25rem",
+      padding: flush ? 0 : "2rem",
       ...styles,
     }}
   >
@@ -882,6 +882,16 @@ export const Form = ({
                     <Button
                       content={getText(t.locale, cancel)}
                       styles={{ marginRight: ".5rem" }}
+                      {...(onInteraction && {
+                        onClick: (e) => {
+                          e.preventDefault();
+                          onInteraction({
+                            event: "cancel",
+                            target: "form",
+                            formState,
+                          });
+                        },
+                      })}
                     />
                   )}
                   <Button
@@ -963,6 +973,16 @@ export const FormDialog = ({
       }}
       cancelButton={{
         content: cancel,
+        ...(onInteraction && {
+          onClick: (e) => {
+            e.preventDefault();
+            onInteraction({
+              event: "cancel",
+              target: "form",
+              formState,
+            });
+          },
+        }),
       }}
     />
   );
@@ -1027,12 +1047,14 @@ export const FormWizardStep = ({
               <Box
                 styles={{
                   display: "flex",
+                  flexWrap: "wrap",
+                  justifyContent: "flex-end",
                   backgroundColor: "var(--overlay-background)",
                   position: "fixed",
                   bottom: 0,
                   left: 0,
                   right: 0,
-                  padding: "2rem 2.5rem",
+                  padding: "1.5rem 2rem 2rem 2.5rem",
                   zIndex: 2,
                   "@media screen and (min-width: 34rem)": {
                     left: "14rem",
@@ -1045,20 +1067,41 @@ export const FormWizardStep = ({
                 {cancel && (
                   <Button
                     content={getText(t.locale, cancel)}
-                    styles={{ marginRight: ".5rem" }}
+                    styles={{ marginRight: ".5rem", marginTop: ".5rem" }}
+                    {...(onInteraction && {
+                      onClick: (e) => {
+                        e.preventDefault();
+                        onInteraction({
+                          event: "cancel",
+                          target: "form",
+                          formState,
+                        });
+                      },
+                    })}
                   />
                 )}
-                <Box role="none" styles={{ flexGrow: 1 }} />
+                <Box role="none" styles={{ flex: "1 0 0" }} />
                 {back && (
                   <Button
                     content={getText(t.locale, back)}
-                    styles={{ marginRight: ".5rem" }}
+                    styles={{ marginRight: ".5rem", marginTop: ".5rem" }}
+                    {...(onInteraction && {
+                      onClick: (e) => {
+                        e.preventDefault();
+                        onInteraction({
+                          event: "back",
+                          target: "form",
+                          formState,
+                        });
+                      },
+                    })}
                   />
                 )}
                 <Button
                   primary
                   type="submit"
                   content={getText(t.locale, submit)}
+                  styles={{ marginRight: ".5rem", marginTop: ".5rem" }}
                 />
               </Box>
             </FluentUIForm>
