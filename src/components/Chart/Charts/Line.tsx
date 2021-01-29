@@ -4,7 +4,7 @@ import { SiteVariablesPrepared } from "@fluentui/react-northstar";
 import { IChartData } from "../ChartTypes";
 import {
   tooltipTrigger,
-  tooltipAxesYLine,
+  tooltipAxisYLine,
   lineChartConfig,
   axesConfig,
   setTooltipColorScheme,
@@ -29,14 +29,17 @@ export const LineChart = ({
     () => Math.random().toString(36).substr(2, 9),
     []
   );
-  const [chartDataPointColors, setChartDataPointColors] = React.useState([
-    colorScheme.brand.background,
-    colorScheme.brand.borderHover,
-    colorScheme.brand.background4,
-    colorScheme.default.borderHover,
-    colorScheme.default.foreground2,
-    colorScheme.default.foreground,
-  ]);
+  const chartDataPointColors = React.useMemo(
+    () => [
+      colorScheme.brand.background,
+      colorScheme.brand.borderHover,
+      colorScheme.brand.background4,
+      colorScheme.default.borderHover,
+      colorScheme.default.foreground2,
+      colorScheme.default.foreground,
+    ],
+    [theme]
+  );
 
   const createDataPoints = (): Chart.ChartDataSets[] =>
     Array.from(data.datasets, (set, i) => {
@@ -98,16 +101,12 @@ export const LineChart = ({
       },
       plugins: [
         {
-          afterDatasetsDraw: ({ ctx, tooltip }: any) => {
-            if (tooltip._active && tooltip._active.length) {
-              tooltipAxesYLine({
-                chart: chartRef.current,
-                ctx,
-                tooltip,
-                siteVariables,
-                chartDataPointColors,
-              });
-            }
+          afterDatasetsDraw: ({ ctx, tooltip, chart }: any) => {
+            tooltipAxisYLine({
+              chart,
+              ctx,
+              tooltip,
+            });
           },
         },
       ],
@@ -265,15 +264,6 @@ export const LineChart = ({
     if (!canvasRef.current) return;
     const ctx = canvasRef.current.getContext("2d");
     if (!ctx) return;
-    // Update color palette
-    setChartDataPointColors([
-      colors.brand["600"],
-      colors.brand["200"],
-      colors.brand["800"],
-      colors.grey["400"],
-      colors.grey["500"],
-      colorScheme.default.borderHover,
-    ]);
     // Apply new colors scheme for data points
     chartRef.current.data.datasets = createDataPoints();
     // Update tooltip colors scheme

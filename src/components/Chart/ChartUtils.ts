@@ -103,43 +103,37 @@ export function tooltipTrigger(
   chart.draw();
 }
 
-export const tooltipAxesYLine = ({
-  chart,
-  ctx,
-  tooltip,
-  siteVariables,
-  chartDataPointColors,
-}: any) => {
-  const activePoint = tooltip._active[0],
-    y = activePoint.tooltipPosition().y,
-    x = activePoint.tooltipPosition().x,
-    y_axis = chart.scales["y-axis-0"],
-    topY = y_axis.top,
-    bottomY = y_axis.bottom;
+export const tooltipAxisYLine = ({ chart, ctx, tooltip }: any) => {
+  if (tooltip._active && tooltip._active.length) {
+    const activePoint = tooltip._active[0],
+      y = activePoint.tooltipPosition().y,
+      x = activePoint.tooltipPosition().x,
+      y_axis = chart.scales["y-axis-0"],
+      topY = y_axis.top,
+      bottomY = y_axis.bottom;
 
-  ctx.save();
-  // Line
-  ctx.beginPath();
-  ctx.moveTo(x, topY);
-  ctx.lineTo(x, bottomY);
-  ctx.setLineDash([5, 5]);
-  ctx.lineWidth = 0.75;
-  ctx.strokeStyle = siteVariables.colorScheme.default.border;
-  ctx.stroke();
-  // Point
-  ctx.beginPath();
-  ctx.setLineDash([]);
-  ctx.arc(x, y, 5, 0, 2 * Math.PI, true);
-  ctx.lineWidth = 2;
-  ctx.fillStyle = siteVariables.colorScheme.white.foreground;
-  ctx.strokeStyle =
-    siteVariables.theme === TeamsTheme.HighContrast
-      ? siteVariables.colorScheme.default.borderHover
-      : chartDataPointColors[activePoint._datasetIndex];
-  ctx.closePath();
-  ctx.fill();
-  ctx.stroke();
-  ctx.restore();
+    ctx.save();
+    // Line
+    ctx.beginPath();
+    ctx.moveTo(x, topY);
+    ctx.lineTo(x, bottomY);
+    ctx.setLineDash([5, 5]);
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = chart.options.scales.yAxes[0].gridLines.color;
+    ctx.stroke();
+    // Point
+    ctx.beginPath();
+    ctx.setLineDash([]);
+    ctx.arc(x, y, 5, 0, 2 * Math.PI, true);
+    ctx.lineWidth = 2;
+    ctx.fillStyle = "white";
+    ctx.strokeStyle =
+      chart.data.datasets[activePoint._datasetIndex].hoverBorderColor;
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+    ctx.restore();
+  }
 };
 
 export const lineChartConfig = () => ({
@@ -256,7 +250,10 @@ export const setTooltipColorScheme = ({
   const { colorScheme, theme } = siteVariables;
   chart.options.tooltips = {
     ...chart.options.tooltips,
-    displayColors: theme === TeamsTheme.HighContrast && applyPatterns,
+    displayColors:
+      (theme === TeamsTheme.HighContrast && !applyPatterns) ||
+      theme === TeamsTheme.Dark ||
+      theme === TeamsTheme.Default,
     backgroundColor:
       theme === TeamsTheme.Dark
         ? colorScheme.default.border2

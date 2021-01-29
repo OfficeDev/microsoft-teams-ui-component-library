@@ -5,7 +5,7 @@ import { TeamsTheme } from "../../../themes";
 import { IChartData } from "../ChartTypes";
 import {
   tooltipTrigger,
-  tooltipAxesYLine,
+  tooltipAxisYLine,
   lineChartConfig,
   axesConfig,
   setTooltipColorScheme,
@@ -33,14 +33,17 @@ export const LineStackedChart = ({
     () => Math.random().toString(36).substr(2, 9),
     []
   );
-  const [chartDataPointColors, setChartDataPointColors] = React.useState([
-    colors.brand["600"],
-    colors.brand["200"],
-    colors.brand["800"],
-    colors.grey["400"],
-    colors.grey["500"],
-    colorScheme.default.borderHover,
-  ]);
+  const chartDataPointColors = React.useMemo(
+    () => [
+      colors.brand["600"],
+      colors.brand["200"],
+      colors.brand["800"],
+      colors.grey["400"],
+      colors.grey["500"],
+      colorScheme.default.borderHover,
+    ],
+    [theme]
+  );
 
   const createDataPoints = (): Chart.ChartDataSets[] =>
     Array.from(data.datasets, (set, i) => {
@@ -120,16 +123,12 @@ export const LineStackedChart = ({
       },
       plugins: [
         {
-          afterDatasetsDraw: ({ ctx, tooltip }: any) => {
-            if (tooltip._active && tooltip._active.length) {
-              tooltipAxesYLine({
-                chart: chartRef.current,
-                ctx,
-                tooltip,
-                siteVariables,
-                chartDataPointColors,
-              });
-            }
+          afterDatasetsDraw: ({ ctx, tooltip, chart }: any) => {
+            tooltipAxisYLine({
+              chart,
+              ctx,
+              tooltip,
+            });
           },
         },
       ],
@@ -276,15 +275,6 @@ export const LineStackedChart = ({
     if (!canvasRef.current) return;
     const ctx = canvasRef.current.getContext("2d");
     if (!ctx) return;
-    // Update color palette
-    setChartDataPointColors([
-      colors.brand["600"],
-      colors.brand["200"],
-      colors.brand["800"],
-      colors.grey["400"],
-      colors.grey["500"],
-      colorScheme.default.borderHover,
-    ]);
     // Apply new colors scheme for data points
     chartRef.current.data.datasets = createDataPoints();
     // Update tooltip colors scheme
