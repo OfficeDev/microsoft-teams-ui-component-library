@@ -5,10 +5,10 @@ import { TeamsTheme } from "../../../themes";
 import { IChartData } from "../ChartTypes";
 import {
   tooltipTrigger,
-  tooltipAxisYLine,
   chartConfig,
   axesConfig,
   setTooltipColorScheme,
+  horizontalBarValue,
 } from "../ChartUtils";
 import { ChartContainer } from "./ChartContainer";
 import {
@@ -17,7 +17,7 @@ import {
   lineChartPatterns,
 } from "../ChartPatterns";
 
-export const LineStackedChart = ({
+export const BarHorizontalChart = ({
   title,
   data,
   siteVariables,
@@ -50,34 +50,36 @@ export const LineStackedChart = ({
       let dataPointConfig = {
         label: set.label,
         data: set.data,
-        borderWidth: 1,
+        borderWidth: 0,
+        barPercentage: 0.5,
+        borderSkipped: false,
         borderColor: colorScheme.default.background,
         hoverBorderColor: chartDataPointColors[i],
         backgroundColor: chartDataPointColors[i],
-        hoverBorderWidth: 2,
+        hoverBorderWidth: 0,
         hoverBackgroundColor: chartDataPointColors[i],
         pointBorderColor: colorScheme.default.background,
         pointBackgroundColor: colorScheme.default.foreground3,
         pointHoverBackgroundColor: colorScheme.default.foreground3,
         pointHoverBorderColor: chartDataPointColors[i],
-        pointHoverBorderWidth: 2,
+        pointHoverBorderWidth: 0,
         borderCapStyle: "round",
         borderJoinStyle: "round",
         pointBorderWidth: 0,
         pointRadius: 0,
-        pointHoverRadius: 3,
+        pointHoverRadius: 0,
         pointStyle: "circle",
         borderDash: [],
       };
       if (theme === TeamsTheme.HighContrast) {
         dataPointConfig = {
           ...dataPointConfig,
-          borderWidth: 3,
+          borderWidth: 1,
           hoverBorderColor: colorScheme.default.borderHover,
-          hoverBorderWidth: 4,
+          hoverBorderWidth: 3,
           pointBorderColor: colorScheme.default.border,
           pointHoverBorderColor: colorScheme.default.borderHover,
-          pointHoverRadius: 5,
+          pointHoverRadius: 0,
           pointStyle: lineChartPatterns[i].pointStyle,
           borderColor: colorScheme.brand.background,
           backgroundColor: buildPattern(chartDataPointPatterns(colorScheme)[i]),
@@ -91,7 +93,7 @@ export const LineStackedChart = ({
           }),
         };
       }
-      return dataPointConfig as Chart.ChartDataSets;
+      return dataPointConfig as any;
     });
 
   useEffect(() => {
@@ -101,22 +103,24 @@ export const LineStackedChart = ({
     if (!canvasRef.current) return;
     const ctx = canvasRef.current.getContext("2d");
     if (!ctx) return;
-    const config: any = chartConfig({ type: "line" });
+    const config: any = chartConfig({ type: "horizontalBar" });
+    config.options.layout.padding.top = -6;
+    config.options.layout.padding.left = -32;
 
-    // Stacked chart custom settings
-    config.options.tooltips.callbacks.title = (tooltipItems: any) => {
-      let total = 0;
-      data.datasets.map(
-        (dataset) => (total += dataset.data[tooltipItems[0].index])
-      );
-      return `${((tooltipItems[0].yLabel / total) * 100).toPrecision(2)}% (${
-        tooltipItems[0].yLabel
-      })`;
-    };
-    config.options.scales.yAxes[0].stacked = true;
+    config.options.hover.mode = "index";
+
+    config.options.scales.xAxes[0].ticks.display = false;
+    config.options.scales.xAxes[0].gridLines.display = false;
+
+    config.options.scales.yAxes[0].ticks.callback = (v: string) => v;
+    config.options.scales.yAxes[0].ticks.mirror = true;
+    config.options.scales.yAxes[0].ticks.padding = 0;
+    config.options.scales.yAxes[0].gridLines.display = false;
+
+    config.options.tooltips.position = "nearest";
 
     chartRef.current = new Chart(ctx, {
-      ...config,
+      ...(config as any),
       data: {
         labels: data.labels,
         datasets: [],
@@ -124,10 +128,9 @@ export const LineStackedChart = ({
       plugins: [
         {
           afterDatasetsDraw: ({ ctx, tooltip, chart }: any) => {
-            tooltipAxisYLine({
+            horizontalBarValue({
               chart,
               ctx,
-              tooltip,
             });
           },
         },
@@ -135,6 +138,8 @@ export const LineStackedChart = ({
     });
     const chart: any = chartRef.current;
 
+    chart.config.options.scales.yAxes[0].ticks.labelOffset =
+      chart.chartArea.bottom / data.datasets[0].data.length / 2 - 2;
     /**
      * Keyboard manipulations
      */
@@ -222,31 +227,13 @@ export const LineStackedChart = ({
     function changeFocus(e: KeyboardEvent) {
       removeDataPointsHoverStates();
       switch (e.key) {
-        case "ArrowRight":
+        case "ArrowDown":
           e.preventDefault();
           selectedIndex = (selectedIndex + 1) % meta().data.length;
           break;
-        case "ArrowLeft":
-          e.preventDefault();
-          selectedIndex = (selectedIndex || meta().data.length) - 1;
-          break;
         case "ArrowUp":
           e.preventDefault();
-          if (data.datasets.length > 1) {
-            selectedDataSet += 1;
-            if (selectedDataSet === data.datasets.length) {
-              selectedDataSet = 0;
-            }
-          }
-          break;
-        case "ArrowDown":
-          e.preventDefault();
-          if (data.datasets.length > 1) {
-            selectedDataSet -= 1;
-            if (selectedDataSet < 0) {
-              selectedDataSet = data.datasets.length - 1;
-            }
-          }
+          selectedIndex = (selectedIndex || meta().data.length) - 1;
           break;
       }
 

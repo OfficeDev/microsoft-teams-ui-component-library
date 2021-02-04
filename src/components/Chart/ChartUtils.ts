@@ -2,7 +2,7 @@ import { SiteVariablesPrepared } from "@fluentui/react-northstar";
 import Chart from "chart.js";
 import { IChartData, IChartDataSet } from ".";
 import { TeamsTheme } from "../../themes";
-import { Shapes, buildPattern, chartDataPointPatterns } from "./ChartPatterns";
+import { buildPattern, chartDataPointPatterns } from "./ChartPatterns";
 
 // TODO: Localization
 const suffixes = ["K", "M", "G", "T", "P", "E"];
@@ -136,8 +136,48 @@ export const tooltipAxisYLine = ({ chart, ctx, tooltip }: any) => {
   }
 };
 
-export const lineChartConfig = () => ({
-  type: "line",
+export const tooltipAxisXLine = ({ chart, ctx, tooltip }: any) => {
+  if (tooltip._active && tooltip._active.length) {
+    const activePoint = tooltip._active[0],
+      y = activePoint.tooltipPosition().y,
+      x = activePoint.tooltipPosition().x,
+      x_axis = chart.scales["x-axis-0"],
+      leftX = x_axis.left,
+      rightX = x_axis.right;
+
+    ctx.save();
+    // Line
+    ctx.beginPath();
+    ctx.moveTo(leftX - 20, y);
+    ctx.lineTo(rightX, y);
+    ctx.setLineDash([5, 5]);
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = chart.options.scales.yAxes[0].gridLines.color;
+    ctx.stroke();
+    ctx.restore();
+  }
+};
+
+export const horizontalBarValue = ({ chart, ctx }: any) => {
+  ctx.font = "bold 11px Segoe UI";
+  ctx.textAlign = "left";
+  ctx.textBaseline = "middle";
+  ctx.fillStyle = chart.options.scales.xAxes[0].ticks.fontColor;
+  chart.data.datasets.forEach((dataset: any, i: number) => {
+    const meta = chart.controller.getDatasetMeta(i);
+    meta.data.forEach((bar: any, index: number) => {
+      const data = dataset.data[index];
+      ctx.fillText(data, bar._model.x + 8, bar._model.y);
+    });
+  });
+};
+
+export const chartConfig = ({
+  type,
+}: {
+  type: "line" | "bar" | "horizontalBar";
+}) => ({
+  type,
   options: {
     responsive: true,
     maintainAspectRatio: false,
@@ -240,7 +280,7 @@ export const setTooltipColorScheme = ({
   chart,
   siteVariables,
   chartDataPointColors,
-  usingPatterns: applyPatterns = false,
+  usingPatterns = false,
 }: {
   chart: Chart;
   siteVariables: SiteVariablesPrepared;
@@ -250,10 +290,6 @@ export const setTooltipColorScheme = ({
   const { colorScheme, theme } = siteVariables;
   chart.options.tooltips = {
     ...chart.options.tooltips,
-    displayColors:
-      (theme === TeamsTheme.HighContrast && !applyPatterns) ||
-      theme === TeamsTheme.Dark ||
-      theme === TeamsTheme.Default,
     backgroundColor:
       theme === TeamsTheme.Dark
         ? colorScheme.default.border2
@@ -267,7 +303,7 @@ export const setTooltipColorScheme = ({
     callbacks: {
       ...chart.options.tooltips?.callbacks,
       labelColor:
-        applyPatterns && theme === TeamsTheme.HighContrast
+        usingPatterns && theme === TeamsTheme.HighContrast
           ? (tooltipItem: any) => ({
               borderColor: "transparent",
               backgroundColor: buildPattern({

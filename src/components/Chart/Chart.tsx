@@ -10,8 +10,11 @@ import {
   LineChart,
   LineAreaChart,
   LineStackedChart,
+  BarChart,
+  BarStackedChart,
   ChartEmptyState,
   ChartErrorState,
+  BarHorizontalChart,
 } from "./Charts";
 
 (ChartJS as any).defaults.global.legend.display = false;
@@ -20,6 +23,9 @@ const CHARTS = {
   [ChartOptions.Line]: LineChart,
   [ChartOptions.LineArea]: LineAreaChart,
   [ChartOptions.LineStacked]: LineStackedChart,
+  [ChartOptions.Bar]: BarChart,
+  [ChartOptions.BarStacked]: BarStackedChart,
+  [ChartOptions.BarHorizontal]: BarHorizontalChart,
 };
 
 /**

@@ -50,9 +50,9 @@ export const LineChart = () => {
 
 const stackedKnobGroupID = "Stacked chart";
 
-export const StackedChart = () => {
+export const StackedLineChart = () => {
   const dataVizProps = {
-    title: "Stacked chart sample",
+    title: "Stacked line chart sample",
     type: ChartOptions.LineStacked,
     data: {
       labels: ["Jan", "Feb", "March", "April", "May"],
@@ -98,6 +98,73 @@ export const AreaChart = () => {
     },
   };
   return <Chart {...object("Configuration", dataVizProps, areaKnobGroupID)} />;
+};
+
+const barKnobGroupID = "Bar chart";
+
+export const BarChart = () => {
+  const dataVizProps = {
+    title: "Bar chart sample",
+    type: ChartOptions.Bar,
+    data: {
+      labels: ["Jan", "Feb", "March", "April", "May"],
+      datasets: [
+        {
+          label: "Watches",
+          data: [200, 3600, 480, 5049, 4596],
+        },
+      ],
+    },
+  };
+  return <Chart {...object("Configuration", dataVizProps, barKnobGroupID)} />;
+};
+
+const stackedBarKnobGroupID = "Stacked bar chart";
+
+export const StackedBarChart = () => {
+  const dataVizProps = {
+    title: "Stacked bar chart sample",
+    type: ChartOptions.BarStacked,
+    data: {
+      labels: ["Jan", "Feb", "March", "April", "May"],
+      datasets: [
+        {
+          label: "Laptops",
+          data: [1860, 7700, 4100, 3012, 2930],
+        },
+        {
+          label: "Watches",
+          data: [1200, 3600, 2480, 5049, 4596],
+        },
+      ],
+    },
+  };
+  return (
+    <Chart {...object("Configuration", dataVizProps, stackedBarKnobGroupID)} />
+  );
+};
+
+const horizontalBarKnobGroupID = "Horizontal bar chart";
+
+export const HorizontalBarChart = () => {
+  const dataVizProps = {
+    title: "Horizontal bar chart sample",
+    type: ChartOptions.BarHorizontal,
+    data: {
+      labels: ["Jan", "Feb", "March", "April", "May"],
+      datasets: [
+        {
+          label: "Watches",
+          data: [200, 3600, 480, 5049, 4596],
+        },
+      ],
+    },
+  };
+  return (
+    <Chart
+      {...object("Configuration", dataVizProps, horizontalBarKnobGroupID)}
+    />
+  );
 };
 
 const noDataKnobGroupID = "Chart empty state";

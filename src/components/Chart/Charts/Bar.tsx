@@ -5,7 +5,7 @@ import { TeamsTheme } from "../../../themes";
 import { IChartData } from "../ChartTypes";
 import {
   tooltipTrigger,
-  tooltipAxisYLine,
+  tooltipAxisXLine,
   chartConfig,
   axesConfig,
   setTooltipColorScheme,
@@ -17,7 +17,7 @@ import {
   lineChartPatterns,
 } from "../ChartPatterns";
 
-export const LineStackedChart = ({
+export const BarChart = ({
   title,
   data,
   siteVariables,
@@ -50,34 +50,35 @@ export const LineStackedChart = ({
       let dataPointConfig = {
         label: set.label,
         data: set.data,
-        borderWidth: 1,
+        borderWidth: 0,
+        borderSkipped: false,
         borderColor: colorScheme.default.background,
         hoverBorderColor: chartDataPointColors[i],
         backgroundColor: chartDataPointColors[i],
-        hoverBorderWidth: 2,
+        hoverBorderWidth: 0,
         hoverBackgroundColor: chartDataPointColors[i],
         pointBorderColor: colorScheme.default.background,
         pointBackgroundColor: colorScheme.default.foreground3,
         pointHoverBackgroundColor: colorScheme.default.foreground3,
         pointHoverBorderColor: chartDataPointColors[i],
-        pointHoverBorderWidth: 2,
+        pointHoverBorderWidth: 0,
         borderCapStyle: "round",
         borderJoinStyle: "round",
         pointBorderWidth: 0,
         pointRadius: 0,
-        pointHoverRadius: 3,
+        pointHoverRadius: 0,
         pointStyle: "circle",
         borderDash: [],
       };
       if (theme === TeamsTheme.HighContrast) {
         dataPointConfig = {
           ...dataPointConfig,
-          borderWidth: 3,
+          borderWidth: 1,
           hoverBorderColor: colorScheme.default.borderHover,
-          hoverBorderWidth: 4,
+          hoverBorderWidth: 3,
           pointBorderColor: colorScheme.default.border,
           pointHoverBorderColor: colorScheme.default.borderHover,
-          pointHoverRadius: 5,
+          pointHoverRadius: 0,
           pointStyle: lineChartPatterns[i].pointStyle,
           borderColor: colorScheme.brand.background,
           backgroundColor: buildPattern(chartDataPointPatterns(colorScheme)[i]),
@@ -91,7 +92,7 @@ export const LineStackedChart = ({
           }),
         };
       }
-      return dataPointConfig as Chart.ChartDataSets;
+      return dataPointConfig as any;
     });
 
   useEffect(() => {
@@ -101,22 +102,13 @@ export const LineStackedChart = ({
     if (!canvasRef.current) return;
     const ctx = canvasRef.current.getContext("2d");
     if (!ctx) return;
-    const config: any = chartConfig({ type: "line" });
-
-    // Stacked chart custom settings
-    config.options.tooltips.callbacks.title = (tooltipItems: any) => {
-      let total = 0;
-      data.datasets.map(
-        (dataset) => (total += dataset.data[tooltipItems[0].index])
-      );
-      return `${((tooltipItems[0].yLabel / total) * 100).toPrecision(2)}% (${
-        tooltipItems[0].yLabel
-      })`;
-    };
-    config.options.scales.yAxes[0].stacked = true;
+    const config: any = chartConfig({ type: "bar" });
+    config.options.hover.mode = "index";
+    config.options.scales.xAxes[0].gridLines.offsetGridLines =
+      data.datasets.length > 1 ? true : false;
 
     chartRef.current = new Chart(ctx, {
-      ...config,
+      ...(config as any),
       data: {
         labels: data.labels,
         datasets: [],
@@ -124,7 +116,7 @@ export const LineStackedChart = ({
       plugins: [
         {
           afterDatasetsDraw: ({ ctx, tooltip, chart }: any) => {
-            tooltipAxisYLine({
+            tooltipAxisXLine({
               chart,
               ctx,
               tooltip,

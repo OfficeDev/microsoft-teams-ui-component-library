@@ -6,7 +6,7 @@ import { IChartData } from "../ChartTypes";
 import {
   tooltipTrigger,
   tooltipAxisYLine,
-  lineChartConfig,
+  chartConfig,
   hexToRgb,
   axesConfig,
   setTooltipColorScheme,
@@ -121,10 +121,10 @@ export const LineAreaChart = ({
     if (!canvasRef.current) return;
     const ctx = canvasRef.current.getContext("2d");
     if (!ctx) return;
-    const chartConfig = lineChartConfig();
+    const config: any = chartConfig({ type: "line" });
 
     chartRef.current = new Chart(ctx, {
-      ...(chartConfig as any),
+      ...config,
       data: {
         labels: data.labels,
         datasets: [],

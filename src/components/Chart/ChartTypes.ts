@@ -13,6 +13,9 @@ export enum ChartOptions {
   Line = "line",
   LineStacked = "lineStacked",
   LineArea = "lineArea",
+  Bar = "bar",
+  BarStacked = "barStacked",
+  BarHorizontal = "barHorizontal",
 }
 
 export enum PointStyles {

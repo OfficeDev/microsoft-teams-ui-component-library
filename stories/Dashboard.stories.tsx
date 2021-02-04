@@ -230,7 +230,7 @@ const dataVizWidgets: IWidget[] = [
     link: linkExample,
   },
   {
-    title: "Stacked chart sample",
+    title: "Stacked line chart sample",
     size: WidgetSize.Double,
     body: [
       {
@@ -238,7 +238,7 @@ const dataVizWidgets: IWidget[] = [
         title: "",
         content: (
           <Chart
-            title="Stacked chart sample"
+            title="Stacked line chart sample"
             type={ChartOptions.LineStacked}
             data={{
               labels: ["Jan", "Feb", "March", "April", "May"],
@@ -292,6 +292,88 @@ const dataVizWidgets: IWidget[] = [
         ),
       },
     ],
+  },
+  {
+    title: "Bar chart sample",
+    size: WidgetSize.Single,
+    body: [
+      {
+        id: "Bar chart sample",
+        title: "",
+        content: (
+          <Chart
+            title="Bar chart sample"
+            type={ChartOptions.Bar}
+            data={{
+              labels: ["Jan", "Feb", "March", "April", "May"],
+              datasets: [
+                {
+                  label: "Watches",
+                  data: [2300, 3600, 4800, 5049, 4596],
+                },
+              ],
+            }}
+          />
+        ),
+      },
+    ],
+    link: linkExample,
+  },
+  {
+    title: "Stacked bar chart sample",
+    size: WidgetSize.Single,
+    body: [
+      {
+        id: "Stacked bar chart sample",
+        title: "",
+        content: (
+          <Chart
+            title="Stacked bar chart sample"
+            type={ChartOptions.BarStacked}
+            data={{
+              labels: ["Jan", "Feb", "March", "April", "May"],
+              datasets: [
+                {
+                  label: "Laptops",
+                  data: [1860, 7700, 4100, 3012, 2930],
+                },
+                {
+                  label: "Watches",
+                  data: [1200, 3600, 2480, 5049, 4596],
+                },
+              ],
+            }}
+          />
+        ),
+      },
+    ],
+    link: linkExample,
+  },
+  {
+    title: "Horizontal bar chart sample",
+    size: WidgetSize.Single,
+    body: [
+      {
+        id: "Horizontal bar chart sample",
+        title: "",
+        content: (
+          <Chart
+            title="Horizontal bar chart sample"
+            type={ChartOptions.BarHorizontal}
+            data={{
+              labels: ["Jan", "Feb", "March", "April", "May"],
+              datasets: [
+                {
+                  label: "Watches",
+                  data: [200, 3600, 480, 5049, 4596],
+                },
+              ],
+            }}
+          />
+        ),
+      },
+    ],
+    link: linkExample,
   },
   {
     title: "Error chart state",
