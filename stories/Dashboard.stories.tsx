@@ -376,6 +376,44 @@ const dataVizWidgets: IWidget[] = [
     link: linkExample,
   },
   {
+    title: "Grouped bar chart sample",
+    size: WidgetSize.Double,
+    body: [
+      {
+        id: "1",
+        title: "",
+        content: (
+          <Chart
+            title="Grouped bar chart sample"
+            type={ChartOptions.Bar}
+            data={{
+              labels: ["Jan", "Feb", "March", "April", "May"],
+              datasets: [
+                {
+                  label: "Tablets",
+                  data: [4860, 6700, 3100, 2012, 1930],
+                },
+                {
+                  label: "Phones",
+                  data: [4100, 1600, 3180, 3049, 3596],
+                },
+                {
+                  label: "Laptops",
+                  data: [1860, 7700, 4100, 3012, 2930],
+                },
+                {
+                  label: "Watches",
+                  data: [1200, 3600, 2480, 5049, 4596],
+                },
+              ],
+            }}
+          />
+        ),
+      },
+    ],
+    link: linkExample,
+  },
+  {
     title: "Error chart state",
     size: WidgetSize.Single,
     body: [
