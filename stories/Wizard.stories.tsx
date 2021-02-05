@@ -7,13 +7,23 @@ import { object } from "@storybook/addon-knobs";
 import fakerEN from "faker/locale/en_US";
 import fakerFA from "faker/locale/fa";
 
-import { Wizard } from "../src";
-import { TInputWidth } from "../src/components/Form/Form";
+import { Button } from "@fluentui/react-northstar";
+
+import { Wizard, WizardDialog } from "../src";
+import { TInputWidth } from "../src/components/Form/FormContent";
 
 const eventsFromNames = actions("onInteraction");
 
 const fake = (template: string) => {
   return { "en-US": fakerEN.fake(template), fa: fakerFA.fake(template) };
+};
+
+const designLink = {
+  design: {
+    type: "figma",
+    url:
+      "https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=388%3A8",
+  },
 };
 
 export default {
@@ -24,6 +34,7 @@ export default {
 const wizardKnobGroupID = "Wizard";
 const kitchenSinkConfig = {
   stepTitles: range(8).map((_) => fake("{{commerce.product}}")),
+  trigger: <Button content="↗️" />,
   activeStepIndex: 2,
   activeStep: {
     submit: {
@@ -141,7 +152,7 @@ const kitchenSinkConfig = {
   },
 };
 
-export const KitchenSink = () => {
+export const KitchenSinkInBaseSurface = () => {
   return (
     <Wizard
       {...object("Configuration", kitchenSinkConfig, wizardKnobGroupID)}
@@ -150,10 +161,14 @@ export const KitchenSink = () => {
   );
 };
 
-KitchenSink.parameters = {
-  design: {
-    type: "figma",
-    url:
-      "https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=388%3A8",
-  },
+export const KitchenSinkDialog = () => {
+  return (
+    <WizardDialog
+      {...object("Configuration", kitchenSinkConfig, wizardKnobGroupID)}
+      {...eventsFromNames}
+    />
+  );
 };
+
+KitchenSinkInBaseSurface.parameters = designLink;
+KitchenSinkDialog.parameters = designLink;

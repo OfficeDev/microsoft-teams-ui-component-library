@@ -2,6 +2,7 @@ import React from "react";
 import omit from "lodash/omit";
 import {
   Box,
+  Dialog,
   List,
   ProviderConsumer as FluentUIThemeConsumer,
   SiteVariablesPrepared,
@@ -12,6 +13,7 @@ import { AcceptIcon } from "@fluentui/react-icons-northstar";
 import {
   IFormWizardStepProps,
   FormWizardStep,
+  FormWizardStepDialog,
   TFormInteraction,
 } from "../Form/Form";
 import { getText, TTextObject } from "../../translations";
@@ -29,6 +31,10 @@ export interface IWizardProps {
   activeStepIndex: number;
   activeStep: IFormWizardStepProps;
   onInteraction?: (interaction: TWizardInteraction) => void;
+}
+
+export interface IWizardDialogProps extends IWizardProps {
+  trigger: JSX.Element;
 }
 
 const WizardSidebar = ({
@@ -129,8 +135,6 @@ const WizardSidebar = ({
   );
 };
 
-export const WizardDialog = () => {};
-
 export const Wizard = ({
   stepTitles,
   activeStepIndex,
@@ -146,4 +150,11 @@ export const Wizard = ({
       />
     </>
   );
+};
+
+export const WizardDialog = ({
+  activeStep: formProps,
+  ...props
+}: IWizardDialogProps) => {
+  return <FormWizardStepDialog {...formProps} {...props} />;
 };

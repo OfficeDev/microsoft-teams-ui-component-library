@@ -46,3 +46,4 @@ export { TSortable } from "./components/Table/tableBreakpoints";
 export { IToolbarProps, Toolbar } from "./components/Toolbar/Toolbar";
 
 export { IWizardProps, Wizard } from "./components/Wizard/Wizard";
+export { IWizardDialogProps, WizardDialog } from "./components/Wizard/Wizard";
