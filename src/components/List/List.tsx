@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import pick from "lodash/pick";
+import { Box } from "@fluentui/react-northstar";
 import {
   Table,
   ITableProps,
@@ -15,9 +16,13 @@ import {
   TFilters,
   TToolbarInteraction,
 } from "../Toolbar/Toolbar";
-import { TActions } from "../..";
+import { TActions, Communication } from "../..";
+import { TCommunication, TCommunicationInteraction } from "../Communication";
 
-export type TListInteraction = TTableInteraction | TToolbarInteraction;
+export type TListInteraction =
+  | TTableInteraction
+  | TToolbarInteraction
+  | TCommunicationInteraction;
 
 export interface IListProps extends ITableProps {
   emptySelectionActionGroups: TActionGroups;
@@ -25,6 +30,7 @@ export interface IListProps extends ITableProps {
   filtersSingleSelect?: boolean;
   find?: boolean;
   onInteraction?: (interaction: TListInteraction) => void;
+  emptyState?: TCommunication;
 }
 
 export const List = (props: IListProps) => {
@@ -208,13 +214,22 @@ export const List = (props: IListProps) => {
         aria-controls="fluentui-teams__list-content"
         aria-label="List content controls"
       />
-      <Table
-        {...tableProps}
-        {...{ onSelectedChange, filterBy }}
-        aria-live="polite"
-        id="fluentui-teams__list-content"
-        aria-label="List content"
-      />
+      {Object.keys(props.rows).length > 0 || !props.emptyState ? (
+        <Table
+          {...tableProps}
+          {...{ onSelectedChange, filterBy }}
+          aria-live="polite"
+          id="fluentui-teams__list-content"
+          aria-label="List content"
+        />
+      ) : (
+        <Box styles={{ height: "calc(100vh - 4.25rem)" }}>
+          <Communication
+            {...props.emptyState}
+            onInteraction={props.onInteraction}
+          />
+        </Box>
+      )}
     </>
   );
 };
