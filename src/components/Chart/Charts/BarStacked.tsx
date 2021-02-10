@@ -9,11 +9,12 @@ import {
   chartConfig,
   axesConfig,
   setTooltipColorScheme,
+  usNumberFormat,
 } from "../ChartUtils";
 import { ChartContainer } from "./ChartContainer";
 import {
   buildPattern,
-  chartDataPointPatterns,
+  chartBarDataPointPatterns,
   lineChartPatterns,
 } from "../ChartPatterns";
 
@@ -81,14 +82,15 @@ export const BarStackedChart = ({
           pointHoverRadius: 0,
           pointStyle: lineChartPatterns[i].pointStyle,
           borderColor: colorScheme.brand.background,
-          backgroundColor: buildPattern(chartDataPointPatterns(colorScheme)[i]),
+          backgroundColor: buildPattern({
+            ...chartBarDataPointPatterns(colorScheme)[i],
+            backgroundColor: colorScheme.default.background,
+            patternColor: colorScheme.brand.background,
+          }),
           hoverBackgroundColor: buildPattern({
-            shapeType: chartDataPointPatterns(colorScheme)[i].shapeType,
-            backgroundColor: chartDataPointPatterns(siteVariables.colorScheme)[
-              i
-            ].backgroundColor,
+            ...chartBarDataPointPatterns(colorScheme)[i],
+            backgroundColor: colorScheme.default.background,
             patternColor: colorScheme.default.borderHover,
-            size: chartDataPointPatterns(colorScheme)[i].size,
           }),
         };
       }
@@ -113,9 +115,9 @@ export const BarStackedChart = ({
       data.datasets.map(
         (dataset) => (total += dataset.data[tooltipItems[0].index])
       );
-      return `${((tooltipItems[0].yLabel / total) * 100).toPrecision(2)}% (${
-        tooltipItems[0].yLabel
-      })`;
+      return `${((tooltipItems[0].yLabel / total) * 100).toPrecision(
+        2
+      )}% (${usNumberFormat(tooltipItems[0].yLabel)})`;
     };
 
     chartRef.current = new Chart(ctx, {
@@ -172,13 +174,13 @@ export const BarStackedChart = ({
 
     function showFocusedDataPoint() {
       hoverDataPoint(selectedIndex);
-      tooltipTrigger(
-        chartRef.current as any,
+      tooltipTrigger({
+        chart: chartRef.current as any,
         data,
-        selectedDataSet,
-        selectedIndex,
-        siteVariables
-      );
+        set: selectedDataSet,
+        index: selectedIndex,
+        siteVariables,
+      });
       document
         .getElementById(
           `${chartId}-tooltip-${selectedDataSet}-${selectedIndex}`
@@ -210,9 +212,11 @@ export const BarStackedChart = ({
           (dataset: any, i: number) => {
             dataset.borderColor = siteVariables.colorScheme.default.border;
             dataset.borderWidth = 2;
-            dataset.backgroundColor = buildPattern(
-              chartDataPointPatterns(colorScheme)[i]
-            );
+            dataset.backgroundColor = buildPattern({
+              ...chartBarDataPointPatterns(colorScheme)[i],
+              backgroundColor: colorScheme.default.background,
+              patternColor: colorScheme.brand.background,
+            });
           }
         );
         chart.update();
@@ -285,7 +289,7 @@ export const BarStackedChart = ({
       chart: chartRef.current,
       siteVariables,
       chartDataPointColors,
-      usingPatterns: true,
+      patterns: chartBarDataPointPatterns,
     });
     // Update axeses
     axesConfig({ chart: chartRef.current, ctx, colorScheme });
@@ -298,7 +302,7 @@ export const BarStackedChart = ({
       siteVariables={siteVariables}
       data={data}
       chartDataPointColors={chartDataPointColors}
-      usingPatterns
+      patterns={chartBarDataPointPatterns}
     >
       <canvas
         id={chartId}

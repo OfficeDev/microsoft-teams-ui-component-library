@@ -8,6 +8,7 @@ import {
   SiteVariablesPrepared,
   tabListBehavior,
   Menu,
+  ArrowRightIcon,
 } from "@fluentui/react-northstar";
 import { DashboardCallout, IWidgetActionKey } from "./DashboardCallout";
 
@@ -187,7 +188,6 @@ export const WidgetFooter = ({
         as="a"
         href={link.href}
         target="_blank"
-        content="View more"
         size="small"
         color="brand"
         styles={{
@@ -196,7 +196,10 @@ export const WidgetFooter = ({
             outlineColor: siteVariables.colorScheme.default.foregroundActive,
           },
         }}
-      />
+      >
+        View more
+        <ArrowRightIcon size="small" styles={{ margin: "0 .4rem" }} />
+      </Text>
     </Flex>
   </Card.Footer>
 );

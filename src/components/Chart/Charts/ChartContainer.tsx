@@ -7,7 +7,7 @@ import {
   BoldIcon,
   Flex,
 } from "@fluentui/react-northstar";
-import { IChartData } from "../ChartTypes";
+import { IChartData, IChartPatterns, IDraw } from "../ChartTypes";
 import { TeamsTheme } from "../../../themes";
 import { legendLabels } from "../ChartPatterns";
 
@@ -22,12 +22,12 @@ const LabelColorValue = ({
   index,
   siteVariables,
   dataPointColor,
-  usingPatterns,
+  patterns,
 }: {
   index: number;
   siteVariables: SiteVariablesPrepared;
   dataPointColor: string;
-  usingPatterns: boolean;
+  patterns?: IChartPatterns;
 }) => {
   const { borderRadius, theme, colorScheme, colors } = siteVariables;
   const labelColorValueRef = React.useRef<HTMLCanvasElement | null>(null);
@@ -38,7 +38,7 @@ const LabelColorValue = ({
       canvasRef,
       theme,
       colorScheme,
-      usingPatterns,
+      patterns,
       dataPointColor,
       index,
     });
@@ -57,7 +57,7 @@ const LabelColorValue = ({
           width: theme === TeamsTheme.HighContrast ? "1.25rem" : "0.6rem", // .6rem
           height: theme === TeamsTheme.HighContrast ? "1rem" : "0.6rem",
           userSelect: "none",
-          border: usingPatterns ? `1px solid ${colors.white}` : "none",
+          border: patterns ? `1px solid ${colors.white}` : "none",
           borderRadius: borderRadius,
         }}
       />
@@ -69,7 +69,7 @@ const LegendItems = (
   data: IChartData,
   siteVariables: SiteVariablesPrepared,
   chartDataPointColors: any,
-  usingPatterns: boolean
+  patterns?: IChartPatterns
 ): ILegendItem[] =>
   Array.from(data.datasets, (dataset, i) => {
     return {
@@ -91,7 +91,7 @@ const LegendItems = (
             index={i}
             siteVariables={siteVariables}
             dataPointColor={chartDataPointColors[i]}
-            usingPatterns={usingPatterns}
+            patterns={patterns}
           />
           {dataset.label}
         </LegendItem>
@@ -105,13 +105,13 @@ export const ChartContainer = ({
   children,
   siteVariables,
   chartDataPointColors,
-  usingPatterns = false,
+  patterns,
 }: {
   data: IChartData;
   children: React.ReactNode;
   siteVariables: SiteVariablesPrepared;
   chartDataPointColors: any;
-  usingPatterns?: boolean;
+  patterns?: IChartPatterns;
 }) => {
   const [overflowOpen, setOverflowOpen] = useState(false);
   const [overflowItems, setOverflowItems] = useState<number>(0);
@@ -120,7 +120,7 @@ export const ChartContainer = ({
     data,
     siteVariables,
     chartDataPointColors,
-    usingPatterns
+    patterns
   );
 
   useEffect(() => {
@@ -128,7 +128,7 @@ export const ChartContainer = ({
       data,
       siteVariables,
       chartDataPointColors,
-      usingPatterns
+      patterns
     );
   }, [theme]);
 

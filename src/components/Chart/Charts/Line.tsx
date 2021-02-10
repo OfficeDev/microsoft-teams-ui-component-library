@@ -146,13 +146,13 @@ export const LineChart = ({
 
     function showFocusedDataPoint() {
       hoverDataPoint(selectedIndex);
-      tooltipTrigger(
-        chartRef.current as any,
+      tooltipTrigger({
+        chart: chartRef.current as any,
         data,
-        selectedDataSet,
-        selectedIndex,
-        siteVariables
-      );
+        set: selectedDataSet,
+        index: selectedIndex,
+        siteVariables,
+      });
       document
         .getElementById(
           `${chartId}-tooltip-${selectedDataSet}-${selectedIndex}`

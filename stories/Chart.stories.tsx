@@ -200,6 +200,37 @@ export const HorizontalBarChart = () => {
   );
 };
 
+const horizontalStackedBarKnobGroupID = "Horizontal bar chart";
+
+export const HorizontalStackedBarChart = () => {
+  const dataVizProps = {
+    title: "Horizontal bar chart sample",
+    type: ChartOptions.BarHorizontalStacked,
+    data: {
+      labels: ["Jan", "Feb", "March", "April", "May"],
+      datasets: [
+        {
+          label: "Laptops",
+          data: [1860, 7700, 4100, 3012, 2930],
+        },
+        {
+          label: "Watches",
+          data: [1200, 3600, 2480, 5049, 4596],
+        },
+      ],
+    },
+  };
+  return (
+    <Chart
+      {...object(
+        "Configuration",
+        dataVizProps,
+        horizontalStackedBarKnobGroupID
+      )}
+    />
+  );
+};
+
 const noDataKnobGroupID = "Chart empty state";
 
 export const NoDataState = () => {

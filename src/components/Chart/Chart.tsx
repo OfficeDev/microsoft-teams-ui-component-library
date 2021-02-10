@@ -15,6 +15,7 @@ import {
   ChartEmptyState,
   ChartErrorState,
   BarHorizontalChart,
+  BarHorizontalStackedChart,
 } from "./Charts";
 
 (ChartJS as any).defaults.global.legend.display = false;
@@ -26,6 +27,7 @@ const CHARTS = {
   [ChartOptions.Bar]: BarChart,
   [ChartOptions.BarStacked]: BarStackedChart,
   [ChartOptions.BarHorizontal]: BarHorizontalChart,
+  [ChartOptions.BarHorizontalStacked]: BarHorizontalStackedChart,
 };
 
 /**

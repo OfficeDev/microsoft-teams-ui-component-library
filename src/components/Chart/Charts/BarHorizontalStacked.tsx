@@ -5,19 +5,16 @@ import { TeamsTheme } from "../../../themes";
 import { IChartData } from "../ChartTypes";
 import {
   tooltipTrigger,
-  tooltipAxisXLine,
   chartConfig,
   axesConfig,
   setTooltipColorScheme,
+  usNumberFormat,
+  horizontalStackedBarValue,
 } from "../ChartUtils";
 import { ChartContainer } from "./ChartContainer";
-import {
-  buildPattern,
-  chartBarDataPointPatterns,
-  lineChartPatterns,
-} from "../ChartPatterns";
+import { buildPattern, chartBarDataPointPatterns } from "../ChartPatterns";
 
-export const BarChart = ({
+export const BarHorizontalStackedChart = ({
   title,
   data,
   siteVariables,
@@ -51,6 +48,7 @@ export const BarChart = ({
         label: set.label,
         data: set.data,
         borderWidth: 0,
+        barPercentage: 0.5,
         borderSkipped: false,
         borderColor: colorScheme.default.background,
         hoverBorderColor: chartDataPointColors[i],
@@ -100,10 +98,36 @@ export const BarChart = ({
     if (!canvasRef.current) return;
     const ctx = canvasRef.current.getContext("2d");
     if (!ctx) return;
-    const config: any = chartConfig({ type: "bar" });
-    config.options.hover.mode = "index";
-    config.options.scales.xAxes[0].gridLines.offsetGridLines =
-      data.datasets.length > 1 ? true : false;
+    const config: any = chartConfig({ type: "horizontalBar" });
+    config.options.layout.padding.top = -6;
+    config.options.layout.padding.left = -32;
+
+    config.options.hover.mode = "point";
+
+    config.options.scales.yAxes[0].stacked = true;
+    config.options.scales.xAxes[0].stacked = true;
+
+    config.options.scales.xAxes[0].ticks.display = false;
+    config.options.scales.xAxes[0].gridLines.display = false;
+
+    config.options.scales.yAxes[0].ticks.callback = (v: string) => v;
+    config.options.scales.yAxes[0].ticks.mirror = true;
+    config.options.scales.yAxes[0].ticks.padding = 0;
+    config.options.scales.yAxes[0].gridLines.display = false;
+
+    config.options.tooltips.mode = "nearest";
+    config.options.tooltips.axis = "y";
+
+    // Stacked chart custom settings
+    config.options.tooltips.callbacks.title = (tooltipItems: any) => {
+      let total = 0;
+      data.datasets.map(
+        (dataset) => (total += dataset.data[tooltipItems[0].index])
+      );
+      return `${((tooltipItems[0].xLabel / total) * 100).toPrecision(
+        2
+      )}% (${usNumberFormat(tooltipItems[0].xLabel)})`;
+    };
 
     chartRef.current = new Chart(ctx, {
       ...(config as any),
@@ -114,10 +138,9 @@ export const BarChart = ({
       plugins: [
         {
           afterDatasetsDraw: ({ ctx, tooltip, chart }: any) => {
-            tooltipAxisXLine({
+            horizontalStackedBarValue({
               chart,
               ctx,
-              tooltip,
             });
           },
         },
@@ -125,6 +148,8 @@ export const BarChart = ({
     });
     const chart: any = chartRef.current;
 
+    chart.config.options.scales.yAxes[0].ticks.labelOffset =
+      chart.chartArea.bottom / data.datasets[0].data.length / 2 - 2;
     /**
      * Keyboard manipulations
      */
@@ -214,31 +239,13 @@ export const BarChart = ({
     function changeFocus(e: KeyboardEvent) {
       removeDataPointsHoverStates();
       switch (e.key) {
-        case "ArrowRight":
+        case "ArrowDown":
           e.preventDefault();
           selectedIndex = (selectedIndex + 1) % meta().data.length;
           break;
-        case "ArrowLeft":
-          e.preventDefault();
-          selectedIndex = (selectedIndex || meta().data.length) - 1;
-          break;
         case "ArrowUp":
           e.preventDefault();
-          if (data.datasets.length > 1) {
-            selectedDataSet += 1;
-            if (selectedDataSet === data.datasets.length) {
-              selectedDataSet = 0;
-            }
-          }
-          break;
-        case "ArrowDown":
-          e.preventDefault();
-          if (data.datasets.length > 1) {
-            selectedDataSet -= 1;
-            if (selectedDataSet < 0) {
-              selectedDataSet = data.datasets.length - 1;
-            }
-          }
+          selectedIndex = (selectedIndex || meta().data.length) - 1;
           break;
       }
 
@@ -278,7 +285,7 @@ export const BarChart = ({
     });
     // Update axeses
     axesConfig({ chart: chartRef.current, ctx, colorScheme });
-
+    chartRef.current.options.defaultColor = colorScheme.default.foreground;
     chartRef.current.update();
   }, [theme]);
 

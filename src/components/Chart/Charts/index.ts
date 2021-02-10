@@ -4,5 +4,6 @@ export * from "./LineStacked";
 export * from "./Bar";
 export * from "./BarStacked";
 export * from "./BarHorizontal";
+export * from "./BarHorizontalStacked";
 export * from "./ErrorState";
 export * from "./EmptyState";

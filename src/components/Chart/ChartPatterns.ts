@@ -1,5 +1,11 @@
 import { TeamsTheme } from "../../themes";
-import { ILineChartPatterns, PointStyles } from "./ChartTypes";
+import {
+  IChartPatterns,
+  IDraw,
+  ILineChartPatterns,
+  PointStyles,
+  Shapes,
+} from "./ChartTypes";
 
 const BACKGROUND_COLOR = "transparent";
 const PATTERN_COLOR = "rgba(0, 0, 0, 0.8)";
@@ -19,27 +25,29 @@ export const legendLabels = ({
   canvasRef,
   theme,
   colorScheme,
-  usingPatterns,
   dataPointColor,
   index,
+  patterns,
 }: {
   canvasRef: HTMLCanvasElement;
   theme: TeamsTheme;
   colorScheme: any;
-  usingPatterns: boolean;
   dataPointColor: string;
   index: number;
+  patterns?: IChartPatterns;
 }) => {
   if (!canvasRef) return;
   const ctx: any = canvasRef.getContext("2d");
   if (!ctx) return;
   if (theme === TeamsTheme.HighContrast) {
-    if (usingPatterns) {
+    if (patterns) {
       ctx.setTransform(1.4, 0, 0, 1, 0, 0);
       ctx.scale(12, 10);
-      (ctx.fillStyle as any) = buildPattern(
-        chartDataPointPatterns(colorScheme)[index]
-      );
+      (ctx.fillStyle as any) = buildPattern({
+        ...patterns(colorScheme)[index],
+        backgroundColor: colorScheme.default.background,
+        patternColor: colorScheme.brand.background,
+      });
       ctx.fillRect(-15, -15, canvasRef.width, canvasRef.height);
     } else {
       ctx.scale(15, 15);
@@ -84,43 +92,62 @@ export const legendLabels = ({
   }
 };
 
-export const chartDataPointPatterns = (colorScheme: any) => {
+export const chartLineStackedDataPointPatterns: IChartPatterns = (
+  colorScheme: any
+) => {
   return [
     {
       shapeType: Shapes.Square,
-      backgroundColor: colorScheme.default.background,
-      patternColor: colorScheme.brand.background,
       size: 10,
     },
     {
       shapeType: Shapes.DiagonalRightLeft,
-      backgroundColor: colorScheme.default.background,
-      patternColor: colorScheme.brand.background,
       size: 5,
     },
     {
       shapeType: Shapes.Grid,
-      backgroundColor: colorScheme.default.background,
-      patternColor: colorScheme.brand.background,
       size: 10,
     },
     {
       shapeType: Shapes.VerticalLine,
-      backgroundColor: colorScheme.default.background,
-      patternColor: colorScheme.brand.background,
       size: 10,
     },
     {
       shapeType: Shapes.GridRightLeft,
-      backgroundColor: colorScheme.default.background,
-      patternColor: colorScheme.brand.background,
       size: 3,
     },
     {
       shapeType: Shapes.Diagonal,
-      backgroundColor: colorScheme.default.background,
-      patternColor: colorScheme.brand.background,
       size: 5,
+    },
+  ];
+};
+
+export const chartBarDataPointPatterns: IChartPatterns = (colorScheme: any) => {
+  return [
+    {
+      shapeType: Shapes.DiagonalRightLeft,
+      size: 5,
+    },
+    {
+      shapeType: Shapes.GridRightLeft,
+      size: 3,
+    },
+    {
+      shapeType: Shapes.Diagonal,
+      size: 5,
+    },
+    {
+      shapeType: Shapes.Square,
+      size: 10,
+    },
+    {
+      shapeType: Shapes.Grid,
+      size: 10,
+    },
+    {
+      shapeType: Shapes.VerticalLine,
+      size: 7,
     },
   ];
 };
@@ -354,14 +381,6 @@ class GridRightLeft extends Grid {
   }
 }
 
-export enum Shapes {
-  Square = "square",
-  DiagonalRightLeft = "diagonalRightLeft",
-  Grid = "grid",
-  Diagonal = "diagonal",
-  VerticalLine = "verticalLine",
-  GridRightLeft = "gridRightLeft",
-}
 const shapes = {
   [Shapes.Square]: Square,
   [Shapes.DiagonalRightLeft]: DiagonalRightLeft,
@@ -370,19 +389,18 @@ const shapes = {
   [Shapes.VerticalLine]: VerticalLine,
   [Shapes.GridRightLeft]: GridRightLeft,
 };
-interface IDraw {
-  shapeType: Shapes;
-  backgroundColor: string;
-  patternColor: string;
-  size: number;
-}
 
 export function buildPattern({
   shapeType,
   backgroundColor,
   patternColor,
   size,
-}: IDraw) {
+}: {
+  shapeType: Shapes;
+  size: number;
+  backgroundColor: string;
+  patternColor: string;
+}) {
   const patternCanvas = document.createElement("canvas");
   const patternContext = patternCanvas.getContext("2d");
   const outerSize = size * 2;

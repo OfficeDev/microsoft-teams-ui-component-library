@@ -1,8 +1,11 @@
 import { SiteVariablesPrepared } from "@fluentui/react-northstar";
 import Chart from "chart.js";
-import { IChartData, IChartDataSet } from ".";
 import { TeamsTheme } from "../../themes";
-import { buildPattern, chartDataPointPatterns } from "./ChartPatterns";
+import { IChartData, IChartDataSet, IChartPatterns, IDraw } from "./ChartTypes";
+import {
+  buildPattern,
+  chartLineStackedDataPointPatterns,
+} from "./ChartPatterns";
 
 // TODO: Localization
 const suffixes = ["K", "M", "G", "T", "P", "E"];
@@ -40,14 +43,35 @@ export const hexToRgb = (hex: string) => {
     : null;
 };
 
-export function tooltipTrigger(
-  chart: any,
-  data: IChartData,
-  set: number,
-  index: number,
-  siteVariables: SiteVariablesPrepared,
-  mergeDuplicates?: boolean
-) {
+export const usNumberFormat = (value: number | string): string =>
+  String(value)
+    .split("")
+    .reverse()
+    .join("")
+    .replace(/(\d{3})/g, "$1,")
+    .replace(/\,$/, "")
+    .split("")
+    .reverse()
+    .join("");
+
+export function tooltipTrigger({
+  chart,
+  data,
+  set,
+  index,
+  siteVariables,
+  mergeDuplicates,
+  patterns,
+}: {
+  chart: any;
+  data: IChartData;
+  set: number;
+  index: number;
+  siteVariables: SiteVariablesPrepared;
+  mergeDuplicates?: boolean;
+  patterns?: (colorSheme: any) => IDraw[];
+}) {
+  const { theme, colorScheme } = siteVariables;
   if (mergeDuplicates) {
     const duplicates: number[] = [];
     const segments: any[] = [];
@@ -56,45 +80,45 @@ export function tooltipTrigger(
       if (dataset.data[index] === data.datasets[set].data[index]) {
         duplicates.push(i);
       }
-      if (siteVariables.theme === TeamsTheme.HighContrast) {
-        chart.data.datasets[i].borderColor =
-          siteVariables.colorScheme.default.border;
+      if (theme === TeamsTheme.HighContrast) {
+        chart.data.datasets[i].borderColor = colorScheme.default.border;
         chart.data.datasets[i].borderWidth = 2;
       }
     });
     duplicates.forEach((segmentId) => {
       segments.push(chart.getDatasetMeta(segmentId).data[index]);
-      if (siteVariables.theme === TeamsTheme.HighContrast) {
+      if (theme === TeamsTheme.HighContrast) {
         chart.data.datasets[segmentId].borderColor =
-          siteVariables.colorScheme.default.borderHover;
+          colorScheme.default.borderHover;
         chart.data.datasets[segmentId].borderWidth = 4;
       }
     });
-    if (siteVariables.theme === TeamsTheme.HighContrast) {
+    if (theme === TeamsTheme.HighContrast) {
       chart.update();
     }
     chart.tooltip._active = segments;
   } else {
     const segment = chart.getDatasetMeta(set).data[index];
     chart.tooltip._active = [segment];
-    if (siteVariables.theme === TeamsTheme.HighContrast) {
+    if (theme === TeamsTheme.HighContrast && patterns) {
       chart.data.datasets.map((dataset: any, i: number) => {
-        dataset.borderColor = siteVariables.colorScheme.default.border;
+        dataset.borderColor = colorScheme.default.border;
         dataset.borderWidth = 2;
-        dataset.backgroundColor = buildPattern(
-          chartDataPointPatterns(siteVariables.colorScheme)[i]
-        );
+        dataset.backgroundColor = buildPattern({
+          ...patterns(colorScheme)[index],
+          backgroundColor: colorScheme.default.background,
+          patternColor: colorScheme.brand.background,
+        });
       });
       chart.data.datasets[set].borderColor =
         siteVariables.colorScheme.default.borderHover;
       chart.data.datasets[set].borderWidth = 4;
-      chart.data.datasets[set].backgroundColor = buildPattern({
-        shapeType: chartDataPointPatterns(siteVariables.colorScheme)[set]
-          .shapeType,
-        backgroundColor: chartDataPointPatterns(siteVariables.colorScheme)[set]
-          .backgroundColor,
-        patternColor: siteVariables.colorScheme.default.borderHover,
-        size: chartDataPointPatterns(siteVariables.colorScheme)[set].size,
+      chart.data.datasets[set].backgroundColor = chart.data.datasets[
+        set
+      ].backgroundColor = buildPattern({
+        ...patterns(siteVariables.colorScheme)[set],
+        backgroundColor: colorScheme.default.background,
+        patternColor: colorScheme.default.borderHover,
       });
       chart.update();
     }
@@ -162,13 +186,28 @@ export const horizontalBarValue = ({ chart, ctx }: any) => {
   ctx.font = "bold 11px Segoe UI";
   ctx.textAlign = "left";
   ctx.textBaseline = "middle";
-  ctx.fillStyle = chart.options.scales.xAxes[0].ticks.fontColor;
+  ctx.fillStyle = chart.options.defaultColor;
   chart.data.datasets.forEach((dataset: any, i: number) => {
     const meta = chart.controller.getDatasetMeta(i);
     meta.data.forEach((bar: any, index: number) => {
       const data = dataset.data[index];
       ctx.fillText(data, bar._model.x + 8, bar._model.y);
     });
+  });
+};
+
+export const horizontalStackedBarValue = ({ chart, ctx }: any) => {
+  ctx.font = "bold 11px Segoe UI";
+  ctx.textAlign = "left";
+  ctx.textBaseline = "middle";
+  ctx.fillStyle = chart.options.defaultColor;
+  const meta = chart.controller.getDatasetMeta(chart.data.datasets.length - 1);
+  meta.data.forEach((bar: any, index: number) => {
+    let data = 0;
+    chart.data.datasets.map(
+      (dataset: IChartDataSet) => (data += dataset.data[index])
+    );
+    ctx.fillText(data, bar._model.x + 8, bar._model.y);
   });
 };
 
@@ -280,12 +319,12 @@ export const setTooltipColorScheme = ({
   chart,
   siteVariables,
   chartDataPointColors,
-  usingPatterns = false,
+  patterns,
 }: {
   chart: Chart;
   siteVariables: SiteVariablesPrepared;
   chartDataPointColors: string[];
-  usingPatterns?: boolean;
+  patterns?: IChartPatterns;
 }) => {
   const { colorScheme, theme } = siteVariables;
   chart.options.tooltips = {
@@ -303,20 +342,15 @@ export const setTooltipColorScheme = ({
     callbacks: {
       ...chart.options.tooltips?.callbacks,
       labelColor:
-        usingPatterns && theme === TeamsTheme.HighContrast
+        patterns && theme === TeamsTheme.HighContrast
           ? (tooltipItem: any) => ({
               borderColor: "transparent",
               backgroundColor: buildPattern({
-                shapeType: chartDataPointPatterns(colorScheme)[
+                ...chartLineStackedDataPointPatterns(colorScheme)[
                   tooltipItem.datasetIndex
-                ].shapeType,
-                backgroundColor: chartDataPointPatterns(colorScheme)[
-                  tooltipItem.datasetIndex
-                ].backgroundColor,
+                ],
+                backgroundColor: colorScheme.default.background,
                 patternColor: colorScheme.default.borderHover,
-                size: chartDataPointPatterns(colorScheme)[
-                  tooltipItem.datasetIndex
-                ].size,
               }) as any,
             })
           : (tooltipItem: any) => ({
@@ -349,16 +383,11 @@ export const tooltipConfig = () => ({
 
   callbacks: {
     title: (tooltipItems: any) => {
-      return tooltipItems[0].yLabel;
+      return usNumberFormat(tooltipItems[0].yLabel);
     },
-    afterTitle: (tooltipItems: any) => {
-      return "";
-    },
-    label: (tooltipItem: any, data: any) => {
-      return data.datasets[tooltipItem.datasetIndex].label;
-    },
-    footer: (tooltipItems: any) => {
-      return tooltipItems[0].xLabel;
-    },
+    afterTitle: (tooltipItems: any) => "",
+    label: (tooltipItem: any, data: any) =>
+      data.datasets[tooltipItem.datasetIndex].label,
+    footer: (tooltipItems: any) => tooltipItems[0].xLabel,
   },
 });

@@ -11,11 +11,7 @@ import {
   horizontalBarValue,
 } from "../ChartUtils";
 import { ChartContainer } from "./ChartContainer";
-import {
-  buildPattern,
-  chartDataPointPatterns,
-  lineChartPatterns,
-} from "../ChartPatterns";
+import { buildPattern, chartBarDataPointPatterns } from "../ChartPatterns";
 
 export const BarHorizontalChart = ({
   title,
@@ -68,8 +64,6 @@ export const BarHorizontalChart = ({
         pointBorderWidth: 0,
         pointRadius: 0,
         pointHoverRadius: 0,
-        pointStyle: "circle",
-        borderDash: [],
       };
       if (theme === TeamsTheme.HighContrast) {
         dataPointConfig = {
@@ -80,16 +74,16 @@ export const BarHorizontalChart = ({
           pointBorderColor: colorScheme.default.border,
           pointHoverBorderColor: colorScheme.default.borderHover,
           pointHoverRadius: 0,
-          pointStyle: lineChartPatterns[i].pointStyle,
           borderColor: colorScheme.brand.background,
-          backgroundColor: buildPattern(chartDataPointPatterns(colorScheme)[i]),
+          backgroundColor: buildPattern({
+            ...chartBarDataPointPatterns(colorScheme)[i],
+            backgroundColor: colorScheme.default.background,
+            patternColor: colorScheme.brand.background,
+          }),
           hoverBackgroundColor: buildPattern({
-            shapeType: chartDataPointPatterns(colorScheme)[i].shapeType,
-            backgroundColor: chartDataPointPatterns(siteVariables.colorScheme)[
-              i
-            ].backgroundColor,
+            ...chartBarDataPointPatterns(colorScheme)[i],
+            backgroundColor: colorScheme.default.background,
             patternColor: colorScheme.default.borderHover,
-            size: chartDataPointPatterns(colorScheme)[i].size,
           }),
         };
       }
@@ -174,13 +168,13 @@ export const BarHorizontalChart = ({
 
     function showFocusedDataPoint() {
       hoverDataPoint(selectedIndex);
-      tooltipTrigger(
-        chartRef.current as any,
+      tooltipTrigger({
+        chart: chartRef.current as any,
         data,
-        selectedDataSet,
-        selectedIndex,
-        siteVariables
-      );
+        set: selectedDataSet,
+        index: selectedIndex,
+        siteVariables,
+      });
       document
         .getElementById(
           `${chartId}-tooltip-${selectedDataSet}-${selectedIndex}`
@@ -212,9 +206,11 @@ export const BarHorizontalChart = ({
           (dataset: any, i: number) => {
             dataset.borderColor = siteVariables.colorScheme.default.border;
             dataset.borderWidth = 2;
-            dataset.backgroundColor = buildPattern(
-              chartDataPointPatterns(colorScheme)[i]
-            );
+            dataset.backgroundColor = buildPattern({
+              ...chartBarDataPointPatterns(colorScheme)[i],
+              backgroundColor: colorScheme.default.background,
+              patternColor: colorScheme.brand.background,
+            });
           }
         );
         chart.update();
@@ -269,11 +265,11 @@ export const BarHorizontalChart = ({
       chart: chartRef.current,
       siteVariables,
       chartDataPointColors,
-      usingPatterns: true,
+      patterns: chartBarDataPointPatterns,
     });
     // Update axeses
     axesConfig({ chart: chartRef.current, ctx, colorScheme });
-
+    chartRef.current.options.defaultColor = colorScheme.default.foreground;
     chartRef.current.update();
   }, [theme]);
 
@@ -282,7 +278,7 @@ export const BarHorizontalChart = ({
       siteVariables={siteVariables}
       data={data}
       chartDataPointColors={chartDataPointColors}
-      usingPatterns
+      patterns={chartBarDataPointPatterns}
     >
       <canvas
         id={chartId}

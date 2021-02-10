@@ -230,7 +230,7 @@ const dataVizWidgets: IWidget[] = [
     link: linkExample,
   },
   {
-    title: "Stacked line chart sample",
+    title: "Stacked area chart sample",
     size: WidgetSize.Double,
     body: [
       {
@@ -238,7 +238,7 @@ const dataVizWidgets: IWidget[] = [
         title: "",
         content: (
           <Chart
-            title="Stacked line chart sample"
+            title="Stacked area chart sample"
             type={ChartOptions.LineStacked}
             data={{
               labels: ["Jan", "Feb", "March", "April", "May"],
@@ -264,7 +264,7 @@ const dataVizWidgets: IWidget[] = [
     link: linkExample,
   },
   {
-    title: "Area chart sample",
+    title: "Gradient area chart sample",
     size: WidgetSize.Double,
     link: linkExample,
     body: [
@@ -273,7 +273,7 @@ const dataVizWidgets: IWidget[] = [
         title: "",
         content: (
           <Chart
-            title="Area chart"
+            title="Gradient area chart"
             type={ChartOptions.LineArea}
             data={{
               labels: ["Jan", "Feb", "March", "April", "May"],
@@ -397,6 +397,37 @@ const dataVizWidgets: IWidget[] = [
                   label: "Phones",
                   data: [4100, 1600, 3180, 3049, 3596],
                 },
+                {
+                  label: "Laptops",
+                  data: [1860, 7700, 4100, 3012, 2930],
+                },
+                {
+                  label: "Watches",
+                  data: [1200, 3600, 2480, 5049, 4596],
+                },
+              ],
+            }}
+          />
+        ),
+      },
+    ],
+    link: linkExample,
+  },
+  ,
+  {
+    title: "Horizontal stacked bar chart sample",
+    size: WidgetSize.Double,
+    body: [
+      {
+        id: "Horizontal stacked bar chart sample",
+        title: "",
+        content: (
+          <Chart
+            title="Horizontal stacked bar chart sample"
+            type={ChartOptions.BarHorizontalStacked}
+            data={{
+              labels: ["Jan", "Feb", "March", "April", "May"],
+              datasets: [
                 {
                   label: "Laptops",
                   data: [1860, 7700, 4100, 3012, 2930],
