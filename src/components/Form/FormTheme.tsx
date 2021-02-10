@@ -5,7 +5,12 @@ import {
   Provider as FluentUIThemeProvider,
 } from "@fluentui/react-northstar";
 
-import { ICSSInJSStyle, ThemeInput, ThemePrepared } from "@fluentui/styles";
+import {
+  ICSSInJSStyle,
+  SiteVariablesPrepared,
+  ThemeInput,
+  ThemePrepared,
+} from "@fluentui/styles";
 
 import { teamsNextVariableAssignments, themes } from "../../lib/withTheme";
 
@@ -35,6 +40,18 @@ const getLocalTheme = (
       },
       Input: {
         input: () => ({ backgroundColor: "var(--input-background)" }),
+      },
+      InputLabel: {
+        root: ({ theme }: SiteVariablesPrepared) => ({
+          color: theme.siteVariables.colorScheme.default.foreground1,
+          fontSize: ".75rem",
+        }),
+      },
+      FormLabel: {
+        root: ({ theme }: SiteVariablesPrepared) => ({
+          color: theme.siteVariables.colorScheme.default.foreground1,
+          fontSize: ".75rem",
+        }),
       },
       TextArea: {
         root: () => ({ backgroundColor: "var(--input-background)" }),

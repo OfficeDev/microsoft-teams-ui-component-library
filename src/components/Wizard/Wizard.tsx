@@ -102,9 +102,10 @@ const WizardSidebar = ({
                     </>
                   ),
                   variables: ({ colorScheme }: SiteVariablesPrepared) => ({
-                    ...(si > activeStepIndex && {
-                      color: colorScheme.default.foregroundDisabled,
-                    }),
+                    color:
+                      si > activeStepIndex
+                        ? colorScheme.default.foregroundDisabled
+                        : colorScheme.default.foreground1,
                     ...(si === activeStepIndex && {
                       backgroundColor: colorScheme.default.background,
                       hoverBackgroundColor: colorScheme.default.background,
