@@ -88,7 +88,7 @@ export const Form = ({
   topError,
   onInteraction,
 }: IFormProps) => {
-  const [formState, setUnclonedFormState] = useState<IFormState>(
+  const [formState, setUnclonedFormState] = useState<IFormState>(() =>
     initialFormState(sections)
   );
 
