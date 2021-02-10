@@ -1,13 +1,13 @@
 import React from "react";
+import CustomScrollArea from "react-perfect-scrollbar";
 import omit from "lodash/omit";
+
 import {
   Box,
-  Dialog,
   List,
   ProviderConsumer as FluentUIThemeConsumer,
   SiteVariablesPrepared,
 } from "@fluentui/react-northstar";
-
 import { AcceptIcon } from "@fluentui/react-icons-northstar";
 
 import {
@@ -68,66 +68,68 @@ const WizardSidebar = ({
               backgroundColor: colorScheme.default.background2,
             })}
           >
-            <List
-              navigable
-              items={stepTitles.map((stepTitle, si) => ({
-                key: `wizard-step__${si}`,
-                content: (
-                  <>
-                    {
-                      <Box
-                        styles={{
-                          display: "inline-block",
-                          marginRight: ".5rem",
-                        }}
-                        variables={({
-                          colorScheme,
-                        }: SiteVariablesPrepared) => ({
-                          color: colorScheme.green.foreground,
-                        })}
-                      >
-                        <AcceptIcon
+            <CustomScrollArea>
+              <List
+                navigable
+                items={stepTitles.map((stepTitle, si) => ({
+                  key: `wizard-step__${si}`,
+                  content: (
+                    <>
+                      {
+                        <Box
                           styles={{
-                            fill: "currentcolor",
-                            ...(si >= activeStepIndex && {
-                              visibility: "hidden",
-                            }),
+                            display: "inline-block",
+                            marginRight: ".5rem",
                           }}
-                          outline
-                        />
-                      </Box>
-                    }
-                    {getText(t.locale, stepTitle)}
-                  </>
-                ),
-                variables: ({ colorScheme }: SiteVariablesPrepared) => ({
-                  ...(si > activeStepIndex && {
-                    color: colorScheme.default.foregroundDisabled,
-                  }),
-                  ...(si === activeStepIndex && {
-                    backgroundColor: colorScheme.default.background,
-                    hoverBackgroundColor: colorScheme.default.background,
-                  }),
-                }),
-                styles: {
-                  minHeight: "none",
-                  paddingTop: ".4375rem",
-                  paddingBottom: ".4375rem",
-                  borderRadius: ".1875rem",
-                },
-                ...(onInteraction && {
-                  onClick: () =>
-                    onInteraction({
-                      event: "click",
-                      target: "wizard-sidebar",
-                      subject: `wizard-step__${si}`,
+                          variables={({
+                            colorScheme,
+                          }: SiteVariablesPrepared) => ({
+                            color: colorScheme.green.foreground,
+                          })}
+                        >
+                          <AcceptIcon
+                            styles={{
+                              fill: "currentcolor",
+                              ...(si >= activeStepIndex && {
+                                visibility: "hidden",
+                              }),
+                            }}
+                            outline
+                          />
+                        </Box>
+                      }
+                      {getText(t.locale, stepTitle)}
+                    </>
+                  ),
+                  variables: ({ colorScheme }: SiteVariablesPrepared) => ({
+                    ...(si > activeStepIndex && {
+                      color: colorScheme.default.foregroundDisabled,
                     }),
-                }),
-              }))}
-              styles={{
-                padding: ".5rem",
-              }}
-            />
+                    ...(si === activeStepIndex && {
+                      backgroundColor: colorScheme.default.background,
+                      hoverBackgroundColor: colorScheme.default.background,
+                    }),
+                  }),
+                  styles: {
+                    minHeight: "none",
+                    paddingTop: ".4375rem",
+                    paddingBottom: ".4375rem",
+                    borderRadius: ".1875rem",
+                  },
+                  ...(onInteraction && {
+                    onClick: () =>
+                      onInteraction({
+                        event: "click",
+                        target: "wizard-sidebar",
+                        subject: `wizard-step__${si}`,
+                      }),
+                  }),
+                }))}
+                styles={{
+                  padding: ".5rem",
+                }}
+              />
+            </CustomScrollArea>
           </Box>
         );
       }}

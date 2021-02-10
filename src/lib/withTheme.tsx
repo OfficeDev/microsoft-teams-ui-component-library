@@ -185,6 +185,138 @@ export const HVCThemeProvider = ({
       (translations && translations[lang]) || builtInTranslations[lang];
   }
 
+  const customScrollbarStyles =
+    // From `react-perfect-scrollbar`:
+    `/*
+       * Container style
+       */
+      .ps {
+        overflow: hidden !important;
+        overflow-anchor: none;
+        -ms-overflow-style: none;
+        touch-action: auto;
+        -ms-touch-action: auto;
+      }
+      
+      /*
+       * Scrollbar rail styles
+       */
+      .ps__rail-x {
+        display: none;
+        opacity: 1;
+        transition: background-color .2s linear, opacity .2s linear;
+        -webkit-transition: background-color .2s linear, opacity .2s linear;
+        height: 6px;
+        /* there must be 'bottom' or 'top' for ps__rail-x */
+        bottom: 2px;
+        /* please don't change 'position' */
+        position: absolute;
+      }
+      
+      .ps__rail-y {
+        display: none;
+        opacity: 1;
+        transition: background-color .2s linear, opacity .2s linear;
+        -webkit-transition: background-color .2s linear, opacity .2s linear;
+        width: 6px;
+        /* there must be 'right' or 'left' for ps__rail-y */
+        ${rtl ? "left" : "right"}: 2px;
+        /* please don't change 'position' */
+        position: absolute;
+      }
+      
+      .ps--active-x > .ps__rail-x,
+      .ps--active-y > .ps__rail-y {
+        display: block;
+        background-color: transparent;
+      }
+      
+      .ps:hover > .ps__rail-x,
+      .ps:hover > .ps__rail-y,
+      .ps--focus > .ps__rail-x,
+      .ps--focus > .ps__rail-y,
+      .ps--scrolling-x > .ps__rail-x,
+      .ps--scrolling-y > .ps__rail-y {
+        opacity: 1;
+      }
+      
+      .ps .ps__rail-x:hover,
+      .ps .ps__rail-y:hover,
+      .ps .ps__rail-x:focus,
+      .ps .ps__rail-y:focus,
+      .ps .ps__rail-x.ps--clicking,
+      .ps .ps__rail-y.ps--clicking {
+        opacity: 1;
+      }
+      
+      /*
+       * Scrollbar thumb styles
+       */
+      .ps__thumb-x {
+        opacity: ${themeName === TeamsTheme.HighContrast ? "1" : "0.2"};
+        background-color: ${
+          theme.siteVariables!.colorScheme.default.foreground
+        };
+        border-radius: 9999px;
+        transition: background-color .2s linear, height .2s ease-in-out;
+        -webkit-transition: background-color .2s linear, height .2s ease-in-out;
+        height: 6px;
+        /* there must be 'bottom' for ps__thumb-x */
+        bottom: 2px;
+        /* please don't change 'position' */
+        position: absolute;
+      }
+      
+      .ps__thumb-y {
+        opacity: ${themeName === TeamsTheme.HighContrast ? "1" : "0.2"};
+        background-color: ${
+          theme.siteVariables!.colorScheme.default.foreground
+        };
+        border-radius: 9999px;
+        transition: background-color .2s linear, width .2s ease-in-out;
+        -webkit-transition: background-color .2s linear, width .2s ease-in-out;
+        width: 6px;
+        /* there must be 'right' for ps__thumb-y */
+        right: 2px;
+        /* please don't change 'position' */
+        position: absolute;
+      }
+      
+      .ps__rail-x:hover > .ps__thumb-x,
+      .ps__rail-x:focus > .ps__thumb-x,
+      .ps__rail-x.ps--clicking .ps__thumb-x {
+        background-color: ${
+          theme.siteVariables!.colorScheme.default.foreground
+        };
+        height: 6px;
+      }
+      
+      .ps__rail-y:hover > .ps__thumb-y,
+      .ps__rail-y:focus > .ps__thumb-y,
+      .ps__rail-y.ps--clicking .ps__thumb-y {
+        background-color: ${
+          theme.siteVariables!.colorScheme.default.foreground
+        };
+        width: 6px;
+      }
+      
+      /* MS supports */
+      @supports (-ms-overflow-style: none) {
+        .ps {
+          overflow: auto !important;
+        }
+      }
+      
+      @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+        .ps {
+          overflow: auto !important;
+        }
+      }
+      .scrollbar-container {
+        position: relative;
+        height: 100%;
+      }`;
+
   return (
     <FluentUIThemeProvider
       theme={theme}
@@ -211,7 +343,7 @@ export const HVCThemeProvider = ({
           ::-webkit-scrollbar-thumb:hover {
             background-color: ${theme.siteVariables?.colorScheme.default.foreground2};
           } 
-        `}
+        ` + customScrollbarStyles}
       </style>
       {children}
     </FluentUIThemeProvider>

@@ -1,4 +1,5 @@
 import React, { SetStateAction, useState } from "react";
+import CustomScrollArea from "react-perfect-scrollbar";
 import clone from "lodash/clone";
 
 import {
@@ -294,102 +295,103 @@ export const FormWizardStep = ({
       render={(globalTheme) => {
         const { t } = globalTheme.siteVariables;
         return (
-          <FormTheme globalTheme={globalTheme} surface={Surface.base}>
-            <FluentUIForm
-              styles={{
-                display: "block",
-                "& > *:not(:last-child)": { marginBottom: 0 },
-                "& > :last-child": { marginTop: 0 },
-                backgroundColor: "var(--surface-background)",
-                paddingBottom: "8rem",
-                "@media screen and (min-width: 34rem)": {
-                  paddingLeft: "14rem",
-                },
-              }}
-              {...(onInteraction && {
-                onSubmit: () =>
-                  onInteraction({
-                    event: "submit",
-                    target: "form",
-                    formState,
-                  }),
-              })}
-            >
-              <FormContent
-                {...{
-                  headerSection,
-                  sections,
-                  topError,
-                  errors,
-                  t,
-                  formState,
-                  setFormState,
-                  align: "left",
-                }}
-              />
-
-              <Box
+          <CustomScrollArea style={{ height: "calc(100% - 6rem)" }}>
+            <FormTheme globalTheme={globalTheme} surface={Surface.base}>
+              <FluentUIForm
                 styles={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  justifyContent: "flex-end",
-                  backgroundColor: "var(--overlay-background)",
-                  position: "fixed",
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  padding: "1.5rem 2rem 2rem 2.5rem",
-                  zIndex: 2,
+                  display: "block",
+                  "& > *:not(:last-child)": { marginBottom: 0 },
+                  "& > :last-child": { marginTop: 0 },
+                  backgroundColor: "var(--surface-background)",
                   "@media screen and (min-width: 34rem)": {
-                    left: "14rem",
+                    paddingLeft: "14rem",
                   },
                 }}
-                variables={({ colorScheme }: SiteVariablesPrepared) => ({
-                  elevation: colorScheme.elevations[16],
+                {...(onInteraction && {
+                  onSubmit: () =>
+                    onInteraction({
+                      event: "submit",
+                      target: "form",
+                      formState,
+                    }),
                 })}
               >
-                {cancel && (
-                  <Button
-                    content={getText(t.locale, cancel)}
-                    styles={{ marginRight: ".5rem", marginTop: ".5rem" }}
-                    {...(onInteraction && {
-                      onClick: (e) => {
-                        e.preventDefault();
-                        onInteraction({
-                          event: "cancel",
-                          target: "form",
-                          formState,
-                        });
-                      },
-                    })}
-                  />
-                )}
-                <Box role="none" styles={{ flex: "1 0 0" }} />
-                {back && (
-                  <Button
-                    content={getText(t.locale, back)}
-                    styles={{ marginRight: ".5rem", marginTop: ".5rem" }}
-                    {...(onInteraction && {
-                      onClick: (e) => {
-                        e.preventDefault();
-                        onInteraction({
-                          event: "back",
-                          target: "form",
-                          formState,
-                        });
-                      },
-                    })}
-                  />
-                )}
-                <Button
-                  primary
-                  type="submit"
-                  content={getText(t.locale, submit)}
-                  styles={{ marginRight: ".5rem", marginTop: ".5rem" }}
+                <FormContent
+                  {...{
+                    headerSection,
+                    sections,
+                    topError,
+                    errors,
+                    t,
+                    formState,
+                    setFormState,
+                    align: "left",
+                  }}
                 />
-              </Box>
-            </FluentUIForm>
-          </FormTheme>
+
+                <Box
+                  styles={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    justifyContent: "flex-end",
+                    backgroundColor: "var(--overlay-background)",
+                    position: "fixed",
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    padding: "1.5rem 2rem 2rem 2.5rem",
+                    zIndex: 2,
+                    "@media screen and (min-width: 34rem)": {
+                      left: "14rem",
+                    },
+                  }}
+                  variables={({ colorScheme }: SiteVariablesPrepared) => ({
+                    elevation: colorScheme.elevations[16],
+                  })}
+                >
+                  {cancel && (
+                    <Button
+                      content={getText(t.locale, cancel)}
+                      styles={{ marginRight: ".5rem", marginTop: ".5rem" }}
+                      {...(onInteraction && {
+                        onClick: (e) => {
+                          e.preventDefault();
+                          onInteraction({
+                            event: "cancel",
+                            target: "form",
+                            formState,
+                          });
+                        },
+                      })}
+                    />
+                  )}
+                  <Box role="none" styles={{ flex: "1 0 0", height: "1px" }} />
+                  {back && (
+                    <Button
+                      content={getText(t.locale, back)}
+                      styles={{ marginRight: ".5rem", marginTop: ".5rem" }}
+                      {...(onInteraction && {
+                        onClick: (e) => {
+                          e.preventDefault();
+                          onInteraction({
+                            event: "back",
+                            target: "form",
+                            formState,
+                          });
+                        },
+                      })}
+                    />
+                  )}
+                  <Button
+                    primary
+                    type="submit"
+                    content={getText(t.locale, submit)}
+                    styles={{ marginRight: ".5rem", marginTop: ".5rem" }}
+                  />
+                </Box>
+              </FluentUIForm>
+            </FormTheme>
+          </CustomScrollArea>
         );
       }}
     />
@@ -424,25 +426,27 @@ export const FormWizardStepDialog = ({
             trapFocus
             content={
               <FormTheme globalTheme={globalTheme} surface={Surface.raised}>
-                <FluentUIForm
-                  styles={{
-                    display: "block",
-                    backgroundColor: "var(--surface-background)",
-                  }}
-                >
-                  <FormContent
-                    flush
-                    {...{
-                      headerSection,
-                      sections,
-                      topError,
-                      errors,
-                      t,
-                      formState,
-                      setFormState,
+                <CustomScrollArea>
+                  <FluentUIForm
+                    styles={{
+                      display: "block",
+                      backgroundColor: "var(--surface-background)",
                     }}
-                  />
-                </FluentUIForm>
+                  >
+                    <FormContent
+                      flush
+                      {...{
+                        headerSection,
+                        sections,
+                        topError,
+                        errors,
+                        t,
+                        formState,
+                        setFormState,
+                      }}
+                    />
+                  </FluentUIForm>
+                </CustomScrollArea>
               </FormTheme>
             }
             footer={{
