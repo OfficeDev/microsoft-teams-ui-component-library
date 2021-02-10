@@ -344,14 +344,16 @@ const TextInputsGroup = ({
     }
   }
 
-  const groupId = uniqueId("text-inputs-group");
-
   return (
     <>
       {rows.map((rowFields, r) => {
+        // TODO: row should have a stable field to use as the key, since the key
+        // will be incorrect if the rows are shuffled. I've used the index for
+        // now since it's more (but not totally) correct than the previous
+        // behavior of using a generated id that changed on each render.
         return (
           <Box
-            key={`${groupId}__row-${r}`}
+            key={r}
             styles={{
               display: "flex",
               flexFlow: "row wrap",
@@ -362,11 +364,10 @@ const TextInputsGroup = ({
           >
             {rowFields.map((field) => {
               const { inputId, title, type } = field;
-              const key = `${groupId}__row-${r}__field-${inputId}`;
               const id = fullInputId(inputId);
               const error = get(errors, inputId, false);
               return (
-                <React.Fragment key={key}>
+                <React.Fragment key={inputId}>
                   <Input.Label
                     htmlFor={id}
                     id={labelId(id)}
@@ -452,9 +453,10 @@ const TextInputsGroup = ({
                               .join(" ")}
                             value={formState[inputId] as string}
                             onChange={(e, props) => {
-                              if (props?.value)
+                              if (props && "value" in props) {
                                 formState[inputId] = props.value.toString();
-                              setFormState(formState);
+                                setFormState(formState);
+                              }
                             }}
                           />
                         );
@@ -790,7 +792,7 @@ export const Form = ({
   topError,
   onInteraction,
 }: IFormProps) => {
-  const [formState, setUnclonedFormState] = useState<IFormState>(
+  const [formState, setUnclonedFormState] = useState<IFormState>(() =>
     initialFormState(sections)
   );
 
