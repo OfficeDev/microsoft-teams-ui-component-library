@@ -205,7 +205,7 @@ export const HVCThemeProvider = ({
           }
           canvas:focus {
             outline: none;
-            box-shadow: inset 0 0 0 2px ${theme.siteVariables?.colorScheme.default.foregroundActive} !important;
+            box-shadow: inset 0 0 0 2px ${theme.siteVariables?.colorScheme.default.foregroundActive};
           }
         `}
       </style>
