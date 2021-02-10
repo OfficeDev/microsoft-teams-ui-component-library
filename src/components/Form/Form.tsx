@@ -453,9 +453,10 @@ const TextInputsGroup = ({
                               .join(" ")}
                             value={formState[inputId] as string}
                             onChange={(e, props) => {
-                              if (props?.value)
+                              if (props && "value" in props) {
                                 formState[inputId] = props.value.toString();
-                              setFormState(formState);
+                                setFormState(formState);
+                              }
                             }}
                           />
                         );
