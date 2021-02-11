@@ -9,6 +9,7 @@ import {
   axesConfig,
   setTooltipColorScheme,
   horizontalBarValue,
+  usNumberFormat,
 } from "../ChartUtils";
 import { ChartContainer } from "./ChartContainer";
 import { buildPattern, chartBarDataPointPatterns } from "../ChartPatterns";
@@ -17,10 +18,12 @@ export const BarHorizontalChart = ({
   title,
   data,
   siteVariables,
+  stacked,
 }: {
   title: string;
   data: IChartData;
   siteVariables: SiteVariablesPrepared;
+  stacked?: boolean;
 }) => {
   const { colorScheme, theme, colors } = siteVariables;
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
@@ -113,6 +116,24 @@ export const BarHorizontalChart = ({
 
     config.options.tooltips.position = "nearest";
 
+    if (stacked) {
+      config.options.hover.mode = "point";
+
+      config.options.scales.yAxes[0].stacked = true;
+      config.options.scales.xAxes[0].stacked = true;
+      config.options.tooltips.mode = "nearest";
+      config.options.tooltips.axis = "y";
+      config.options.tooltips.callbacks.title = (tooltipItems: any) => {
+        let total = 0;
+        data.datasets.map(
+          (dataset) => (total += dataset.data[tooltipItems[0].index])
+        );
+        return `${((tooltipItems[0].xLabel / total) * 100).toPrecision(
+          2
+        )}% (${usNumberFormat(tooltipItems[0].xLabel)})`;
+      };
+    }
+
     chartRef.current = new Chart(ctx, {
       ...(config as any),
       data: {
@@ -125,11 +146,13 @@ export const BarHorizontalChart = ({
             horizontalBarValue({
               chart,
               ctx,
+              stacked,
             });
           },
         },
       ],
     });
+
     const chart: any = chartRef.current;
 
     chart.config.options.scales.yAxes[0].ticks.labelOffset =

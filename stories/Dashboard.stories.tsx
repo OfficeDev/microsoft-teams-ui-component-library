@@ -230,6 +230,58 @@ const dataVizWidgets: IWidget[] = [
     link: linkExample,
   },
   {
+    title: "Doughnut chart sample",
+    size: WidgetSize.Single,
+    link: linkExample,
+    body: [
+      {
+        id: "1",
+        title: "",
+        content: (
+          <Chart
+            title="Doughnut chart sample"
+            type={ChartOptions.Doughnut}
+            data={{
+              labels: ["Jan", "Feb", "March", "April", "May"],
+              datasets: [
+                {
+                  label: "Watches",
+                  data: [2004, 1600, 480, 504, 1000],
+                },
+              ],
+            }}
+          />
+        ),
+      },
+    ],
+  },
+  {
+    title: "Pie chart",
+    size: WidgetSize.Single,
+    link: linkExample,
+    body: [
+      {
+        id: "1",
+        title: "",
+        content: (
+          <Chart
+            title="Pie chart sample"
+            type={ChartOptions.Pie}
+            data={{
+              labels: ["Jan", "Feb", "March", "April", "May"],
+              datasets: [
+                {
+                  label: "Laptops",
+                  data: [1860, 7700, 4100, 3012, 2930],
+                },
+              ],
+            }}
+          />
+        ),
+      },
+    ],
+  },
+  {
     title: "Stacked area chart sample",
     size: WidgetSize.Double,
     body: [

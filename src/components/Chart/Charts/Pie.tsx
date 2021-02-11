@@ -5,7 +5,6 @@ import { TeamsTheme } from "../../../themes";
 import { IChartData } from "../ChartTypes";
 import {
   tooltipTrigger,
-  tooltipAxisXLine,
   chartConfig,
   axesConfig,
   setTooltipColorScheme,
@@ -18,10 +17,12 @@ export const PieChart = ({
   title,
   data,
   siteVariables,
+  cutoutPercentage,
 }: {
   title: string;
   data: IChartData;
   siteVariables: SiteVariablesPrepared;
+  cutoutPercentage?: number;
 }) => {
   if (data && data.datasets && data.datasets[0].data.length > 6) {
     data.datasets[0].data = data.datasets[0].data.slice(0, 6);
@@ -113,12 +114,20 @@ export const PieChart = ({
     const config: any = chartConfig({ type: "pie" });
     config.options.hover.mode = "index";
 
+    config.options.layout.padding.top = 32;
+    config.options.layout.padding.left = -16;
+    config.options.layout.padding.right = 32;
+    config.options.layout.padding.bottom = 32;
+
     config.options.scales.xAxes[0].ticks.display = false;
     config.options.scales.xAxes[0].gridLines.display = false;
 
     config.options.scales.yAxes[0].ticks.display = false;
     config.options.scales.yAxes[0].gridLines.display = false;
 
+    if (cutoutPercentage) {
+      config.options.cutoutPercentage = cutoutPercentage;
+    }
     // Pie chart custom settings
     config.options.tooltips.callbacks.label = (tooltipItem: any, data: any) =>
       data.labels[tooltipItem.index];
@@ -279,6 +288,7 @@ export const PieChart = ({
       siteVariables,
       chartDataPointColors,
       patterns: chartBarDataPointPatterns,
+      verticalDataAlignment: true,
     });
     // Update axeses
     axesConfig({ chart: chartRef.current, ctx, colorScheme });
@@ -292,6 +302,7 @@ export const PieChart = ({
       data={data}
       chartDataPointColors={chartDataPointColors}
       patterns={chartBarDataPointPatterns}
+      verticalDataAlignment
     >
       <canvas
         id={chartId}

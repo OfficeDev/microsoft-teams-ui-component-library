@@ -18,6 +18,7 @@ export enum ChartOptions {
   BarHorizontal = "barHorizontal",
   BarHorizontalStacked = "barHorizontalStacked",
   Pie = "pie",
+  Doughnut = "doughnut",
 }
 
 export enum PointStyles {
@@ -47,3 +48,10 @@ export interface IDraw {
 }
 
 export type IChartPatterns = (colorScheme: any) => IDraw[];
+
+export interface ILegendItem {
+  key: number;
+  kind: string;
+  content: JSX.Element;
+  fitted: string;
+}

@@ -250,6 +250,27 @@ export const PieChart = () => {
   return <Chart {...object("Configuration", dataVizProps, pieKnobGroupID)} />;
 };
 
+const doughnutKnobGroupID = "Doughnut chart";
+
+export const DoughnutChart = () => {
+  const dataVizProps = {
+    title: "Doughnut chart sample",
+    type: ChartOptions.Doughnut,
+    data: {
+      labels: ["Jan", "Feb", "March", "April", "May"],
+      datasets: [
+        {
+          label: "Watches",
+          data: [2004, 1600, 480, 504, 1000],
+        },
+      ],
+    },
+  };
+  return (
+    <Chart {...object("Configuration", dataVizProps, doughnutKnobGroupID)} />
+  );
+};
+
 const noDataKnobGroupID = "Chart empty state";
 
 export const NoDataState = () => {

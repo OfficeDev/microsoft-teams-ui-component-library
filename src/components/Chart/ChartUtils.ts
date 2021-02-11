@@ -182,33 +182,31 @@ export const tooltipAxisXLine = ({ chart, ctx, tooltip }: any) => {
   }
 };
 
-export const horizontalBarValue = ({ chart, ctx }: any) => {
+export const horizontalBarValue = ({ chart, ctx, stacked }: any) => {
   ctx.font = "bold 11px Segoe UI";
   ctx.textAlign = "left";
   ctx.textBaseline = "middle";
   ctx.fillStyle = chart.options.defaultColor;
-  chart.data.datasets.forEach((dataset: any, i: number) => {
-    const meta = chart.controller.getDatasetMeta(i);
+  if (stacked) {
+    const meta = chart.controller.getDatasetMeta(
+      chart.data.datasets.length - 1
+    );
     meta.data.forEach((bar: any, index: number) => {
-      const data = dataset.data[index];
+      let data = 0;
+      chart.data.datasets.map(
+        (dataset: IChartDataSet) => (data += dataset.data[index])
+      );
       ctx.fillText(data, bar._model.x + 8, bar._model.y);
     });
-  });
-};
-
-export const horizontalStackedBarValue = ({ chart, ctx }: any) => {
-  ctx.font = "bold 11px Segoe UI";
-  ctx.textAlign = "left";
-  ctx.textBaseline = "middle";
-  ctx.fillStyle = chart.options.defaultColor;
-  const meta = chart.controller.getDatasetMeta(chart.data.datasets.length - 1);
-  meta.data.forEach((bar: any, index: number) => {
-    let data = 0;
-    chart.data.datasets.map(
-      (dataset: IChartDataSet) => (data += dataset.data[index])
-    );
-    ctx.fillText(data, bar._model.x + 8, bar._model.y);
-  });
+  } else {
+    chart.data.datasets.forEach((dataset: any, i: number) => {
+      const meta = chart.controller.getDatasetMeta(i);
+      meta.data.forEach((bar: any, index: number) => {
+        const data = dataset.data[index];
+        ctx.fillText(data, bar._model.x + 8, bar._model.y);
+      });
+    });
+  }
 };
 
 export const chartConfig = ({
@@ -320,11 +318,13 @@ export const setTooltipColorScheme = ({
   siteVariables,
   chartDataPointColors,
   patterns,
+  verticalDataAlignment,
 }: {
   chart: Chart;
   siteVariables: SiteVariablesPrepared;
   chartDataPointColors: string[];
   patterns?: IChartPatterns;
+  verticalDataAlignment?: boolean;
 }) => {
   const { colorScheme, theme } = siteVariables;
   chart.options.tooltips = {
@@ -346,8 +346,10 @@ export const setTooltipColorScheme = ({
           ? (tooltipItem: any) => ({
               borderColor: "transparent",
               backgroundColor: buildPattern({
-                ...chartLineStackedDataPointPatterns(colorScheme)[
-                  tooltipItem.datasetIndex
+                ...patterns(colorScheme)[
+                  verticalDataAlignment
+                    ? tooltipItem.index
+                    : tooltipItem.datasetIndex
                 ],
                 backgroundColor: colorScheme.default.background,
                 patternColor: colorScheme.default.borderHover,
@@ -355,7 +357,12 @@ export const setTooltipColorScheme = ({
             })
           : (tooltipItem: any) => ({
               borderColor: "transparent",
-              backgroundColor: chartDataPointColors[tooltipItem.datasetIndex],
+              backgroundColor:
+                chartDataPointColors[
+                  verticalDataAlignment
+                    ? tooltipItem.index
+                    : tooltipItem.datasetIndex
+                ],
             }),
     },
   };
@@ -385,7 +392,6 @@ export const tooltipConfig = () => ({
     title: (tooltipItems: any) => {
       return usNumberFormat(tooltipItems[0].yLabel);
     },
-    afterTitle: (tooltipItems: any) => "",
     label: (tooltipItem: any, data: any) =>
       data.datasets[tooltipItem.datasetIndex].label,
     footer: (tooltipItems: any) => tooltipItems[0].xLabel,

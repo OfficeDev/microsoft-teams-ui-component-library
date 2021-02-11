@@ -7,16 +7,9 @@ import {
   BoldIcon,
   Flex,
 } from "@fluentui/react-northstar";
-import { IChartData, IChartPatterns, IDraw } from "../ChartTypes";
 import { TeamsTheme } from "../../../themes";
+import { IChartData, IChartPatterns, ILegendItem } from "../ChartTypes";
 import { legendLabels } from "../ChartPatterns";
-
-interface ILegendItem {
-  key: number;
-  kind: string;
-  content: JSX.Element;
-  fitted: string;
-}
 
 const LabelColorValue = ({
   index,
@@ -45,19 +38,37 @@ const LabelColorValue = ({
   }, [theme]);
   return (
     <Box
-      styles={{
-        marginBottom: "-1px",
-        marginRight: ".4rem",
-      }}
+      styles={
+        theme === TeamsTheme.HighContrast
+          ? {
+              width: "1.25rem",
+              minWidth: "1.25rem",
+              height: "1rem",
+              minHeight: "1rem",
+              marginBottom: "-1px",
+              marginRight: ".4rem",
+            }
+          : {
+              width: ".75rem",
+              minWidth: ".75rem",
+              height: ".75rem",
+              minHeight: ".75rem",
+              marginBottom: "-1px",
+              marginRight: ".4rem",
+            }
+      }
     >
       <canvas
         ref={labelColorValueRef}
         tabIndex={0}
         style={{
-          width: theme === TeamsTheme.HighContrast ? "1.25rem" : "0.6rem", // .6rem
-          height: theme === TeamsTheme.HighContrast ? "1rem" : "0.6rem",
+          width: "100%",
+          height: "100%",
           userSelect: "none",
-          border: patterns ? `1px solid ${colors.white}` : "none",
+          border:
+            patterns && theme === TeamsTheme.HighContrast
+              ? `1px solid ${colors.white}`
+              : "none",
           borderRadius: borderRadius,
         }}
       />
@@ -65,52 +76,85 @@ const LabelColorValue = ({
   );
 };
 
+const legendItem = ({
+  key,
+  value,
+  siteVariables,
+  chartDataPointColors,
+  patterns,
+}: {
+  key: number;
+  value: string;
+  siteVariables: SiteVariablesPrepared;
+  chartDataPointColors: any;
+  patterns?: IChartPatterns;
+}): ILegendItem => ({
+  key,
+  kind: "custom",
+  content: (
+    <LegendItem
+      styles={{
+        display: "flex",
+        alignItems: "center",
+        fontSize: ".75rem",
+        minWidth: "30px",
+        color: siteVariables.colorScheme.default.foreground2,
+        margin: "2px 0",
+      }}
+      text
+    >
+      <LabelColorValue
+        index={key}
+        siteVariables={siteVariables}
+        dataPointColor={chartDataPointColors[key]}
+        patterns={patterns}
+      />
+      {value}
+    </LegendItem>
+  ),
+  fitted: "horizontally",
+});
+
 const LegendItems = (
   data: IChartData,
   siteVariables: SiteVariablesPrepared,
   chartDataPointColors: any,
+  verticalDataAlignment?: boolean,
   patterns?: IChartPatterns
 ): ILegendItem[] =>
-  Array.from(data.datasets, (dataset, i) => {
-    return {
-      key: i,
-      kind: "custom",
-      content: (
-        <LegendItem
-          styles={{
-            display: "flex",
-            alignItems: "center",
-            fontSize: ".75rem",
-            minWidth: "30px",
-            color: siteVariables.colorScheme.default.foreground2,
-            margin: "2px 0",
-          }}
-          text
-        >
-          <LabelColorValue
-            index={i}
-            siteVariables={siteVariables}
-            dataPointColor={chartDataPointColors[i]}
-            patterns={patterns}
-          />
-          {dataset.label}
-        </LegendItem>
-      ),
-      fitted: "horizontally",
-    };
-  });
+  verticalDataAlignment
+    ? Array.from(data.labels, (label, key) =>
+        legendItem({
+          key,
+          value: label,
+          siteVariables,
+          chartDataPointColors,
+          patterns,
+        })
+      )
+    : Array.from(data.datasets, (dataset, key) =>
+        legendItem({
+          key,
+          value: dataset.label,
+          siteVariables,
+          chartDataPointColors,
+          patterns,
+        })
+      );
 
 export const ChartContainer = ({
   data,
   children,
   siteVariables,
   chartDataPointColors,
+  verticalDataAlignment,
   patterns,
 }: {
   data: IChartData;
   children: React.ReactNode;
   siteVariables: SiteVariablesPrepared;
   chartDataPointColors: any;
+  verticalDataAlignment?: boolean;
   patterns?: IChartPatterns;
 }) => {
   const [overflowOpen, setOverflowOpen] = useState(false);
@@ -120,6 +164,7 @@ export const ChartContainer = ({
     data,
     siteVariables,
     chartDataPointColors,
+    verticalDataAlignment,
     patterns
   );
 
@@ -128,6 +173,7 @@ export const ChartContainer = ({
       data,
       siteVariables,
       chartDataPointColors,
+      verticalDataAlignment,
       patterns
     );
   }, [theme]);

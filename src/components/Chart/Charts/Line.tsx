@@ -8,6 +8,7 @@ import {
   chartConfig,
   axesConfig,
   setTooltipColorScheme,
+  hexToRgb,
 } from "../ChartUtils";
 import { TeamsTheme } from "../../../themes";
 import { ChartContainer } from "./ChartContainer";
@@ -17,12 +18,14 @@ export const LineChart = ({
   title,
   data,
   siteVariables,
+  gradients,
 }: {
   title: string;
   data: IChartData;
   siteVariables: SiteVariablesPrepared;
+  gradients?: boolean;
 }) => {
-  const { colorScheme, theme, colors } = siteVariables;
+  const { colorScheme, theme } = siteVariables;
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
   const chartRef = React.useRef<Chart | undefined>();
   const chartId = React.useMemo(
@@ -32,10 +35,10 @@ export const LineChart = ({
   const chartDataPointColors = React.useMemo(
     () => [
       colorScheme.brand.background,
-      colorScheme.brand.borderHover,
-      colorScheme.brand.background4,
       colorScheme.default.borderHover,
+      colorScheme.brand.borderHover,
       colorScheme.default.foreground2,
+      colorScheme.brand.background4,
       colorScheme.default.foreground,
     ],
     [theme]
@@ -51,6 +54,78 @@ export const LineChart = ({
         hoverBorderWidth: 2,
         backgroundColor: "transparent",
         hoverBackgroundColor: "transparent",
+        borderWidth: 2,
+        pointBorderColor: chartDataPointColors[i],
+        pointBackgroundColor: chartDataPointColors[i],
+        pointHoverBackgroundColor: chartDataPointColors[i],
+        pointHoverBorderColor: chartDataPointColors[i],
+        pointHoverBorderWidth: 0,
+        borderCapStyle: "round",
+        borderJoinStyle: "round",
+        pointBorderWidth: 0,
+        pointRadius: 2,
+        pointHoverRadius: 2,
+        pointStyle: "circle",
+        borderDash: [],
+      };
+      if (theme === TeamsTheme.HighContrast) {
+        dataPointConfig = {
+          ...dataPointConfig,
+          borderColor: colorScheme.brand.background,
+          hoverBorderColor: colorScheme.default.borderHover,
+          pointBorderColor: colorScheme.brand.background,
+          pointBackgroundColor: colorScheme.brand.background,
+          pointHoverBackgroundColor: colorScheme.brand.background,
+          pointHoverBorderColor: colorScheme.brand.background,
+          hoverBorderWidth: 4,
+          pointRadius: 4,
+          pointHoverRadius: 4,
+          pointStyle: lineChartPatterns[i].pointStyle,
+          borderDash: lineChartPatterns[i].lineBorderDash,
+        } as any;
+      }
+      return dataPointConfig as Chart.ChartDataSets;
+    });
+
+  const createAreaChartDataPoints = (
+    ctx: CanvasRenderingContext2D
+  ): Chart.ChartDataSets[] =>
+    Array.from(data.datasets, (set, i) => {
+      const gradientStroke = ctx.createLinearGradient(
+        0,
+        0,
+        0,
+        ctx.canvas.clientHeight * 0.8
+      );
+      const hoverGradientStroke = ctx.createLinearGradient(
+        0,
+        0,
+        0,
+        ctx.canvas.clientHeight * 0.8
+      );
+      if (theme === TeamsTheme.HighContrast) {
+        const colorRGB = hexToRgb(colorScheme.brand.background);
+        const hoverColorRGB = hexToRgb(colorScheme.default.borderHover);
+        gradientStroke.addColorStop(0, `rgba(${colorRGB}, .2)`);
+        gradientStroke.addColorStop(1, `rgba(${colorRGB}, .0)`);
+        hoverGradientStroke.addColorStop(0, `rgba(${hoverColorRGB}, .4)`);
+        hoverGradientStroke.addColorStop(1, `rgba(${hoverColorRGB}, .0)`);
+      } else {
+        const colorRGB = hexToRgb(chartDataPointColors[i]);
+        gradientStroke.addColorStop(0, `rgba(${colorRGB}, .4)`);
+        gradientStroke.addColorStop(1, `rgba(${colorRGB}, .0)`);
+        hoverGradientStroke.addColorStop(0, `rgba(${colorRGB}, .6)`);
+        hoverGradientStroke.addColorStop(1, `rgba(${colorRGB}, .0)`);
+      }
+
+      let dataPointConfig = {
+        label: set.label,
+        data: set.data,
+        borderColor: chartDataPointColors[i],
+        hoverBorderColor: chartDataPointColors[i],
+        hoverBorderWidth: 2,
+        backgroundColor: gradientStroke as any,
+        hoverBackgroundColor: hoverGradientStroke as any,
         borderWidth: 2,
         pointBorderColor: chartDataPointColors[i],
         pointBackgroundColor: chartDataPointColors[i],
@@ -263,7 +338,9 @@ export const LineChart = ({
     const ctx = canvasRef.current.getContext("2d");
     if (!ctx) return;
     // Apply new colors scheme for data points
-    chartRef.current.data.datasets = createDataPoints();
+    chartRef.current.data.datasets = gradients
+      ? createAreaChartDataPoints(ctx)
+      : createDataPoints();
     // Update tooltip colors scheme
     setTooltipColorScheme({
       chart: chartRef.current,

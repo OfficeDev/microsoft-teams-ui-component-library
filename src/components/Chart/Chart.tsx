@@ -11,6 +11,7 @@ import {
   PieChart,
   LineChart,
   LineAreaChart,
+  DoughnutChart,
   LineStackedChart,
   BarStackedChart,
   ChartEmptyState,
@@ -30,6 +31,7 @@ const CHARTS = {
   [ChartOptions.BarHorizontal]: BarHorizontalChart,
   [ChartOptions.BarHorizontalStacked]: BarHorizontalStackedChart,
   [ChartOptions.Pie]: PieChart,
+  [ChartOptions.Doughnut]: DoughnutChart,
 };
 
 /**

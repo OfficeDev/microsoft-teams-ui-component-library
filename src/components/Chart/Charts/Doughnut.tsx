@@ -1,9 +1,9 @@
 import React from "react";
 import { SiteVariablesPrepared } from "@fluentui/react-northstar";
 import { IChartData } from "../ChartTypes";
-import { BarChart } from "./Bar";
+import { PieChart } from "./Pie";
 
-export const BarStackedChart = ({
+export const DoughnutChart = ({
   title,
   data,
   siteVariables,
@@ -12,12 +12,12 @@ export const BarStackedChart = ({
   data: IChartData;
   siteVariables: SiteVariablesPrepared;
 }) => (
-  <BarChart
+  <PieChart
     {...{
       title,
       data,
       siteVariables,
-      stacked: true,
+      cutoutPercentage: 70,
     }}
   />
 );

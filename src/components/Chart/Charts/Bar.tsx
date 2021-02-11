@@ -9,22 +9,21 @@ import {
   chartConfig,
   axesConfig,
   setTooltipColorScheme,
+  usNumberFormat,
 } from "../ChartUtils";
 import { ChartContainer } from "./ChartContainer";
-import {
-  buildPattern,
-  chartBarDataPointPatterns,
-  lineChartPatterns,
-} from "../ChartPatterns";
+import { buildPattern, chartBarDataPointPatterns } from "../ChartPatterns";
 
 export const BarChart = ({
   title,
   data,
   siteVariables,
+  stacked,
 }: {
   title: string;
   data: IChartData;
   siteVariables: SiteVariablesPrepared;
+  stacked?: boolean;
 }) => {
   const { colorScheme, theme, colors } = siteVariables;
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
@@ -104,6 +103,20 @@ export const BarChart = ({
     config.options.hover.mode = "nearest";
     config.options.scales.xAxes[0].gridLines.offsetGridLines =
       data.datasets.length > 1 ? true : false;
+
+    if (stacked) {
+      config.options.scales.yAxes[0].stacked = true;
+      config.options.scales.xAxes[0].stacked = true;
+      config.options.tooltips.callbacks.title = (tooltipItems: any) => {
+        let total = 0;
+        data.datasets.map(
+          (dataset) => (total += dataset.data[tooltipItems[0].index])
+        );
+        return `${((tooltipItems[0].yLabel / total) * 100).toPrecision(
+          2
+        )}% (${usNumberFormat(tooltipItems[0].yLabel)})`;
+      };
+    }
 
     chartRef.current = new Chart(ctx, {
       ...(config as any),
