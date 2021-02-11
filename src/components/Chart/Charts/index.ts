@@ -5,5 +5,6 @@ export * from "./Bar";
 export * from "./BarStacked";
 export * from "./BarHorizontal";
 export * from "./BarHorizontalStacked";
+export * from "./Pie";
 export * from "./ErrorState";
 export * from "./EmptyState";

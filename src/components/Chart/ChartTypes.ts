@@ -17,6 +17,7 @@ export enum ChartOptions {
   BarStacked = "barStacked",
   BarHorizontal = "barHorizontal",
   BarHorizontalStacked = "barHorizontalStacked",
+  Pie = "pie",
 }
 
 export enum PointStyles {

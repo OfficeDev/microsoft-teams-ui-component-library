@@ -7,10 +7,11 @@ import {
 import { ChartTheme } from "./ChartTheme";
 import { IChartData, ChartOptions } from "./ChartTypes";
 import {
+  BarChart,
+  PieChart,
   LineChart,
   LineAreaChart,
   LineStackedChart,
-  BarChart,
   BarStackedChart,
   ChartEmptyState,
   ChartErrorState,
@@ -28,6 +29,7 @@ const CHARTS = {
   [ChartOptions.BarStacked]: BarStackedChart,
   [ChartOptions.BarHorizontal]: BarHorizontalChart,
   [ChartOptions.BarHorizontalStacked]: BarHorizontalStackedChart,
+  [ChartOptions.Pie]: PieChart,
 };
 
 /**

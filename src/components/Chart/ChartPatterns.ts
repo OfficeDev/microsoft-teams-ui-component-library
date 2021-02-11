@@ -130,20 +130,20 @@ export const chartBarDataPointPatterns: IChartPatterns = (colorScheme: any) => {
       size: 5,
     },
     {
-      shapeType: Shapes.GridRightLeft,
-      size: 3,
+      shapeType: Shapes.Square,
+      size: 10,
     },
     {
       shapeType: Shapes.Diagonal,
       size: 5,
     },
     {
-      shapeType: Shapes.Square,
+      shapeType: Shapes.Grid,
       size: 10,
     },
     {
-      shapeType: Shapes.Grid,
-      size: 10,
+      shapeType: Shapes.GridRightLeft,
+      size: 3,
     },
     {
       shapeType: Shapes.VerticalLine,

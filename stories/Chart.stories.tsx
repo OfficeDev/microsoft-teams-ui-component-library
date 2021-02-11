@@ -231,6 +231,25 @@ export const HorizontalStackedBarChart = () => {
   );
 };
 
+const pieKnobGroupID = "Pie chart";
+
+export const PieChart = () => {
+  const dataVizProps = {
+    title: "Pie chart sample",
+    type: ChartOptions.Pie,
+    data: {
+      labels: ["Jan", "Feb", "March", "April", "May"],
+      datasets: [
+        {
+          label: "Watches",
+          data: [2004, 1600, 480, 504, 1000],
+        },
+      ],
+    },
+  };
+  return <Chart {...object("Configuration", dataVizProps, pieKnobGroupID)} />;
+};
+
 const noDataKnobGroupID = "Chart empty state";
 
 export const NoDataState = () => {

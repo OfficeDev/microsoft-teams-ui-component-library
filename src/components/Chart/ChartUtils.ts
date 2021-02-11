@@ -214,7 +214,7 @@ export const horizontalStackedBarValue = ({ chart, ctx }: any) => {
 export const chartConfig = ({
   type,
 }: {
-  type: "line" | "bar" | "horizontalBar";
+  type: "line" | "bar" | "horizontalBar" | "pie";
 }) => ({
   type,
   options: {
