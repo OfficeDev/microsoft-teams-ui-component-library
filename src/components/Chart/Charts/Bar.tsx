@@ -101,7 +101,7 @@ export const BarChart = ({
     const ctx = canvasRef.current.getContext("2d");
     if (!ctx) return;
     const config: any = chartConfig({ type: "bar" });
-    config.options.hover.mode = "index";
+    config.options.hover.mode = "nearest";
     config.options.scales.xAxes[0].gridLines.offsetGridLines =
       data.datasets.length > 1 ? true : false;
 
