@@ -49,6 +49,7 @@ export const teamsNextVariableAssignments = {
         color: variables.color,
         backgroundColor: variables.backgroundColor,
         borderColor: variables.borderColor,
+        borderWidth: variables.borderWidth,
         boxShadow: variables.elevation,
       }),
     },
@@ -75,6 +76,7 @@ export const teamsNextVariableAssignments = {
       root: ({ variables }: ComponentVariablesObject) => ({
         color: variables.color,
         backgroundColor: variables.backgroundColor,
+        fontWeight: variables.fontWeight,
         ...(variables.hoverBackgroundColor && {
           "&:hover": {
             backgroundColor: variables.hoverBackgroundColor,

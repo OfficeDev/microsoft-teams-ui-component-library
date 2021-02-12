@@ -628,7 +628,14 @@ const FormSection = (props: IFormSectionProps | IFormHeaderSectionProps) => {
         </Text>
       )}
       {section.preface && (
-        <Text as="p">{getText(t.locale, section.preface)}</Text>
+        <Text
+          as="p"
+          variables={({ colorScheme }: SiteVariablesPrepared) => ({
+            color: colorScheme.default.foreground2,
+          })}
+        >
+          {getText(t.locale, section.preface)}
+        </Text>
       )}
       {section.inputGroups?.length &&
         section.inputGroups.map((inputGroup, gi) => (

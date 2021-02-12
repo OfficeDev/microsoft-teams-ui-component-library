@@ -13,6 +13,7 @@ import {
 } from "@fluentui/react-northstar";
 
 import { getText, TTextObject } from "../../translations";
+import { TeamsTheme } from "../../themes";
 
 import { WithOptionalInternalCallbacks, Surface } from "../../types/types";
 
@@ -344,9 +345,17 @@ export const FormWizardStep = ({
                     "@media screen and (min-width: 34rem)": {
                       left: "14rem",
                     },
+                    borderTopStyle: "solid",
                   }}
-                  variables={({ colorScheme }: SiteVariablesPrepared) => ({
+                  variables={({
+                    colorScheme,
+                    theme,
+                  }: SiteVariablesPrepared) => ({
                     elevation: colorScheme.elevations[16],
+                    borderColor: colorScheme.default.foreground,
+                    borderWidth: `${
+                      theme === TeamsTheme.HighContrast ? "1px" : 0
+                    } 0 0 0`,
                   })}
                 >
                   {cancel && (

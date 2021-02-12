@@ -17,6 +17,7 @@ import {
   TFormInteraction,
 } from "../Form/Form";
 import { getText, TTextObject } from "../../translations";
+import { TeamsTheme } from "../../themes";
 
 interface IWizardSidebarInteraction {
   event: "click";
@@ -83,9 +84,14 @@ const WizardSidebar = ({
                           }}
                           variables={({
                             colorScheme,
-                          }: SiteVariablesPrepared) => ({
-                            color: colorScheme.green.foreground,
-                          })}
+                            theme,
+                          }: SiteVariablesPrepared) =>
+                            theme === TeamsTheme.HighContrast
+                              ? {}
+                              : {
+                                  color: colorScheme.green.foreground,
+                                }
+                          }
                         >
                           <AcceptIcon
                             styles={{
@@ -101,21 +107,44 @@ const WizardSidebar = ({
                       {getText(t.locale, stepTitle)}
                     </>
                   ),
-                  variables: ({ colorScheme }: SiteVariablesPrepared) => ({
+                  variables: ({
+                    colorScheme,
+                    theme,
+                  }: SiteVariablesPrepared) => ({
                     color:
                       si > activeStepIndex
-                        ? colorScheme.default.foregroundDisabled
+                        ? theme === TeamsTheme.HighContrast
+                          ? colorScheme.default.foregroundDisabled1
+                          : colorScheme.default.foregroundDisabled
+                        : theme === TeamsTheme.HighContrast &&
+                          si === activeStepIndex
+                        ? colorScheme.default.foregroundActive1
                         : colorScheme.default.foreground1,
-                    ...(si === activeStepIndex && {
-                      backgroundColor: colorScheme.default.background,
-                      hoverBackgroundColor: colorScheme.default.background,
-                    }),
+                    ...(si === activeStepIndex
+                      ? {
+                          backgroundColor:
+                            theme === TeamsTheme.HighContrast
+                              ? colorScheme.default.backgroundActive1
+                              : colorScheme.default.background,
+                          hoverBackgroundColor:
+                            theme === TeamsTheme.HighContrast
+                              ? colorScheme.default.backgroundActive1
+                              : colorScheme.default.background,
+                          fontWeight: 600,
+                        }
+                      : {
+                          hoverBackgroundColor:
+                            theme === TeamsTheme.HighContrast
+                              ? colorScheme.default.background5
+                              : colorScheme.default.background,
+                        }),
                   }),
                   styles: {
                     minHeight: "none",
                     paddingTop: ".4375rem",
                     paddingBottom: ".4375rem",
                     borderRadius: ".1875rem",
+                    ...(si > activeStepIndex && { pointerEvents: "none" }),
                   },
                   ...(onInteraction && {
                     onClick: () =>
@@ -127,7 +156,7 @@ const WizardSidebar = ({
                   }),
                 }))}
                 styles={{
-                  padding: ".5rem",
+                  padding: "1.5rem .5rem",
                 }}
               />
             </CustomScrollArea>
