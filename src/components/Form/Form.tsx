@@ -60,6 +60,10 @@ export interface IFormWizardStepDialogProps extends IFormWizardStepProps {
   trigger: JSX.Element;
 }
 
+const dialogStyles = {
+  minWidth: "320px",
+};
+
 const initialFormState = (sections: ISection[]) => {
   return sections.reduce(
     (acc_i: IFormState, { inputGroups }) =>
@@ -238,6 +242,7 @@ export const FormDialog = ({
                       t,
                       formState,
                       setFormState,
+                      breakpointOffset: 28,
                     }}
                   />
                 </FluentUIForm>
@@ -270,6 +275,7 @@ export const FormDialog = ({
           },
         }),
       }}
+      styles={dialogStyles}
     />
   );
 };
@@ -327,6 +333,7 @@ export const FormWizardStep = ({
                     formState,
                     setFormState,
                     align: "left",
+                    breakpointOffset: 14,
                   }}
                 />
 
@@ -434,12 +441,20 @@ export const FormWizardStepDialog = ({
             trigger={trigger}
             trapFocus
             content={
-              <FormTheme globalTheme={globalTheme} surface={Surface.raised}>
-                <CustomScrollArea>
+              <FormTheme
+                globalTheme={globalTheme}
+                surface={Surface.raised}
+                styles={{ marginRight: "-1rem" }}
+              >
+                <CustomScrollArea
+                  options={{ suppressScrollX: true }}
+                  style={{ maxHeight: "74vh" }}
+                >
                   <FluentUIForm
                     styles={{
                       display: "block",
                       backgroundColor: "var(--surface-background)",
+                      paddingRight: "1rem",
                     }}
                   >
                     <FormContent
@@ -452,6 +467,7 @@ export const FormWizardStepDialog = ({
                         t,
                         formState,
                         setFormState,
+                        breakpointOffset: 28,
                       }}
                     />
                   </FluentUIForm>
@@ -508,6 +524,7 @@ export const FormWizardStepDialog = ({
                 );
               },
             }}
+            styles={dialogStyles}
           />
         );
       }}

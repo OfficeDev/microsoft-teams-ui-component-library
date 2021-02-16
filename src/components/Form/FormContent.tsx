@@ -66,6 +66,7 @@ interface IPreparedInput {
   setFormState: Dispatch<SetStateAction<IFormState>>;
   t: TTranslations;
   errors?: TFormErrors;
+  breakpointOffset?: number;
 }
 
 interface ITextField extends ITextInputBase {
@@ -279,15 +280,19 @@ const DropdownField = (
   );
 };
 
-const splitQuery = (rowSize: number) =>
-  `@media (min-width: ${16 * 8.25 * rowSize}px)`;
+const splitQuery = (rowSize: number, breakpointOffset: number) =>
+  `@media (min-width: ${16 * 8.25 * rowSize + 16 * breakpointOffset}px)`;
 
-const textInputStyles = (rowSize: number, group: number) => ({
+const textInputStyles = (
+  rowSize: number,
+  group: number,
+  breakpointOffset = 0
+) => ({
   flex: "1 0 auto",
   marginRight: ".75rem",
   marginBottom: group === 0 ? ".25rem" : ".75rem",
   width: "100%",
-  [splitQuery(rowSize)]: {
+  [splitQuery(rowSize, breakpointOffset)]: {
     order: group,
     width: `calc(${(100 / rowSize).toFixed(1)}% - .75rem)`,
   },
@@ -300,6 +305,7 @@ const TextInputsGroup = ({
   errors,
   formState,
   setFormState,
+  breakpointOffset,
 }: IPreparedTextInputs) => {
   const rows: TField[][] = [];
   let i = 0;
@@ -333,7 +339,7 @@ const TextInputsGroup = ({
             styles={{
               display: "flex",
               flexFlow: "row wrap",
-              [splitQuery(rowFields.length)]: {
+              [splitQuery(rowFields.length, breakpointOffset || 0)]: {
                 marginRight: "-.75rem",
               },
             }}
@@ -347,7 +353,11 @@ const TextInputsGroup = ({
                   <Input.Label
                     htmlFor={id}
                     id={labelId(id)}
-                    styles={textInputStyles(rowFields.length, 0)}
+                    styles={textInputStyles(
+                      rowFields.length,
+                      0,
+                      breakpointOffset
+                    )}
                   >
                     {getText(t?.locale, title)}
                   </Input.Label>
@@ -372,7 +382,11 @@ const TextInputsGroup = ({
                             id={id}
                             label={getText(t?.locale, title)}
                             styles={{
-                              ...textInputStyles(rowFields.length, 1),
+                              ...textInputStyles(
+                                rowFields.length,
+                                1,
+                                breakpointOffset
+                              ),
                               ...(error && { marginBottom: 0 }),
                             }}
                             onChange={(_e, props) => {
@@ -421,7 +435,11 @@ const TextInputsGroup = ({
                             })}
                             {...(error && { error: true })}
                             styles={{
-                              ...textInputStyles(rowFields.length, 1),
+                              ...textInputStyles(
+                                rowFields.length,
+                                1,
+                                breakpointOffset
+                              ),
                               ...(error && { marginBottom: 0 }),
                             }}
                             aria-labelledby={[labelId(id)]
@@ -445,12 +463,20 @@ const TextInputsGroup = ({
                       message={error}
                       t={t}
                       id={errorId(id)}
-                      styles={textInputStyles(rowFields.length, 2)}
+                      styles={textInputStyles(
+                        rowFields.length,
+                        2,
+                        breakpointOffset
+                      )}
                     />
                   ) : (
                     <Box
                       styles={{
-                        ...textInputStyles(rowFields.length, 2),
+                        ...textInputStyles(
+                          rowFields.length,
+                          2,
+                          breakpointOffset
+                        ),
                         marginBottom: 0,
                       }}
                     />
@@ -646,6 +672,7 @@ const FormSection = (props: IFormSectionProps | IFormHeaderSectionProps) => {
               errors,
               formState: (props as IFormSectionProps).formState,
               setFormState: (props as IFormSectionProps).setFormState,
+              breakpointOffset: (props as IFormSectionProps).breakpointOffset,
             }}
             key={`${(props as IFormSectionProps).keyPrefix}__Group-${gi}`}
           />
@@ -660,6 +687,7 @@ interface IFormContentProps extends Omit<IFormProps, "submit"> {
   t: TTranslations;
   flush?: boolean;
   align?: string;
+  breakpointOffset?: number;
 }
 
 export const setInitialValue = (
@@ -701,6 +729,7 @@ export const FormContent = React.memo(
     formState,
     setFormState,
     align,
+    breakpointOffset,
   }: IFormContentProps) => {
     return (
       <MaxWidth {...{ flush, align }}>
@@ -738,6 +767,7 @@ export const FormContent = React.memo(
                 errors,
                 formState,
                 setFormState,
+                breakpointOffset,
               }}
             />
           );
