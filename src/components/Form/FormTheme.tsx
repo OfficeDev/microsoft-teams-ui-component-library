@@ -36,6 +36,10 @@ const getLocalTheme = (
           backgroundColor: "var(--input-background)",
           "&:hover": { backgroundColor: "var(--input-background)" },
           "&:focus": { backgroundColor: "var(--input-background)" },
+          borderTopWidth: themeName === TeamsTheme.HighContrast ? "1px" : 0,
+          borderRightWidth: themeName === TeamsTheme.HighContrast ? "1px" : 0,
+          borderBottomWidth: themeName === TeamsTheme.HighContrast ? "2px" : 0,
+          borderLeftWidth: themeName === TeamsTheme.HighContrast ? "1px" : 0,
         }),
       },
       Input: {
