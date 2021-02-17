@@ -18,6 +18,10 @@ import {
 } from "../Toolbar/Toolbar";
 import { TActions, Communication } from "../..";
 import { TCommunication, TCommunicationInteraction } from "../Communication";
+import { ProviderConsumer as FluentUIThemeConsumer } from "@fluentui/react-northstar/dist/es/components/Provider/ProviderConsumer";
+import { TeamsTheme } from "../../themes";
+import { CommunicationOptions } from "../../../lib";
+import { getText } from "../../translations";
 
 export type TListInteraction =
   | TTableInteraction
@@ -214,7 +218,7 @@ export const List = (props: IListProps) => {
         aria-controls="fluentui-teams__list-content"
         aria-label="List content controls"
       />
-      {Object.keys(props.rows).length > 0 || !props.emptyState ? (
+      {Object.keys(props.rows).length > 0 ? (
         <Table
           {...tableProps}
           {...{ onSelectedChange, filterBy }}
@@ -223,12 +227,25 @@ export const List = (props: IListProps) => {
           aria-label="List content"
         />
       ) : (
-        <Box styles={{ height: "calc(100vh - 4.25rem)" }}>
-          <Communication
-            {...props.emptyState}
-            onInteraction={props.onInteraction}
-          />
-        </Box>
+        <FluentUIThemeConsumer
+          render={(globalTheme) => {
+            const { t } = globalTheme.siteVariables;
+            return (
+              <Box styles={{ height: "calc(100vh - 4.25rem)" }}>
+                <Communication
+                  {...(props.emptyState || {
+                    option: CommunicationOptions.Empty,
+                    fields: {
+                      title: getText(t.locale, t["list empty header"]),
+                      desc: getText(t.locale, t["list empty body"]),
+                    },
+                  })}
+                  onInteraction={props.onInteraction}
+                />
+              </Box>
+            );
+          }}
+        />
       )}
     </>
   );

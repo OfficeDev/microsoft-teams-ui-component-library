@@ -93,23 +93,6 @@ const listConfig = {
       },
     },
   },
-  emptyState: {
-    option: CommunicationOptions.Empty,
-    fields: {
-      title: fake("{{lorem.sentence}}"),
-      desc: fake("{{lorem.sentences}}"),
-      actions: {
-        primary: {
-          label: fake("{{hacker.verb}}"),
-          target: "action_1",
-        },
-        secondary: {
-          label: fake("{{hacker.verb}}"),
-          target: "action_2",
-        },
-      },
-    },
-  },
 };
 
 export const KitchenSink = () => {
@@ -134,6 +117,38 @@ export const Empty = () => {
   return (
     <List
       {...object("Configuration", { ...listConfig, rows: {} }, listKnobGroupID)}
+      {...eventsFromNames}
+    />
+  );
+};
+
+export const CustomEmpty = () => {
+  return (
+    <List
+      {...object("Configuration", { ...listConfig, rows: {} }, listKnobGroupID)}
+      {...object(
+        "Empty state",
+        {
+          emptyState: {
+            option: CommunicationOptions.Empty,
+            fields: {
+              title: fake("{{lorem.sentence}}"),
+              desc: fake("{{lorem.sentences}}"),
+              actions: {
+                primary: {
+                  label: fake("{{hacker.verb}}"),
+                  target: "action_1",
+                },
+                secondary: {
+                  label: fake("{{hacker.verb}}"),
+                  target: "action_2",
+                },
+              },
+            },
+          },
+        },
+        listKnobGroupID
+      )}
       {...eventsFromNames}
     />
   );
