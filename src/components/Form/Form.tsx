@@ -24,6 +24,7 @@ import {
   ISection,
   ITextInputs,
   setInitialValue,
+  TInputGroup,
 } from "./FormContent";
 
 export interface IFormState {
@@ -77,7 +78,7 @@ const initialFormState = (sections: ISection[]) => {
                   acc_j
                 );
               default:
-                return setInitialValue(acc_j, inputGroup);
+                return setInitialValue(acc_j, inputGroup as TInputGroup);
             }
           }, acc_i)
         : acc_i,

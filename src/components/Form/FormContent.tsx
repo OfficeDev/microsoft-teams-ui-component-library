@@ -4,6 +4,10 @@ import React, {
   SetStateAction,
   SyntheticEvent,
 } from "react";
+
+import get from "lodash/get";
+import chunk from "lodash/chunk";
+
 import {
   Alert,
   Box,
@@ -19,16 +23,13 @@ import {
   Text,
   TextArea,
 } from "@fluentui/react-northstar";
-import { getText, TTextObject, TTranslations } from "../../translations";
 import { ICSSInJSStyle } from "@fluentui/styles";
 import {
   ExclamationCircleIcon,
   ExclamationTriangleIcon,
 } from "@fluentui/react-icons-northstar";
-import get from "lodash/get";
-import chunk from "lodash/chunk";
-import uniqueId from "lodash/uniqueId";
 
+import { getText, TTextObject, TTranslations } from "../../translations";
 import { IFormProps, IFormState, TFormErrors } from "./Form";
 
 interface IEnumerableInputOption {
@@ -59,7 +60,10 @@ interface ITextInputBase {
   initialValue?: string;
 }
 
-export type TInputWidth = "split" | "full";
+export enum EInputWidth {
+  split = "split",
+  full = "full",
+}
 
 interface IPreparedInput {
   formState: IFormState;
@@ -69,13 +73,26 @@ interface IPreparedInput {
   breakpointOffset?: number;
 }
 
+export enum EFieldType {
+  text = "text",
+  dropdown = "dropdown",
+}
+
+export enum ESectionType {
+  textInputs = "text-inputs",
+  dropdown = "dropdown",
+  multilineText = "multiline-text",
+  radioButtons = "radio-buttons",
+  checkboxes = "checkboxes",
+}
+
 interface ITextField extends ITextInputBase {
-  type: "text";
-  width?: TInputWidth;
+  type: EFieldType.text;
+  width?: EInputWidth;
 }
 
 interface IMultilineTextInput extends ITextInputBase {
-  type: "multiline-text";
+  type: ESectionType.multilineText;
 }
 
 interface IPreparedMultilineTextInput
@@ -85,24 +102,24 @@ interface IPreparedMultilineTextInput
 export type TField = IDropdownInput | IDropdownMultipleInput | ITextField;
 
 export interface ITextInputs {
-  type: "text-inputs";
+  type: ESectionType.textInputs;
   fields: TField[];
 }
 
 interface IPreparedTextInputs extends ITextInputs, IPreparedInput {}
 
 interface IDropdownInput extends IEnumerableSingletonInputBase {
-  type: "dropdown";
+  type: EFieldType.dropdown | ESectionType.dropdown;
   multiple?: false;
-  width?: TInputWidth;
+  width?: EInputWidth;
 }
 
 interface IPreparedDropdownInput extends IDropdownInput, IPreparedInput {}
 
 interface IDropdownMultipleInput extends IEnumerableMultipleInputBase {
-  type: "dropdown";
+  type: EFieldType.dropdown | ESectionType.dropdown;
   multiple: true;
-  width?: TInputWidth;
+  width?: EInputWidth;
 }
 
 interface IPreparedDropdownMultipleInput
@@ -110,7 +127,7 @@ interface IPreparedDropdownMultipleInput
     IPreparedInput {}
 
 interface IRadioButtonsInput extends IEnumerableSingletonInputBase {
-  type: "radio-buttons";
+  type: ESectionType.radioButtons;
 }
 
 interface IPreparedRadioButtonsInput
@@ -118,13 +135,12 @@ interface IPreparedRadioButtonsInput
     IPreparedInput {}
 
 interface ICheckboxesInput extends IEnumerableMultipleInputBase {
-  type: "checkboxes";
+  type: ESectionType.checkboxes;
 }
 
 interface IPreparedCheckboxesInput extends ICheckboxesInput, IPreparedInput {}
 
-type TInputGroup =
-  | ITextInputs
+export type TInputGroup =
   | IMultilineTextInput
   | IDropdownInput
   | IDropdownMultipleInput
@@ -142,7 +158,7 @@ type TPreparedInputGroup =
 export interface ISection {
   title?: TTextObject;
   preface?: TTextObject;
-  inputGroups?: TInputGroup[];
+  inputGroups?: (TInputGroup | ITextInputs)[];
 }
 
 interface IFormSectionProps extends IPreparedInput {

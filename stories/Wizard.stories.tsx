@@ -10,7 +10,12 @@ import fakerFA from "faker/locale/fa";
 import { Button } from "@fluentui/react-northstar";
 
 import { Wizard, WizardDialog } from "../src";
-import { TInputWidth } from "../src/components/Form/FormContent";
+import { IFormWizardStepProps } from "../src/components/Form/Form";
+import {
+  EFieldType,
+  EInputWidth,
+  ESectionType,
+} from "../src/components/Form/FormContent";
 
 const eventsFromNames = actions("onInteraction");
 
@@ -34,7 +39,6 @@ export default {
 const wizardKnobGroupID = "Wizard";
 const kitchenSinkConfig = {
   stepTitles: range(8).map((_) => fake("{{commerce.product}}")),
-  trigger: <Button content="↗️" />,
   activeStepIndex: 2,
   activeStep: {
     submit: {
@@ -59,24 +63,24 @@ const kitchenSinkConfig = {
         preface: fake("{{lorem.sentence}}"),
         inputGroups: [
           {
-            type: "text-inputs" as "text-inputs",
+            type: ESectionType.textInputs,
             fields: range(2).map((_) => ({
-              type: "text" as "text",
+              type: EFieldType.text,
               title: fake("{{commerce.productAdjective}} {{commerce.product}}"),
-              width: "split" as TInputWidth,
+              width: EInputWidth.split,
               inputId: uniqueId("f"),
               placeholder: fake("{{commerce.productMaterial}}"),
             })),
           },
           {
-            type: "text-inputs" as "text-inputs",
+            type: ESectionType.textInputs,
             fields: [
               {
-                type: "dropdown" as "dropdown",
+                type: EFieldType.dropdown,
                 title: fake(
                   "{{commerce.productAdjective}} {{commerce.product}}"
                 ),
-                width: "split" as TInputWidth,
+                width: EInputWidth.split,
                 inputId: uniqueId("f"),
                 multiple: false,
                 options: range(2 + Math.random() * 5).map(() => ({
@@ -85,20 +89,20 @@ const kitchenSinkConfig = {
                 })),
               },
               {
-                type: "text" as "text",
+                type: EFieldType.text,
                 title: fake("{{commerce.product}}"),
-                width: "split" as TInputWidth,
+                width: EInputWidth.split,
                 inputId: uniqueId("f"),
                 ...(Math.random() > 0.5
                   ? { placeholder: fake("{{commerce.productMaterial}}") }
                   : {}),
               },
               {
-                type: "text" as "text",
+                type: EFieldType.text,
                 title: fake(
                   "{{commerce.productAdjective}} {{commerce.product}}"
                 ),
-                width: "split" as TInputWidth,
+                width: EInputWidth.split,
                 inputId: uniqueId("f"),
                 ...(Math.random() > 0.5
                   ? { placeholder: fake("{{commerce.productMaterial}}") }
@@ -107,7 +111,7 @@ const kitchenSinkConfig = {
             ],
           },
           {
-            type: "checkboxes" as "checkboxes",
+            type: ESectionType.checkboxes,
             title: fake("{{commerce.productAdjective}} {{commerce.product}}"),
             inputId: uniqueId("f"),
             options: range(2 + Math.random() * 5).map(() => ({
@@ -116,11 +120,11 @@ const kitchenSinkConfig = {
             })),
           },
           {
-            type: "text-inputs" as "text-inputs",
+            type: ESectionType.textInputs,
             fields: range(1).map((_) => ({
-              type: "text" as "text",
+              type: EFieldType.text,
               title: fake("{{commerce.productAdjective}} {{commerce.product}}"),
-              width: "full" as TInputWidth,
+              width: EInputWidth.full,
               inputId: uniqueId("f"),
               ...(Math.random() > 0.5
                 ? { placeholder: fake("{{commerce.productMaterial}}") }
@@ -128,7 +132,7 @@ const kitchenSinkConfig = {
             })),
           },
           {
-            type: "radio-buttons" as "radio-buttons",
+            type: ESectionType.radioButtons,
             title: fake("{{commerce.productAdjective}} {{commerce.product}}"),
             inputId: uniqueId("f"),
             options: range(2 + Math.random() * 5).map(() => ({
@@ -137,7 +141,7 @@ const kitchenSinkConfig = {
             })),
           },
           {
-            type: "dropdown" as "dropdown",
+            type: ESectionType.dropdown,
             title: fake("{{commerce.productAdjective}} {{commerce.product}}"),
             inputId: uniqueId("f"),
             multiple: true,
@@ -149,7 +153,7 @@ const kitchenSinkConfig = {
         ],
       },
     ],
-  },
+  } as IFormWizardStepProps,
 };
 
 export const KitchenSinkInBaseSurface = () => {
@@ -164,6 +168,7 @@ export const KitchenSinkInBaseSurface = () => {
 export const KitchenSinkDialog = () => {
   return (
     <WizardDialog
+      trigger={<Button content="↗️" />}
       {...object("Configuration", kitchenSinkConfig, wizardKnobGroupID)}
       {...eventsFromNames}
     />
