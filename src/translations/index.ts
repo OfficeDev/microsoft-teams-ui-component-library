@@ -88,7 +88,11 @@ export default {
       "You have cancelled dragging the item called {itemTitle}.",
     "board lane instructions":
       "Press Enter to explore board lane items, then use Escape to shift focus back to the board lane.",
-    "list empty header": "Create your first list",
-    "list empty body": "Get started by adding a list item.",
+    "list empty header": "Create your first list item",
+    "list empty body":
+      "Get started with the ‘Add’ button in the toolbar above.",
+    "board empty header": "Create your first lane",
+    "board empty body":
+      "Get started with the ‘Add lane’ button in the toolbar above.",
   } as TTranslations,
 };

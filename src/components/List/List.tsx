@@ -19,7 +19,6 @@ import {
 import { TActions, Communication } from "../..";
 import { TCommunication, TCommunicationInteraction } from "../Communication";
 import { ProviderConsumer as FluentUIThemeConsumer } from "@fluentui/react-northstar/dist/es/components/Provider/ProviderConsumer";
-import { TeamsTheme } from "../../themes";
 import { CommunicationOptions } from "../../../lib";
 import { getText } from "../../translations";
 
