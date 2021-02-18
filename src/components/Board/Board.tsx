@@ -55,7 +55,7 @@ import {
 } from "./BoardItem";
 
 import { BoardItemDialog, BoardItemDialogAction } from "./BoardItemDialog";
-import { CommunicationOptions } from "../../../lib";
+import { CommunicationOptions } from "../Communication";
 
 const boardBehavior: Accessibility = () => ({
   attributes: {

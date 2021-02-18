@@ -19,7 +19,7 @@ import {
 import { TActions, Communication } from "../..";
 import { TCommunication, TCommunicationInteraction } from "../Communication";
 import { ProviderConsumer as FluentUIThemeConsumer } from "@fluentui/react-northstar/dist/es/components/Provider/ProviderConsumer";
-import { CommunicationOptions } from "../../../lib";
+import { CommunicationOptions } from "../Communication";
 import { getText } from "../../translations";
 
 export type TListInteraction =
