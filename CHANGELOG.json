@@ -2,6 +2,21 @@
   "name": "@fluentui/react-teams",
   "entries": [
     {
+      "date": "Fri, 19 Feb 2021 01:36:19 GMT",
+      "tag": "@fluentui/react-teams_v2.0.1",
+      "version": "2.0.1",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Add CommonJS output for NodeJS compat",
+            "author": "david@zuko.me",
+            "commit": "5dc0776669d990b4b78de5146598359cd0cb2483",
+            "package": "@fluentui/react-teams"
+          }
+        ]
+      }
+    },
+    {
       "date": "Mon, 18 Jan 2021 20:57:22 GMT",
       "tag": "@fluentui/react-teams_v2.0.0",
       "version": "2.0.0",
