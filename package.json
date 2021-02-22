@@ -6,6 +6,7 @@
   "license": "MIT",
   "main": "lib/index.js",
   "scripts": {
+    "api": "api-extractor run --local --verbose",
     "build": "just-scripts build",
     "build:storybook": "just-scripts build:storybook",
     "change": "beachball change --branch origin/main",
@@ -31,6 +32,7 @@
     "@babel/core": "^7.10.5",
     "@fluentui/react-icons-northstar": "^0.51.3",
     "@fluentui/react-northstar": "^0.51.3",
+    "@microsoft/api-extractor": "^7.13.1",
     "@storybook/addon-a11y": "^5.3.19",
     "@storybook/addon-actions": "^6.0.26",
     "@storybook/addon-docs": "^5.3.19",
