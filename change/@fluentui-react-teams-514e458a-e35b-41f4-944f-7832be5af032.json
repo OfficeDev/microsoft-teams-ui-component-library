@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "Add documentation for each component’s props and types.",
+  "packageName": "@fluentui/react-teams",
+  "email": "v-wishow@microsoft.com",
+  "dependentChangeType": "patch"
+}
