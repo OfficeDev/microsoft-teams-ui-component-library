@@ -18,6 +18,7 @@ import {
   ChartErrorState,
   BarHorizontalChart,
   BarHorizontalStackedChart,
+  BubbleChart,
 } from "./Charts";
 
 (ChartJS as any).defaults.global.legend.display = false;
@@ -32,6 +33,7 @@ const CHARTS = {
   [ChartOptions.BarHorizontalStacked]: BarHorizontalStackedChart,
   [ChartOptions.Pie]: PieChart,
   [ChartOptions.Doughnut]: DoughnutChart,
+  [ChartOptions.Bubble]: BubbleChart,
 };
 
 /**

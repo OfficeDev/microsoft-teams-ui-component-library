@@ -125,9 +125,12 @@ export const BarHorizontalChart = ({
       config.options.tooltips.axis = "y";
       config.options.tooltips.callbacks.title = (tooltipItems: any) => {
         let total = 0;
-        data.datasets.map(
-          (dataset) => (total += dataset.data[tooltipItems[0].index])
-        );
+        data.datasets.map((dataset) => {
+          const value = dataset.data[tooltipItems[0].index];
+          if (typeof value === "number") {
+            return (total += value);
+          }
+        });
         return `${((tooltipItems[0].xLabel / total) * 100).toPrecision(
           2
         )}% (${usNumberFormat(tooltipItems[0].xLabel)})`;
@@ -312,7 +315,7 @@ export const BarHorizontalChart = ({
         }}
         aria-label={title}
       >
-        {data.datasets.map((set, setKey) =>
+        {/* {data.datasets.map((set, setKey) =>
           set.data.map((item, itemKey) => (
             // Generated tooltips for screen readers
             <div key={itemKey} id={`${chartId}-tooltip-${setKey}-${itemKey}`}>
@@ -322,7 +325,7 @@ export const BarHorizontalChart = ({
               </span>
             </div>
           ))
-        )}
+        )} */}
       </canvas>
     </ChartContainer>
   );

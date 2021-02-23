@@ -9,3 +9,4 @@ export * from "./Pie";
 export * from "./Doughnut";
 export * from "./ErrorState";
 export * from "./EmptyState";
+export * from "./Bubble";

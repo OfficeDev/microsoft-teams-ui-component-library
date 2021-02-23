@@ -2,31 +2,35 @@ import { SiteVariablesPrepared } from "@fluentui/react-northstar";
 import Chart from "chart.js";
 import { TeamsTheme } from "../../themes";
 import { IChartData, IChartDataSet, IChartPatterns, IDraw } from "./ChartTypes";
-import {
-  buildPattern,
-  chartLineStackedDataPointPatterns,
-} from "./ChartPatterns";
+import { buildPattern } from "./ChartPatterns";
+
+export const random = (min: number, max: number): number =>
+  Math.round(Math.random() * (max - min) + min);
 
 // TODO: Localization
 const suffixes = ["K", "M", "G", "T", "P", "E"];
 
-export const chartAxis = (value: number | string): string => {
-  if (value < 1000) {
-    return String(value);
-  }
-  const exp = Math.floor(Math.log(Number(value)) / Math.log(1000));
-  value = `${Number(value) / Math.pow(1000, exp)}${suffixes[exp - 1]}`;
-  // There is no support for label aligment in Chart.js,
-  // to be able align axis labels by left (right is by default)
-  // add an additional spaces depends on label length
-  switch (value.length) {
-    case 2:
-      return value + "  ";
-    case 1:
-      return value + "   ";
-    case 3:
-    default:
-      return value;
+export const chartAxisCallback = (value: number | string): string => {
+  if (typeof value === "number") {
+    if (value < 1000) {
+      return String(value);
+    }
+    const exp = Math.floor(Math.log(Number(value)) / Math.log(1000));
+    value = `${Number(value) / Math.pow(1000, exp)}${suffixes[exp - 1]}`;
+    // There is no support for label aligment in Chart.js,
+    // to be able align axis labels by left (right is by default)
+    // add an additional spaces depends on label length
+    switch (value.length) {
+      case 2:
+        return value + "  ";
+      case 1:
+        return value + "   ";
+      case 3:
+      default:
+        return value;
+    }
+  } else {
+    return value;
   }
 };
 
@@ -193,9 +197,12 @@ export const horizontalBarValue = ({ chart, ctx, stacked }: any) => {
     );
     meta.data.forEach((bar: any, index: number) => {
       let data = 0;
-      chart.data.datasets.map(
-        (dataset: IChartDataSet) => (data += dataset.data[index])
-      );
+      chart.data.datasets.map((dataset: IChartDataSet) => {
+        const value = dataset.data[index];
+        if (typeof value === "number") {
+          return (data += value);
+        }
+      });
       ctx.fillText(data, bar._model.x + 8, bar._model.y);
     });
   } else {
@@ -212,7 +219,7 @@ export const horizontalBarValue = ({ chart, ctx, stacked }: any) => {
 export const chartConfig = ({
   type,
 }: {
-  type: "line" | "bar" | "horizontalBar" | "pie";
+  type: "line" | "bar" | "horizontalBar" | "pie" | "bubble";
 }) => ({
   type,
   options: {
@@ -251,6 +258,7 @@ export const chartConfig = ({
             labelOffset: 4,
             maxRotation: 0,
             minRotation: 0,
+            callback: chartAxisCallback,
           },
           gridLines: {
             borderDash: [5, 9999],
@@ -262,7 +270,7 @@ export const chartConfig = ({
         {
           stacked: false,
           ticks: {
-            callback: (v: number) => chartAxis(v),
+            callback: chartAxisCallback,
             fontSize: 10,
             padding: -16,
             labelOffset: 10,
@@ -390,10 +398,18 @@ export const tooltipConfig = () => ({
 
   callbacks: {
     title: (tooltipItems: any) => {
-      return usNumberFormat(tooltipItems[0].yLabel);
+      const value = tooltipItems[0].yLabel;
+      return typeof value === "number" && value > 999
+        ? usNumberFormat(value)
+        : value;
     },
     label: (tooltipItem: any, data: any) =>
       data.datasets[tooltipItem.datasetIndex].label,
-    footer: (tooltipItems: any) => tooltipItems[0].xLabel,
+    footer: (tooltipItems: any) => {
+      const value = tooltipItems[0].xLabel;
+      return typeof value === "number" && value > 999
+        ? usNumberFormat(value)
+        : value;
+    },
   },
 });

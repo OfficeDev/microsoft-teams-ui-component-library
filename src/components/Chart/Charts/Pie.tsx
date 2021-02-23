@@ -137,11 +137,11 @@ export const PieChart = ({
 
     config.options.tooltips.callbacks.title = (tooltipItems: any) => {
       return `${(
-        (data.datasets[0].data[tooltipItems[0].index] /
-          data.datasets[0].data.reduce((a, b) => a + b)) *
+        (Number(data.datasets[0].data[tooltipItems[0].index]) /
+          (data.datasets[0].data as number[]).reduce((a, b) => a + b)) *
         100
       ).toPrecision(2)}% (${usNumberFormat(
-        data.datasets[0].data[tooltipItems[0].index]
+        Number(data.datasets[0].data[tooltipItems[0].index])
       )})`;
     };
 
@@ -313,7 +313,7 @@ export const PieChart = ({
         }}
         aria-label={title}
       >
-        {data.datasets.map((set, setKey) =>
+        {/* {data.datasets.map((set, setKey) =>
           set.data.map((item, itemKey) => (
             // Generated tooltips for screen readers
             <div key={itemKey} id={`${chartId}-tooltip-${setKey}-${itemKey}`}>
@@ -323,7 +323,7 @@ export const PieChart = ({
               </span>
             </div>
           ))
-        )}
+        )} */}
       </canvas>
     </ChartContainer>
   );

@@ -1,11 +1,23 @@
 export interface IChartData {
-  labels: string[];
+  labels: string | string[];
   datasets: IChartDataSet[];
+}
+
+export interface IBubbleCombinedData {
+  x: number;
+  y: number;
+  value: IBubbleChartData;
+}
+
+export interface IBubbleChartData {
+  x: number;
+  y: number;
+  r: number;
 }
 
 export interface IChartDataSet {
   label: string;
-  data: number[];
+  data: number[] | IBubbleChartData[];
   isSelected?: boolean;
 }
 
@@ -19,6 +31,7 @@ export enum ChartOptions {
   BarHorizontalStacked = "barHorizontalStacked",
   Pie = "pie",
   Doughnut = "doughnut",
+  Bubble = "bubble",
 }
 
 export enum PointStyles {

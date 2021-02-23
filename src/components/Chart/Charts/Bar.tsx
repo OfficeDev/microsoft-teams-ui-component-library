@@ -109,9 +109,12 @@ export const BarChart = ({
       config.options.scales.xAxes[0].stacked = true;
       config.options.tooltips.callbacks.title = (tooltipItems: any) => {
         let total = 0;
-        data.datasets.map(
-          (dataset) => (total += dataset.data[tooltipItems[0].index])
-        );
+        data.datasets.map((dataset) => {
+          const value = dataset.data[tooltipItems[0].index];
+          if (typeof value === "number") {
+            return (total += value);
+          }
+        });
         return `${((tooltipItems[0].yLabel / total) * 100).toPrecision(
           2
         )}% (${usNumberFormat(tooltipItems[0].yLabel)})`;
@@ -311,7 +314,7 @@ export const BarChart = ({
         }}
         aria-label={title}
       >
-        {data.datasets.map((set, setKey) =>
+        {/* {data.datasets.map((set, setKey) =>
           set.data.map((item, itemKey) => (
             // Generated tooltips for screen readers
             <div key={itemKey} id={`${chartId}-tooltip-${setKey}-${itemKey}`}>
@@ -321,7 +324,7 @@ export const BarChart = ({
               </span>
             </div>
           ))
-        )}
+        )} */}
       </canvas>
     </ChartContainer>
   );
