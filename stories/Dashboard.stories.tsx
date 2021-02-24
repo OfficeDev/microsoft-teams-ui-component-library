@@ -348,7 +348,7 @@ const dataVizWidgets: IWidget[] = [
                   data: Array.from({ length: 99 }, () => ({
                     x: random(200000, 600000),
                     y: random(50, 150),
-                    r: random(5, 7),
+                    r: 4,
                   })),
                 },
               ],

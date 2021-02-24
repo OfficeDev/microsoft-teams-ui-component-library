@@ -3,12 +3,6 @@ export interface IChartData {
   datasets: IChartDataSet[];
 }
 
-export interface IBubbleCombinedData {
-  x: number;
-  y: number;
-  value: IBubbleChartData;
-}
-
 export interface IBubbleChartData {
   x: number;
   y: number;
@@ -18,7 +12,7 @@ export interface IBubbleChartData {
 export interface IChartDataSet {
   label: string;
   data: number[] | IBubbleChartData[];
-  isSelected?: boolean;
+  hidden?: boolean;
 }
 
 export enum ChartOptions {
@@ -67,4 +61,5 @@ export interface ILegendItem {
   kind: string;
   content: JSX.Element;
   fitted: string;
+  onClick: (index: number) => void;
 }

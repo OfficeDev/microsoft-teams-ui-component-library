@@ -8,7 +8,7 @@ import {
   Flex,
 } from "@fluentui/react-northstar";
 import { TeamsTheme } from "../../../themes";
-import { IChartData, IChartPatterns, ILegendItem } from "../ChartTypes";
+import { IChartPatterns, ILegendItem } from "../ChartTypes";
 import { legendLabels } from "../ChartPatterns";
 
 const LabelColorValue = ({
@@ -79,18 +79,25 @@ const LabelColorValue = ({
 const legendItem = ({
   key,
   value,
+  hidden,
   siteVariables,
   chartDataPointColors,
+  onLegendClick,
   patterns,
 }: {
   key: number;
   value: string;
   siteVariables: SiteVariablesPrepared;
   chartDataPointColors: any;
+  onLegendClick: (key: number) => void;
+  hidden?: boolean;
   patterns?: IChartPatterns;
 }): ILegendItem => ({
   key,
   kind: "custom",
+  onClick: () => {
+    onLegendClick(key);
+  },
   content: (
     <LegendItem
       styles={{
@@ -116,28 +123,32 @@ const legendItem = ({
 });
 
 const LegendItems = (
-  data: IChartData,
+  data: any,
   siteVariables: SiteVariablesPrepared,
   chartDataPointColors: any,
+  onLegendClick: (index: number) => void,
   verticalDataAlignment?: boolean,
   patterns?: IChartPatterns
 ): ILegendItem[] =>
   verticalDataAlignment
-    ? Array.from(data.labels, (label, key) =>
+    ? Array.from(data.labels, (label: any, key) =>
         legendItem({
           key,
           value: label,
           siteVariables,
           chartDataPointColors,
+          onLegendClick,
           patterns,
         })
       )
-    : Array.from(data.datasets, (dataset, key) =>
+    : Array.from(data.datasets, (dataset: any, key) =>
         legendItem({
           key,
           value: dataset.label,
+          hidden: dataset.hidden,
           siteVariables,
           chartDataPointColors,
+          onLegendClick,
           patterns,
         })
       );
@@ -147,13 +158,15 @@ export const ChartContainer = ({
   children,
   siteVariables,
   chartDataPointColors,
+  onLegendClick,
   verticalDataAlignment,
   patterns,
 }: {
-  data: IChartData;
+  data: any;
   children: React.ReactNode;
   siteVariables: SiteVariablesPrepared;
   chartDataPointColors: any;
+  onLegendClick: (index: number) => void;
   verticalDataAlignment?: boolean;
   patterns?: IChartPatterns;
 }) => {
@@ -164,6 +177,7 @@ export const ChartContainer = ({
     data,
     siteVariables,
     chartDataPointColors,
+    onLegendClick,
     verticalDataAlignment,
     patterns
   );
@@ -173,6 +187,7 @@ export const ChartContainer = ({
       data,
       siteVariables,
       chartDataPointColors,
+      onLegendClick,
       verticalDataAlignment,
       patterns
     );
@@ -201,7 +216,7 @@ export const ChartContainer = ({
       <Box>
         <Legend
           aria-label="Toolbar overflow menu"
-          items={legendItems}
+          items={legendItems as any}
           overflow
           overflowOpen={overflowOpen}
           overflowItem={{

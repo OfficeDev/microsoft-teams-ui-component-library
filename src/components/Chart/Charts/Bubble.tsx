@@ -2,12 +2,7 @@ import React, { useEffect } from "react";
 import Chart from "chart.js";
 import { SiteVariablesPrepared } from "@fluentui/react-northstar";
 import { TeamsTheme } from "../../../themes";
-import {
-  IBubbleChartData,
-  IBubbleCombinedData,
-  IChartData,
-  IChartDataSet,
-} from "../ChartTypes";
+import { IBubbleChartData, IChartData } from "../ChartTypes";
 import {
   tooltipTrigger,
   chartConfig,
@@ -15,7 +10,7 @@ import {
   setTooltipColorScheme,
 } from "../ChartUtils";
 import { ChartContainer } from "./ChartContainer";
-import { buildPattern, chartBarDataPointPatterns } from "../ChartPatterns";
+import { buildPattern, chartBubbleDataPointPatterns } from "../ChartPatterns";
 
 export const BubbleChart = ({
   title,
@@ -35,20 +30,19 @@ export const BubbleChart = ({
   );
   const chartDataPointColors = React.useMemo(
     () => [
-      colorScheme.brand.backgroundFocus2,
-      colorScheme.brand.foreground3,
       colorScheme.brand.background,
-      colorScheme.default.foreground2,
       colorScheme.default.borderHover,
+      colorScheme.brand.borderHover,
+      colorScheme.default.foreground2,
+      colorScheme.brand.background4,
       colorScheme.default.foreground,
     ],
     [theme]
   );
 
+  // Sort for kayboard access
   data.datasets.map((dataset) => {
-    dataset.data.sort((a: IBubbleChartData, b: IBubbleChartData) => {
-      return a.x - b.x;
-    });
+    dataset.data.sort((a: any, b: any) => a.x - b.x);
   });
 
   const createDataPoints = (): Chart.ChartDataSets[] =>
@@ -85,12 +79,12 @@ export const BubbleChart = ({
           pointHoverRadius: 0,
           borderColor: colorScheme.brand.background,
           backgroundColor: buildPattern({
-            ...chartBarDataPointPatterns(colorScheme)[i],
+            ...chartBubbleDataPointPatterns(colorScheme)[i],
             backgroundColor: colorScheme.default.background,
             patternColor: colorScheme.brand.background,
           }),
           hoverBackgroundColor: buildPattern({
-            ...chartBarDataPointPatterns(colorScheme)[i],
+            ...chartBubbleDataPointPatterns(colorScheme)[i],
             backgroundColor: colorScheme.default.background,
             patternColor: colorScheme.default.borderHover,
           }),
@@ -191,7 +185,7 @@ export const BubbleChart = ({
             dataset.borderColor = siteVariables.colorScheme.default.border;
             dataset.borderWidth = 2;
             dataset.backgroundColor = buildPattern({
-              ...chartBarDataPointPatterns(colorScheme)[i],
+              ...chartBubbleDataPointPatterns(colorScheme)[i],
               backgroundColor: colorScheme.default.background,
               patternColor: colorScheme.brand.background,
             });
@@ -284,7 +278,7 @@ export const BubbleChart = ({
       chart: chartRef.current,
       siteVariables,
       chartDataPointColors,
-      patterns: chartBarDataPointPatterns,
+      patterns: chartBubbleDataPointPatterns,
     });
     // Update axeses
     axesConfig({ chart: chartRef.current, ctx, colorScheme });
@@ -292,12 +286,20 @@ export const BubbleChart = ({
     chartRef.current.update();
   }, [theme]);
 
+  function onLegendClick(datasetIndex: number) {
+    if (!chartRef.current) return;
+    chartRef.current.data.datasets![datasetIndex].hidden = !chartRef.current
+      .data.datasets![datasetIndex].hidden;
+    chartRef.current.update();
+  }
+
   return (
     <ChartContainer
       siteVariables={siteVariables}
       data={data}
       chartDataPointColors={chartDataPointColors}
-      patterns={chartBarDataPointPatterns}
+      patterns={chartBubbleDataPointPatterns}
+      onLegendClick={onLegendClick}
     >
       <canvas
         id={chartId}
@@ -308,17 +310,19 @@ export const BubbleChart = ({
         }}
         aria-label={title}
       >
-        {/* {data.datasets.map((set, setKey) =>
-          set.data.map((item, itemKey) => (
-            // Generated tooltips for screen readers
-            <div key={itemKey} id={`${chartId}-tooltip-${setKey}-${itemKey}`}>
-              <p>{item}</p>
-              <span>
-                {set.label}: {set.data[itemKey]}
-              </span>
-            </div>
-          ))
-        )} */}
+        {data.datasets.map((set, setKey) =>
+          (set.data as IBubbleChartData[]).forEach(
+            (item: IBubbleChartData, itemKey: number) => (
+              // Generated tooltips for screen readers
+              <div key={itemKey} id={`${chartId}-tooltip-${setKey}-${itemKey}`}>
+                <p>{item.x}</p>
+                <span>
+                  {set.label}: {(set.data as IBubbleChartData[])[itemKey].y}
+                </span>
+              </div>
+            )
+          )
+        )}
       </canvas>
     </ChartContainer>
   );

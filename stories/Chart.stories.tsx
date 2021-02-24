@@ -2,6 +2,7 @@ import React from "react";
 import { object } from "@storybook/addon-knobs";
 import { Chart, ChartOptions } from "../src/components/Chart";
 import { random } from "../src/components/Chart/ChartUtils";
+import { Card, Flex } from "@fluentui/react-northstar";
 
 export default {
   title: "Components/Charts",
@@ -45,7 +46,9 @@ export const LineChart = () => {
     },
   };
   return (
-    <Chart {...object("Configuration", dataVizProps, dataVizKnobGroupID)} />
+    <Container>
+      <Chart {...object("Configuration", dataVizProps, dataVizKnobGroupID)} />
+    </Container>
   );
 };
 
@@ -74,7 +77,9 @@ export const StackedLineChart = () => {
     },
   };
   return (
-    <Chart {...object("Configuration", dataVizProps, stackedKnobGroupID)} />
+    <Container>
+      <Chart {...object("Configuration", dataVizProps, stackedKnobGroupID)} />
+    </Container>
   );
 };
 
@@ -98,7 +103,11 @@ export const AreaChart = () => {
       ],
     },
   };
-  return <Chart {...object("Configuration", dataVizProps, areaKnobGroupID)} />;
+  return (
+    <Container>
+      <Chart {...object("Configuration", dataVizProps, areaKnobGroupID)} />
+    </Container>
+  );
 };
 
 const barKnobGroupID = "Bar chart";
@@ -117,7 +126,11 @@ export const BarChart = () => {
       ],
     },
   };
-  return <Chart {...object("Configuration", dataVizProps, barKnobGroupID)} />;
+  return (
+    <Container>
+      <Chart {...object("Configuration", dataVizProps, barKnobGroupID)} />
+    </Container>
+  );
 };
 
 const stackedBarKnobGroupID = "Stacked bar chart";
@@ -141,7 +154,11 @@ export const StackedBarChart = () => {
     },
   };
   return (
-    <Chart {...object("Configuration", dataVizProps, stackedBarKnobGroupID)} />
+    <Container>
+      <Chart
+        {...object("Configuration", dataVizProps, stackedBarKnobGroupID)}
+      />
+    </Container>
   );
 };
 
@@ -174,7 +191,11 @@ export const GroupedBarChart = () => {
     },
   };
   return (
-    <Chart {...object("Configuration", dataVizProps, groupedBarKnobGroupID)} />
+    <Container>
+      <Chart
+        {...object("Configuration", dataVizProps, groupedBarKnobGroupID)}
+      />
+    </Container>
   );
 };
 
@@ -195,9 +216,11 @@ export const HorizontalBarChart = () => {
     },
   };
   return (
-    <Chart
-      {...object("Configuration", dataVizProps, horizontalBarKnobGroupID)}
-    />
+    <Container>
+      <Chart
+        {...object("Configuration", dataVizProps, horizontalBarKnobGroupID)}
+      />
+    </Container>
   );
 };
 
@@ -222,13 +245,15 @@ export const HorizontalStackedBarChart = () => {
     },
   };
   return (
-    <Chart
-      {...object(
-        "Configuration",
-        dataVizProps,
-        horizontalStackedBarKnobGroupID
-      )}
-    />
+    <Container>
+      <Chart
+        {...object(
+          "Configuration",
+          dataVizProps,
+          horizontalStackedBarKnobGroupID
+        )}
+      />
+    </Container>
   );
 };
 
@@ -248,7 +273,11 @@ export const PieChart = () => {
       ],
     },
   };
-  return <Chart {...object("Configuration", dataVizProps, pieKnobGroupID)} />;
+  return (
+    <Container>
+      <Chart {...object("Configuration", dataVizProps, pieKnobGroupID)} />
+    </Container>
+  );
 };
 
 const doughnutKnobGroupID = "Doughnut chart";
@@ -268,13 +297,15 @@ export const DoughnutChart = () => {
     },
   };
   return (
-    <Chart {...object("Configuration", dataVizProps, doughnutKnobGroupID)} />
+    <Container>
+      <Chart {...object("Configuration", dataVizProps, doughnutKnobGroupID)} />
+    </Container>
   );
 };
 
 const bubbleKnobGroupID = "Bubble chart";
 
-export const BubbleChart = () => {
+export const GroupedBubbleChart = () => {
   const dataVizProps = {
     title: "Bubble chart sample",
     type: ChartOptions.Bubble,
@@ -335,11 +366,13 @@ export const BubbleChart = () => {
     },
   };
   return (
-    <Chart {...object("Configuration", dataVizProps, bubbleKnobGroupID)} />
+    <Container>
+      <Chart {...object("Configuration", dataVizProps, bubbleKnobGroupID)} />
+    </Container>
   );
 };
 
-export const BubbleChart2 = () => {
+export const BubbleChart = () => {
   const dataVizProps = {
     title: "Bubble chart sample",
     type: ChartOptions.Bubble,
@@ -366,7 +399,9 @@ export const BubbleChart2 = () => {
     },
   };
   return (
-    <Chart {...object("Configuration", dataVizProps, bubbleKnobGroupID)} />
+    <Container>
+      <Chart {...object("Configuration", dataVizProps, bubbleKnobGroupID)} />
+    </Container>
   );
 };
 
@@ -382,7 +417,9 @@ export const NoDataState = () => {
     },
   };
   return (
-    <Chart {...object("Configuration", dataVizProps, noDataKnobGroupID)} />
+    <Container>
+      <Chart {...object("Configuration", dataVizProps, noDataKnobGroupID)} />
+    </Container>
   );
 };
 
@@ -392,5 +429,24 @@ export const ErrorState = () => {
     title: "Error",
     type: ChartOptions.LineStacked,
   };
-  return <Chart {...object("Configuration", dataVizProps, errorKnobGroupID)} />;
+  return (
+    <Container>
+      <Chart {...object("Configuration", dataVizProps, errorKnobGroupID)} />
+    </Container>
+  );
 };
+
+const Container = (props) => (
+  <Flex
+    styles={{
+      width: "100%",
+      height: "100vh",
+    }}
+    vAlign="center"
+    hAlign="center"
+  >
+    <Card styles={{ width: "100%", maxWidth: "960px", height: "400px" }}>
+      {props.children}
+    </Card>
+  </Flex>
+);

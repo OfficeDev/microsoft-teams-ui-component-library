@@ -102,7 +102,7 @@ export const BarChart = ({
     const config: any = chartConfig({ type: "bar" });
     config.options.hover.mode = "nearest";
     config.options.scales.xAxes[0].gridLines.offsetGridLines =
-      data.datasets.length > 1 ? true : false;
+      data.datasets.length > 1 && !stacked ? true : false;
 
     if (stacked) {
       config.options.scales.yAxes[0].stacked = true;
@@ -298,12 +298,20 @@ export const BarChart = ({
     chartRef.current.update();
   }, [theme]);
 
+  function onLegendClick(datasetIndex: number) {
+    if (!chartRef.current) return;
+    chartRef.current.data.datasets![datasetIndex].hidden = !chartRef.current
+      .data.datasets![datasetIndex].hidden;
+    chartRef.current.update();
+  }
+
   return (
     <ChartContainer
       siteVariables={siteVariables}
       data={data}
       chartDataPointColors={chartDataPointColors}
       patterns={chartBarDataPointPatterns}
+      onLegendClick={onLegendClick}
     >
       <canvas
         id={chartId}
@@ -314,8 +322,8 @@ export const BarChart = ({
         }}
         aria-label={title}
       >
-        {/* {data.datasets.map((set, setKey) =>
-          set.data.map((item, itemKey) => (
+        {data.datasets.map((set, setKey) =>
+          (set.data as number[]).forEach((item: number, itemKey: number) => (
             // Generated tooltips for screen readers
             <div key={itemKey} id={`${chartId}-tooltip-${setKey}-${itemKey}`}>
               <p>{item}</p>
@@ -324,7 +332,7 @@ export const BarChart = ({
               </span>
             </div>
           ))
-        )} */}
+        )}
       </canvas>
     </ChartContainer>
   );

@@ -38,6 +38,7 @@ export const legendLabels = ({
 }) => {
   if (!canvasRef) return;
   const ctx: any = canvasRef.getContext("2d");
+  ctx.save();
   if (!ctx) return;
   if (theme === TeamsTheme.HighContrast) {
     if (patterns) {
@@ -49,6 +50,7 @@ export const legendLabels = ({
         patternColor: colorScheme.brand.background,
       });
       ctx.fillRect(-15, -15, canvasRef.width, canvasRef.height);
+      ctx.restore();
     } else {
       ctx.scale(15, 15);
       ctx.fillStyle = colorScheme.brand.shadow;
@@ -85,6 +87,7 @@ export const legendLabels = ({
       ctx.moveTo(-1.5, 5);
       ctx.lineTo(20, 5);
       ctx.stroke();
+      ctx.restore();
     }
   } else {
     ctx.fillStyle = dataPointColor;
@@ -124,6 +127,37 @@ export const chartLineStackedDataPointPatterns: IChartPatterns = (
 };
 
 export const chartBarDataPointPatterns: IChartPatterns = (colorScheme: any) => {
+  return [
+    {
+      shapeType: Shapes.DiagonalRightLeft,
+      size: 5,
+    },
+    {
+      shapeType: Shapes.Square,
+      size: 10,
+    },
+    {
+      shapeType: Shapes.Diagonal,
+      size: 5,
+    },
+    {
+      shapeType: Shapes.Grid,
+      size: 10,
+    },
+    {
+      shapeType: Shapes.GridRightLeft,
+      size: 3,
+    },
+    {
+      shapeType: Shapes.VerticalLine,
+      size: 7,
+    },
+  ];
+};
+
+export const chartBubbleDataPointPatterns: IChartPatterns = (
+  colorScheme: any
+) => {
   return [
     {
       shapeType: Shapes.DiagonalRightLeft,

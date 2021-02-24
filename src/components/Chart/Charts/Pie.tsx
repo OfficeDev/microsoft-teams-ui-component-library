@@ -296,12 +296,20 @@ export const PieChart = ({
     chartRef.current.update();
   }, [theme]);
 
+  function onLegendClick(datasetIndex: number) {
+    if (!chartRef.current) return;
+    // chartRef.current.data.datasets![0].data![datasetIndex].hidden = !chartRef
+    //   .current.data.datasets![0].data![datasetIndex].hidden;
+    chartRef.current.update();
+  }
+
   return (
     <ChartContainer
       siteVariables={siteVariables}
       data={data}
       chartDataPointColors={chartDataPointColors}
       patterns={chartBarDataPointPatterns}
+      onLegendClick={onLegendClick}
       verticalDataAlignment
     >
       <canvas
@@ -313,17 +321,17 @@ export const PieChart = ({
         }}
         aria-label={title}
       >
-        {/* {data.datasets.map((set, setKey) =>
-          set.data.map((item, itemKey) => (
+        {data.datasets.map((set, setKey) =>
+          (set.data as number[]).forEach((item: number, itemKey: number) => (
             // Generated tooltips for screen readers
             <div key={itemKey} id={`${chartId}-tooltip-${setKey}-${itemKey}`}>
               <p>{item}</p>
               <span>
-                {set.label}: {set.data[itemKey]}
+                {data.labels[setKey]}: {set.data[itemKey]}
               </span>
             </div>
           ))
-        )} */}
+        )}
       </canvas>
     </ChartContainer>
   );

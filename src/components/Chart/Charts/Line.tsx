@@ -353,11 +353,19 @@ export const LineChart = ({
     chartRef.current.update();
   }, [theme]);
 
+  function onLegendClick(datasetIndex: number) {
+    if (!chartRef.current) return;
+    chartRef.current.data.datasets![datasetIndex].hidden = !chartRef.current
+      .data.datasets![datasetIndex].hidden;
+    chartRef.current.update();
+  }
+
   return (
     <ChartContainer
       siteVariables={siteVariables}
       data={data}
       chartDataPointColors={chartDataPointColors}
+      onLegendClick={onLegendClick}
     >
       <canvas
         id={chartId}
@@ -368,8 +376,8 @@ export const LineChart = ({
         }}
         aria-label={title}
       >
-        {/* {data.datasets.map((set, setKey) =>
-          set.data.map((item, itemKey) => (
+        {data.datasets.map((set, setKey) =>
+          (set.data as number[]).forEach((item: number, itemKey: number) => (
             // Generated tooltips for screen readers
             <div key={itemKey} id={`${chartId}-tooltip-${setKey}-${itemKey}`}>
               <p>{item}</p>
@@ -378,7 +386,7 @@ export const LineChart = ({
               </span>
             </div>
           ))
-        )} */}
+        )}
       </canvas>
     </ChartContainer>
   );
