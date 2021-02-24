@@ -10,30 +10,27 @@ import {
 } from "@fluentui/react-icons-northstar";
 
 export interface IIconProps {
-  icon?: string;
+  icon?: string | React.ReactElement;
 }
 
 export default ({ icon }: IIconProps) => {
-  let iconElement = null;
+  if (React.isValidElement(icon)) {
+    return icon;
+  }
   switch (icon) {
     case "Add":
-      iconElement = <AddIcon outline />;
-      break;
+      return <AddIcon outline />;
     case "Edit":
-      iconElement = <EditIcon outline />;
-      break;
+      return <EditIcon outline />;
     case "GalleryNew":
-      iconElement = <GalleryNewIcon outline />;
-      break;
+      return <GalleryNewIcon outline />;
     case "GalleryNewLarge":
-      iconElement = <GalleryNewLargeIcon outline />;
-      break;
+      return <GalleryNewLargeIcon outline />;
     case "ShareGeneric":
-      iconElement = <ShareGenericIcon outline />;
-      break;
+      return <ShareGenericIcon outline />;
     case "TrashCan":
-      iconElement = <TrashCanIcon outline />;
-      break;
+      return <TrashCanIcon outline />;
+    default:
+      return null;
   }
-  return iconElement;
 };
