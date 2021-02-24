@@ -2,6 +2,21 @@
   "name": "@fluentui/react-teams",
   "entries": [
     {
+      "date": "Wed, 24 Feb 2021 20:52:51 GMT",
+      "tag": "@fluentui/react-teams_v2.0.1",
+      "version": "2.0.1",
+      "comments": {
+        "none": [
+          {
+            "comment": "Disable Storybook docs tab",
+            "author": "david@zuko.me",
+            "commit": "bd0903d31005fbdc3c8d63ac7e855792c3c5dea3",
+            "package": "@fluentui/react-teams"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 19 Feb 2021 01:36:19 GMT",
       "tag": "@fluentui/react-teams_v2.0.1",
       "version": "2.0.1",
