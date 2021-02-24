@@ -14,6 +14,6 @@ export interface ICommunicationAction
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [label](./react-teams.icommunicationaction.label.md) | TTextObject |  |
+|  [label](./react-teams.icommunicationaction.label.md) | string |  |
 |  [target](./react-teams.icommunicationaction.target.md) | string |  |
 

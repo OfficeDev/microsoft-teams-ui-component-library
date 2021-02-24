@@ -12,3 +12,5 @@ export declare type TUser = {
     name: TTextObject;
 };
 ```
+<b>References:</b> [TTextObject](./react-teams.ttextobject.md)
+

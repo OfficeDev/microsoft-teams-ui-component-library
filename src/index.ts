@@ -2,18 +2,23 @@ export { HVCThemeProvider as Provider } from "./lib/withTheme";
 
 export { TeamsTheme as themeNames } from "./themes";
 
+export { actionKey, TAction, TActions, TUser, TUsers } from "./types/types";
+
+export { TLocale, TTextObject } from "./translations";
+
 export {
-  actionKey,
-  TAction,
-  TActions,
-  TUser,
-  TUsers,
-  WithOptionalInternalCallbacks,
-} from "./types/types";
-
-export { IBoardProps, Board } from "./components/Board/Board";
-
-export { IBoardItem, IBoardItemCardLayout } from "./components/Board/BoardItem";
+  Board,
+  IBoardProps,
+  TBoardInteraction,
+  IBoardInteractionUpdateItems,
+  IBoardInteractionUpdateLanes,
+} from "./components/Board/Board";
+export { TBoardLanes, TBoardLane } from "./components/Board/BoardLane";
+export {
+  IBoardItem,
+  IPreparedBoardItem,
+  IBoardItemCardLayout,
+} from "./components/Board/BoardItem";
 
 export {
   default as Communication,
@@ -38,9 +43,20 @@ export {
   IWidgetLink,
 } from "./components/Dashboard";
 
-export { IListProps, List } from "./components/List/List";
+export { IListProps, List, TListInteraction } from "./components/List/List";
 
-export { ITableProps, Table } from "./components/Table/Table";
+export {
+  ITableProps,
+  Table,
+  TTableInteraction,
+} from "./components/Table/Table";
 export { TSortable } from "./components/Table/tableBreakpoints";
 
-export { IToolbarProps, Toolbar } from "./components/Toolbar/Toolbar";
+export {
+  IToolbarProps,
+  Toolbar,
+  TToolbarInteraction,
+} from "./components/Toolbar/Toolbar";
+
+export { IFormProps, Form, TFormInteraction } from "./components/Form/Form";
+export { IFormDialogProps, FormDialog } from "./components/Form/Form";

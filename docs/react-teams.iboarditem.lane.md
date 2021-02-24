@@ -4,6 +4,8 @@
 
 ## IBoardItem.lane property
 
+The key of the lane where the item should be displayed.
+
 <b>Signature:</b>
 
 ```typescript

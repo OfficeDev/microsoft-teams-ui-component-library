@@ -4,6 +4,8 @@
 
 ## IBoardItem.badges property
 
+A collection of badges for enumerating specific associations on the item.
+
 <b>Signature:</b>
 
 ```typescript

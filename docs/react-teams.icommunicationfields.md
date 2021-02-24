@@ -15,7 +15,7 @@ export interface ICommunicationFields
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [actions?](./react-teams.icommunicationfields.actions.md) | CommunicationActions | <i>(Optional)</i> |
-|  [desc?](./react-teams.icommunicationfields.desc.md) | TTextObject | <i>(Optional)</i> |
+|  [desc?](./react-teams.icommunicationfields.desc.md) | string | <i>(Optional)</i> |
 |  [image?](./react-teams.icommunicationfields.image.md) | [ICommunicationImage](./react-teams.icommunicationimage.md) | <i>(Optional)</i> |
-|  [title?](./react-teams.icommunicationfields.title.md) | TTextObject | <i>(Optional)</i> |
+|  [title?](./react-teams.icommunicationfields.title.md) | string | <i>(Optional)</i> |
 

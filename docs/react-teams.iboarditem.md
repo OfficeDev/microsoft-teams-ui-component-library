@@ -4,6 +4,8 @@
 
 ## IBoardItem interface
 
+An item in a Board component.
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,12 +16,12 @@ export interface IBoardItem
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [badges?](./react-teams.iboarditem.badges.md) | IBoardItemBadges | <i>(Optional)</i> |
-|  [body?](./react-teams.iboarditem.body.md) | TTextObject \| TTextObject\[\] | <i>(Optional)</i> |
-|  [lane](./react-teams.iboarditem.lane.md) | string |  |
-|  [order](./react-teams.iboarditem.order.md) | number |  |
-|  [preview?](./react-teams.iboarditem.preview.md) | string | <i>(Optional)</i> |
-|  [subtitle?](./react-teams.iboarditem.subtitle.md) | TTextObject | <i>(Optional)</i> |
-|  [title](./react-teams.iboarditem.title.md) | TTextObject |  |
-|  [users?](./react-teams.iboarditem.users.md) | string\[\] | <i>(Optional)</i> |
+|  [badges?](./react-teams.iboarditem.badges.md) | IBoardItemBadges | <i>(Optional)</i> A collection of badges for enumerating specific associations on the item. |
+|  [body?](./react-teams.iboarditem.body.md) | [TTextObject](./react-teams.ttextobject.md) \| [TTextObject](./react-teams.ttextobject.md)<!-- -->\[\] | <i>(Optional)</i> The item’s body text, or description. |
+|  [lane](./react-teams.iboarditem.lane.md) | string | The key of the lane where the item should be displayed. |
+|  [order](./react-teams.iboarditem.order.md) | number | A number which indicates where in the lane the item should be rendered. Items in the same lane do not need unique values for this property, however when unique values are not supplied, a specific order is not guaranteed. |
+|  [preview?](./react-teams.iboarditem.preview.md) | string | <i>(Optional)</i> A URL to an image representing the item. |
+|  [subtitle?](./react-teams.iboarditem.subtitle.md) | [TTextObject](./react-teams.ttextobject.md) | <i>(Optional)</i> The item’s subtitle. |
+|  [title](./react-teams.iboarditem.title.md) | [TTextObject](./react-teams.ttextobject.md) | The item’s title. |
+|  [users?](./react-teams.iboarditem.users.md) | string\[\] | <i>(Optional)</i> An array of keys for users tagged in the item. |
 

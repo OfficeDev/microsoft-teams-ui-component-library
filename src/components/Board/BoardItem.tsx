@@ -64,14 +64,43 @@ export interface IBoardItemBadges {
   attachments?: number;
 }
 
+/**
+ * An item in a Board component.
+ */
 export interface IBoardItem {
+  /**
+   * The key of the lane where the item should be displayed.
+   */
   lane: string;
+  /**
+   * A number which indicates where in the lane the item should be rendered. Items in the same lane
+   * do not need unique values for this property, however when unique values are not supplied, a
+   * specific order is not guaranteed.
+   */
   order: number;
+  /**
+   * The item’s title.
+   */
   title: TTextObject;
+  /**
+   * The item’s subtitle.
+   */
   subtitle?: TTextObject;
+  /**
+   * The item’s body text, or description.
+   */
   body?: TTextObject | TTextObject[];
+  /**
+   * An array of keys for users tagged in the item.
+   */
   users?: string[];
+  /**
+   * A collection of badges for enumerating specific associations on the item.
+   */
   badges?: IBoardItemBadges;
+  /**
+   * A URL to an image representing the item.
+   */
   preview?: string;
 }
 
@@ -79,10 +108,16 @@ export type TBoardItems = {
   [itemKey: string]: IBoardItem;
 };
 
+/**
+ * A prepared Board item places the item’s unique key within itself.
+ */
 export interface IPreparedBoardItem extends IBoardItem {
   itemKey: string;
 }
 
+/**
+ * Prepared Board items are arranged in arrays by the key of their lane.
+ */
 export interface IPreparedBoardItems {
   [laneKey: string]: IPreparedBoardItem[];
 }

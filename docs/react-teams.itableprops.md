@@ -18,7 +18,7 @@ export interface ITableProps extends PropsOfElement<"div">
 |  [columns](./react-teams.itableprops.columns.md) | { \[columnKey: string\]: IColumn; } |  |
 |  [filterBy?](./react-teams.itableprops.filterby.md) | (row: IRow) =&gt; boolean | <i>(Optional)</i> |
 |  [findQuery?](./react-teams.itableprops.findquery.md) | string | <i>(Optional)</i> |
-|  [onInteraction?](./react-teams.itableprops.oninteraction.md) | (interaction: TTableInteraction) =&gt; void | <i>(Optional)</i> |
+|  [onInteraction?](./react-teams.itableprops.oninteraction.md) | (interaction: [TTableInteraction](./react-teams.ttableinteraction.md)<!-- -->) =&gt; void | <i>(Optional)</i> |
 |  [onSelectedChange?](./react-teams.itableprops.onselectedchange.md) | (selected: TSelected) =&gt; TSelected | <i>(Optional)</i> |
 |  [rows](./react-teams.itableprops.rows.md) | { \[rowKey: string\]: IRow; } |  |
 |  [selectable?](./react-teams.itableprops.selectable.md) | boolean | <i>(Optional)</i> |

@@ -4,6 +4,8 @@
 
 ## IBoardItem.users property
 
+An array of keys for users tagged in the item.
+
 <b>Signature:</b>
 
 ```typescript

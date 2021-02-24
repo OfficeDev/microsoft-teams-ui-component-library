@@ -4,6 +4,8 @@
 
 ## IBoardItem.body property
 
+The item’s body text, or description.
+
 <b>Signature:</b>
 
 ```typescript

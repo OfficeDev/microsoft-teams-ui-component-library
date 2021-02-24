@@ -23,7 +23,9 @@
 
 |  Interface | Description |
 |  --- | --- |
-|  [IBoardItem](./react-teams.iboarditem.md) |  |
+|  [IBoardInteractionUpdateItems](./react-teams.iboardinteractionupdateitems.md) |  |
+|  [IBoardInteractionUpdateLanes](./react-teams.iboardinteractionupdatelanes.md) |  |
+|  [IBoardItem](./react-teams.iboarditem.md) | An item in a Board component. |
 |  [IBoardItemCardLayout](./react-teams.iboarditemcardlayout.md) |  |
 |  [IBoardProps](./react-teams.iboardprops.md) |  |
 |  [ICommunicationAction](./react-teams.icommunicationaction.md) |  |
@@ -33,20 +35,24 @@
 |  [ICommunicationImage](./react-teams.icommunicationimage.md) |  |
 |  [ICommunicationThemedImage](./react-teams.icommunicationthemedimage.md) |  |
 |  [IDashboardCallout](./react-teams.idashboardcallout.md) |  |
+|  [IFormDialogProps](./react-teams.iformdialogprops.md) |  |
+|  [IFormProps](./react-teams.iformprops.md) |  |
 |  [IListProps](./react-teams.ilistprops.md) |  |
+|  [IPreparedBoardItem](./react-teams.ipreparedboarditem.md) | A prepared Board item places the item’s unique key within itself. |
 |  [ITableProps](./react-teams.itableprops.md) |  |
 |  [IToolbarProps](./react-teams.itoolbarprops.md) |  |
 |  [IWidget](./react-teams.iwidget.md) |  |
 |  [IWidgetActionKey](./react-teams.iwidgetactionkey.md) |  |
 |  [IWidgetBodyContent](./react-teams.iwidgetbodycontent.md) |  |
 |  [IWidgetLink](./react-teams.iwidgetlink.md) |  |
-|  [WithOptionalInternalCallbacks](./react-teams.withoptionalinternalcallbacks.md) |  |
 
 ## Variables
 
 |  Variable | Description |
 |  --- | --- |
 |  [Board](./react-teams.board.md) |  |
+|  [Form](./react-teams.form.md) |  |
+|  [FormDialog](./react-teams.formdialog.md) |  |
 |  [List](./react-teams.list.md) |  |
 |  [Provider](./react-teams.provider.md) |  |
 |  [Table](./react-teams.table.md) |  |
@@ -59,9 +65,18 @@
 |  [actionKey](./react-teams.actionkey.md) |  |
 |  [TAction](./react-teams.taction.md) |  |
 |  [TActions](./react-teams.tactions.md) |  |
+|  [TBoardInteraction](./react-teams.tboardinteraction.md) | The interaction payloads emitted by the Board component is either an update of the Board’s lanes, or an update of the Board’s items. |
+|  [TBoardLane](./react-teams.tboardlane.md) | Board lanes currently only need a <code>title</code>. |
+|  [TBoardLanes](./react-teams.tboardlanes.md) | Each Board lane has a unique key, which is associated with the lane’s configuration. |
 |  [TCommunication](./react-teams.tcommunication.md) |  |
 |  [TCommunicationFields](./react-teams.tcommunicationfields.md) |  |
+|  [TFormInteraction](./react-teams.tforminteraction.md) |  |
+|  [TListInteraction](./react-teams.tlistinteraction.md) |  |
+|  [TLocale](./react-teams.tlocale.md) | The locale of the current view. |
 |  [TSortable](./react-teams.tsortable.md) |  |
+|  [TTableInteraction](./react-teams.ttableinteraction.md) |  |
+|  [TTextObject](./react-teams.ttextobject.md) | Text content to display. When the preferred locale is not available, the plain string or the only available locale will be used instead. |
+|  [TToolbarInteraction](./react-teams.ttoolbarinteraction.md) |  |
 |  [TUser](./react-teams.tuser.md) |  |
 |  [TUsers](./react-teams.tusers.md) |  |
 

@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-label: TTextObject;
+label: string;
 ```

@@ -63,10 +63,16 @@ export interface IBoardLaneProps {
   pending?: boolean;
 }
 
+/**
+ * Board lanes currently only need a `title`.
+ */
 export type TBoardLane = {
   title: TTextObject;
 };
 
+/**
+ * Each Board lane has a unique key, which is associated with the lane’s configuration.
+ */
 export type TBoardLanes = {
   [laneKey: string]: TBoardLane;
 };

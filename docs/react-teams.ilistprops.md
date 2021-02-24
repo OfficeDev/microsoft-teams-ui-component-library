@@ -16,9 +16,8 @@ export interface IListProps extends ITableProps
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [emptySelectionActionGroups](./react-teams.ilistprops.emptyselectionactiongroups.md) | TActionGroups |  |
-|  [emptyState?](./react-teams.ilistprops.emptystate.md) | [TCommunication](./react-teams.tcommunication.md) | <i>(Optional)</i> |
 |  [filters?](./react-teams.ilistprops.filters.md) | columnKey\[\] | <i>(Optional)</i> |
 |  [filtersSingleSelect?](./react-teams.ilistprops.filterssingleselect.md) | boolean | <i>(Optional)</i> |
 |  [find?](./react-teams.ilistprops.find.md) | boolean | <i>(Optional)</i> |
-|  [onInteraction?](./react-teams.ilistprops.oninteraction.md) | (interaction: TListInteraction) =&gt; void | <i>(Optional)</i> |
+|  [onInteraction?](./react-teams.ilistprops.oninteraction.md) | (interaction: [TListInteraction](./react-teams.tlistinteraction.md)<!-- -->) =&gt; void | <i>(Optional)</i> |
 

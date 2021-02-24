@@ -4,6 +4,8 @@
 
 ## IBoardItem.preview property
 
+A URL to an image representing the item.
+
 <b>Signature:</b>
 
 ```typescript

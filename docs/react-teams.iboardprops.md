@@ -15,9 +15,8 @@ export interface IBoardProps
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [boardItemCardLayout?](./react-teams.iboardprops.boarditemcardlayout.md) | [IBoardItemCardLayout](./react-teams.iboarditemcardlayout.md) | <i>(Optional)</i> |
-|  [emptyState?](./react-teams.iboardprops.emptystate.md) | [TCommunication](./react-teams.tcommunication.md) | <i>(Optional)</i> |
 |  [items](./react-teams.iboardprops.items.md) | TBoardItems |  |
-|  [lanes](./react-teams.iboardprops.lanes.md) | TBoardLanes |  |
-|  [onInteraction?](./react-teams.iboardprops.oninteraction.md) | (interaction: TBoardInteraction) =&gt; void | <i>(Optional)</i> |
+|  [lanes](./react-teams.iboardprops.lanes.md) | [TBoardLanes](./react-teams.tboardlanes.md) |  |
+|  [onInteraction?](./react-teams.iboardprops.oninteraction.md) | (interaction: [TBoardInteraction](./react-teams.tboardinteraction.md)<!-- -->) =&gt; void | <i>(Optional)</i> |
 |  [users](./react-teams.iboardprops.users.md) | [TUsers](./react-teams.tusers.md) |  |
 

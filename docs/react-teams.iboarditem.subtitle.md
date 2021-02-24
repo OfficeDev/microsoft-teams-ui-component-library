@@ -4,6 +4,8 @@
 
 ## IBoardItem.subtitle property
 
+The item’s subtitle.
+
 <b>Signature:</b>
 
 ```typescript

@@ -1,4 +1,12 @@
-export type TLocale = "en-US" | "fa";
+/**
+ * The locale of the current view.
+ */
+export type TLocale = "en-US" | "fa" | string;
+
+/**
+ * Text content to display. When the preferred locale is not available, the plain string or the only
+ * available locale will be used instead.
+ */
 export type TTextObject = string | { [locale: string]: string } | undefined;
 
 type TInterpolationArgs = [object] | string[];

@@ -8,6 +8,8 @@
   "scripts": {
     "api:report": "api-extractor run --local --verbose",
     "api:document": "api-documenter markdown --input-folder=temp --output-folder=docs",
+    "preapi": "just-scripts build",
+    "api": "yarn api:report && yarn api:document",
     "build": "just-scripts build",
     "build:storybook": "just-scripts build:storybook",
     "change": "beachball change --branch origin/main",

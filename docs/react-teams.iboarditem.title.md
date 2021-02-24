@@ -4,6 +4,8 @@
 
 ## IBoardItem.title property
 
+The item’s title.
+
 <b>Signature:</b>
 
 ```typescript

@@ -5,8 +5,6 @@ import pick from "lodash/pick";
 import omit from "lodash/omit";
 import uniqueId from "lodash/uniqueId";
 
-import setMultiple from "../../lib/setMultiple";
-
 import {
   DragDropContext,
   DropResult,
@@ -78,18 +76,22 @@ const defaultBoardItemCardLayout: IBoardItemCardLayout = {
   overflowPosition: "footer",
 };
 
-interface IBoardInteractionUpdateLanes {
+export interface IBoardInteractionUpdateLanes {
   event: "update";
   target: "lanes";
   lanes: TBoardLanes;
 }
 
-interface IBoardInteractionUpdateItems {
+export interface IBoardInteractionUpdateItems {
   event: "update";
   target: "items";
   items: IPreparedBoardItems;
 }
 
+/**
+ * The interaction payloads emitted by the Board component is either an update of the Board’s lanes,
+ * or an update of the Board’s items.
+ */
 export type TBoardInteraction =
   | IBoardInteractionUpdateLanes
   | IBoardInteractionUpdateItems;

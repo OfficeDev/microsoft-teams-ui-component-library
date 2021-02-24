@@ -19,6 +19,6 @@ export interface IToolbarProps
 |  [filtersSingleSelect?](./react-teams.itoolbarprops.filterssingleselect.md) | boolean | <i>(Optional)</i> |
 |  [find?](./react-teams.itoolbarprops.find.md) | boolean | <i>(Optional)</i> |
 |  [onFindQueryChange?](./react-teams.itoolbarprops.onfindquerychange.md) | (findQuery: string) =&gt; string | <i>(Optional)</i> |
-|  [onInteraction?](./react-teams.itoolbarprops.oninteraction.md) | (interaction: TToolbarInteraction) =&gt; void | <i>(Optional)</i> |
+|  [onInteraction?](./react-teams.itoolbarprops.oninteraction.md) | (interaction: [TToolbarInteraction](./react-teams.ttoolbarinteraction.md)<!-- -->) =&gt; void | <i>(Optional)</i> |
 |  [onSelectedFiltersChange?](./react-teams.itoolbarprops.onselectedfilterschange.md) | (selectedFilters: string\[\]) =&gt; string\[\] | <i>(Optional)</i> |
 
