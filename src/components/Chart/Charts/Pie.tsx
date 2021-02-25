@@ -42,8 +42,8 @@ export const PieChart = ({
       colorScheme.brand.backgroundFocus2,
       colorScheme.brand.foreground3,
       colorScheme.brand.background,
-      colorScheme.default.foreground2,
       colorScheme.default.borderHover,
+      colorScheme.default.foreground2,
       colorScheme.default.foreground,
     ],
     [theme]
@@ -69,33 +69,17 @@ export const PieChart = ({
     let dataPointConfig = {
       label: data.datasets[0].label,
       data: data.datasets[0].data,
-      borderWidth: 0,
-      borderSkipped: false,
+      borderWidth: 2,
       borderColor: colorScheme.default.background,
-      hoverBorderColor: chartDataPointColors,
+      hoverBorderColor: colorScheme.default.background,
       backgroundColor: chartDataPointColors,
-      hoverBorderWidth: 0,
       hoverBackgroundColor: chartDataPointColors,
-      pointBorderColor: colorScheme.default.background,
-      pointBackgroundColor: colorScheme.default.foreground3,
-      pointHoverBackgroundColor: colorScheme.default.foreground3,
-      pointHoverBorderColor: chartDataPointColors,
-      pointHoverBorderWidth: 0,
-      borderCapStyle: "round",
-      borderJoinStyle: "round",
-      pointBorderWidth: 0,
-      pointRadius: 0,
-      pointHoverRadius: 0,
     };
     if (theme === TeamsTheme.HighContrast) {
       dataPointConfig = {
         ...dataPointConfig,
-        borderWidth: 1,
+        borderWidth: 3,
         hoverBorderColor: colorScheme.default.borderHover,
-        hoverBorderWidth: 3,
-        pointBorderColor: colorScheme.default.border,
-        pointHoverBorderColor: colorScheme.default.borderHover,
-        pointHoverRadius: 0,
         borderColor: colorScheme.brand.background,
         backgroundColor: pieChartPatterns,
         hoverBackgroundColor: pieChartHoverPatterns,
@@ -112,7 +96,7 @@ export const PieChart = ({
     const ctx = canvasRef.current.getContext("2d");
     if (!ctx) return;
     const config: any = chartConfig({ type: "pie" });
-    config.options.hover.mode = "index";
+    config.options.hover.mode = "point";
 
     config.options.layout.padding.top = 32;
     config.options.layout.padding.left = -16;
