@@ -53,18 +53,18 @@ export default {
   ["en-US" as TLocale]: {
     locale: "en-US",
     hello: "Hello",
-    "add lane": "Add lane",
+    "add lane": "Add column",
     "add board item": "Add item to board",
     "edit board item": "Edit item",
-    "board lane": "Board lane",
+    "board lane": "Board column",
     "board item": "Board item",
-    "name lane": "Name this lane…",
-    "lane pending": "New lane",
+    "name lane": "Name this column…",
+    "lane pending": "New column",
     "move lane nearer": "Move left",
     "move lane further": "Move right",
     delete: "Delete",
     "confirm delete": "Are you sure you want to delete “{title}”?",
-    "lane options": "Lane options",
+    "lane options": "Column options",
     "sort-order alphabetical descending": "A-Z",
     "sort-order alphabetical ascending": "Z-A",
     cancel: "Cancel",
@@ -77,22 +77,21 @@ export default {
     "board item users": "Tagged users",
     "board item options": "Board item options",
     "on drag start board item":
-      "You have lifted the item called {itemTitle} in position {itemPosition} of {laneLength} in the {laneTitle} lane.",
+      "You have lifted the item called {itemTitle} in position {itemPosition} of {laneLength} in the {laneTitle} column.",
     "on drag update board item same lane":
       "You have moved the item called {itemTitle} to position {itemPosition} of {laneLength}.",
     "on drag update board item different lane":
-      "You have moved the item called {itemTitle} to position {itemPosition} of {laneLength} in the {laneTitle} lane.",
+      "You have moved the item called {itemTitle} to position {itemPosition} of {laneLength} in the {laneTitle} column.",
     "on drag end board item":
-      "You have placed the item called {itemTitle} in position {itemPosition} of {laneLength} in the {laneTitle} lane.",
+      "You have placed the item called {itemTitle} in position {itemPosition} of {laneLength} in the {laneTitle} column.",
     "on drag cancel board item":
       "You have cancelled dragging the item called {itemTitle}.",
     "board lane instructions":
-      "Press Enter to explore board lane items, then use Escape to shift focus back to the board lane.",
+      "Press Enter to explore board column items, then use Escape to shift focus back to the board column.",
     "list empty header": "Create your first list item",
     "list empty body":
       "Get started with the ‘Add’ button in the toolbar above.",
-    "board empty header": "Create your first lane",
-    "board empty body":
-      "Get started with the ‘Add lane’ button in the toolbar above.",
+    "board empty header": "Create your first column",
+    "board empty body": "Get started by adding a column in the toolbar above.",
   } as TTranslations,
 };
