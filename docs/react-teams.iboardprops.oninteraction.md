@@ -4,6 +4,8 @@
 
 ## IBoardProps.onInteraction property
 
+The Board’s interaction handler, called when the user changes the Board’s items or lanes.
+
 <b>Signature:</b>
 
 ```typescript

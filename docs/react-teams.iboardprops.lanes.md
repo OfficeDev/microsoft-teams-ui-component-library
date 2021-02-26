@@ -4,6 +4,8 @@
 
 ## IBoardProps.lanes property
 
+The Board’s lanes, or columns.
+
 <b>Signature:</b>
 
 ```typescript

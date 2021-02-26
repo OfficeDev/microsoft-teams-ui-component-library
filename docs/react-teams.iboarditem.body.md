@@ -4,7 +4,7 @@
 
 ## IBoardItem.body property
 
-The item’s body text, or description.
+The item’s body text, or description. If this is provided as an array of text objects, each one becomes a paragraph with some spacing between.
 
 <b>Signature:</b>
 

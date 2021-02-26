@@ -1,4 +1,3 @@
-import { ComponentEventHandler } from "@fluentui/react-northstar";
 import { TTextObject } from "../translations";
 
 export type TAction = {
@@ -14,20 +13,20 @@ export type TActions = {
   [actionKey: string]: TAction;
 };
 
+/**
+ * A User entity, which certain components can use as part of their content.
+ */
 export type TUser = {
   image?: string;
   name: TTextObject;
 };
 
+/**
+ * A collection of Users, keyed by their unique ID.
+ */
 export type TUsers = {
   [userKey: string]: TUser;
 };
-
-export interface WithOptionalInternalCallbacks<P> {
-  __internal_callbacks__?: {
-    [callbackId: string]: ComponentEventHandler<P>;
-  };
-}
 
 export enum Surface {
   base = "base",

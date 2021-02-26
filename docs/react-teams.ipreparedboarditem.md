@@ -4,7 +4,7 @@
 
 ## IPreparedBoardItem interface
 
-A prepared Board item places the item’s unique key within itself.
+A prepared Board item places the item’s unique key within itself so the item can be handled on its own.
 
 <b>Signature:</b>
 

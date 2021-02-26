@@ -4,6 +4,8 @@
 
 ## IBoardProps.items property
 
+The Board’s items.
+
 <b>Signature:</b>
 
 ```typescript

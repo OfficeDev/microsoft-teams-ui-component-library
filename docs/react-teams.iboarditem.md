@@ -17,9 +17,9 @@ export interface IBoardItem
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [badges?](./react-teams.iboarditem.badges.md) | IBoardItemBadges | <i>(Optional)</i> A collection of badges for enumerating specific associations on the item. |
-|  [body?](./react-teams.iboarditem.body.md) | [TTextObject](./react-teams.ttextobject.md) \| [TTextObject](./react-teams.ttextobject.md)<!-- -->\[\] | <i>(Optional)</i> The item’s body text, or description. |
+|  [body?](./react-teams.iboarditem.body.md) | [TTextObject](./react-teams.ttextobject.md) \| [TTextObject](./react-teams.ttextobject.md)<!-- -->\[\] | <i>(Optional)</i> The item’s body text, or description. If this is provided as an array of text objects, each one becomes a paragraph with some spacing between. |
 |  [lane](./react-teams.iboarditem.lane.md) | string | The key of the lane where the item should be displayed. |
-|  [order](./react-teams.iboarditem.order.md) | number | A number which indicates where in the lane the item should be rendered. Items in the same lane do not need unique values for this property, however when unique values are not supplied, a specific order is not guaranteed. |
+|  [order](./react-teams.iboarditem.order.md) | number | A number which indicates where in the lane the item should be rendered. Items are sorted from lowest value to highest value. Items in the same lane do not need unique values for this property, however when unique values are not supplied a specific order is not guaranteed. |
 |  [preview?](./react-teams.iboarditem.preview.md) | string | <i>(Optional)</i> A URL to an image representing the item. |
 |  [subtitle?](./react-teams.iboarditem.subtitle.md) | [TTextObject](./react-teams.ttextobject.md) | <i>(Optional)</i> The item’s subtitle. |
 |  [title](./react-teams.iboarditem.title.md) | [TTextObject](./react-teams.ttextobject.md) | The item’s title. |

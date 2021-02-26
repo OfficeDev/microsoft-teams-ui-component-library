@@ -4,6 +4,8 @@
 
 ## TUsers type
 
+A collection of Users, keyed by their unique ID.
+
 <b>Signature:</b>
 
 ```typescript

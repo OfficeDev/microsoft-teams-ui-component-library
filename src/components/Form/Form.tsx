@@ -8,7 +8,6 @@ import React, {
 import get from "lodash/get";
 import clone from "lodash/clone";
 import chunk from "lodash/chunk";
-import uniqueId from "lodash/uniqueId";
 
 import {
   Alert,
@@ -36,7 +35,7 @@ import {
 
 import { getText, TTextObject, TTranslations } from "../../translations";
 
-import { WithOptionalInternalCallbacks, Surface } from "../../types/types";
+import { Surface } from "../../types/types";
 
 import { FormTheme } from "./FormTheme";
 import { ICSSInJSStyle } from "@fluentui/styles";
@@ -166,7 +165,7 @@ export type TFormInteraction = {
   formState: IFormState;
 };
 
-export interface IFormProps extends WithOptionalInternalCallbacks<IFormState> {
+export interface IFormProps {
   headerSection?: ISection;
   sections: ISection[];
   errors?: TFormErrors;

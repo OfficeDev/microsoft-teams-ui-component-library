@@ -26,8 +26,8 @@
 |  [IBoardInteractionUpdateItems](./react-teams.iboardinteractionupdateitems.md) |  |
 |  [IBoardInteractionUpdateLanes](./react-teams.iboardinteractionupdatelanes.md) |  |
 |  [IBoardItem](./react-teams.iboarditem.md) | An item in a Board component. |
-|  [IBoardItemCardLayout](./react-teams.iboarditemcardlayout.md) |  |
-|  [IBoardProps](./react-teams.iboardprops.md) |  |
+|  [IBoardItemCardLayout](./react-teams.iboarditemcardlayout.md) | The way a Board item’s content is mapped to the adaptive card used to represent the item. |
+|  [IBoardProps](./react-teams.iboardprops.md) | The Board component can be used to render kanban and task board experiences in your app. Designs for this component are available in the \[Task board page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A3840). |
 |  [ICommunicationAction](./react-teams.icommunicationaction.md) |  |
 |  [ICommunicationFields](./react-teams.icommunicationfields.md) |  |
 |  [ICommunicationFieldsWithThemedImage](./react-teams.icommunicationfieldswiththemedimage.md) |  |
@@ -38,7 +38,7 @@
 |  [IFormDialogProps](./react-teams.iformdialogprops.md) |  |
 |  [IFormProps](./react-teams.iformprops.md) |  |
 |  [IListProps](./react-teams.ilistprops.md) |  |
-|  [IPreparedBoardItem](./react-teams.ipreparedboarditem.md) | A prepared Board item places the item’s unique key within itself. |
+|  [IPreparedBoardItem](./react-teams.ipreparedboarditem.md) | A prepared Board item places the item’s unique key within itself so the item can be handled on its own. |
 |  [ITableProps](./react-teams.itableprops.md) |  |
 |  [IToolbarProps](./react-teams.itoolbarprops.md) |  |
 |  [IWidget](./react-teams.iwidget.md) |  |
@@ -77,6 +77,6 @@
 |  [TTableInteraction](./react-teams.ttableinteraction.md) |  |
 |  [TTextObject](./react-teams.ttextobject.md) | Text content to display. When the preferred locale is not available, the plain string or the only available locale will be used instead. |
 |  [TToolbarInteraction](./react-teams.ttoolbarinteraction.md) |  |
-|  [TUser](./react-teams.tuser.md) |  |
-|  [TUsers](./react-teams.tusers.md) |  |
+|  [TUser](./react-teams.tuser.md) | A User entity, which certain components can use as part of their content. |
+|  [TUsers](./react-teams.tusers.md) | A collection of Users, keyed by their unique ID. |
 

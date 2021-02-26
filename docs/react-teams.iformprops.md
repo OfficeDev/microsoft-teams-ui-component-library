@@ -7,9 +7,8 @@
 <b>Signature:</b>
 
 ```typescript
-export interface IFormProps extends WithOptionalInternalCallbacks<IFormState> 
+export interface IFormProps 
 ```
-<b>Extends:</b> WithOptionalInternalCallbacks&lt;IFormState&gt;
 
 ## Properties
 

@@ -4,7 +4,7 @@
 
 ## IBoardItem.order property
 
-A number which indicates where in the lane the item should be rendered. Items in the same lane do not need unique values for this property, however when unique values are not supplied, a specific order is not guaranteed.
+A number which indicates where in the lane the item should be rendered. Items are sorted from lowest value to highest value. Items in the same lane do not need unique values for this property, however when unique values are not supplied a specific order is not guaranteed.
 
 <b>Signature:</b>
 

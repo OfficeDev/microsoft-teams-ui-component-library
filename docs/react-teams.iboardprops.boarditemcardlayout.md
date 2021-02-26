@@ -4,6 +4,8 @@
 
 ## IBoardProps.boardItemCardLayout property
 
+If the cards representing the Board’s items should be different from the default, that design can be configured here.
+
 <b>Signature:</b>
 
 ```typescript

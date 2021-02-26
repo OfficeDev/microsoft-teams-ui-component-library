@@ -60,7 +60,14 @@ export interface IBoardItemProps {
   users: TUsers;
 }
 
+/**
+ * The badges to display for a Board item. Currently only the attachments badge is supported.
+ */
 export interface IBoardItemBadges {
+  /**
+   * If a Board item has attachments, it can be badged with a paperclip icon and the number
+   * of attachments.
+   */
   attachments?: number;
 }
 
@@ -73,9 +80,9 @@ export interface IBoardItem {
    */
   lane: string;
   /**
-   * A number which indicates where in the lane the item should be rendered. Items in the same lane
-   * do not need unique values for this property, however when unique values are not supplied, a
-   * specific order is not guaranteed.
+   * A number which indicates where in the lane the item should be rendered. Items are sorted from
+   * lowest value to highest value. Items in the same lane do not need unique values for this
+   * property, however when unique values are not supplied a specific order is not guaranteed.
    */
   order: number;
   /**
@@ -87,7 +94,8 @@ export interface IBoardItem {
    */
   subtitle?: TTextObject;
   /**
-   * The item’s body text, or description.
+   * The item’s body text, or description. If this is provided as an array of text objects, each one
+   * becomes a paragraph with some spacing between.
    */
   body?: TTextObject | TTextObject[];
   /**
@@ -104,26 +112,45 @@ export interface IBoardItem {
   preview?: string;
 }
 
+/**
+ * The collection of a Board’s items, keyed by the items’ unique ID.
+ */
 export type TBoardItems = {
   [itemKey: string]: IBoardItem;
 };
 
 /**
- * A prepared Board item places the item’s unique key within itself.
+ * A prepared Board item places the item’s unique key within itself so the item can be handled on
+ * its own.
  */
 export interface IPreparedBoardItem extends IBoardItem {
   itemKey: string;
 }
 
 /**
- * Prepared Board items are arranged in arrays by the key of their lane.
+ * Prepared Board items are arranged in an object of arrays keyed by the lane’s unique ID.
+ * The items in the arrays are in the order in which they appear to the user (after any interactions
+ * the user may have triggered).
  */
 export interface IPreparedBoardItems {
   [laneKey: string]: IPreparedBoardItem[];
 }
 
+/**
+ * The way a Board item’s content is mapped to the adaptive card used to represent the item.
+ */
 export interface IBoardItemCardLayout {
+  /**
+   * Whether the image thumbnail for the item, when there is one, should be displayed at the top of
+   * the card, or below the header for the card.
+   */
   previewPosition: "top" | "afterHeader";
+  /**
+   * Whether the overflow menu’s trigger, a ‘…’ button, should appear:
+   * - in the card’s preview, when there is one, or the header when there is no preview
+   * - in the card’s header at all times
+   * - in the card’s footer at all times (this causes all items to have a footer)
+   */
   overflowPosition: "preview" | "header" | "footer";
 }
 

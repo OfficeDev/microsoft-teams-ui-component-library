@@ -96,11 +96,32 @@ export type TBoardInteraction =
   | IBoardInteractionUpdateLanes
   | IBoardInteractionUpdateItems;
 
+/**
+ * The Board component can be used to render kanban and task board experiences in your app. Designs
+ * for this component are available in the [Task board page of the Microsoft Teams UI Kit](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A3840).
+ */
 export interface IBoardProps {
+  /**
+   * The users the Board’s items may associate with. To improve performance, this object should contain
+   * only the users associated with any items in the Board.
+   */
   users: TUsers;
+  /**
+   * The Board’s lanes, or columns.
+   */
   lanes: TBoardLanes;
+  /**
+   * The Board’s items.
+   */
   items: TBoardItems;
+  /**
+   * If the cards representing the Board’s items should be different from the default, that design
+   * can be configured here.
+   */
   boardItemCardLayout?: IBoardItemCardLayout;
+  /**
+   * The Board’s interaction handler, called when the user changes the Board’s items or lanes.
+   */
   onInteraction?: (interaction: TBoardInteraction) => void;
 }
 

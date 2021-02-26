@@ -4,6 +4,8 @@
 
 ## IBoardItemCardLayout.previewPosition property
 
+Whether the image thumbnail for the item, when there is one, should be displayed at the top of the card, or below the header for the card.
+
 <b>Signature:</b>
 
 ```typescript

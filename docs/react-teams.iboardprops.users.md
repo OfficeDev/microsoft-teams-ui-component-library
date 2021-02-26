@@ -4,6 +4,8 @@
 
 ## IBoardProps.users property
 
+The users the Board’s items may associate with. To improve performance, this object should contain only the users associated with any items in the Board.
+
 <b>Signature:</b>
 
 ```typescript

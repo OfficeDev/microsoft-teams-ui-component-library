@@ -4,6 +4,8 @@
 
 ## TUser type
 
+A User entity, which certain components can use as part of their content.
+
 <b>Signature:</b>
 
 ```typescript
