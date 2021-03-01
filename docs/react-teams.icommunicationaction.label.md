@@ -4,6 +4,8 @@
 
 ## ICommunicationAction.label property
 
+The text to display in the button for the action.
+
 <b>Signature:</b>
 
 ```typescript

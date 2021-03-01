@@ -4,6 +4,8 @@
 
 ## ICommunicationAction interface
 
+An action rendered at the end of the Communication component’s content.
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,6 +16,6 @@ export interface ICommunicationAction
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [label](./react-teams.icommunicationaction.label.md) | string |  |
-|  [target](./react-teams.icommunicationaction.target.md) | string |  |
+|  [label](./react-teams.icommunicationaction.label.md) | string | The text to display in the button for the action. |
+|  [target](./react-teams.icommunicationaction.target.md) | string | The ID of the action to pass along to the interaction payload. |
 

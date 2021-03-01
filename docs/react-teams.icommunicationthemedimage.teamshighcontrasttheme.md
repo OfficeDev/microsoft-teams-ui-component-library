@@ -4,6 +4,8 @@
 
 ## ICommunicationThemedImage.teamsHighContrastTheme property
 
+A URL for the image to display when the high contrast palette is active.
+
 <b>Signature:</b>
 
 ```typescript

@@ -4,6 +4,8 @@
 
 ## TCommunication type
 
+The Communication component can be used to render empty state messages and other combinations of illustration, coaching text, and actions. Designs for this component are available in the \[Empty state page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A4042).
+
 <b>Signature:</b>
 
 ```typescript

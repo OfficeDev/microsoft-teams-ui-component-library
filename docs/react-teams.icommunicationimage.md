@@ -4,6 +4,8 @@
 
 ## ICommunicationImage interface
 
+The image to use at the beginning of a Communication component’s content. This does not respond to the user’s active theme, so will remain the same across themes.
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,6 +16,6 @@ export interface ICommunicationImage
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [ariaLabel](./react-teams.icommunicationimage.arialabel.md) | string |  |
-|  [src](./react-teams.icommunicationimage.src.md) | string |  |
+|  [ariaLabel](./react-teams.icommunicationimage.arialabel.md) | string | A label to use in place of the image for screen readers. |
+|  [src](./react-teams.icommunicationimage.src.md) | string | A URL to the image asset. |
 

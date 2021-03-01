@@ -4,6 +4,8 @@
 
 ## ICommunicationImage.src property
 
+A URL to the image asset.
+
 <b>Signature:</b>
 
 ```typescript

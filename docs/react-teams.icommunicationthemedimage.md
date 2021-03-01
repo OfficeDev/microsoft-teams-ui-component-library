@@ -4,18 +4,20 @@
 
 ## ICommunicationThemedImage interface
 
+The image to use at the beginning of a Communication component’s content. The user’s active theme determines which image to display.
+
 <b>Signature:</b>
 
 ```typescript
-export interface ICommunicationThemedImage 
+export interface ICommunicationThemedImage extends Omit<ICommunicationImage, 'src'> 
 ```
+<b>Extends:</b> Omit&lt;[ICommunicationImage](./react-teams.icommunicationimage.md)<!-- -->, 'src'&gt;
 
 ## Properties
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [ariaLabel](./react-teams.icommunicationthemedimage.arialabel.md) | string |  |
-|  [teamsDarkTheme](./react-teams.icommunicationthemedimage.teamsdarktheme.md) | string |  |
-|  [teamsHighContrastTheme](./react-teams.icommunicationthemedimage.teamshighcontrasttheme.md) | string |  |
-|  [teamsTheme](./react-teams.icommunicationthemedimage.teamstheme.md) | string |  |
+|  [teamsDarkTheme](./react-teams.icommunicationthemedimage.teamsdarktheme.md) | string | A URL for the image to display when the dark palette is active. |
+|  [teamsHighContrastTheme](./react-teams.icommunicationthemedimage.teamshighcontrasttheme.md) | string | A URL for the image to display when the high contrast palette is active. |
+|  [teamsTheme](./react-teams.icommunicationthemedimage.teamstheme.md) | string | A URL for the image to display when the light palette is active. |
 

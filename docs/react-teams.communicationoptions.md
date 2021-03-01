@@ -4,6 +4,8 @@
 
 ## CommunicationOptions enum
 
+The illustration, text, and actions (if any) to use by default as the content of this component.
+
 <b>Signature:</b>
 
 ```typescript

@@ -4,6 +4,8 @@
 
 ## ICommunicationFields.image property
 
+The image to use above the text content.
+
 <b>Signature:</b>
 
 ```typescript

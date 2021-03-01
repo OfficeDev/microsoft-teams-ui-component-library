@@ -4,6 +4,8 @@
 
 ## ICommunicationFields.title property
 
+The title, rendered as a header.
+
 <b>Signature:</b>
 
 ```typescript

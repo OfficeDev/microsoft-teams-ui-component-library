@@ -4,18 +4,18 @@
 
 ## ICommunicationFieldsWithThemedImage interface
 
+A variation of `ICommunicationFields` using a `themedImage` instead of `image`<!-- -->, which responds to the user’s active theme (light, dark, or high-contrast).
+
 <b>Signature:</b>
 
 ```typescript
-export interface ICommunicationFieldsWithThemedImage 
+export interface ICommunicationFieldsWithThemedImage extends Omit<ICommunicationFields, 'image'> 
 ```
+<b>Extends:</b> Omit&lt;[ICommunicationFields](./react-teams.icommunicationfields.md)<!-- -->, 'image'&gt;
 
 ## Properties
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [actions?](./react-teams.icommunicationfieldswiththemedimage.actions.md) | CommunicationActions | <i>(Optional)</i> |
-|  [desc?](./react-teams.icommunicationfieldswiththemedimage.desc.md) | string | <i>(Optional)</i> |
 |  [themedImage?](./react-teams.icommunicationfieldswiththemedimage.themedimage.md) | [ICommunicationThemedImage](./react-teams.icommunicationthemedimage.md) | <i>(Optional)</i> |
-|  [title?](./react-teams.icommunicationfieldswiththemedimage.title.md) | string | <i>(Optional)</i> |
 

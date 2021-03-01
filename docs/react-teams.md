@@ -8,7 +8,7 @@
 
 |  Enumeration | Description |
 |  --- | --- |
-|  [CommunicationOptions](./react-teams.communicationoptions.md) |  |
+|  [CommunicationOptions](./react-teams.communicationoptions.md) | The illustration, text, and actions (if any) to use by default as the content of this component. |
 |  [themeNames](./react-teams.themenames.md) |  |
 |  [WidgetSize](./react-teams.widgetsize.md) |  |
 
@@ -28,12 +28,11 @@
 |  [IBoardItem](./react-teams.iboarditem.md) | An item in a Board component. |
 |  [IBoardItemCardLayout](./react-teams.iboarditemcardlayout.md) | The way a Board item’s content is mapped to the adaptive card used to represent the item. |
 |  [IBoardProps](./react-teams.iboardprops.md) | The Board component can be used to render kanban and task board experiences in your app. Designs for this component are available in the \[Task board page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A3840). |
-|  [ICommunicationAction](./react-teams.icommunicationaction.md) |  |
-|  [ICommunicationFields](./react-teams.icommunicationfields.md) |  |
-|  [ICommunicationFieldsWithThemedImage](./react-teams.icommunicationfieldswiththemedimage.md) |  |
-|  [ICommunicationIllustration](./react-teams.icommunicationillustration.md) |  |
-|  [ICommunicationImage](./react-teams.icommunicationimage.md) |  |
-|  [ICommunicationThemedImage](./react-teams.icommunicationthemedimage.md) |  |
+|  [ICommunicationAction](./react-teams.icommunicationaction.md) | An action rendered at the end of the Communication component’s content. |
+|  [ICommunicationFields](./react-teams.icommunicationfields.md) | The specific content to display in the component. |
+|  [ICommunicationFieldsWithThemedImage](./react-teams.icommunicationfieldswiththemedimage.md) | A variation of <code>ICommunicationFields</code> using a <code>themedImage</code> instead of <code>image</code>, which responds to the user’s active theme (light, dark, or high-contrast). |
+|  [ICommunicationImage](./react-teams.icommunicationimage.md) | The image to use at the beginning of a Communication component’s content. This does not respond to the user’s active theme, so will remain the same across themes. |
+|  [ICommunicationThemedImage](./react-teams.icommunicationthemedimage.md) | The image to use at the beginning of a Communication component’s content. The user’s active theme determines which image to display. |
 |  [IDashboardCallout](./react-teams.idashboardcallout.md) |  |
 |  [IFormDialogProps](./react-teams.iformdialogprops.md) |  |
 |  [IFormProps](./react-teams.iformprops.md) |  |
@@ -68,7 +67,7 @@
 |  [TBoardInteraction](./react-teams.tboardinteraction.md) | The interaction payloads emitted by the Board component is either an update of the Board’s lanes, or an update of the Board’s items. |
 |  [TBoardLane](./react-teams.tboardlane.md) | Board lanes currently only need a <code>title</code>. |
 |  [TBoardLanes](./react-teams.tboardlanes.md) | Each Board lane has a unique key, which is associated with the lane’s configuration. |
-|  [TCommunication](./react-teams.tcommunication.md) |  |
+|  [TCommunication](./react-teams.tcommunication.md) | The Communication component can be used to render empty state messages and other combinations of illustration, coaching text, and actions. Designs for this component are available in the \[Empty state page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A4042). |
 |  [TCommunicationFields](./react-teams.tcommunicationfields.md) |  |
 |  [TFormInteraction](./react-teams.tforminteraction.md) |  |
 |  [TListInteraction](./react-teams.tlistinteraction.md) |  |

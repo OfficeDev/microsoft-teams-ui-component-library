@@ -28,7 +28,6 @@ export {
   ICommunicationAction,
   ICommunicationFields,
   ICommunicationFieldsWithThemedImage,
-  ICommunicationIllustration,
   ICommunicationImage,
   ICommunicationThemedImage,
 } from "./components/Communication";

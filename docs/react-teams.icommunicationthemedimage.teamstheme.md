@@ -4,6 +4,8 @@
 
 ## ICommunicationThemedImage.teamsTheme property
 
+A URL for the image to display when the light palette is active.
+
 <b>Signature:</b>
 
 ```typescript

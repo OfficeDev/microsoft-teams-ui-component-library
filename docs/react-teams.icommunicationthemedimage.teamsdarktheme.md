@@ -4,6 +4,8 @@
 
 ## ICommunicationThemedImage.teamsDarkTheme property
 
+A URL for the image to display when the dark palette is active.
+
 <b>Signature:</b>
 
 ```typescript

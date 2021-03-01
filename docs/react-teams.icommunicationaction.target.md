@@ -4,6 +4,8 @@
 
 ## ICommunicationAction.target property
 
+The ID of the action to pass along to the interaction payload.
+
 <b>Signature:</b>
 
 ```typescript

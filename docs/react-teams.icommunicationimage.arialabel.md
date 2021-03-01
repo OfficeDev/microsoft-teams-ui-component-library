@@ -4,6 +4,8 @@
 
 ## ICommunicationImage.ariaLabel property
 
+A label to use in place of the image for screen readers.
+
 <b>Signature:</b>
 
 ```typescript

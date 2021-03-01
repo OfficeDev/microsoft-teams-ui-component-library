@@ -4,6 +4,8 @@
 
 ## ICommunicationFields.desc property
 
+The body text, rendered as body text below any title.
+
 <b>Signature:</b>
 
 ```typescript

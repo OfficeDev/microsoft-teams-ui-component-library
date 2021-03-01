@@ -4,6 +4,8 @@
 
 ## ICommunicationFields.actions property
 
+The interactive buttons to render at the end of the content.
+
 <b>Signature:</b>
 
 ```typescript
