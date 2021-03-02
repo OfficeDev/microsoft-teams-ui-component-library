@@ -4,7 +4,7 @@ import { withDesign } from "storybook-addon-designs";
 import { actions } from "@storybook/addon-actions";
 
 import { List, TSortable } from "../src";
-import { CommunicationOptions } from "../lib";
+import { CommunicationOptions } from "../src";
 import fakerEN from "faker/locale/en_US";
 import fakerFA from "faker/locale/fa";
 
