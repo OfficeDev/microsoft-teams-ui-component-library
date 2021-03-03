@@ -35,7 +35,6 @@ export {
 export {
   default as Dashboard,
   IWidgetAction,
-  IDashboardCallout,
   IWidget,
   WidgetSize,
   IWidgetBodyContent,

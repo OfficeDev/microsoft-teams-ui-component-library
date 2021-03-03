@@ -9,9 +9,9 @@ A variation of `ICommunicationFields` using a `themedImage` instead of `image`<!
 <b>Signature:</b>
 
 ```typescript
-export interface ICommunicationFieldsWithThemedImage extends Omit<ICommunicationFields, 'image'> 
+export interface ICommunicationFieldsWithThemedImage extends Omit<ICommunicationFields, "image"> 
 ```
-<b>Extends:</b> Omit&lt;[ICommunicationFields](./react-teams.icommunicationfields.md)<!-- -->, 'image'&gt;
+<b>Extends:</b> Omit&lt;[ICommunicationFields](./react-teams.icommunicationfields.md)<!-- -->, "image"&gt;
 
 ## Properties
 

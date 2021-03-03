@@ -4,6 +4,8 @@
 
 ## IWidgetBodyContent.title property
 
+A title which will appear as a tab’s label in the Dashboard widget. This will only appear if the widget hosts multiple body content objects.
+
 <b>Signature:</b>
 
 ```typescript

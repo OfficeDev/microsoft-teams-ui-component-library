@@ -4,6 +4,8 @@
 
 ## IWidgetBodyContent.id property
 
+An ID unique to the piece of content.
+
 <b>Signature:</b>
 
 ```typescript

@@ -1,4 +1,5 @@
-import React, { ReactNode } from "react";
+import React from "react";
+
 import {
   Popup,
   Button,
@@ -12,15 +13,31 @@ import {
   ThemePrepared,
   EyeSlashIcon,
 } from "@fluentui/react-northstar";
+
 import { TeamsTheme } from "../../themes";
 
+/**
+ * An action item displayed in a widget’s overflow menu.
+ */
 export interface IWidgetAction {
+  /**
+   * A unique ID to use to refer to the action.
+   */
   id: string;
+  /**
+   * The icon, as a JSX.Element
+   *
+   * @deprecated This library aims to use only props that can be serialized into JSON, so an
+   * alternative way to specify widget content will appear in subsequent versions.
+   */
   icon?: JSX.Element;
+  /**
+   * The text content of the trigger for the action.
+   */
   title: string;
 }
 
-export interface IDashboardCallout {
+interface IDashboardCallout {
   open: boolean;
   onOpenChange: ComponentEventHandler<PopupProps>;
   menuProps: any;

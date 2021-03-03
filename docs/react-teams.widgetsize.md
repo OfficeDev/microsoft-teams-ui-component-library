@@ -4,6 +4,8 @@
 
 ## WidgetSize enum
 
+The widget’s size relative to other widgets.
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,8 +16,8 @@ export declare enum WidgetSize
 
 |  Member | Value | Description |
 |  --- | --- | --- |
-|  Box | <code>&quot;box&quot;</code> |  |
-|  Double | <code>&quot;double&quot;</code> |  |
-|  Single | <code>&quot;single&quot;</code> |  |
-|  Triple | <code>&quot;triple&quot;</code> |  |
+|  Box | <code>&quot;box&quot;</code> | The widget will occupy 2×2 grid cells. |
+|  Double | <code>&quot;double&quot;</code> | The widget will occupy 2×1 grid cells. |
+|  Single | <code>&quot;single&quot;</code> | The widget will occupy 1×1 grid cells. |
+|  Triple | <code>&quot;triple&quot;</code> | The widget will occupy 3×1 grid cells. |
 

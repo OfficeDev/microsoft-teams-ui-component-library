@@ -10,7 +10,7 @@
 |  --- | --- |
 |  [CommunicationOptions](./react-teams.communicationoptions.md) | The illustration, text, and actions (if any) to use by default as the content of this component. |
 |  [themeNames](./react-teams.themenames.md) |  |
-|  [WidgetSize](./react-teams.widgetsize.md) |  |
+|  [WidgetSize](./react-teams.widgetsize.md) | The widget’s size relative to other widgets. |
 
 ## Functions
 
@@ -23,8 +23,8 @@
 
 |  Interface | Description |
 |  --- | --- |
-|  [IBoardInteractionUpdateItems](./react-teams.iboardinteractionupdateitems.md) |  |
-|  [IBoardInteractionUpdateLanes](./react-teams.iboardinteractionupdatelanes.md) |  |
+|  [IBoardInteractionUpdateItems](./react-teams.iboardinteractionupdateitems.md) | This payload is emitted when the user updates the Board’s items, which occurs when the user creates a new item, deletes an item, or edits an item. |
+|  [IBoardInteractionUpdateLanes](./react-teams.iboardinteractionupdatelanes.md) | This payload is emitted when the user updates the Board’s lanes, which occurs when the user adds or removes a lane, or rearranges the lanes. |
 |  [IBoardItem](./react-teams.iboarditem.md) | An item in a Board component. |
 |  [IBoardItemCardLayout](./react-teams.iboarditemcardlayout.md) | The way a Board item’s content is mapped to the adaptive card used to represent the item. |
 |  [IBoardProps](./react-teams.iboardprops.md) | The Board component can be used to render kanban and task board experiences in your app. Designs for this component are available in the \[Task board page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A3840). |
@@ -33,16 +33,15 @@
 |  [ICommunicationFieldsWithThemedImage](./react-teams.icommunicationfieldswiththemedimage.md) | A variation of <code>ICommunicationFields</code> using a <code>themedImage</code> instead of <code>image</code>, which responds to the user’s active theme (light, dark, or high-contrast). |
 |  [ICommunicationImage](./react-teams.icommunicationimage.md) | The image to use at the beginning of a Communication component’s content. This does not respond to the user’s active theme, so will remain the same across themes. |
 |  [ICommunicationThemedImage](./react-teams.icommunicationthemedimage.md) | The image to use at the beginning of a Communication component’s content. The user’s active theme determines which image to display. |
-|  [IDashboardCallout](./react-teams.idashboardcallout.md) |  |
 |  [IFormDialogProps](./react-teams.iformdialogprops.md) |  |
 |  [IFormProps](./react-teams.iformprops.md) |  |
 |  [IListProps](./react-teams.ilistprops.md) |  |
 |  [IPreparedBoardItem](./react-teams.ipreparedboarditem.md) | A prepared Board item places the item’s unique key within itself so the item can be handled on its own. |
 |  [ITableProps](./react-teams.itableprops.md) |  |
 |  [IToolbarProps](./react-teams.itoolbarprops.md) |  |
-|  [IWidget](./react-teams.iwidget.md) |  |
-|  [IWidgetActionKey](./react-teams.iwidgetactionkey.md) |  |
-|  [IWidgetBodyContent](./react-teams.iwidgetbodycontent.md) |  |
+|  [IWidget](./react-teams.iwidget.md) | A Dashboard widget is rendered as a card of a certain size, containing the content specified. |
+|  [IWidgetAction](./react-teams.iwidgetaction.md) | An action item displayed in a widget’s overflow menu. |
+|  [IWidgetBodyContent](./react-teams.iwidgetbodycontent.md) | A piece of content to make available in the widget. |
 |  [IWidgetLink](./react-teams.iwidgetlink.md) |  |
 
 ## Variables

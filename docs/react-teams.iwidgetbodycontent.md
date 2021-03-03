@@ -4,6 +4,8 @@
 
 ## IWidgetBodyContent interface
 
+A piece of content to make available in the widget.
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,7 +16,7 @@ export interface IWidgetBodyContent
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [content](./react-teams.iwidgetbodycontent.content.md) | ReactNode |  |
-|  [id](./react-teams.iwidgetbodycontent.id.md) | string |  |
-|  [title](./react-teams.iwidgetbodycontent.title.md) | string |  |
+|  [content](./react-teams.iwidgetbodycontent.content.md) | ReactNode | The content, as a React Node. |
+|  [id](./react-teams.iwidgetbodycontent.id.md) | string | An ID unique to the piece of content. |
+|  [title](./react-teams.iwidgetbodycontent.title.md) | string | A title which will appear as a tab’s label in the Dashboard widget. This will only appear if the widget hosts multiple body content objects. |
 

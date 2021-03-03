@@ -4,6 +4,8 @@
 
 ## IWidget.body property
 
+The content to make available in the widget.
+
 <b>Signature:</b>
 
 ```typescript

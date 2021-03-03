@@ -4,6 +4,8 @@
 
 ## IWidget interface
 
+A Dashboard widget is rendered as a card of a certain size, containing the content specified.
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,10 +16,10 @@ export interface IWidget
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [body?](./react-teams.iwidget.body.md) | [IWidgetBodyContent](./react-teams.iwidgetbodycontent.md)<!-- -->\[\] | <i>(Optional)</i> |
-|  [desc?](./react-teams.iwidget.desc.md) | string | <i>(Optional)</i> |
-|  [link?](./react-teams.iwidget.link.md) | [IWidgetLink](./react-teams.iwidgetlink.md) | <i>(Optional)</i> |
+|  [body?](./react-teams.iwidget.body.md) | [IWidgetBodyContent](./react-teams.iwidgetbodycontent.md)<!-- -->\[\] | <i>(Optional)</i> The content to make available in the widget. |
+|  [desc?](./react-teams.iwidget.desc.md) | string | <i>(Optional)</i> Text rendered in boxy test style below the title. |
+|  [link?](./react-teams.iwidget.link.md) | [IWidgetLink](./react-teams.iwidgetlink.md) | <i>(Optional)</i> A link to render at the end of the widget’s content. |
 |  [size](./react-teams.iwidget.size.md) | [WidgetSize](./react-teams.widgetsize.md) |  |
-|  [title](./react-teams.iwidget.title.md) | string |  |
-|  [widgetActionGroup?](./react-teams.iwidget.widgetactiongroup.md) | [IWidgetActionKey](./react-teams.iwidgetactionkey.md)<!-- -->\[\] | <i>(Optional)</i> |
+|  [title](./react-teams.iwidget.title.md) | string | The title of the widget, rendered in a header style. |
+|  [widgetActionGroup?](./react-teams.iwidget.widgetactiongroup.md) | [IWidgetAction](./react-teams.iwidgetaction.md)<!-- -->\[\] | <i>(Optional)</i> A collection of actions available in the widget’s overflow menu. |
 

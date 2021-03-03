@@ -4,8 +4,10 @@
 
 ## IWidget.widgetActionGroup property
 
+A collection of actions available in the widget’s overflow menu.
+
 <b>Signature:</b>
 
 ```typescript
-widgetActionGroup?: IWidgetActionKey[];
+widgetActionGroup?: IWidgetAction[];
 ```

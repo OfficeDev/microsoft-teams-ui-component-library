@@ -4,6 +4,8 @@
 
 ## IBoardInteractionUpdateLanes interface
 
+This payload is emitted when the user updates the Board’s lanes, which occurs when the user adds or removes a lane, or rearranges the lanes.
+
 <b>Signature:</b>
 
 ```typescript

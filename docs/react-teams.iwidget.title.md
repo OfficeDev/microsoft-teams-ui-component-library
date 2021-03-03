@@ -4,6 +4,8 @@
 
 ## IWidget.title property
 
+The title of the widget, rendered in a header style.
+
 <b>Signature:</b>
 
 ```typescript

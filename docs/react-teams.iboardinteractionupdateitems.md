@@ -4,6 +4,8 @@
 
 ## IBoardInteractionUpdateItems interface
 
+This payload is emitted when the user updates the Board’s items, which occurs when the user creates a new item, deletes an item, or edits an item.
+
 <b>Signature:</b>
 
 ```typescript

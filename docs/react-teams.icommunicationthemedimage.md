@@ -9,9 +9,9 @@ The image to use at the beginning of a Communication component’s content. The 
 <b>Signature:</b>
 
 ```typescript
-export interface ICommunicationThemedImage extends Omit<ICommunicationImage, 'src'> 
+export interface ICommunicationThemedImage extends Omit<ICommunicationImage, "src"> 
 ```
-<b>Extends:</b> Omit&lt;[ICommunicationImage](./react-teams.icommunicationimage.md)<!-- -->, 'src'&gt;
+<b>Extends:</b> Omit&lt;[ICommunicationImage](./react-teams.icommunicationimage.md)<!-- -->, "src"&gt;
 
 ## Properties
 
