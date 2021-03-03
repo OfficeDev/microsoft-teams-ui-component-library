@@ -14,7 +14,7 @@ import {
 } from "@fluentui/react-northstar";
 import { TeamsTheme } from "../../themes";
 
-export interface IWidgetActionKey {
+export interface IWidgetAction {
   id: string;
   icon?: JSX.Element;
   title: string;
@@ -25,7 +25,7 @@ export interface IDashboardCallout {
   onOpenChange: ComponentEventHandler<PopupProps>;
   menuProps: any;
   globalTheme: ThemePrepared;
-  widgetActionGroup?: IWidgetActionKey[];
+  widgetActionGroup?: IWidgetAction[];
 }
 
 const getLocalTheme = () => {
@@ -118,7 +118,7 @@ export const DashboardCallout = ({
                 widgetActionGroup
                   ? [
                       ...widgetActionGroup.map(
-                        ({ id, icon, title }: IWidgetActionKey) => {
+                        ({ id, icon, title }: IWidgetAction) => {
                           return {
                             key: id,
                             icon,

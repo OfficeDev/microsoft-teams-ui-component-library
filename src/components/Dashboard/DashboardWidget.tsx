@@ -9,21 +9,54 @@ import {
   tabListBehavior,
   Menu,
 } from "@fluentui/react-northstar";
-import { DashboardCallout, IWidgetActionKey } from "./DashboardCallout";
+import { DashboardCallout, IWidgetAction } from "./DashboardCallout";
 
+/**
+ * The widget’s size relative to other widgets.
+ */
 export enum WidgetSize {
+  /**
+   * The widget will occupy 1×1 grid cells.
+   */
   Single = "single",
+  /**
+   * The widget will occupy 2×1 grid cells.
+   */
   Double = "double",
+  /**
+   * The widget will occupy 3×1 grid cells.
+   */
   Triple = "triple",
+  /**
+   * The widget will occupy 2×2 grid cells.
+   */
   Box = "box",
 }
 
+/**
+ * A Dashboard widget is rendered as a card of a certain size, containing the content specified.
+ */
 export interface IWidget {
   size: WidgetSize;
+  /**
+   * The title of the widget, rendered in a header style.
+   */
   title: string;
+  /**
+   * Text rendered in boxy test style below the title.
+   */
   desc?: string;
-  widgetActionGroup?: IWidgetActionKey[];
+  /**
+   * A collection of actions available in the widget’s overflow menu.
+   */
+  widgetActionGroup?: IWidgetAction[];
+  /**
+   * The content to make available in the widget.
+   */
   body?: IWidgetBodyContent[];
+  /**
+   * A link to render at the end of the widget’s content.
+   */
   link?: IWidgetLink;
 }
 
@@ -67,7 +100,7 @@ export const WidgetTitle = ({
   title: string;
   desc?: string;
   globalTheme: ThemePrepared;
-  widgetActionGroup?: IWidgetActionKey[];
+  widgetActionGroup?: IWidgetAction[];
 }) => {
   const [calloutOpen, setCalloutOpen] = React.useState(false);
   return (
@@ -106,9 +139,25 @@ const EmptyState = ({ borderColor }: { borderColor: string }) => {
   );
 };
 
+/**
+ * A piece of content to make available in the widget.
+ */
 export interface IWidgetBodyContent {
+  /**
+   * An ID unique to the piece of content.
+   */
   id: string;
+  /**
+   * A title which will appear as a tab’s label in the Dashboard widget. This will only appear if
+   * the widget hosts multiple body content objects.
+   */
   title: string;
+  /**
+   * The content, as a React Node.
+   *
+   * @deprecated This library aims to use only props that can be serialized into JSON, so an
+   * alternative way to specify widget content will appear in subsequent versions.
+   */
   content: ReactNode;
 }
 

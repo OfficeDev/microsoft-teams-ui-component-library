@@ -76,12 +76,20 @@ const defaultBoardItemCardLayout: IBoardItemCardLayout = {
   overflowPosition: "footer",
 };
 
+/**
+ * This payload is emitted when the user updates the Board’s lanes, which occurs when the user adds
+ * or removes a lane, or rearranges the lanes.
+ */
 export interface IBoardInteractionUpdateLanes {
   event: "update";
   target: "lanes";
   lanes: TBoardLanes;
 }
 
+/**
+ * This payload is emitted when the user updates the Board’s items, which occurs when the user
+ * creates a new item, deletes an item, or edits an item.
+ */
 export interface IBoardInteractionUpdateItems {
   event: "update";
   target: "items";
