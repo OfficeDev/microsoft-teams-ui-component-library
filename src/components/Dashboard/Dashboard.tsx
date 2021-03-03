@@ -17,7 +17,7 @@ import { Toolbar } from "../..";
  * The Dashboard component summarizes disparate types of information into a series of widgets.
  * Designs for this component are available in the [Dashboard page of the Microsoft Teams UI Kit](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A3890).
  */
-interface IDashboard {
+export interface IDashboard {
   widgets: IWidget[];
 }
 

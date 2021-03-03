@@ -14,7 +14,7 @@ export declare function Dashboard({ widgets }: IDashboard): JSX.Element;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  { widgets } | IDashboard |  |
+|  { widgets } | [IDashboard](./react-teams.idashboard.md) |  |
 
 <b>Returns:</b>
 
