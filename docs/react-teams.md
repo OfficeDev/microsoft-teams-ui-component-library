@@ -9,6 +9,9 @@
 |  Enumeration | Description |
 |  --- | --- |
 |  [CommunicationOptions](./react-teams.communicationoptions.md) | The illustration, text, and actions (if any) to use by default as the content of this component. |
+|  [EFieldType](./react-teams.efieldtype.md) |  |
+|  [EInputWidth](./react-teams.einputwidth.md) |  |
+|  [ESectionType](./react-teams.esectiontype.md) |  |
 |  [themeNames](./react-teams.themenames.md) |  |
 |  [WidgetSize](./react-teams.widgetsize.md) | The widget’s size relative to other widgets. |
 
@@ -44,6 +47,8 @@
 |  [IWidgetAction](./react-teams.iwidgetaction.md) | An action item displayed in a widget’s overflow menu. |
 |  [IWidgetBodyContent](./react-teams.iwidgetbodycontent.md) | A piece of content to make available in the widget. |
 |  [IWidgetLink](./react-teams.iwidgetlink.md) |  |
+|  [IWizardDialogProps](./react-teams.iwizarddialogprops.md) |  |
+|  [IWizardProps](./react-teams.iwizardprops.md) |  |
 
 ## Variables
 
@@ -56,6 +61,8 @@
 |  [Provider](./react-teams.provider.md) |  |
 |  [Table](./react-teams.table.md) |  |
 |  [Toolbar](./react-teams.toolbar.md) |  |
+|  [Wizard](./react-teams.wizard.md) |  |
+|  [WizardDialog](./react-teams.wizarddialog.md) |  |
 
 ## Type Aliases
 

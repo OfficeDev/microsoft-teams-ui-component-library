@@ -8,7 +8,7 @@
 
 ```typescript
 export declare type TFormInteraction = {
-    event: "submit";
+    event: "submit" | "cancel" | "back";
     target: "form";
     formState: IFormState;
 };
