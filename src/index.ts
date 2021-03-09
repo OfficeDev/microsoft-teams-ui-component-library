@@ -59,3 +59,14 @@ export {
 
 export { IFormProps, Form, TFormInteraction } from "./components/Form/Form";
 export { IFormDialogProps, FormDialog } from "./components/Form/Form";
+
+export { IFormProps, Form } from "./components/Form/Form";
+export { IFormDialogProps, FormDialog } from "./components/Form/Form";
+export {
+  EFieldType,
+  EInputWidth,
+  ESectionType,
+} from "./components/Form/FormContent";
+
+export { IWizardProps, Wizard } from "./components/Wizard/Wizard";
+export { IWizardDialogProps, WizardDialog } from "./components/Wizard/Wizard";

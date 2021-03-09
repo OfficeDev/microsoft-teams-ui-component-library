@@ -5,7 +5,12 @@ import {
   Provider as FluentUIThemeProvider,
 } from "@fluentui/react-northstar";
 
-import { ThemeInput, ThemePrepared } from "@fluentui/styles";
+import {
+  ICSSInJSStyle,
+  SiteVariablesPrepared,
+  ThemeInput,
+  ThemePrepared,
+} from "@fluentui/styles";
 
 import { teamsNextVariableAssignments, themes } from "../../lib/withTheme";
 
@@ -17,6 +22,7 @@ export interface IFormThemeProps {
   globalTheme: ThemePrepared;
   children: ReactNode;
   surface: Surface;
+  styles?: ICSSInJSStyle;
 }
 
 const getLocalTheme = (
@@ -26,14 +32,45 @@ const getLocalTheme = (
   return {
     componentStyles: {
       Dropdown: {
-        container: () => ({
-          backgroundColor: "var(--input-background)",
-          "&:hover": { backgroundColor: "var(--input-background)" },
-          "&:focus": { backgroundColor: "var(--input-background)" },
+        container: () => {
+          const border = {
+            borderTopWidth: themeName === TeamsTheme.HighContrast ? "1px" : 0,
+            borderRightWidth: themeName === TeamsTheme.HighContrast ? "1px" : 0,
+            borderBottomWidth:
+              themeName === TeamsTheme.HighContrast ? "2px" : 0,
+            borderLeftWidth: themeName === TeamsTheme.HighContrast ? "1px" : 0,
+          };
+          return {
+            backgroundColor: "var(--input-background)",
+            ...border,
+            "&:hover": {
+              backgroundColor: "var(--input-background)",
+              ...border,
+            },
+            "&:focus": {
+              backgroundColor: "var(--input-background)",
+              ...border,
+            },
+          };
+        },
+        triggerButton: () => ({
+          "&:hover": { backgroundColor: "inherit", borderColor: "transparent" },
         }),
       },
       Input: {
         input: () => ({ backgroundColor: "var(--input-background)" }),
+      },
+      InputLabel: {
+        root: ({ theme }: SiteVariablesPrepared) => ({
+          color: theme.siteVariables.colorScheme.default.foreground1,
+          fontSize: ".75rem",
+        }),
+      },
+      FormLabel: {
+        root: ({ theme }: SiteVariablesPrepared) => ({
+          color: theme.siteVariables.colorScheme.default.foreground1,
+          fontSize: ".75rem",
+        }),
       },
       TextArea: {
         root: () => ({ backgroundColor: "var(--input-background)" }),
@@ -46,6 +83,7 @@ export const FormTheme = ({
   globalTheme,
   children,
   surface,
+  styles,
 }: IFormThemeProps) => {
   const mainTheme = globalTheme.siteVariables?.theme
     ? globalTheme
@@ -58,6 +96,8 @@ export const FormTheme = ({
           background: "transparent",
           "--surface-background":
             globalTheme.siteVariables.colorScheme.default.background2,
+          "--overlay-background":
+            globalTheme.siteVariables.colorScheme.default.background,
           "--shadow-background":
             globalTheme.siteVariables.colorScheme.default.border2,
           "--input-background":
@@ -67,6 +107,8 @@ export const FormTheme = ({
         return {
           background: "transparent",
           "--surface-background": "transparent",
+          "--overlay-background":
+            globalTheme.siteVariables.colorScheme.default.background,
           "--shadow-background":
             globalTheme.siteVariables.colorScheme.default.border1,
           "--input-background": (function () {
@@ -90,7 +132,7 @@ export const FormTheme = ({
         teamsNextVariableAssignments,
         getLocalTheme(globalTheme.siteVariables.theme, surface)
       )}
-      styles={cssProperties}
+      styles={{ ...cssProperties, ...styles }}
     >
       {children}
     </FluentUIThemeProvider>

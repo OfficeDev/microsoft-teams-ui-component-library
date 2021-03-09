@@ -2,9 +2,10 @@ import React, { Dispatch, SetStateAction } from "react";
 import uniqueId from "lodash/uniqueId";
 import cloneDeep from "lodash/cloneDeep";
 
-import { TTranslations, getText } from "../../translations";
+import { getText, TTranslations } from "../../translations";
 
 import { FormDialog } from "../Form/Form";
+import { EFieldType, ESectionType } from "../Form/FormContent";
 import { IPreparedBoardItem, IPreparedBoardItems } from "./BoardItem";
 import { TBoardLanes } from "./BoardLane";
 import { TUsers } from "../../types/types";
@@ -52,10 +53,10 @@ export const BoardItemDialog = ({
         {
           inputGroups: [
             {
-              type: "text-inputs",
+              type: ESectionType.textInputs,
               fields: [
                 {
-                  type: "text",
+                  type: EFieldType.text,
                   title: t["title"],
                   inputId: "board-item__title",
                   initialValue: getText(t.locale, initialState["title"]),
@@ -63,10 +64,10 @@ export const BoardItemDialog = ({
               ],
             },
             {
-              type: "text-inputs",
+              type: ESectionType.textInputs,
               fields: [
                 {
-                  type: "text",
+                  type: EFieldType.text,
                   title: t["subtitle"],
                   inputId: "board-item__subtitle",
                   optional: true,
@@ -75,7 +76,7 @@ export const BoardItemDialog = ({
               ],
             },
             {
-              type: "multiline-text",
+              type: ESectionType.multilineText,
               title: t["board item body"],
               inputId: "board-item__body",
               optional: true,
@@ -89,7 +90,7 @@ export const BoardItemDialog = ({
               ),
             },
             {
-              type: "dropdown",
+              type: ESectionType.dropdown,
               title: t["board lane"],
               inputId: "board-item__lane",
               multiple: false,
@@ -100,7 +101,7 @@ export const BoardItemDialog = ({
               initialValue: initialState.lane,
             },
             {
-              type: "dropdown",
+              type: ESectionType.dropdown,
               title: t["board item users"],
               inputId: "board-item__users",
               optional: true,
