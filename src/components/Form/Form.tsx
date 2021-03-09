@@ -15,7 +15,7 @@ import {
 import { getText, TTextObject } from "../../translations";
 import { TeamsTheme } from "../../themes";
 
-import { WithOptionalInternalCallbacks, Surface } from "../../types/types";
+import { Surface } from "../../types/types";
 
 import { FormTheme } from "./FormTheme";
 import {
@@ -39,7 +39,7 @@ export type TFormInteraction = {
   formState: IFormState;
 };
 
-export interface IFormProps extends WithOptionalInternalCallbacks<IFormState> {
+export interface IFormProps {
   headerSection?: ISection;
   sections: ISection[];
   errors?: TFormErrors;
