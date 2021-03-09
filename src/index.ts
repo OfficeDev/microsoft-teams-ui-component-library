@@ -46,3 +46,4 @@ export { TSortable } from "./components/Table/tableBreakpoints";
 export { IToolbarProps, Toolbar } from "./components/Toolbar/Toolbar";
 
 export { Chart, ChartOptions } from "./components/Chart";
+export * from "./components/Chart/ChartTypes";
