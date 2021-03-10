@@ -44,7 +44,6 @@ const getLocalTheme = (themeKey: string): ThemeInput<any> => {
     const { theme: themeKey, colorScheme } = theme.siteVariables;
     return {
       borderWidth: themeKey === TeamsTheme.HighContrast ? "1px" : 0,
-      boxShadow: colorScheme.elevations[8],
     };
   };
 
@@ -114,19 +113,19 @@ const getLocalTheme = (themeKey: string): ThemeInput<any> => {
         -webkit-flex: 0 0 auto;
       }`,
       `.extended-toolbar .ui-toolbar__menu {
-          top: .25rem !important;
+        top: .25rem !important;
       }`,
       `.extended-toolbar .extended-toolbar__filters-invoker:focus::before,
-       .extended-toolbar .extended-toolbar__filters-invoker:focus::after,
-       .extended-toolbar .extended-toolbar__find-invoker:focus::before,
-       .extended-toolbar .extended-toolbar__find-invoker:focus::after,
-       .extended-toolbar .extended-toolbar__find-cancel:focus::before,
-       .extended-toolbar .extended-toolbar__find-cancel:focus::after,
-       .extended-toolbar .ui-toolbar__item:focus::before,
-       .extended-toolbar .ui-toolbar__item:focus::after {
-          top: calc(.5rem - 1px) !important;
-          bottom: calc(.5rem - 1px) !important;
-       }
+      .extended-toolbar .extended-toolbar__filters-invoker:focus::after,
+      .extended-toolbar .extended-toolbar__find-invoker:focus::before,
+      .extended-toolbar .extended-toolbar__find-invoker:focus::after,
+      .extended-toolbar .extended-toolbar__find-cancel:focus::before,
+      .extended-toolbar .extended-toolbar__find-cancel:focus::after,
+      .extended-toolbar .ui-toolbar__item:focus::before,
+      .extended-toolbar .ui-toolbar__item:focus::after {
+        top: calc(.5rem - 1px) !important;
+        bottom: calc(.5rem - 1px) !important;
+      }
       `,
     ],
   };
@@ -145,7 +144,12 @@ export const ToolbarTheme = ({ globalTheme, children }: IToolbarThemeProps) => {
     <FluentUIThemeProvider
       theme={theme}
       styles={{
-        backgroundColor: theme.siteVariables?.colorScheme.default.background2,
+        position: "sticky",
+        display: "grid",
+        top: 0,
+        marginBottom: "1.25rem",
+        boxShadow: globalTheme.siteVariables.colorScheme.elevations[8],
+        zIndex: 999,
       }}
     >
       {children}

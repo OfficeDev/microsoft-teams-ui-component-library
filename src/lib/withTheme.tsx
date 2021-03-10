@@ -331,7 +331,7 @@ export const HVCThemeProvider = ({
     >
       <style>
         {`
-          html, body, #root, #root > .ui-provider { height: 100% }
+          html, body, #root, #root > .ui-provider { min-height: 100% }
           ::-webkit-scrollbar { width: .75rem } 
           ::-webkit-scrollbar-track {
             background-color: ${theme.siteVariables?.colorScheme.default.background2};
@@ -344,7 +344,15 @@ export const HVCThemeProvider = ({
           }
           ::-webkit-scrollbar-thumb:hover {
             background-color: ${theme.siteVariables?.colorScheme.default.foreground2};
-          } 
+          }
+          canvas {
+            border-radius: 3px;
+            transition: box-shadow .05s .1s ease-out;
+          }
+          canvas:focus {
+            outline: none;
+            box-shadow: inset 0 0 0 2px ${theme.siteVariables?.colorScheme.default.foregroundActive};
+          }
         ` + customScrollbarStyles}
       </style>
       {children}

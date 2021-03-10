@@ -1,6 +1,13 @@
 import * as util from "util";
 import _rimraf from "rimraf";
-import { task, series, jestTask, tscTask, eslintTask } from "just-scripts";
+import {
+  task,
+  parallel,
+  series,
+  jestTask,
+  tscTask,
+  eslintTask,
+} from "just-scripts";
 import {
   startStorybookTask,
   buildStorybookTask,
@@ -9,7 +16,19 @@ import {
 const rimraf = util.promisify(_rimraf as any);
 
 task("clean", () => rimraf("lib"));
-task("build:tsc", tscTask());
+task(
+  "build:tsc",
+  parallel(
+    tscTask({
+      module: "CommonJS",
+      outDir: "lib/cjs",
+    }),
+    tscTask({
+      module: "ES2020",
+      outDir: "lib/esm",
+    })
+  )
+);
 task("build", series("clean", "build:tsc"));
 
 task("test", jestTask());

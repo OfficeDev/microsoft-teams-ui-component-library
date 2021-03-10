@@ -1,8 +1,24 @@
 # Change Log - @fluentui/react-teams
 
-This log was last generated on Mon, 18 Jan 2021 20:57:22 GMT and should not be manually modified.
+This log was last generated on Wed, 10 Mar 2021 19:55:25 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 3.0.0
+
+Wed, 10 Mar 2021 19:55:25 GMT
+
+### Major changes
+
+- Disable Storybook docs tab (a.katrukhin@gmail.com)
+
+## 2.0.1
+
+Fri, 19 Feb 2021 01:36:19 GMT
+
+### Patches
+
+- Add CommonJS output for NodeJS compat (david@zuko.me)
 
 ## 2.0.0
 

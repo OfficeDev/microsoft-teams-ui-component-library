@@ -350,7 +350,12 @@ const BoardStandalone = (props: IBoardStandaloneProps) => {
 
   return (
     <DragDropContext {...{ onDragStart, onDragUpdate, onDragEnd }}>
-      <Box styles={{ overflowX: "auto", flex: "1 0 0" }}>
+      <Box
+        styles={{
+          overflowX: "auto",
+          flexGrow: 1,
+        }}
+      >
         <Box
           styles={{ height: "100%", display: "flex" }}
           accessibility={boardBehavior}
@@ -508,13 +513,22 @@ export const Board = (props: IBoardProps) => {
       render={(globalTheme) => {
         const { t, rtl } = globalTheme.siteVariables;
         return (
-          <BoardTheme globalTheme={globalTheme} style={{ height: "100%" }}>
+          <BoardTheme
+            globalTheme={globalTheme}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              height: "calc(100vh - 1.25rem)",
+            }}
+          >
             <Flex
               column
               variables={({ colorScheme }: SiteVariablesPrepared) => ({
                 backgroundColor: colorScheme.default.background2,
               })}
-              styles={{ height: "100%" }}
+              styles={{
+                height: "100%",
+              }}
             >
               <Toolbar
                 actionGroups={{

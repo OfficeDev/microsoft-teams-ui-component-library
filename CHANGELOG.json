@@ -2,6 +2,51 @@
   "name": "@fluentui/react-teams",
   "entries": [
     {
+      "date": "Wed, 10 Mar 2021 19:55:25 GMT",
+      "tag": "@fluentui/react-teams_v3.0.0",
+      "version": "3.0.0",
+      "comments": {
+        "major": [
+          {
+            "comment": "Disable Storybook docs tab",
+            "author": "a.katrukhin@gmail.com",
+            "commit": "c7d2ffdfe186b195c1406532ab12ecbff6241078",
+            "package": "@fluentui/react-teams"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Wed, 24 Feb 2021 20:52:51 GMT",
+      "tag": "@fluentui/react-teams_v2.0.1",
+      "version": "2.0.1",
+      "comments": {
+        "none": [
+          {
+            "comment": "Disable Storybook docs tab",
+            "author": "david@zuko.me",
+            "commit": "bd0903d31005fbdc3c8d63ac7e855792c3c5dea3",
+            "package": "@fluentui/react-teams"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Fri, 19 Feb 2021 01:36:19 GMT",
+      "tag": "@fluentui/react-teams_v2.0.1",
+      "version": "2.0.1",
+      "comments": {
+        "patch": [
+          {
+            "comment": "Add CommonJS output for NodeJS compat",
+            "author": "david@zuko.me",
+            "commit": "5dc0776669d990b4b78de5146598359cd0cb2483",
+            "package": "@fluentui/react-teams"
+          }
+        ]
+      }
+    },
+    {
       "date": "Mon, 18 Jan 2021 20:57:22 GMT",
       "tag": "@fluentui/react-teams_v2.0.0",
       "version": "2.0.0",
