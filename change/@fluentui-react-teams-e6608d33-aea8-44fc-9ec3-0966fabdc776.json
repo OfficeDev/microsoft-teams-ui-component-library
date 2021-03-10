@@ -1,7 +1,0 @@
-{
-  "type": "major",
-  "comment": "Disable Storybook docs tab",
-  "packageName": "@fluentui/react-teams",
-  "email": "a.katrukhin@gmail.com",
-  "dependentChangeType": "patch"
-}
