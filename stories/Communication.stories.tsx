@@ -4,7 +4,8 @@ import { actions } from "@storybook/addon-actions";
 import { withA11y } from "@storybook/addon-a11y";
 import { withDesign } from "storybook-addon-designs";
 
-import Communication, {
+import {
+  Communication,
   CommunicationOptions,
   ICommunicationImage,
   ICommunicationThemedImage,

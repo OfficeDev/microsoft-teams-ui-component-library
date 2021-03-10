@@ -16,7 +16,7 @@ export { IBoardProps, Board } from "./components/Board/Board";
 export { IBoardItem, IBoardItemCardLayout } from "./components/Board/BoardItem";
 
 export {
-  default as Communication,
+  Communication,
   CommunicationOptions,
   TCommunication,
   TCommunicationFields,
@@ -29,7 +29,7 @@ export {
 } from "./components/Communication";
 
 export {
-  default as Dashboard,
+  Dashboard,
   IWidgetActionKey,
   IDashboardCallout,
   IWidget,
@@ -44,3 +44,6 @@ export { ITableProps, Table } from "./components/Table/Table";
 export { TSortable } from "./components/Table/tableBreakpoints";
 
 export { IToolbarProps, Toolbar } from "./components/Toolbar/Toolbar";
+
+export { Chart, ChartOptions } from "./components/Chart";
+export * from "./components/Chart/ChartTypes";
