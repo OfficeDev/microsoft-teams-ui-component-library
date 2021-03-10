@@ -21,7 +21,7 @@ export {
 } from "./components/Board/BoardItem";
 
 export {
-  default as Communication,
+  Communication,
   CommunicationOptions,
   TCommunication,
   TCommunicationFields,
@@ -33,8 +33,7 @@ export {
 } from "./components/Communication";
 
 export {
-  default as Dashboard,
-  IDashboard,
+  Dashboard,
   IWidgetAction,
   IWidget,
   WidgetSize,
@@ -59,6 +58,9 @@ export {
 
 export { IFormProps, Form, TFormInteraction } from "./components/Form/Form";
 export { IFormDialogProps, FormDialog } from "./components/Form/Form";
+
+export { Chart, ChartOptions } from "./components/Chart";
+export * from "./components/Chart/ChartTypes";
 
 export {
   EFieldType,

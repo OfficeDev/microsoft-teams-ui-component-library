@@ -1,2 +1,2 @@
-export { Communication as default } from "./Communication";
+export { Communication } from "./Communication";
 export * from "./CommunicationTypes";

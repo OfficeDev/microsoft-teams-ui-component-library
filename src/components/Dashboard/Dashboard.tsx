@@ -11,7 +11,7 @@ import {
   WidgetFooter,
 } from "./DashboardWidget";
 import { DashboardTheme } from "./DashboardTheme";
-import { Toolbar } from "../..";
+import { Toolbar } from "../Toolbar/Toolbar";
 
 /**
  * The Dashboard component summarizes disparate types of information into a series of widgets.
@@ -42,9 +42,9 @@ export function Dashboard({ widgets }: IDashboard) {
               display: "grid",
               gridGap: ".5rem",
               gridTemplate:
-                "repeat(auto-fill, 26rem) / repeat(auto-fill, minmax(18.75rem, 1fr))",
+                "repeat(auto-fill, 25rem) / repeat(auto-fill, minmax(18.75rem, 1fr))",
               gridAutoFlow: "dense",
-              gridAutoRows: "26rem",
+              gridAutoRows: "25rem",
               padding: "0 1rem 1.25rem",
               minWidth: "20rem",
               "@media (max-width: 986px)": {
@@ -70,7 +70,12 @@ export function Dashboard({ widgets }: IDashboard) {
                       body={body}
                       siteVariables={globalTheme.siteVariables}
                     />
-                    {link && <WidgetFooter link={link} />}
+                    {link && (
+                      <WidgetFooter
+                        siteVariables={globalTheme.siteVariables}
+                        link={link}
+                      />
+                    )}
                   </Widget>
                 )
               )}

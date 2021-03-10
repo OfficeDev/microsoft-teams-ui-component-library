@@ -6,7 +6,10 @@ module.exports = {
   addons: [
     "@storybook/addon-actions",
     "@storybook/addon-links",
-    "@storybook/addon-docs",
+    // Disabled because we don't have any documentation in Storybook yet,
+    // so the Docs tab is just a blank page.
+    // Keeping the plugin here because we probably should have docs...
+    // "@storybook/addon-docs",
     "@storybook/addon-viewport/register",
     "@storybook/addon-a11y/register",
     "@storybook/addon-knobs/register",
