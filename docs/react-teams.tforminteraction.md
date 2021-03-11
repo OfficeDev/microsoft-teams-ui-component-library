@@ -4,6 +4,8 @@
 
 ## TFormInteraction type
 
+An interaction event emitted by the Form component. The payload always contains the Form’s state, which contains the values of all the Form’s inputs.
+
 <b>Signature:</b>
 
 ```typescript
@@ -13,3 +15,5 @@ export declare type TFormInteraction = {
     formState: IFormState;
 };
 ```
+<b>References:</b> [IFormState](./react-teams.iformstate.md)
+

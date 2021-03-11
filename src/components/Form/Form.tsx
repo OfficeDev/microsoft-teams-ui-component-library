@@ -27,18 +27,33 @@ import {
   TInputBlock,
 } from "./FormContent";
 
+/**
+ * A collection of input values, keyed by input ID. If the input is a block of checkboxes or a
+ * dropdown with multiple selection, the value will be an array of option IDs.
+ */
 export interface IFormState {
   [inputId: string]: string | string[];
 }
 
+/**
+ * A collection of error messages associated with inputs, keyed by input ID.
+ */
 export type TFormErrors = { [inputId: string]: TTextObject };
 
+/**
+ * An interaction event emitted by the Form component. The payload always contains the Form’s state,
+ * which contains the values of all the Form’s inputs.
+ */
 export type TFormInteraction = {
   event: "submit" | "cancel" | "back";
   target: "form";
   formState: IFormState;
 };
 
+/**
+ * The Form component can be used to render an interactive Form. Designs for this component are
+ * available in the [Forms page of the Microsoft Teams UI Kit](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=5271%3A221958).
+ */
 export interface IFormProps {
   /**
    * A section rendered at the top of the Form, which uses an `h1` for the section’s title. Any
@@ -51,7 +66,7 @@ export interface IFormProps {
    */
   sections: ISection[];
   /**
-   * A collection of errors associated with inputs to render, keyed by input ID.
+   * A collection of error messages associated with inputs, keyed by input ID.
    */
   errors?: TFormErrors;
   /**
@@ -82,10 +97,17 @@ export interface IFormDialogProps extends IFormProps {
   trigger: JSX.Element;
 }
 
+/**
+ * A Form which is a step in a Wizard has the same inputs as Form with an additional option to
+ * override the text of the Wizard’s back button for the current step.
+ */
 export interface IFormWizardStepProps extends IFormProps {
   back?: TTextObject;
 }
 
+/**
+ * @internal
+ */
 export interface IFormWizardStepDialogProps extends IFormWizardStepProps {
   trigger: JSX.Element;
 }

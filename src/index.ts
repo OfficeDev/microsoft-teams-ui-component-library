@@ -62,11 +62,16 @@ export {
   IFormProps,
   TFormErrors,
   TFormInteraction,
+  IFormState,
 } from "./components/Form/Form";
 export {
   ISection,
   TInputBlock,
   IInlineInputsBlock,
+  IEnumerableInputOption,
+  IEnumerableInputBase,
+  IEnumerableSingletonInputBase,
+  IEnumerableMultipleInputBase,
 } from "./components/Form/FormContent";
 
 export { Chart, ChartOptions } from "./components/Chart";

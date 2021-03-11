@@ -32,30 +32,62 @@ import {
 import { getText, TTextObject, TTranslations } from "../../translations";
 import { IFormProps, IFormState, TFormErrors } from "./Form";
 
-interface IEnumerableInputOption {
+/**
+ * Properties for each option for Enumerable inputs (radio buttons, checkboxes, dropdowns).
+ */
+export interface IEnumerableInputOption {
+  /**
+   * The option’s text content to display.
+   */
   title: TTextObject;
+  /**
+   * The option’s value, which should be unique for the input in which it’s available.
+   */
   value: string;
 }
 
-interface IEnumerableInputBase {
+/**
+ * Properties shared by all enumerable inputs (radio buttons, checkboxes, dropdowns).
+ */
+export interface IEnumerableInputBase {
+  /**
+   * The input’s label.
+   */
   title: TTextObject;
+  /**
+   * The input’s options.
+   */
   options: IEnumerableInputOption[];
+  /**
+   * The input’s unique ID.
+   */
   inputId: string;
-  optional?: boolean;
 }
 
-interface IEnumerableSingletonInputBase extends IEnumerableInputBase {
+/**
+ * Properties shared by singleton enumerable inputs (radio buttons, single-select dropdowns).
+ */
+export interface IEnumerableSingletonInputBase extends IEnumerableInputBase {
+  /**
+   * The input’s initial value.
+   */
   initialValue?: string;
 }
 
-interface IEnumerableMultipleInputBase extends IEnumerableInputBase {
+/**
+ * Properties shared by enumerable inputs supporting multiple selections (checkboxes,
+ * multiple-select dropdowns).
+ */
+export interface IEnumerableMultipleInputBase extends IEnumerableInputBase {
+  /**
+   * The input’s initial values.
+   */
   initialValues?: string[];
 }
 
 interface ITextInputBase {
   title: TTextObject;
   inputId: string;
-  optional?: boolean;
   placeholder?: TTextObject;
   initialValue?: string;
 }

@@ -70,7 +70,6 @@ export const BoardItemDialog = ({
                   type: EInlineInputType.text,
                   title: t["subtitle"],
                   inputId: "board-item__subtitle",
-                  optional: true,
                   initialValue: getText(t.locale, initialState["subtitle"]),
                 },
               ],
@@ -79,7 +78,6 @@ export const BoardItemDialog = ({
               type: EInputBlockType.multilineText,
               title: t["board item body"],
               inputId: "board-item__body",
-              optional: true,
               initialValue: getText(
                 t.locale,
                 initialState.body
@@ -104,7 +102,6 @@ export const BoardItemDialog = ({
               type: EInputBlockType.dropdown,
               title: t["board item users"],
               inputId: "board-item__users",
-              optional: true,
               multiple: true,
               options: Object.keys(users).map((userKey) => ({
                 title: users[userKey].name,

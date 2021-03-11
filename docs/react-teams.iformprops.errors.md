@@ -4,7 +4,7 @@
 
 ## IFormProps.errors property
 
-A collection of errors associated with inputs to render, keyed by input ID.
+A collection of error messages associated with inputs, keyed by input ID.
 
 <b>Signature:</b>
 

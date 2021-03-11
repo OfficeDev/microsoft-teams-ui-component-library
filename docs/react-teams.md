@@ -45,7 +45,12 @@
 |  [ICommunicationThemedImage](./react-teams.icommunicationthemedimage.md) | The image to use at the beginning of a Communication component’s content. The user’s active theme determines which image to display. |
 |  [IDashboard](./react-teams.idashboard.md) | The Dashboard component summarizes disparate types of information into a series of widgets. Designs for this component are available in the \[Dashboard page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A3890). |
 |  [IDraw](./react-teams.idraw.md) |  |
-|  [IFormProps](./react-teams.iformprops.md) |  |
+|  [IEnumerableInputBase](./react-teams.ienumerableinputbase.md) | Properties shared by all enumerable inputs (radio buttons, checkboxes, dropdowns). |
+|  [IEnumerableInputOption](./react-teams.ienumerableinputoption.md) | Properties for each option for Enumerable inputs (radio buttons, checkboxes, dropdowns). |
+|  [IEnumerableMultipleInputBase](./react-teams.ienumerablemultipleinputbase.md) | Properties shared by enumerable inputs supporting multiple selections (checkboxes, multiple-select dropdowns). |
+|  [IEnumerableSingletonInputBase](./react-teams.ienumerablesingletoninputbase.md) | Properties shared by singleton enumerable inputs (radio buttons, single-select dropdowns). |
+|  [IFormProps](./react-teams.iformprops.md) | The Form component can be used to render an interactive Form. Designs for this component are available in the \[Forms page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=5271%3A221958). |
+|  [IFormState](./react-teams.iformstate.md) | A collection of input values, keyed by input ID. If the input is a block of checkboxes or a dropdown with multiple selection, the value will be an array of option IDs. |
 |  [IInlineInputsBlock](./react-teams.iinlineinputsblock.md) | A block containing a set of one or more text inputs or dropdowns. |
 |  [ILegendItem](./react-teams.ilegenditem.md) |  |
 |  [ILineChartPatterns](./react-teams.ilinechartpatterns.md) |  |
@@ -87,8 +92,8 @@
 |  [TBoardLanes](./react-teams.tboardlanes.md) | Each Board lane has a unique key, which is associated with the lane’s configuration. |
 |  [TCommunication](./react-teams.tcommunication.md) | The Communication component can be used to render empty state messages and other combinations of illustration, coaching text, and actions. Designs for this component are available in the \[Empty state page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A4042). |
 |  [TCommunicationFields](./react-teams.tcommunicationfields.md) |  |
-|  [TFormErrors](./react-teams.tformerrors.md) |  |
-|  [TFormInteraction](./react-teams.tforminteraction.md) |  |
+|  [TFormErrors](./react-teams.tformerrors.md) | A collection of error messages associated with inputs, keyed by input ID. |
+|  [TFormInteraction](./react-teams.tforminteraction.md) | An interaction event emitted by the Form component. The payload always contains the Form’s state, which contains the values of all the Form’s inputs. |
 |  [TInputBlock](./react-teams.tinputblock.md) | A block with a single input which occupies the full width of the form. |
 |  [TListInteraction](./react-teams.tlistinteraction.md) |  |
 |  [TLocale](./react-teams.tlocale.md) | The locale of the current view. |

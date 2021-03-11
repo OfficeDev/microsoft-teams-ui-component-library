@@ -4,6 +4,8 @@
 
 ## TFormErrors type
 
+A collection of error messages associated with inputs, keyed by input ID.
+
 <b>Signature:</b>
 
 ```typescript
