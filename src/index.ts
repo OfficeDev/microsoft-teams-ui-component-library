@@ -72,16 +72,21 @@ export {
   IEnumerableInputBase,
   IEnumerableSingletonInputBase,
   IEnumerableMultipleInputBase,
+  ITextInputBase,
+  EInputWidth,
+  EInlineInputType,
+  EInputBlockType,
+  ITextField,
+  IMultilineTextInput,
+  TInlineField,
+  IDropdownInput,
+  IDropdownMultipleInput,
+  IRadioButtonsInput,
+  ICheckboxesInput,
 } from "./components/Form/FormContent";
 
 export { Chart, ChartOptions } from "./components/Chart";
 export * from "./components/Chart/ChartTypes";
-
-export {
-  EInlineInputType,
-  EInputWidth,
-  EInputBlockType,
-} from "./components/Form/FormContent";
 
 export { IWizardProps, Wizard } from "./components/Wizard/Wizard";
 export { IWizardDialogProps, WizardDialog } from "./components/Wizard/Wizard";

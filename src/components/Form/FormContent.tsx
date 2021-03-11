@@ -85,15 +85,39 @@ export interface IEnumerableMultipleInputBase extends IEnumerableInputBase {
   initialValues?: string[];
 }
 
-interface ITextInputBase {
+/**
+ * Properties shared by text inputs (single- and multi-line).
+ */
+export interface ITextInputBase {
+  /**
+   * The input’s label.
+   */
   title: TTextObject;
+  /**
+   * The input’s unique ID
+   */
   inputId: string;
+  /**
+   * The input’s placeholder content.
+   */
   placeholder?: TTextObject;
+  /**
+   * The input’s initial value.
+   */
   initialValue?: string;
 }
 
+/**
+ * An inline input’s width.
+ */
 export enum EInputWidth {
+  /**
+   * The input should share the width with the other inline inputs.
+   */
   split = "split",
+  /**
+   * The input should occupy the full width of the Form
+   */
   full = "full",
 }
 
@@ -124,12 +148,12 @@ export enum EInputBlockType {
   checkboxes = "checkboxes",
 }
 
-interface ITextField extends ITextInputBase {
+export interface ITextField extends ITextInputBase {
   type: EInlineInputType.text;
   width?: EInputWidth;
 }
 
-interface IMultilineTextInput extends ITextInputBase {
+export interface IMultilineTextInput extends ITextInputBase {
   type: EInputBlockType.multilineText;
 }
 
@@ -149,7 +173,7 @@ export interface IInlineInputsBlock {
 
 interface IPreparedInlineInputs extends IInlineInputsBlock, IPreparedInput {}
 
-interface IDropdownInput extends IEnumerableSingletonInputBase {
+export interface IDropdownInput extends IEnumerableSingletonInputBase {
   type: EInlineInputType.dropdown | EInputBlockType.dropdown;
   multiple?: false;
   width?: EInputWidth;
@@ -157,7 +181,7 @@ interface IDropdownInput extends IEnumerableSingletonInputBase {
 
 interface IPreparedDropdownInput extends IDropdownInput, IPreparedInput {}
 
-interface IDropdownMultipleInput extends IEnumerableMultipleInputBase {
+export interface IDropdownMultipleInput extends IEnumerableMultipleInputBase {
   type: EInlineInputType.dropdown | EInputBlockType.dropdown;
   multiple: true;
   width?: EInputWidth;
@@ -167,7 +191,7 @@ interface IPreparedDropdownMultipleInput
   extends IDropdownMultipleInput,
     IPreparedInput {}
 
-interface IRadioButtonsInput extends IEnumerableSingletonInputBase {
+export interface IRadioButtonsInput extends IEnumerableSingletonInputBase {
   type: EInputBlockType.radioButtons;
 }
 
@@ -175,7 +199,7 @@ interface IPreparedRadioButtonsInput
   extends IRadioButtonsInput,
     IPreparedInput {}
 
-interface ICheckboxesInput extends IEnumerableMultipleInputBase {
+export interface ICheckboxesInput extends IEnumerableMultipleInputBase {
   type: EInputBlockType.checkboxes;
 }
 

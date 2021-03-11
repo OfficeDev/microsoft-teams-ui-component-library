@@ -12,7 +12,7 @@
 |  [CommunicationOptions](./react-teams.communicationoptions.md) | The illustration, text, and actions (if any) to use by default as the content of this component. |
 |  [EInlineInputType](./react-teams.einlineinputtype.md) | The types of inline inputs. |
 |  [EInputBlockType](./react-teams.einputblocktype.md) | The types of input blocks. |
-|  [EInputWidth](./react-teams.einputwidth.md) |  |
+|  [EInputWidth](./react-teams.einputwidth.md) | An inline input’s width. |
 |  [PointStyles](./react-teams.pointstyles.md) |  |
 |  [Shapes](./react-teams.shapes.md) |  |
 |  [themeNames](./react-teams.themenames.md) |  |
@@ -38,6 +38,7 @@
 |  [IBubbleChartData](./react-teams.ibubblechartdata.md) |  |
 |  [IChartData](./react-teams.ichartdata.md) |  |
 |  [IChartDataSet](./react-teams.ichartdataset.md) |  |
+|  [ICheckboxesInput](./react-teams.icheckboxesinput.md) |  |
 |  [ICommunicationAction](./react-teams.icommunicationaction.md) | An action rendered at the end of the Communication component’s content. |
 |  [ICommunicationFields](./react-teams.icommunicationfields.md) | The specific content to display in the component. |
 |  [ICommunicationFieldsWithThemedImage](./react-teams.icommunicationfieldswiththemedimage.md) | A variation of <code>ICommunicationFields</code> using a <code>themedImage</code> instead of <code>image</code>, which responds to the user’s active theme (light, dark, or high-contrast). |
@@ -45,6 +46,8 @@
 |  [ICommunicationThemedImage](./react-teams.icommunicationthemedimage.md) | The image to use at the beginning of a Communication component’s content. The user’s active theme determines which image to display. |
 |  [IDashboard](./react-teams.idashboard.md) | The Dashboard component summarizes disparate types of information into a series of widgets. Designs for this component are available in the \[Dashboard page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A3890). |
 |  [IDraw](./react-teams.idraw.md) |  |
+|  [IDropdownInput](./react-teams.idropdowninput.md) |  |
+|  [IDropdownMultipleInput](./react-teams.idropdownmultipleinput.md) |  |
 |  [IEnumerableInputBase](./react-teams.ienumerableinputbase.md) | Properties shared by all enumerable inputs (radio buttons, checkboxes, dropdowns). |
 |  [IEnumerableInputOption](./react-teams.ienumerableinputoption.md) | Properties for each option for Enumerable inputs (radio buttons, checkboxes, dropdowns). |
 |  [IEnumerableMultipleInputBase](./react-teams.ienumerablemultipleinputbase.md) | Properties shared by enumerable inputs supporting multiple selections (checkboxes, multiple-select dropdowns). |
@@ -55,9 +58,13 @@
 |  [ILegendItem](./react-teams.ilegenditem.md) |  |
 |  [ILineChartPatterns](./react-teams.ilinechartpatterns.md) |  |
 |  [IListProps](./react-teams.ilistprops.md) |  |
+|  [IMultilineTextInput](./react-teams.imultilinetextinput.md) |  |
 |  [IPreparedBoardItem](./react-teams.ipreparedboarditem.md) | A prepared Board item places the item’s unique key within itself so the item can be handled on its own. |
+|  [IRadioButtonsInput](./react-teams.iradiobuttonsinput.md) |  |
 |  [ISection](./react-teams.isection.md) |  |
 |  [ITableProps](./react-teams.itableprops.md) |  |
+|  [ITextField](./react-teams.itextfield.md) |  |
+|  [ITextInputBase](./react-teams.itextinputbase.md) | Properties shared by text inputs (single- and multi-line). |
 |  [IToolbarProps](./react-teams.itoolbarprops.md) |  |
 |  [IWidget](./react-teams.iwidget.md) | A Dashboard widget is rendered as a card of a certain size, containing the content specified. |
 |  [IWidgetAction](./react-teams.iwidgetaction.md) | An action item displayed in a widget’s overflow menu. |
@@ -94,6 +101,7 @@
 |  [TCommunicationFields](./react-teams.tcommunicationfields.md) |  |
 |  [TFormErrors](./react-teams.tformerrors.md) | A collection of error messages associated with inputs, keyed by input ID. |
 |  [TFormInteraction](./react-teams.tforminteraction.md) | An interaction event emitted by the Form component. The payload always contains the Form’s state, which contains the values of all the Form’s inputs. |
+|  [TInlineField](./react-teams.tinlinefield.md) |  |
 |  [TInputBlock](./react-teams.tinputblock.md) | A block with a single input which occupies the full width of the form. |
 |  [TListInteraction](./react-teams.tlistinteraction.md) |  |
 |  [TLocale](./react-teams.tlocale.md) | The locale of the current view. |

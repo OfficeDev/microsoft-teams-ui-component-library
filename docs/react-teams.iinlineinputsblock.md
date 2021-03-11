@@ -16,6 +16,6 @@ export interface IInlineInputsBlock
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [fields](./react-teams.iinlineinputsblock.fields.md) | TInlineField\[\] |  |
+|  [fields](./react-teams.iinlineinputsblock.fields.md) | [TInlineField](./react-teams.tinlinefield.md)<!-- -->\[\] |  |
 |  [type](./react-teams.iinlineinputsblock.type.md) | [EInputBlockType.inlineInputs](./react-teams.einputblocktype.inlineinputs.md) |  |
 

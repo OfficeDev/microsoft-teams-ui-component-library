@@ -4,6 +4,8 @@
 
 ## EInputWidth enum
 
+An inline input’s width.
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,6 +16,6 @@ export declare enum EInputWidth
 
 |  Member | Value | Description |
 |  --- | --- | --- |
-|  full | <code>&quot;full&quot;</code> |  |
-|  split | <code>&quot;split&quot;</code> |  |
+|  full | <code>&quot;full&quot;</code> | The input should occupy the full width of the Form |
+|  split | <code>&quot;split&quot;</code> | The input should share the width with the other inline inputs. |
 

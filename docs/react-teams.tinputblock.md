@@ -11,3 +11,5 @@ A block with a single input which occupies the full width of the form.
 ```typescript
 export declare type TInputBlock = IMultilineTextInput | IDropdownInput | IDropdownMultipleInput | IRadioButtonsInput | ICheckboxesInput;
 ```
+<b>References:</b> [IMultilineTextInput](./react-teams.imultilinetextinput.md)<!-- -->, [IDropdownInput](./react-teams.idropdowninput.md)<!-- -->, [IDropdownMultipleInput](./react-teams.idropdownmultipleinput.md)<!-- -->, [IRadioButtonsInput](./react-teams.iradiobuttonsinput.md)<!-- -->, [ICheckboxesInput](./react-teams.icheckboxesinput.md)
+
