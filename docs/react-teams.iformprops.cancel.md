@@ -4,6 +4,8 @@
 
 ## IFormProps.cancel property
 
+The text content of the cancel button, if relevant. The button is not rendered if this is absent.
+
 <b>Signature:</b>
 
 ```typescript

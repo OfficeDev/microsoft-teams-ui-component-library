@@ -22,9 +22,9 @@ import {
   FormContent,
   MaxWidth,
   ISection,
-  ITextInputs,
+  IInlineInputsBlock,
   setInitialValue,
-  TInputGroup,
+  TInputBlock,
 } from "./FormContent";
 
 export interface IFormState {
@@ -40,16 +40,45 @@ export type TFormInteraction = {
 };
 
 export interface IFormProps {
+  /**
+   * A section rendered at the top of the Form, which uses an `h1` for the section’s title. Any
+   * input groups are ignored.
+   */
   headerSection?: ISection;
+  /**
+   * Form section, each of which can have a title (rendered as an `h2`) and a preface for any
+   * descriptions or coaching text, which is rendered before any inputs or input groups.
+   */
   sections: ISection[];
+  /**
+   * A collection of errors associated with inputs to render, keyed by input ID.
+   */
   errors?: TFormErrors;
+  /**
+   * An error to render at the top of the Form, in case it isn’t relevant to a specific input.
+   */
   topError?: TTextObject;
+  /**
+   * The text content of the submit button.
+   */
   submit: TTextObject;
+  /**
+   * The text content of the cancel button, if relevant. The button is not rendered if this is
+   * absent.
+   */
   cancel?: TTextObject;
+  /**
+   * An interaction handler for the Form. Interactions are triggered when the user clicks 'submit',
+   * 'cancel', or 'back' (only in Wizard components).
+   */
   onInteraction?: (interaction: TFormInteraction) => void;
 }
 
 export interface IFormDialogProps extends IFormProps {
+  /**
+   * A trigger element for a form dialog.
+   * @internal
+   */
   trigger: JSX.Element;
 }
 
@@ -67,18 +96,18 @@ const dialogStyles = {
 
 const initialFormState = (sections: ISection[]) => {
   return sections.reduce(
-    (acc_i: IFormState, { inputGroups }) =>
-      inputGroups
-        ? inputGroups.reduce((acc_j: IFormState, inputGroup) => {
+    (acc_i: IFormState, { inputBlocks }) =>
+      inputBlocks
+        ? inputBlocks.reduce((acc_j: IFormState, inputGroup) => {
             if (!inputGroup) return acc_j;
             switch (inputGroup.type) {
-              case "text-inputs":
-                return (inputGroup as ITextInputs).fields.reduce(
+              case "inline-inputs":
+                return (inputGroup as IInlineInputsBlock).fields.reduce(
                   setInitialValue,
                   acc_j
                 );
               default:
-                return setInitialValue(acc_j, inputGroup as TInputGroup);
+                return setInitialValue(acc_j, inputGroup as TInputBlock);
             }
           }, acc_i)
         : acc_i,
@@ -200,6 +229,9 @@ export const Form = ({
   );
 };
 
+/**
+ * @internal
+ */
 export const FormDialog = ({
   cancel,
   errors,

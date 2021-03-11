@@ -4,6 +4,8 @@
 
 ## IFormProps.errors property
 
+A collection of errors associated with inputs to render, keyed by input ID.
+
 <b>Signature:</b>
 
 ```typescript

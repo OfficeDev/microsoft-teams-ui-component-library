@@ -4,6 +4,8 @@
 
 ## IFormProps.submit property
 
+The text content of the submit button.
+
 <b>Signature:</b>
 
 ```typescript

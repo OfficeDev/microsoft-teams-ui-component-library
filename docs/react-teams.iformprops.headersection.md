@@ -4,6 +4,8 @@
 
 ## IFormProps.headerSection property
 
+A section rendered at the top of the Form, which uses an `h1` for the section’s title. Any input groups are ignored.
+
 <b>Signature:</b>
 
 ```typescript

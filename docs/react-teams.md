@@ -10,9 +10,9 @@
 |  --- | --- |
 |  [ChartOptions](./react-teams.chartoptions.md) |  |
 |  [CommunicationOptions](./react-teams.communicationoptions.md) | The illustration, text, and actions (if any) to use by default as the content of this component. |
-|  [EFieldType](./react-teams.efieldtype.md) |  |
+|  [EInlineInputType](./react-teams.einlineinputtype.md) | The types of inline inputs. |
+|  [EInputBlockType](./react-teams.einputblocktype.md) | The types of input blocks. |
 |  [EInputWidth](./react-teams.einputwidth.md) |  |
-|  [ESectionType](./react-teams.esectiontype.md) |  |
 |  [PointStyles](./react-teams.pointstyles.md) |  |
 |  [Shapes](./react-teams.shapes.md) |  |
 |  [themeNames](./react-teams.themenames.md) |  |
@@ -45,12 +45,13 @@
 |  [ICommunicationThemedImage](./react-teams.icommunicationthemedimage.md) | The image to use at the beginning of a Communication component’s content. The user’s active theme determines which image to display. |
 |  [IDashboard](./react-teams.idashboard.md) | The Dashboard component summarizes disparate types of information into a series of widgets. Designs for this component are available in the \[Dashboard page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A3890). |
 |  [IDraw](./react-teams.idraw.md) |  |
-|  [IFormDialogProps](./react-teams.iformdialogprops.md) |  |
 |  [IFormProps](./react-teams.iformprops.md) |  |
+|  [IInlineInputsBlock](./react-teams.iinlineinputsblock.md) | A block containing a set of one or more text inputs or dropdowns. |
 |  [ILegendItem](./react-teams.ilegenditem.md) |  |
 |  [ILineChartPatterns](./react-teams.ilinechartpatterns.md) |  |
 |  [IListProps](./react-teams.ilistprops.md) |  |
 |  [IPreparedBoardItem](./react-teams.ipreparedboarditem.md) | A prepared Board item places the item’s unique key within itself so the item can be handled on its own. |
+|  [ISection](./react-teams.isection.md) |  |
 |  [ITableProps](./react-teams.itableprops.md) |  |
 |  [IToolbarProps](./react-teams.itoolbarprops.md) |  |
 |  [IWidget](./react-teams.iwidget.md) | A Dashboard widget is rendered as a card of a certain size, containing the content specified. |
@@ -66,7 +67,6 @@
 |  --- | --- |
 |  [Board](./react-teams.board.md) |  |
 |  [Form](./react-teams.form.md) |  |
-|  [FormDialog](./react-teams.formdialog.md) |  |
 |  [List](./react-teams.list.md) |  |
 |  [Provider](./react-teams.provider.md) |  |
 |  [Table](./react-teams.table.md) |  |
@@ -87,7 +87,9 @@
 |  [TBoardLanes](./react-teams.tboardlanes.md) | Each Board lane has a unique key, which is associated with the lane’s configuration. |
 |  [TCommunication](./react-teams.tcommunication.md) | The Communication component can be used to render empty state messages and other combinations of illustration, coaching text, and actions. Designs for this component are available in the \[Empty state page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A4042). |
 |  [TCommunicationFields](./react-teams.tcommunicationfields.md) |  |
+|  [TFormErrors](./react-teams.tformerrors.md) |  |
 |  [TFormInteraction](./react-teams.tforminteraction.md) |  |
+|  [TInputBlock](./react-teams.tinputblock.md) | A block with a single input which occupies the full width of the form. |
 |  [TListInteraction](./react-teams.tlistinteraction.md) |  |
 |  [TLocale](./react-teams.tlocale.md) | The locale of the current view. |
 |  [TSortable](./react-teams.tsortable.md) |  |

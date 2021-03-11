@@ -4,6 +4,8 @@
 
 ## IFormProps.onInteraction property
 
+An interaction handler for the Form. Interactions are triggered when the user clicks 'submit', 'cancel', or 'back' (only in Wizard components).
+
 <b>Signature:</b>
 
 ```typescript

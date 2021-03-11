@@ -14,11 +14,11 @@ export interface IFormProps
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [cancel?](./react-teams.iformprops.cancel.md) | [TTextObject](./react-teams.ttextobject.md) | <i>(Optional)</i> |
-|  [errors?](./react-teams.iformprops.errors.md) | TFormErrors | <i>(Optional)</i> |
-|  [headerSection?](./react-teams.iformprops.headersection.md) | ISection | <i>(Optional)</i> |
-|  [onInteraction?](./react-teams.iformprops.oninteraction.md) | (interaction: [TFormInteraction](./react-teams.tforminteraction.md)<!-- -->) =&gt; void | <i>(Optional)</i> |
-|  [sections](./react-teams.iformprops.sections.md) | ISection\[\] |  |
-|  [submit](./react-teams.iformprops.submit.md) | [TTextObject](./react-teams.ttextobject.md) |  |
-|  [topError?](./react-teams.iformprops.toperror.md) | [TTextObject](./react-teams.ttextobject.md) | <i>(Optional)</i> |
+|  [cancel?](./react-teams.iformprops.cancel.md) | [TTextObject](./react-teams.ttextobject.md) | <i>(Optional)</i> The text content of the cancel button, if relevant. The button is not rendered if this is absent. |
+|  [errors?](./react-teams.iformprops.errors.md) | [TFormErrors](./react-teams.tformerrors.md) | <i>(Optional)</i> A collection of errors associated with inputs to render, keyed by input ID. |
+|  [headerSection?](./react-teams.iformprops.headersection.md) | [ISection](./react-teams.isection.md) | <i>(Optional)</i> A section rendered at the top of the Form, which uses an <code>h1</code> for the section’s title. Any input groups are ignored. |
+|  [onInteraction?](./react-teams.iformprops.oninteraction.md) | (interaction: [TFormInteraction](./react-teams.tforminteraction.md)<!-- -->) =&gt; void | <i>(Optional)</i> An interaction handler for the Form. Interactions are triggered when the user clicks 'submit', 'cancel', or 'back' (only in Wizard components). |
+|  [sections](./react-teams.iformprops.sections.md) | [ISection](./react-teams.isection.md)<!-- -->\[\] | Form section, each of which can have a title (rendered as an <code>h2</code>) and a preface for any descriptions or coaching text, which is rendered before any inputs or input groups. |
+|  [submit](./react-teams.iformprops.submit.md) | [TTextObject](./react-teams.ttextobject.md) | The text content of the submit button. |
+|  [topError?](./react-teams.iformprops.toperror.md) | [TTextObject](./react-teams.ttextobject.md) | <i>(Optional)</i> An error to render at the top of the Form, in case it isn’t relevant to a specific input. |
 

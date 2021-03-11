@@ -4,6 +4,8 @@
 
 ## IFormProps.topError property
 
+An error to render at the top of the Form, in case it isn’t relevant to a specific input.
+
 <b>Signature:</b>
 
 ```typescript

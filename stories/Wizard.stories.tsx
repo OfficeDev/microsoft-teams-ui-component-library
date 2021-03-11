@@ -12,9 +12,9 @@ import { Button } from "@fluentui/react-northstar";
 import { Wizard, WizardDialog } from "../src";
 import { IFormWizardStepProps } from "../src/components/Form/Form";
 import {
-  EFieldType,
+  EInlineInputType,
   EInputWidth,
-  ESectionType,
+  EInputBlockType,
 } from "../src/components/Form/FormContent";
 
 const eventsFromNames = actions("onInteraction");
@@ -61,11 +61,11 @@ const kitchenSinkConfig = {
       {
         title: fake("{{company.catchPhrase}}"),
         preface: fake("{{lorem.sentence}}"),
-        inputGroups: [
+        inputBlocks: [
           {
-            type: ESectionType.textInputs,
+            type: EInputBlockType.inlineInputs,
             fields: range(2).map((_) => ({
-              type: EFieldType.text,
+              type: EInlineInputType.text,
               title: fake("{{commerce.productAdjective}} {{commerce.product}}"),
               width: EInputWidth.split,
               inputId: uniqueId("f"),
@@ -73,10 +73,10 @@ const kitchenSinkConfig = {
             })),
           },
           {
-            type: ESectionType.textInputs,
+            type: EInputBlockType.inlineInputs,
             fields: [
               {
-                type: EFieldType.dropdown,
+                type: EInlineInputType.dropdown,
                 title: fake(
                   "{{commerce.productAdjective}} {{commerce.product}}"
                 ),
@@ -89,7 +89,7 @@ const kitchenSinkConfig = {
                 })),
               },
               {
-                type: EFieldType.text,
+                type: EInlineInputType.text,
                 title: fake("{{commerce.product}}"),
                 width: EInputWidth.split,
                 inputId: uniqueId("f"),
@@ -98,7 +98,7 @@ const kitchenSinkConfig = {
                   : {}),
               },
               {
-                type: EFieldType.text,
+                type: EInlineInputType.text,
                 title: fake(
                   "{{commerce.productAdjective}} {{commerce.product}}"
                 ),
@@ -111,7 +111,7 @@ const kitchenSinkConfig = {
             ],
           },
           {
-            type: ESectionType.checkboxes,
+            type: EInputBlockType.checkboxes,
             title: fake("{{commerce.productAdjective}} {{commerce.product}}"),
             inputId: uniqueId("f"),
             options: range(2 + Math.random() * 5).map(() => ({
@@ -120,9 +120,9 @@ const kitchenSinkConfig = {
             })),
           },
           {
-            type: ESectionType.textInputs,
+            type: EInputBlockType.inlineInputs,
             fields: range(1).map((_) => ({
-              type: EFieldType.text,
+              type: EInlineInputType.text,
               title: fake("{{commerce.productAdjective}} {{commerce.product}}"),
               width: EInputWidth.full,
               inputId: uniqueId("f"),
@@ -132,7 +132,7 @@ const kitchenSinkConfig = {
             })),
           },
           {
-            type: ESectionType.radioButtons,
+            type: EInputBlockType.radioButtons,
             title: fake("{{commerce.productAdjective}} {{commerce.product}}"),
             inputId: uniqueId("f"),
             options: range(2 + Math.random() * 5).map(() => ({
@@ -141,7 +141,7 @@ const kitchenSinkConfig = {
             })),
           },
           {
-            type: ESectionType.dropdown,
+            type: EInputBlockType.dropdown,
             title: fake("{{commerce.productAdjective}} {{commerce.product}}"),
             inputId: uniqueId("f"),
             multiple: true,

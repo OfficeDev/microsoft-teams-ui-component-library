@@ -57,16 +57,25 @@ export {
   TToolbarInteraction,
 } from "./components/Toolbar/Toolbar";
 
-export { IFormProps, Form, TFormInteraction } from "./components/Form/Form";
-export { IFormDialogProps, FormDialog } from "./components/Form/Form";
+export {
+  Form,
+  IFormProps,
+  TFormErrors,
+  TFormInteraction,
+} from "./components/Form/Form";
+export {
+  ISection,
+  TInputBlock,
+  IInlineInputsBlock,
+} from "./components/Form/FormContent";
 
 export { Chart, ChartOptions } from "./components/Chart";
 export * from "./components/Chart/ChartTypes";
 
 export {
-  EFieldType,
+  EInlineInputType,
   EInputWidth,
-  ESectionType,
+  EInputBlockType,
 } from "./components/Form/FormContent";
 
 export { IWizardProps, Wizard } from "./components/Wizard/Wizard";

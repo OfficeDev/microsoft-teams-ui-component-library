@@ -4,6 +4,8 @@
 
 ## IFormProps.sections property
 
+Form section, each of which can have a title (rendered as an `h2`<!-- -->) and a preface for any descriptions or coaching text, which is rendered before any inputs or input groups.
+
 <b>Signature:</b>
 
 ```typescript
