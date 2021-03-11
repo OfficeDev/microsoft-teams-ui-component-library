@@ -7,11 +7,8 @@
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
   "scripts": {
-    "api:report": "api-extractor run --local --verbose",
-    "api:document": "api-documenter markdown --input-folder=temp --output-folder=docs",
-    "preapi": "just-scripts build",
-    "api": "yarn api:report && yarn api:document",
     "build": "just-scripts build",
+    "postbuild": "api-extractor run --local --verbose && api-documenter markdown --input-folder=temp --output-folder=docs",
     "build:storybook": "just-scripts build:storybook",
     "change": "beachball change --branch origin/main",
     "checkchange": "beachball check --branch origin/main",

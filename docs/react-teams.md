@@ -8,10 +8,13 @@
 
 |  Enumeration | Description |
 |  --- | --- |
+|  [ChartOptions](./react-teams.chartoptions.md) |  |
 |  [CommunicationOptions](./react-teams.communicationoptions.md) | The illustration, text, and actions (if any) to use by default as the content of this component. |
 |  [EFieldType](./react-teams.efieldtype.md) |  |
 |  [EInputWidth](./react-teams.einputwidth.md) |  |
 |  [ESectionType](./react-teams.esectiontype.md) |  |
+|  [PointStyles](./react-teams.pointstyles.md) |  |
+|  [Shapes](./react-teams.shapes.md) |  |
 |  [themeNames](./react-teams.themenames.md) |  |
 |  [WidgetSize](./react-teams.widgetsize.md) | The widget’s size relative to other widgets. |
 
@@ -19,6 +22,7 @@
 
 |  Function | Description |
 |  --- | --- |
+|  [Chart\_2({ title, type, data, })](./react-teams.chart_2.md) | TODO: \[ \] Legend behavior \[ \] Storybook chart container |
 |  [Communication({ option, fields, onInteraction, })](./react-teams.communication.md) |  |
 |  [Dashboard({ widgets })](./react-teams.dashboard.md) |  |
 
@@ -31,14 +35,20 @@
 |  [IBoardItem](./react-teams.iboarditem.md) | An item in a Board component. |
 |  [IBoardItemCardLayout](./react-teams.iboarditemcardlayout.md) | The way a Board item’s content is mapped to the adaptive card used to represent the item. |
 |  [IBoardProps](./react-teams.iboardprops.md) | The Board component can be used to render kanban and task board experiences in your app. Designs for this component are available in the \[Task board page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A3840). |
+|  [IBubbleChartData](./react-teams.ibubblechartdata.md) |  |
+|  [IChartData](./react-teams.ichartdata.md) |  |
+|  [IChartDataSet](./react-teams.ichartdataset.md) |  |
 |  [ICommunicationAction](./react-teams.icommunicationaction.md) | An action rendered at the end of the Communication component’s content. |
 |  [ICommunicationFields](./react-teams.icommunicationfields.md) | The specific content to display in the component. |
 |  [ICommunicationFieldsWithThemedImage](./react-teams.icommunicationfieldswiththemedimage.md) | A variation of <code>ICommunicationFields</code> using a <code>themedImage</code> instead of <code>image</code>, which responds to the user’s active theme (light, dark, or high-contrast). |
 |  [ICommunicationImage](./react-teams.icommunicationimage.md) | The image to use at the beginning of a Communication component’s content. This does not respond to the user’s active theme, so will remain the same across themes. |
 |  [ICommunicationThemedImage](./react-teams.icommunicationthemedimage.md) | The image to use at the beginning of a Communication component’s content. The user’s active theme determines which image to display. |
 |  [IDashboard](./react-teams.idashboard.md) | The Dashboard component summarizes disparate types of information into a series of widgets. Designs for this component are available in the \[Dashboard page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A3890). |
+|  [IDraw](./react-teams.idraw.md) |  |
 |  [IFormDialogProps](./react-teams.iformdialogprops.md) |  |
 |  [IFormProps](./react-teams.iformprops.md) |  |
+|  [ILegendItem](./react-teams.ilegenditem.md) |  |
+|  [ILineChartPatterns](./react-teams.ilinechartpatterns.md) |  |
 |  [IListProps](./react-teams.ilistprops.md) |  |
 |  [IPreparedBoardItem](./react-teams.ipreparedboarditem.md) | A prepared Board item places the item’s unique key within itself so the item can be handled on its own. |
 |  [ITableProps](./react-teams.itableprops.md) |  |
@@ -69,6 +79,7 @@
 |  Type Alias | Description |
 |  --- | --- |
 |  [actionKey](./react-teams.actionkey.md) |  |
+|  [IChartPatterns](./react-teams.ichartpatterns.md) |  |
 |  [TAction](./react-teams.taction.md) |  |
 |  [TActions](./react-teams.tactions.md) |  |
 |  [TBoardInteraction](./react-teams.tboardinteraction.md) | The interaction payloads emitted by the Board component is either an update of the Board’s lanes, or an update of the Board’s items. |
