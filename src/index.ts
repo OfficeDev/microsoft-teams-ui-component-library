@@ -42,19 +42,20 @@ export {
   IWidgetLink,
 } from "./components/Dashboard";
 
-export { IListProps, List, TListInteraction } from "./components/List/List";
+export { List, IListProps, TListInteraction } from "./components/List/List";
 
 export {
-  ITableProps,
   Table,
+  ITableProps,
   TTableInteraction,
 } from "./components/Table/Table";
-export { TSortable } from "./components/Table/tableBreakpoints";
+export { TSortable, IColumn } from "./components/Table/tableBreakpoints";
 
 export {
-  IToolbarProps,
   Toolbar,
+  IToolbarProps,
   TToolbarInteraction,
+  TActionGroups,
 } from "./components/Toolbar/Toolbar";
 
 export {

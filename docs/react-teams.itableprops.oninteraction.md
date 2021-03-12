@@ -4,6 +4,8 @@
 
 ## ITableProps.onInteraction property
 
+An interaction handler for the Table. Interactions are triggered when the user clicks on an action in a row. If the Table is not rendered on its own, this may be proxied from its parent component, e.g. the parent List.
+
 <b>Signature:</b>
 
 ```typescript

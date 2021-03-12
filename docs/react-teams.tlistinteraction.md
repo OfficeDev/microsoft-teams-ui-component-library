@@ -4,6 +4,8 @@
 
 ## TListInteraction type
 
+List interactions are proxied from the Table or the Toolbar. All are clicks on actions.
+
 <b>Signature:</b>
 
 ```typescript

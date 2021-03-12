@@ -4,6 +4,8 @@
 
 ## IListProps interface
 
+The List component can be used to display a list of items as a table which can be sorted, filtered, and searched.. Designs for this component are available in the \[List page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A3790).
+
 <b>Signature:</b>
 
 ```typescript
@@ -15,9 +17,9 @@ export interface IListProps extends ITableProps
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [emptySelectionActionGroups](./react-teams.ilistprops.emptyselectionactiongroups.md) | TActionGroups |  |
-|  [filters?](./react-teams.ilistprops.filters.md) | columnKey\[\] | <i>(Optional)</i> |
-|  [filtersSingleSelect?](./react-teams.ilistprops.filterssingleselect.md) | boolean | <i>(Optional)</i> |
-|  [find?](./react-teams.ilistprops.find.md) | boolean | <i>(Optional)</i> |
-|  [onInteraction?](./react-teams.ilistprops.oninteraction.md) | (interaction: [TListInteraction](./react-teams.tlistinteraction.md)<!-- -->) =&gt; void | <i>(Optional)</i> |
+|  [emptySelectionActionGroups](./react-teams.ilistprops.emptyselectionactiongroups.md) | [TActionGroups](./react-teams.tactiongroups.md) | The action groups to show when no items are selected. |
+|  [filters?](./react-teams.ilistprops.filters.md) | columnKey\[\] | <i>(Optional)</i> The set of columns as column IDs to offer in the filter menu. |
+|  [filtersSingleSelect?](./react-teams.ilistprops.filterssingleselect.md) | boolean | <i>(Optional)</i> Whether to prevent multiple filters from being applied; when this is true and one filter is already applied, if the user selects another filter the previous filter is removed and the new filter is applied rather than both applying. |
+|  [find?](./react-teams.ilistprops.find.md) | boolean | <i>(Optional)</i> Whether to provide the find feature, which filters the list by an arbitrary string input the user can provide. |
+|  [onInteraction?](./react-teams.ilistprops.oninteraction.md) | (interaction: [TListInteraction](./react-teams.tlistinteraction.md)<!-- -->) =&gt; void | <i>(Optional)</i> An interaction handler for the List. Interactions are triggered when the user clicks on an action for the List or for an item in the List. |
 

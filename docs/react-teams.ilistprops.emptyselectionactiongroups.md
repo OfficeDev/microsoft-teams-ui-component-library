@@ -4,6 +4,8 @@
 
 ## IListProps.emptySelectionActionGroups property
 
+The action groups to show when no items are selected.
+
 <b>Signature:</b>
 
 ```typescript

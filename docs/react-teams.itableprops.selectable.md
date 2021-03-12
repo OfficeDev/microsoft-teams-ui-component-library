@@ -4,6 +4,8 @@
 
 ## ITableProps.selectable property
 
+Whether the user can select rows. In the context of a List component, this supplies any actions all rows have in common in the Toolbar instance above the Table.
+
 <b>Signature:</b>
 
 ```typescript

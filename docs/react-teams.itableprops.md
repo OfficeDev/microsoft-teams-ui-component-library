@@ -4,6 +4,8 @@
 
 ## ITableProps interface
 
+The Table component is used by the List template as its primary content.
+
 <b>Signature:</b>
 
 ```typescript
@@ -15,12 +17,9 @@ export interface ITableProps extends PropsOfElement<"div">
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [columns](./react-teams.itableprops.columns.md) | { \[columnKey: string\]: IColumn; } |  |
-|  [filterBy?](./react-teams.itableprops.filterby.md) | (row: IRow) =&gt; boolean | <i>(Optional)</i> |
-|  [findQuery?](./react-teams.itableprops.findquery.md) | string | <i>(Optional)</i> |
-|  [onInteraction?](./react-teams.itableprops.oninteraction.md) | (interaction: [TTableInteraction](./react-teams.ttableinteraction.md)<!-- -->) =&gt; void | <i>(Optional)</i> |
-|  [onSelectedChange?](./react-teams.itableprops.onselectedchange.md) | (selected: TSelected) =&gt; TSelected | <i>(Optional)</i> |
-|  [rows](./react-teams.itableprops.rows.md) | { \[rowKey: string\]: IRow; } |  |
-|  [selectable?](./react-teams.itableprops.selectable.md) | boolean | <i>(Optional)</i> |
-|  [truncate?](./react-teams.itableprops.truncate.md) | boolean | <i>(Optional)</i> |
+|  [columns](./react-teams.itableprops.columns.md) | { \[columnKey: string\]: [IColumn](./react-teams.icolumn.md)<!-- -->; } | A collection of columns to display, keyed by column ID. |
+|  [onInteraction?](./react-teams.itableprops.oninteraction.md) | (interaction: [TTableInteraction](./react-teams.ttableinteraction.md)<!-- -->) =&gt; void | <i>(Optional)</i> An interaction handler for the Table. Interactions are triggered when the user clicks on an action in a row. If the Table is not rendered on its own, this may be proxied from its parent component, e.g. the parent List. |
+|  [rows](./react-teams.itableprops.rows.md) | { \[rowKey: string\]: IRow; } | A collection of rows to display, keyed by row ID. |
+|  [selectable?](./react-teams.itableprops.selectable.md) | boolean | <i>(Optional)</i> Whether the user can select rows. In the context of a List component, this supplies any actions all rows have in common in the Toolbar instance above the Table. |
+|  [truncate?](./react-teams.itableprops.truncate.md) | boolean | <i>(Optional)</i> If true, limits content to a single line and truncate with the language’s default ellipsis, or if false, content in each cell wraps exhaustively. |
 

@@ -4,6 +4,8 @@
 
 ## IListProps.onInteraction property
 
+An interaction handler for the List. Interactions are triggered when the user clicks on an action for the List or for an item in the List.
+
 <b>Signature:</b>
 
 ```typescript

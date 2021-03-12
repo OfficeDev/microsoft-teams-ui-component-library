@@ -14,7 +14,7 @@ export interface IToolbarProps
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [actionGroups](./react-teams.itoolbarprops.actiongroups.md) | TActionGroups |  |
+|  [actionGroups](./react-teams.itoolbarprops.actiongroups.md) | [TActionGroups](./react-teams.tactiongroups.md) |  |
 |  [filters?](./react-teams.itoolbarprops.filters.md) | TFilters | <i>(Optional)</i> |
 |  [filtersSingleSelect?](./react-teams.itoolbarprops.filterssingleselect.md) | boolean | <i>(Optional)</i> |
 |  [find?](./react-teams.itoolbarprops.find.md) | boolean | <i>(Optional)</i> |

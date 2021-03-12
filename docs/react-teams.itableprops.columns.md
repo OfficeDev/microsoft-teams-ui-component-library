@@ -4,6 +4,8 @@
 
 ## ITableProps.columns property
 
+A collection of columns to display, keyed by column ID.
+
 <b>Signature:</b>
 
 ```typescript

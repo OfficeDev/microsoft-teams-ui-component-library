@@ -4,6 +4,8 @@
 
 ## TAction type
 
+An action a user can apply to an entity.
+
 <b>Signature:</b>
 
 ```typescript

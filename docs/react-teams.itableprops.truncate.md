@@ -4,6 +4,8 @@
 
 ## ITableProps.truncate property
 
+If true, limits content to a single line and truncate with the language’s default ellipsis, or if false, content in each cell wraps exhaustively.
+
 <b>Signature:</b>
 
 ```typescript

@@ -4,6 +4,8 @@
 
 ## IListProps.find property
 
+Whether to provide the find feature, which filters the list by an arbitrary string input the user can provide.
+
 <b>Signature:</b>
 
 ```typescript

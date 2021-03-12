@@ -39,6 +39,7 @@
 |  [IChartData](./react-teams.ichartdata.md) |  |
 |  [IChartDataSet](./react-teams.ichartdataset.md) |  |
 |  [ICheckboxesInput](./react-teams.icheckboxesinput.md) | A set of checkboxes. |
+|  [IColumn](./react-teams.icolumn.md) |  |
 |  [ICommunicationAction](./react-teams.icommunicationaction.md) | An action rendered at the end of the Communication component’s content. |
 |  [ICommunicationFields](./react-teams.icommunicationfields.md) | The specific content to display in the component. |
 |  [ICommunicationFieldsWithThemedImage](./react-teams.icommunicationfieldswiththemedimage.md) | A variation of <code>ICommunicationFields</code> using a <code>themedImage</code> instead of <code>image</code>, which responds to the user’s active theme (light, dark, or high-contrast). |
@@ -57,12 +58,12 @@
 |  [IInlineInputsBlock](./react-teams.iinlineinputsblock.md) | A block containing a set of one or more text inputs or dropdowns. |
 |  [ILegendItem](./react-teams.ilegenditem.md) |  |
 |  [ILineChartPatterns](./react-teams.ilinechartpatterns.md) |  |
-|  [IListProps](./react-teams.ilistprops.md) |  |
+|  [IListProps](./react-teams.ilistprops.md) | The List component can be used to display a list of items as a table which can be sorted, filtered, and searched.. Designs for this component are available in the \[List page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A3790). |
 |  [IMultilineTextInput](./react-teams.imultilinetextinput.md) | A multi-line text field. |
 |  [IPreparedBoardItem](./react-teams.ipreparedboarditem.md) | A prepared Board item places the item’s unique key within itself so the item can be handled on its own. |
 |  [IRadioButtonsInput](./react-teams.iradiobuttonsinput.md) | A set of radio buttons (from which only one can be selected). |
 |  [ISection](./react-teams.isection.md) |  |
-|  [ITableProps](./react-teams.itableprops.md) |  |
+|  [ITableProps](./react-teams.itableprops.md) | The Table component is used by the List template as its primary content. |
 |  [ITextField](./react-teams.itextfield.md) | A single-line text field. |
 |  [ITextInputBase](./react-teams.itextinputbase.md) | Properties shared by text inputs (single- and multi-line). |
 |  [IToolbarProps](./react-teams.itoolbarprops.md) |  |
@@ -92,8 +93,9 @@
 |  --- | --- |
 |  [actionKey](./react-teams.actionkey.md) |  |
 |  [IChartPatterns](./react-teams.ichartpatterns.md) |  |
-|  [TAction](./react-teams.taction.md) |  |
-|  [TActions](./react-teams.tactions.md) |  |
+|  [TAction](./react-teams.taction.md) | An action a user can apply to an entity. |
+|  [TActionGroups](./react-teams.tactiongroups.md) |  |
+|  [TActions](./react-teams.tactions.md) | A collection of actions, keyed by the action ID. |
 |  [TBoardInteraction](./react-teams.tboardinteraction.md) | The interaction payloads emitted by the Board component is either an update of the Board’s lanes, or an update of the Board’s items. |
 |  [TBoardLane](./react-teams.tboardlane.md) | Board lanes currently only need a <code>title</code>. |
 |  [TBoardLanes](./react-teams.tboardlanes.md) | Each Board lane has a unique key, which is associated with the lane’s configuration. |
@@ -103,10 +105,10 @@
 |  [TFormInteraction](./react-teams.tforminteraction.md) | An interaction event emitted by the Form component. The payload always contains the Form’s state, which contains the values of all the Form’s inputs. |
 |  [TInlineField](./react-teams.tinlinefield.md) |  |
 |  [TInputBlock](./react-teams.tinputblock.md) | A block with a single input which occupies the full width of the form. |
-|  [TListInteraction](./react-teams.tlistinteraction.md) |  |
+|  [TListInteraction](./react-teams.tlistinteraction.md) | List interactions are proxied from the Table or the Toolbar. All are clicks on actions. |
 |  [TLocale](./react-teams.tlocale.md) | The locale of the current view. |
-|  [TSortable](./react-teams.tsortable.md) |  |
-|  [TTableInteraction](./react-teams.ttableinteraction.md) |  |
+|  [TSortable](./react-teams.tsortable.md) | Currently only alphabetical sort is available. |
+|  [TTableInteraction](./react-teams.ttableinteraction.md) | An interaction payload emitted by Table. |
 |  [TTextObject](./react-teams.ttextobject.md) | Text content to display. When the preferred locale is not available, the plain string or the only available locale will be used instead. |
 |  [TToolbarInteraction](./react-teams.ttoolbarinteraction.md) |  |
 |  [TUser](./react-teams.tuser.md) | A User entity, which certain components can use as part of their content. |

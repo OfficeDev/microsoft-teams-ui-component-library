@@ -4,6 +4,8 @@
 
 ## TTableInteraction type
 
+An interaction payload emitted by Table.
+
 <b>Signature:</b>
 
 ```typescript

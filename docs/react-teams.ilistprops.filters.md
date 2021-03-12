@@ -4,6 +4,8 @@
 
 ## IListProps.filters property
 
+The set of columns as column IDs to offer in the filter menu.
+
 <b>Signature:</b>
 
 ```typescript

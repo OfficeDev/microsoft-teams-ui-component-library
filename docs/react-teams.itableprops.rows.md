@@ -4,6 +4,8 @@
 
 ## ITableProps.rows property
 
+A collection of rows to display, keyed by row ID.
+
 <b>Signature:</b>
 
 ```typescript

@@ -4,6 +4,8 @@
 
 ## TActions type
 
+A collection of actions, keyed by the action ID.
+
 <b>Signature:</b>
 
 ```typescript

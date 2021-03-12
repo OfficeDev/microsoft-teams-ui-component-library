@@ -1,12 +1,34 @@
 import groupBy from "lodash/groupBy";
+import { TTextObject } from "../../translations";
 
+/**
+ * Currently only alphabetical sort is available.
+ */
 export type TSortable = "alphabetical" | false;
 
 export interface IColumn {
-  title: string;
+  /**
+   * The text content of the column's header cell.
+   */
+  title: TTextObject;
+  /**
+   * The column’s minimum width in pixels.
+   * @defaultValue `240`
+   */
   minWidth?: number;
+  /**
+   * Whether the column can be hidden when horizontal space is constrained.
+   * @defaultValue `false`
+   */
   hideable?: boolean;
+  /**
+   * Columns with a lower `hidePriority` are hidden before columns with a higher `hidePriority`.
+   * @defaultValue `Infinity`
+   */
   hidePriority?: number;
+  /**
+   * Whether the column is sortable, and if so what sort to make available.
+   */
   sortable?: TSortable;
 }
 

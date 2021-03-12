@@ -4,6 +4,8 @@
 
 ## TSortable type
 
+Currently only alphabetical sort is available.
+
 <b>Signature:</b>
 
 ```typescript
