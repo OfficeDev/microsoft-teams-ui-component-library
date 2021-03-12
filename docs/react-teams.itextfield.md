@@ -4,6 +4,8 @@
 
 ## ITextField interface
 
+A single-line text field.
+
 <b>Signature:</b>
 
 ```typescript

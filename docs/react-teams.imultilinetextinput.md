@@ -4,6 +4,8 @@
 
 ## IMultilineTextInput interface
 
+A multi-line text field.
+
 <b>Signature:</b>
 
 ```typescript

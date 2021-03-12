@@ -38,7 +38,7 @@
 |  [IBubbleChartData](./react-teams.ibubblechartdata.md) |  |
 |  [IChartData](./react-teams.ichartdata.md) |  |
 |  [IChartDataSet](./react-teams.ichartdataset.md) |  |
-|  [ICheckboxesInput](./react-teams.icheckboxesinput.md) |  |
+|  [ICheckboxesInput](./react-teams.icheckboxesinput.md) | A set of checkboxes. |
 |  [ICommunicationAction](./react-teams.icommunicationaction.md) | An action rendered at the end of the Communication component’s content. |
 |  [ICommunicationFields](./react-teams.icommunicationfields.md) | The specific content to display in the component. |
 |  [ICommunicationFieldsWithThemedImage](./react-teams.icommunicationfieldswiththemedimage.md) | A variation of <code>ICommunicationFields</code> using a <code>themedImage</code> instead of <code>image</code>, which responds to the user’s active theme (light, dark, or high-contrast). |
@@ -46,8 +46,8 @@
 |  [ICommunicationThemedImage](./react-teams.icommunicationthemedimage.md) | The image to use at the beginning of a Communication component’s content. The user’s active theme determines which image to display. |
 |  [IDashboard](./react-teams.idashboard.md) | The Dashboard component summarizes disparate types of information into a series of widgets. Designs for this component are available in the \[Dashboard page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A3890). |
 |  [IDraw](./react-teams.idraw.md) |  |
-|  [IDropdownInput](./react-teams.idropdowninput.md) |  |
-|  [IDropdownMultipleInput](./react-teams.idropdownmultipleinput.md) |  |
+|  [IDropdownInput](./react-teams.idropdowninput.md) | A single-select dropdown. |
+|  [IDropdownMultipleInput](./react-teams.idropdownmultipleinput.md) | A multiple-select dropdown. |
 |  [IEnumerableInputBase](./react-teams.ienumerableinputbase.md) | Properties shared by all enumerable inputs (radio buttons, checkboxes, dropdowns). |
 |  [IEnumerableInputOption](./react-teams.ienumerableinputoption.md) | Properties for each option for Enumerable inputs (radio buttons, checkboxes, dropdowns). |
 |  [IEnumerableMultipleInputBase](./react-teams.ienumerablemultipleinputbase.md) | Properties shared by enumerable inputs supporting multiple selections (checkboxes, multiple-select dropdowns). |
@@ -58,12 +58,12 @@
 |  [ILegendItem](./react-teams.ilegenditem.md) |  |
 |  [ILineChartPatterns](./react-teams.ilinechartpatterns.md) |  |
 |  [IListProps](./react-teams.ilistprops.md) |  |
-|  [IMultilineTextInput](./react-teams.imultilinetextinput.md) |  |
+|  [IMultilineTextInput](./react-teams.imultilinetextinput.md) | A multi-line text field. |
 |  [IPreparedBoardItem](./react-teams.ipreparedboarditem.md) | A prepared Board item places the item’s unique key within itself so the item can be handled on its own. |
-|  [IRadioButtonsInput](./react-teams.iradiobuttonsinput.md) |  |
+|  [IRadioButtonsInput](./react-teams.iradiobuttonsinput.md) | A set of radio buttons (from which only one can be selected). |
 |  [ISection](./react-teams.isection.md) |  |
 |  [ITableProps](./react-teams.itableprops.md) |  |
-|  [ITextField](./react-teams.itextfield.md) |  |
+|  [ITextField](./react-teams.itextfield.md) | A single-line text field. |
 |  [ITextInputBase](./react-teams.itextinputbase.md) | Properties shared by text inputs (single- and multi-line). |
 |  [IToolbarProps](./react-teams.itoolbarprops.md) |  |
 |  [IWidget](./react-teams.iwidget.md) | A Dashboard widget is rendered as a card of a certain size, containing the content specified. |

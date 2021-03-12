@@ -148,11 +148,17 @@ export enum EInputBlockType {
   checkboxes = "checkboxes",
 }
 
+/**
+ * A single-line text field.
+ */
 export interface ITextField extends ITextInputBase {
   type: EInlineInputType.text;
   width?: EInputWidth;
 }
 
+/**
+ * A multi-line text field.
+ */
 export interface IMultilineTextInput extends ITextInputBase {
   type: EInputBlockType.multilineText;
 }
@@ -173,6 +179,9 @@ export interface IInlineInputsBlock {
 
 interface IPreparedInlineInputs extends IInlineInputsBlock, IPreparedInput {}
 
+/**
+ * A single-select dropdown.
+ */
 export interface IDropdownInput extends IEnumerableSingletonInputBase {
   type: EInlineInputType.dropdown | EInputBlockType.dropdown;
   multiple?: false;
@@ -181,6 +190,9 @@ export interface IDropdownInput extends IEnumerableSingletonInputBase {
 
 interface IPreparedDropdownInput extends IDropdownInput, IPreparedInput {}
 
+/**
+ * A multiple-select dropdown.
+ */
 export interface IDropdownMultipleInput extends IEnumerableMultipleInputBase {
   type: EInlineInputType.dropdown | EInputBlockType.dropdown;
   multiple: true;
@@ -191,6 +203,9 @@ interface IPreparedDropdownMultipleInput
   extends IDropdownMultipleInput,
     IPreparedInput {}
 
+/**
+ * A set of radio buttons (from which only one can be selected).
+ */
 export interface IRadioButtonsInput extends IEnumerableSingletonInputBase {
   type: EInputBlockType.radioButtons;
 }
@@ -199,6 +214,9 @@ interface IPreparedRadioButtonsInput
   extends IRadioButtonsInput,
     IPreparedInput {}
 
+/**
+ * A set of checkboxes.
+ */
 export interface ICheckboxesInput extends IEnumerableMultipleInputBase {
   type: EInputBlockType.checkboxes;
 }

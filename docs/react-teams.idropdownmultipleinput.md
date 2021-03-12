@@ -4,6 +4,8 @@
 
 ## IDropdownMultipleInput interface
 
+A multiple-select dropdown.
+
 <b>Signature:</b>
 
 ```typescript

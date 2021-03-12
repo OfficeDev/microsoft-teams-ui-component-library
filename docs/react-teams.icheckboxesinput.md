@@ -4,6 +4,8 @@
 
 ## ICheckboxesInput interface
 
+A set of checkboxes.
+
 <b>Signature:</b>
 
 ```typescript

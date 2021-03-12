@@ -4,6 +4,8 @@
 
 ## IRadioButtonsInput interface
 
+A set of radio buttons (from which only one can be selected).
+
 <b>Signature:</b>
 
 ```typescript

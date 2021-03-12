@@ -4,6 +4,8 @@
 
 ## IDropdownInput interface
 
+A single-select dropdown.
+
 <b>Signature:</b>
 
 ```typescript
