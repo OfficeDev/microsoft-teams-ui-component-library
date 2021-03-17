@@ -4,6 +4,8 @@
 
 ## IToolbarProps.find property
 
+Whether the Toolbar should provide find functionality.
+
 <b>Signature:</b>
 
 ```typescript

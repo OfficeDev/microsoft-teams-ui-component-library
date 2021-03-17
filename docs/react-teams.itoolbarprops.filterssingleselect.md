@@ -4,6 +4,8 @@
 
 ## IToolbarProps.filtersSingleSelect property
 
+Whether to prevent multiple filters from being applied; when this is true and one filter is already applied, if the user selects another filter the previous filter is removed and the new filter is applied rather than both applying.
+
 <b>Signature:</b>
 
 ```typescript

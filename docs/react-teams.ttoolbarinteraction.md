@@ -4,6 +4,8 @@
 
 ## TToolbarInteraction type
 
+The interaction payload sent when a user clicks on an action in the Toolbar. The action may have one or more subjects if the action applies to entities in the main view, or it may be `null` if the action has no subject.
+
 <b>Signature:</b>
 
 ```typescript

@@ -4,6 +4,8 @@
 
 ## IToolbarProps.onInteraction property
 
+An interaction handler for the Toolbar. Interactions are triggered when the user clicks on an action.
+
 <b>Signature:</b>
 
 ```typescript

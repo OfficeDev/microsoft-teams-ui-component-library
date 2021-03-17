@@ -4,11 +4,13 @@
 
 ## TActionGroups type
 
+A collection of action groups, keyed by group ID.
+
 <b>Signature:</b>
 
 ```typescript
 export declare type TActionGroups = {
-    [actionKey: string]: TActions;
+    [actionGroupKey: string]: TActions;
 };
 ```
 <b>References:</b> [TActions](./react-teams.tactions.md)

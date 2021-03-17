@@ -4,6 +4,8 @@
 
 ## IToolbarProps interface
 
+The Toolbar component can be used to render a Toolbar above the main view, which can make actions, find, and filter available. Designs for this component are available in the \[Toolbar page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A4186).
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,11 +16,9 @@ export interface IToolbarProps
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [actionGroups](./react-teams.itoolbarprops.actiongroups.md) | [TActionGroups](./react-teams.tactiongroups.md) |  |
-|  [filters?](./react-teams.itoolbarprops.filters.md) | TFilters | <i>(Optional)</i> |
-|  [filtersSingleSelect?](./react-teams.itoolbarprops.filterssingleselect.md) | boolean | <i>(Optional)</i> |
-|  [find?](./react-teams.itoolbarprops.find.md) | boolean | <i>(Optional)</i> |
-|  [onFindQueryChange?](./react-teams.itoolbarprops.onfindquerychange.md) | (findQuery: string) =&gt; string | <i>(Optional)</i> |
-|  [onInteraction?](./react-teams.itoolbarprops.oninteraction.md) | (interaction: [TToolbarInteraction](./react-teams.ttoolbarinteraction.md)<!-- -->) =&gt; void | <i>(Optional)</i> |
-|  [onSelectedFiltersChange?](./react-teams.itoolbarprops.onselectedfilterschange.md) | (selectedFilters: string\[\]) =&gt; string\[\] | <i>(Optional)</i> |
+|  [actionGroups](./react-teams.itoolbarprops.actiongroups.md) | [TActionGroups](./react-teams.tactiongroups.md) | The groups of actions to make available in the Toolbar. Actions for different groups are separated by a horizontal or vertical bar when adjacent. |
+|  [filters?](./react-teams.itoolbarprops.filters.md) | TFilters | <i>(Optional)</i> The filters to make available in the Toolbar. |
+|  [filtersSingleSelect?](./react-teams.itoolbarprops.filterssingleselect.md) | boolean | <i>(Optional)</i> Whether to prevent multiple filters from being applied; when this is true and one filter is already applied, if the user selects another filter the previous filter is removed and the new filter is applied rather than both applying. |
+|  [find?](./react-teams.itoolbarprops.find.md) | boolean | <i>(Optional)</i> Whether the Toolbar should provide find functionality. |
+|  [onInteraction?](./react-teams.itoolbarprops.oninteraction.md) | (interaction: [TToolbarInteraction](./react-teams.ttoolbarinteraction.md)<!-- -->) =&gt; void | <i>(Optional)</i> An interaction handler for the Toolbar. Interactions are triggered when the user clicks on an action. |
 

@@ -4,6 +4,8 @@
 
 ## IToolbarProps.filters property
 
+The filters to make available in the Toolbar.
+
 <b>Signature:</b>
 
 ```typescript

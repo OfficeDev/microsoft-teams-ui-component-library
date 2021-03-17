@@ -4,6 +4,8 @@
 
 ## IToolbarProps.actionGroups property
 
+The groups of actions to make available in the Toolbar. Actions for different groups are separated by a horizontal or vertical bar when adjacent.
+
 <b>Signature:</b>
 
 ```typescript
