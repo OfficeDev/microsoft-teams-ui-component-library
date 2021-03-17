@@ -4,6 +4,8 @@
 
 ## IChartData.datasets property
 
+The Chart’s data, grouped into sets.
+
 <b>Signature:</b>
 
 ```typescript

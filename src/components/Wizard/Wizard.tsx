@@ -24,7 +24,7 @@ import { TeamsTheme } from "../../themes";
  * be in the form of `wizard-step__{step_index}`, where `step_index` is the index of the
  * target step.
  */
-interface IWizardSidebarInteraction {
+export interface IWizardSidebarInteraction {
   event: "click";
   target: "wizard-sidebar";
   subject: string;

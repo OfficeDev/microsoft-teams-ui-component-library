@@ -4,6 +4,8 @@
 
 ## IBubbleChartData interface
 
+A vector datum for bubble charts and related types.
+
 <b>Signature:</b>
 
 ```typescript

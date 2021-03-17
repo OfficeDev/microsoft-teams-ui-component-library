@@ -16,8 +16,8 @@ export interface IWizardProps
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [activeStep](./react-teams.iwizardprops.activestep.md) | IFormWizardStepProps | The content of the active step. |
+|  [activeStep](./react-teams.iwizardprops.activestep.md) | [IFormWizardStepProps](./react-teams.iformwizardstepprops.md) | The content of the active step. |
 |  [activeStepIndex](./react-teams.iwizardprops.activestepindex.md) | number | The zero-based index of the active step. |
-|  [onInteraction?](./react-teams.iwizardprops.oninteraction.md) | (interaction: TWizardInteraction) =&gt; void | <i>(Optional)</i> An interaction handler for the Wizard. Interactions are triggered when the user clicks on a step in the Wizard’s sidebar, or if the user interacts with the Form. |
+|  [onInteraction?](./react-teams.iwizardprops.oninteraction.md) | (interaction: [TWizardInteraction](./react-teams.twizardinteraction.md)<!-- -->) =&gt; void | <i>(Optional)</i> An interaction handler for the Wizard. Interactions are triggered when the user clicks on a step in the Wizard’s sidebar, or if the user interacts with the Form. |
 |  [stepTitles](./react-teams.iwizardprops.steptitles.md) | [TTextObject](./react-teams.ttextobject.md)<!-- -->\[\] | The titles of the Wizard’s steps in order. |
 

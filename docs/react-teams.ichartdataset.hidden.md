@@ -4,6 +4,8 @@
 
 ## IChartDataSet.hidden property
 
+Whether this set should be ignored by the Chart.
+
 <b>Signature:</b>
 
 ```typescript

@@ -64,6 +64,7 @@ export {
   TFormErrors,
   TFormInteraction,
   IFormState,
+  IFormWizardStepProps,
 } from "./components/Form/Form";
 export {
   ISection,
@@ -86,7 +87,17 @@ export {
   ICheckboxesInput,
 } from "./components/Form/FormContent";
 
-export { Chart, ChartOptions } from "./components/Chart";
-export * from "./components/Chart/ChartTypes";
+export { Chart, IChartProps } from "./components/Chart/Chart";
+export {
+  EChartTypes,
+  IChartData,
+  IChartDataSet,
+  IBubbleChartData,
+} from "./components/Chart/ChartTypes";
 
-export { IWizardProps, Wizard } from "./components/Wizard/Wizard";
+export {
+  Wizard,
+  IWizardProps,
+  TWizardInteraction,
+  IWizardSidebarInteraction,
+} from "./components/Wizard/Wizard";

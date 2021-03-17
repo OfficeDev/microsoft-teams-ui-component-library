@@ -4,23 +4,17 @@
 
 ## Chart\_2() function
 
-TODO: \[ \] Legend behavior \[ \] Storybook chart container
-
 <b>Signature:</b>
 
 ```typescript
-export declare function Chart({ title, type, data, }: {
-    title: string;
-    type: ChartOptions;
-    data?: IChartData;
-}): JSX.Element;
+export declare function Chart({ title, type, data, }: IChartProps): JSX.Element;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  { title, type, data, } | { title: string; type: [ChartOptions](./react-teams.chartoptions.md)<!-- -->; data?: [IChartData](./react-teams.ichartdata.md)<!-- -->; } |  |
+|  { title, type, data, } | [IChartProps](./react-teams.ichartprops.md) |  |
 
 <b>Returns:</b>
 

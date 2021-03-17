@@ -3,8 +3,8 @@ import {
   IChartPatterns,
   IDraw,
   ILineChartPatterns,
-  PointStyles,
-  Shapes,
+  EPointStyles,
+  EShapes,
 } from "./ChartTypes";
 
 const BACKGROUND_COLOR = "transparent";
@@ -13,12 +13,12 @@ const POINT_STYLE = "round";
 const SIZE = 20;
 
 export const lineChartPatterns: ILineChartPatterns[] = [
-  { lineBorderDash: [], pointStyle: PointStyles.Circle },
-  { lineBorderDash: [], pointStyle: PointStyles.Rectangle },
-  { lineBorderDash: [], pointStyle: PointStyles.Triangle },
-  { lineBorderDash: [5, 5], pointStyle: PointStyles.Circle },
-  { lineBorderDash: [5, 5], pointStyle: PointStyles.RectangleRotated },
-  { lineBorderDash: [5, 5], pointStyle: PointStyles.Triangle },
+  { lineBorderDash: [], pointStyle: EPointStyles.Circle },
+  { lineBorderDash: [], pointStyle: EPointStyles.Rectangle },
+  { lineBorderDash: [], pointStyle: EPointStyles.Triangle },
+  { lineBorderDash: [5, 5], pointStyle: EPointStyles.Circle },
+  { lineBorderDash: [5, 5], pointStyle: EPointStyles.RectangleRotated },
+  { lineBorderDash: [5, 5], pointStyle: EPointStyles.Triangle },
 ];
 
 export const legendLabels = ({
@@ -57,21 +57,21 @@ export const legendLabels = ({
       ctx.fillRect(-15, -15, canvasRef.width, canvasRef.height);
       ctx.fillStyle = colorScheme.default.foreground3;
       switch (lineChartPatterns[index].pointStyle) {
-        case PointStyles.Triangle:
+        case EPointStyles.Triangle:
           ctx.moveTo(9.5, 2.5);
           ctx.lineTo(5.5, 7.5);
           ctx.lineTo(13.5, 7.5);
           break;
-        case PointStyles.Rectangle:
+        case EPointStyles.Rectangle:
           ctx.rect(6.5, 2.5, 8, 5);
           break;
-        case PointStyles.RectangleRotated:
+        case EPointStyles.RectangleRotated:
           ctx.moveTo(10, 2);
           ctx.lineTo(14.5, 5);
           ctx.lineTo(10, 8);
           ctx.lineTo(5.5, 5);
           break;
-        case PointStyles.Circle:
+        case EPointStyles.Circle:
         default:
           ctx.ellipse(10, 5, 3.5, 2.5, 0, 0, 2 * Math.PI);
           break;
@@ -100,27 +100,27 @@ export const chartLineStackedDataPointPatterns: IChartPatterns = (
 ) => {
   return [
     {
-      shapeType: Shapes.Square,
+      shapeType: EShapes.Square,
       size: 10,
     },
     {
-      shapeType: Shapes.DiagonalRightLeft,
+      shapeType: EShapes.DiagonalRightLeft,
       size: 5,
     },
     {
-      shapeType: Shapes.Grid,
+      shapeType: EShapes.Grid,
       size: 10,
     },
     {
-      shapeType: Shapes.VerticalLine,
+      shapeType: EShapes.VerticalLine,
       size: 10,
     },
     {
-      shapeType: Shapes.GridRightLeft,
+      shapeType: EShapes.GridRightLeft,
       size: 3,
     },
     {
-      shapeType: Shapes.Diagonal,
+      shapeType: EShapes.Diagonal,
       size: 5,
     },
   ];
@@ -129,27 +129,27 @@ export const chartLineStackedDataPointPatterns: IChartPatterns = (
 export const chartBarDataPointPatterns: IChartPatterns = (colorScheme: any) => {
   return [
     {
-      shapeType: Shapes.DiagonalRightLeft,
+      shapeType: EShapes.DiagonalRightLeft,
       size: 5,
     },
     {
-      shapeType: Shapes.Square,
+      shapeType: EShapes.Square,
       size: 10,
     },
     {
-      shapeType: Shapes.Diagonal,
+      shapeType: EShapes.Diagonal,
       size: 5,
     },
     {
-      shapeType: Shapes.Grid,
+      shapeType: EShapes.Grid,
       size: 10,
     },
     {
-      shapeType: Shapes.GridRightLeft,
+      shapeType: EShapes.GridRightLeft,
       size: 3,
     },
     {
-      shapeType: Shapes.VerticalLine,
+      shapeType: EShapes.VerticalLine,
       size: 7,
     },
   ];
@@ -160,27 +160,27 @@ export const chartBubbleDataPointPatterns: IChartPatterns = (
 ) => {
   return [
     {
-      shapeType: Shapes.DiagonalRightLeft,
+      shapeType: EShapes.DiagonalRightLeft,
       size: 5,
     },
     {
-      shapeType: Shapes.Square,
+      shapeType: EShapes.Square,
       size: 10,
     },
     {
-      shapeType: Shapes.Diagonal,
+      shapeType: EShapes.Diagonal,
       size: 5,
     },
     {
-      shapeType: Shapes.Grid,
+      shapeType: EShapes.Grid,
       size: 10,
     },
     {
-      shapeType: Shapes.GridRightLeft,
+      shapeType: EShapes.GridRightLeft,
       size: 3,
     },
     {
-      shapeType: Shapes.VerticalLine,
+      shapeType: EShapes.VerticalLine,
       size: 7,
     },
   ];
@@ -416,12 +416,12 @@ class GridRightLeft extends Grid {
 }
 
 const shapes = {
-  [Shapes.Square]: Square,
-  [Shapes.DiagonalRightLeft]: DiagonalRightLeft,
-  [Shapes.Grid]: Grid,
-  [Shapes.Diagonal]: Diagonal,
-  [Shapes.VerticalLine]: VerticalLine,
-  [Shapes.GridRightLeft]: GridRightLeft,
+  [EShapes.Square]: Square,
+  [EShapes.DiagonalRightLeft]: DiagonalRightLeft,
+  [EShapes.Grid]: Grid,
+  [EShapes.Diagonal]: Diagonal,
+  [EShapes.VerticalLine]: VerticalLine,
+  [EShapes.GridRightLeft]: GridRightLeft,
 };
 
 export function buildPattern({
@@ -430,7 +430,7 @@ export function buildPattern({
   patternColor,
   size,
 }: {
-  shapeType: Shapes;
+  shapeType: EShapes;
   size: number;
   backgroundColor: string;
   patternColor: string;

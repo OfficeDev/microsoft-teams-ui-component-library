@@ -1,2 +1,1 @@
-export { Chart } from "./Chart";
-export * from "./ChartTypes";
+export { Chart as default } from "./Chart";

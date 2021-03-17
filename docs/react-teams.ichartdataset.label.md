@@ -4,6 +4,8 @@
 
 ## IChartDataSet.label property
 
+The label for this set.
+
 <b>Signature:</b>
 
 ```typescript

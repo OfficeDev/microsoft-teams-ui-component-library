@@ -13,7 +13,7 @@ import {
   ShareGenericIcon,
   Text,
 } from "@fluentui/react-northstar";
-import { Chart, ChartOptions } from "../src/components/Chart";
+import { Chart, EChartTypes } from "../src/components/Chart";
 import { random } from "../src/components/Chart/ChartUtils";
 
 export default {
@@ -152,7 +152,7 @@ const dataVizWidgets: IWidget[] = [
         content: (
           <Chart
             title="Line chart sample"
-            type={ChartOptions.Line}
+            type={EChartTypes.Line}
             data={{
               labels: ["Jan", "Feb", "March", "April", "May"],
               datasets: [
@@ -191,7 +191,7 @@ const dataVizWidgets: IWidget[] = [
         content: (
           <Chart
             title="Area chart sample"
-            type={ChartOptions.LineStacked}
+            type={EChartTypes.LineStacked}
             data={{
               labels: ["Jan", "Feb", "March", "April", "May"],
               datasets: [
@@ -241,7 +241,7 @@ const dataVizWidgets: IWidget[] = [
         content: (
           <Chart
             title="Doughnut chart sample"
-            type={ChartOptions.Doughnut}
+            type={EChartTypes.Doughnut}
             data={{
               labels: ["Jan", "Feb", "March", "April", "May"],
               datasets: [
@@ -267,7 +267,7 @@ const dataVizWidgets: IWidget[] = [
         content: (
           <Chart
             title="Bubble chart sample"
-            type={ChartOptions.Bubble}
+            type={EChartTypes.Bubble}
             data={{
               labels: "Africa",
               datasets: [
@@ -339,7 +339,7 @@ const dataVizWidgets: IWidget[] = [
         content: (
           <Chart
             title="Bubble chart sample"
-            type={ChartOptions.Bubble}
+            type={EChartTypes.Bubble}
             data={{
               labels: "Africa",
               datasets: [
@@ -369,7 +369,7 @@ const dataVizWidgets: IWidget[] = [
         content: (
           <Chart
             title="Pie chart sample"
-            type={ChartOptions.Pie}
+            type={EChartTypes.Pie}
             data={{
               labels: ["Jan", "Feb", "March", "April", "May"],
               datasets: [
@@ -394,7 +394,7 @@ const dataVizWidgets: IWidget[] = [
         content: (
           <Chart
             title="Stacked area chart sample"
-            type={ChartOptions.LineStacked}
+            type={EChartTypes.LineStacked}
             data={{
               labels: ["Jan", "Feb", "March", "April", "May"],
               datasets: [
@@ -429,7 +429,7 @@ const dataVizWidgets: IWidget[] = [
         content: (
           <Chart
             title="Gradient area chart"
-            type={ChartOptions.LineArea}
+            type={EChartTypes.LineArea}
             data={{
               labels: ["Jan", "Feb", "March", "April", "May"],
               datasets: [
@@ -458,7 +458,7 @@ const dataVizWidgets: IWidget[] = [
         content: (
           <Chart
             title="Bar chart sample"
-            type={ChartOptions.Bar}
+            type={EChartTypes.Bar}
             data={{
               labels: ["Jan", "Feb", "March", "April", "May"],
               datasets: [
@@ -484,7 +484,7 @@ const dataVizWidgets: IWidget[] = [
         content: (
           <Chart
             title="Stacked bar chart sample"
-            type={ChartOptions.BarStacked}
+            type={EChartTypes.BarStacked}
             data={{
               labels: ["Jan", "Feb", "March", "April", "May"],
               datasets: [
@@ -514,7 +514,7 @@ const dataVizWidgets: IWidget[] = [
         content: (
           <Chart
             title="Horizontal bar chart sample"
-            type={ChartOptions.BarHorizontal}
+            type={EChartTypes.BarHorizontal}
             data={{
               labels: ["Jan", "Feb", "March", "April", "May"],
               datasets: [
@@ -540,7 +540,7 @@ const dataVizWidgets: IWidget[] = [
         content: (
           <Chart
             title="Grouped bar chart sample"
-            type={ChartOptions.Bar}
+            type={EChartTypes.Bar}
             data={{
               labels: ["Jan", "Feb", "March", "April", "May"],
               datasets: [
@@ -579,7 +579,7 @@ const dataVizWidgets: IWidget[] = [
         content: (
           <Chart
             title="Horizontal stacked bar chart sample"
-            type={ChartOptions.BarHorizontalStacked}
+            type={EChartTypes.BarHorizontalStacked}
             data={{
               labels: ["Jan", "Feb", "March", "April", "May"],
               datasets: [
@@ -607,7 +607,7 @@ const dataVizWidgets: IWidget[] = [
         id: "1",
         title: "",
         content: (
-          <Chart title="Chart error state" type={ChartOptions.LineStacked} />
+          <Chart title="Chart error state" type={EChartTypes.LineStacked} />
         ),
       },
     ],
@@ -623,7 +623,7 @@ const dataVizWidgets: IWidget[] = [
         content: (
           <Chart
             title="Chart no data state"
-            type={ChartOptions.LineStacked}
+            type={EChartTypes.LineStacked}
             data={{
               labels: [],
               datasets: [],

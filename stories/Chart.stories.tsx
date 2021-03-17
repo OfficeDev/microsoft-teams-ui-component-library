@@ -1,6 +1,6 @@
 import React from "react";
 import { object } from "@storybook/addon-knobs";
-import { Chart, ChartOptions } from "../src/components/Chart";
+import { Chart, EChartTypes } from "../src/components/Chart";
 import { random } from "../src/components/Chart/ChartUtils";
 import { Card, Flex } from "@fluentui/react-northstar";
 
@@ -14,7 +14,7 @@ const dataVizKnobGroupID = "Line chart";
 export const LineChart = () => {
   const dataVizProps = {
     title: "Line chart sample",
-    type: ChartOptions.Line,
+    type: EChartTypes.Line,
     data: {
       labels: ["Jan", "Feb", "March", "April", "May"],
       datasets: [
@@ -57,7 +57,7 @@ const stackedKnobGroupID = "Stacked chart";
 export const StackedLineChart = () => {
   const dataVizProps = {
     title: "Stacked line chart sample",
-    type: ChartOptions.LineStacked,
+    type: EChartTypes.LineStacked,
     data: {
       labels: ["Jan", "Feb", "March", "April", "May"],
       datasets: [
@@ -88,7 +88,7 @@ const areaKnobGroupID = "Area chart";
 export const AreaChart = () => {
   const dataVizProps = {
     title: "Area chart sample",
-    type: ChartOptions.LineArea,
+    type: EChartTypes.LineArea,
     data: {
       labels: ["Jan", "Feb", "March", "April", "May"],
       datasets: [
@@ -115,7 +115,7 @@ const barKnobGroupID = "Bar chart";
 export const BarChart = () => {
   const dataVizProps = {
     title: "Bar chart sample",
-    type: ChartOptions.Bar,
+    type: EChartTypes.Bar,
     data: {
       labels: ["Jan", "Feb", "March", "April", "May"],
       datasets: [
@@ -138,7 +138,7 @@ const stackedBarKnobGroupID = "Stacked bar chart";
 export const StackedBarChart = () => {
   const dataVizProps = {
     title: "Stacked bar chart sample",
-    type: ChartOptions.BarStacked,
+    type: EChartTypes.BarStacked,
     data: {
       labels: ["Jan", "Feb", "March", "April", "May"],
       datasets: [
@@ -167,7 +167,7 @@ const groupedBarKnobGroupID = "Grouped bar chart";
 export const GroupedBarChart = () => {
   const dataVizProps = {
     title: "Grouped bar chart sample",
-    type: ChartOptions.Bar,
+    type: EChartTypes.Bar,
     data: {
       labels: ["Jan", "Feb", "March", "April", "May"],
       datasets: [
@@ -204,7 +204,7 @@ const horizontalBarKnobGroupID = "Horizontal bar chart";
 export const HorizontalBarChart = () => {
   const dataVizProps = {
     title: "Horizontal bar chart sample",
-    type: ChartOptions.BarHorizontal,
+    type: EChartTypes.BarHorizontal,
     data: {
       labels: ["Jan", "Feb", "March", "April", "May"],
       datasets: [
@@ -229,7 +229,7 @@ const horizontalStackedBarKnobGroupID = "Horizontal bar chart";
 export const HorizontalStackedBarChart = () => {
   const dataVizProps = {
     title: "Horizontal bar chart sample",
-    type: ChartOptions.BarHorizontalStacked,
+    type: EChartTypes.BarHorizontalStacked,
     data: {
       labels: ["Jan", "Feb", "March", "April", "May"],
       datasets: [
@@ -262,7 +262,7 @@ const pieKnobGroupID = "Pie chart";
 export const PieChart = () => {
   const dataVizProps = {
     title: "Pie chart sample",
-    type: ChartOptions.Pie,
+    type: EChartTypes.Pie,
     data: {
       labels: ["Jan", "Feb", "March", "April", "May"],
       datasets: [
@@ -285,7 +285,7 @@ const doughnutKnobGroupID = "Doughnut chart";
 export const DoughnutChart = () => {
   const dataVizProps = {
     title: "Doughnut chart sample",
-    type: ChartOptions.Doughnut,
+    type: EChartTypes.Doughnut,
     data: {
       labels: ["Jan", "Feb", "March", "April", "May"],
       datasets: [
@@ -308,7 +308,7 @@ const bubbleKnobGroupID = "Bubble chart";
 export const GroupedBubbleChart = () => {
   const dataVizProps = {
     title: "Bubble chart sample",
-    type: ChartOptions.Bubble,
+    type: EChartTypes.Bubble,
     data: {
       labels: "Africa",
       datasets: [
@@ -375,7 +375,7 @@ export const GroupedBubbleChart = () => {
 export const BubbleChart = () => {
   const dataVizProps = {
     title: "Bubble chart sample",
-    type: ChartOptions.Bubble,
+    type: EChartTypes.Bubble,
     data: {
       labels: "Africa",
       datasets: [
@@ -410,7 +410,7 @@ const noDataKnobGroupID = "Chart empty state";
 export const NoDataState = () => {
   const dataVizProps = {
     title: "Chart no data",
-    type: ChartOptions.LineStacked,
+    type: EChartTypes.LineStacked,
     data: {
       labels: [],
       datasets: [],
@@ -427,7 +427,7 @@ const errorKnobGroupID = "Chart error state";
 export const ErrorState = () => {
   const dataVizProps = {
     title: "Error",
-    type: ChartOptions.LineStacked,
+    type: EChartTypes.LineStacked,
   };
   return (
     <Container>

@@ -4,6 +4,8 @@
 
 ## IChartDataSet.data property
 
+The scalar values of the set’s data.
+
 <b>Signature:</b>
 
 ```typescript

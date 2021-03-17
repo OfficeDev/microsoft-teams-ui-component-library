@@ -4,6 +4,8 @@
 
 ## IChartData.labels property
 
+How the x-axis or pie slices should be labeled on the chart, if relevant. Some chart types will not render this label.
+
 <b>Signature:</b>
 
 ```typescript
