@@ -71,8 +71,7 @@
 |  [IWidgetAction](./react-teams.iwidgetaction.md) | An action item displayed in a widget’s overflow menu. |
 |  [IWidgetBodyContent](./react-teams.iwidgetbodycontent.md) | A piece of content to make available in the widget. |
 |  [IWidgetLink](./react-teams.iwidgetlink.md) |  |
-|  [IWizardDialogProps](./react-teams.iwizarddialogprops.md) |  |
-|  [IWizardProps](./react-teams.iwizardprops.md) |  |
+|  [IWizardProps](./react-teams.iwizardprops.md) | The Wizard component can be used to render a series of Forms. Designs for this component are available in the \[Wizard page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A4233). |
 
 ## Variables
 
@@ -85,7 +84,6 @@
 |  [Table](./react-teams.table.md) |  |
 |  [Toolbar](./react-teams.toolbar.md) |  |
 |  [Wizard](./react-teams.wizard.md) |  |
-|  [WizardDialog](./react-teams.wizarddialog.md) |  |
 
 ## Type Aliases
 

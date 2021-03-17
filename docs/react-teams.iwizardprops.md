@@ -4,6 +4,8 @@
 
 ## IWizardProps interface
 
+The Wizard component can be used to render a series of Forms. Designs for this component are available in the \[Wizard page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A4233).
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,8 +16,8 @@ export interface IWizardProps
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [activeStep](./react-teams.iwizardprops.activestep.md) | IFormWizardStepProps |  |
-|  [activeStepIndex](./react-teams.iwizardprops.activestepindex.md) | number |  |
-|  [onInteraction?](./react-teams.iwizardprops.oninteraction.md) | (interaction: TWizardInteraction) =&gt; void | <i>(Optional)</i> |
-|  [stepTitles](./react-teams.iwizardprops.steptitles.md) | [TTextObject](./react-teams.ttextobject.md)<!-- -->\[\] |  |
+|  [activeStep](./react-teams.iwizardprops.activestep.md) | IFormWizardStepProps | The content of the active step. |
+|  [activeStepIndex](./react-teams.iwizardprops.activestepindex.md) | number | The zero-based index of the active step. |
+|  [onInteraction?](./react-teams.iwizardprops.oninteraction.md) | (interaction: TWizardInteraction) =&gt; void | <i>(Optional)</i> An interaction handler for the Wizard. Interactions are triggered when the user clicks on a step in the Wizard’s sidebar, or if the user interacts with the Form. |
+|  [stepTitles](./react-teams.iwizardprops.steptitles.md) | [TTextObject](./react-teams.ttextobject.md)<!-- -->\[\] | The titles of the Wizard’s steps in order. |
 

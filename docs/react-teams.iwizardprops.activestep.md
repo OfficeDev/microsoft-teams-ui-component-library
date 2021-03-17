@@ -4,6 +4,8 @@
 
 ## IWizardProps.activeStep property
 
+The content of the active step.
+
 <b>Signature:</b>
 
 ```typescript

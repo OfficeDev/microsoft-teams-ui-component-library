@@ -4,6 +4,8 @@
 
 ## IWizardProps.onInteraction property
 
+An interaction handler for the Wizard. Interactions are triggered when the user clicks on a step in the Wizard’s sidebar, or if the user interacts with the Form.
+
 <b>Signature:</b>
 
 ```typescript

@@ -4,6 +4,8 @@
 
 ## IWizardProps.stepTitles property
 
+The titles of the Wizard’s steps in order.
+
 <b>Signature:</b>
 
 ```typescript

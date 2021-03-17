@@ -4,6 +4,8 @@
 
 ## IWizardProps.activeStepIndex property
 
+The zero-based index of the active step.
+
 <b>Signature:</b>
 
 ```typescript
