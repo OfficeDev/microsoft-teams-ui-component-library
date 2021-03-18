@@ -93,35 +93,38 @@ const legendItem = ({
   onLegendClick: (key: number) => void;
   hidden?: boolean;
   patterns?: IChartPatterns;
-}): ILegendItem => ({
-  key,
-  kind: "custom",
-  onClick: () => {
-    onLegendClick(key);
-  },
-  content: (
-    <LegendItem
-      styles={{
-        display: "flex",
-        alignItems: "center",
-        fontSize: ".75rem",
-        minWidth: "30px",
-        color: siteVariables.colorScheme.default.foreground2,
-        margin: "2px 0",
-      }}
-      text
-    >
-      <LabelColorValue
-        index={key}
-        siteVariables={siteVariables}
-        dataPointColor={chartDataPointColors[key]}
-        patterns={patterns}
-      />
-      {value}
-    </LegendItem>
-  ),
-  fitted: "horizontally",
-});
+}): ILegendItem => {
+  const { t } = siteVariables;
+  return {
+    key,
+    kind: "custom",
+    onClick: () => {
+      onLegendClick(key);
+    },
+    content: (
+      <LegendItem
+        styles={{
+          display: "flex",
+          alignItems: "center",
+          fontSize: ".75rem",
+          minWidth: "30px",
+          color: siteVariables.colorScheme.default.foreground2,
+          margin: "2px 0",
+        }}
+        text
+      >
+        <LabelColorValue
+          index={key}
+          siteVariables={siteVariables}
+          dataPointColor={chartDataPointColors[key]}
+          patterns={patterns}
+        />
+        {getText(t.locale, value)}
+      </LegendItem>
+    ),
+    fitted: "horizontally",
+  };
+};
 
 const LegendItems = (
   data: any,
@@ -135,7 +138,7 @@ const LegendItems = (
     ? Array.from(data.labels, (label: any, key) =>
         legendItem({
           key,
-          value: getText(siteVariables.t.locale, label),
+          value: label,
           siteVariables,
           chartDataPointColors,
           onLegendClick,
@@ -145,7 +148,7 @@ const LegendItems = (
     : Array.from(data.datasets, (dataset: any, key) =>
         legendItem({
           key,
-          value: getText(siteVariables.t.local, dataset.label),
+          value: dataset.label,
           hidden: dataset.hidden,
           siteVariables,
           chartDataPointColors,
@@ -192,7 +195,7 @@ export const ChartContainer = ({
       verticalDataAlignment,
       patterns
     );
-  }, [theme]);
+  }, [theme, t]);
 
   return (
     <Flex
