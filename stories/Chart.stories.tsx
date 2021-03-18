@@ -1,8 +1,23 @@
 import React from "react";
 import { object } from "@storybook/addon-knobs";
-import { Chart, EChartTypes } from "../src/components/Chart";
+import { Chart, EChartTypes } from "../src";
 import { random } from "../src/components/Chart/ChartUtils";
 import { Card, Flex } from "@fluentui/react-northstar";
+import fakerEN from "faker/locale/en_US";
+import fakerFA from "faker/locale/fa";
+import range from "lodash/range";
+
+const fake = (template: string) => {
+  return { "en-US": fakerEN.fake(template), fa: fakerFA.fake(template) };
+};
+
+const months = [
+  { "en-US": "Jan", fa: "ژانویه" },
+  { "en-US": "Feb", fa: "فوریه" },
+  { "en-US": "Mar", fa: "مارس" },
+  { "en-US": "Apr", fa: "آوریل" },
+  { "en-US": "May", fa: "ماه مه" },
+];
 
 export default {
   title: "Components/Charts",
@@ -13,33 +28,33 @@ const dataVizKnobGroupID = "Line chart";
 
 export const LineChart = () => {
   const dataVizProps = {
-    title: "Line chart sample",
+    title: { "en-US": "Line chart sample", fa: "نمونه نمودار خطی" },
     type: EChartTypes.Line,
     data: {
-      labels: ["Jan", "Feb", "March", "April", "May"],
+      labels: months,
       datasets: [
         {
-          label: "Tablets",
+          label: fake("{{commerce.product}}"),
           data: [860, 6700, 3100, 2012, 1930],
         },
         {
-          label: "Phones",
+          label: fake("{{commerce.product}}"),
           data: [100, 1600, 180, 3049, 3596],
         },
         {
-          label: "Laptops",
+          label: fake("{{commerce.product}}"),
           data: [1860, 7700, 4100, 3012, 2930],
         },
         {
-          label: "Watches",
+          label: fake("{{commerce.product}}"),
           data: [200, 3600, 480, 5049, 4596],
         },
         {
-          label: "TVs",
+          label: fake("{{commerce.product}}"),
           data: [960, 8700, 5100, 5012, 3930],
         },
         {
-          label: "Displays",
+          label: fake("{{commerce.product}}"),
           data: [1000, 4600, 480, 4049, 3596],
         },
       ],
@@ -56,21 +71,24 @@ const stackedKnobGroupID = "Stacked chart";
 
 export const StackedLineChart = () => {
   const dataVizProps = {
-    title: "Stacked line chart sample",
+    title: {
+      "en-US": "Stacked line chart sample",
+      fa: "نمونه نمودار خطی انباشته شده",
+    },
     type: EChartTypes.LineStacked,
     data: {
-      labels: ["Jan", "Feb", "March", "April", "May"],
+      labels: months,
       datasets: [
         {
-          label: "Tablets",
+          label: fake("{{commerce.product}}"),
           data: [1860, 4700, 3100, 2012, 1930],
         },
         {
-          label: "Phones",
+          label: fake("{{commerce.product}}"),
           data: [1860, 1600, 180, 3049, 3596],
         },
         {
-          label: "Laptops",
+          label: fake("{{commerce.product}}"),
           data: [1860, 5700, 4100, 3012, 2930],
         },
       ],
@@ -87,17 +105,17 @@ const areaKnobGroupID = "Area chart";
 
 export const AreaChart = () => {
   const dataVizProps = {
-    title: "Area chart sample",
+    title: { "en-US": "Area chart sample", fa: "نمونه نمودار منطقه" },
     type: EChartTypes.LineArea,
     data: {
-      labels: ["Jan", "Feb", "March", "April", "May"],
+      labels: months,
       datasets: [
         {
-          label: "Laptops",
+          label: fake("{{commerce.product}}"),
           data: [1860, 7700, 4100, 3012, 2930],
         },
         {
-          label: "Watches",
+          label: fake("{{commerce.product}}"),
           data: [200, 3600, 480, 5049, 4596],
         },
       ],
@@ -114,13 +132,13 @@ const barKnobGroupID = "Bar chart";
 
 export const BarChart = () => {
   const dataVizProps = {
-    title: "Bar chart sample",
+    title: { "en-US": "Bar chart sample", fa: "نمونه نمودار میله ای" },
     type: EChartTypes.Bar,
     data: {
-      labels: ["Jan", "Feb", "March", "April", "May"],
+      labels: months,
       datasets: [
         {
-          label: "Watches",
+          label: fake("{{commerce.product}}"),
           data: [200, 3600, 480, 5049, 4596],
         },
       ],
@@ -137,17 +155,20 @@ const stackedBarKnobGroupID = "Stacked bar chart";
 
 export const StackedBarChart = () => {
   const dataVizProps = {
-    title: "Stacked bar chart sample",
+    title: {
+      "en-US": "Stacked bar chart sample",
+      fa: "نمونه نمودار میله ای انباشته شده",
+    },
     type: EChartTypes.BarStacked,
     data: {
-      labels: ["Jan", "Feb", "March", "April", "May"],
+      labels: months,
       datasets: [
         {
-          label: "Laptops",
+          label: fake("{{commerce.product}}"),
           data: [1860, 7700, 4100, 3012, 2930],
         },
         {
-          label: "Watches",
+          label: fake("{{commerce.product}}"),
           data: [1200, 3600, 2480, 5049, 4596],
         },
       ],
@@ -166,25 +187,28 @@ const groupedBarKnobGroupID = "Grouped bar chart";
 
 export const GroupedBarChart = () => {
   const dataVizProps = {
-    title: "Grouped bar chart sample",
+    title: {
+      "en-US": "Grouped bar chart sample",
+      fa: "نمونه نمودار میله ای گروه بندی شده",
+    },
     type: EChartTypes.Bar,
     data: {
-      labels: ["Jan", "Feb", "March", "April", "May"],
+      labels: months,
       datasets: [
         {
-          label: "Tablets",
+          label: fake("{{commerce.product}}"),
           data: [4860, 6700, 3100, 2012, 1930],
         },
         {
-          label: "Phones",
+          label: fake("{{commerce.product}}"),
           data: [4100, 1600, 3180, 3049, 3596],
         },
         {
-          label: "Laptops",
+          label: fake("{{commerce.product}}"),
           data: [1860, 7700, 4100, 3012, 2930],
         },
         {
-          label: "Watches",
+          label: fake("{{commerce.product}}"),
           data: [1200, 3600, 2480, 5049, 4596],
         },
       ],
@@ -203,13 +227,16 @@ const horizontalBarKnobGroupID = "Horizontal bar chart";
 
 export const HorizontalBarChart = () => {
   const dataVizProps = {
-    title: "Horizontal bar chart sample",
+    title: {
+      "en-US": "Horizontal bar chart sample",
+      fa: "نمونه نمودار میله ای افقی",
+    },
     type: EChartTypes.BarHorizontal,
     data: {
-      labels: ["Jan", "Feb", "March", "April", "May"],
+      labels: months,
       datasets: [
         {
-          label: "Watches",
+          label: fake("{{commerce.product}}"),
           data: [200, 3600, 480, 5049, 4596],
         },
       ],
@@ -228,17 +255,20 @@ const horizontalStackedBarKnobGroupID = "Horizontal bar chart";
 
 export const HorizontalStackedBarChart = () => {
   const dataVizProps = {
-    title: "Horizontal bar chart sample",
+    title: {
+      "en-US": "Horizontal stacked bar chart sample",
+      fa: "نمونه نمودار میله ای انباشته شده افقی",
+    },
     type: EChartTypes.BarHorizontalStacked,
     data: {
-      labels: ["Jan", "Feb", "March", "April", "May"],
+      labels: months,
       datasets: [
         {
-          label: "Laptops",
+          label: fake("{{commerce.product}}"),
           data: [1860, 7700, 4100, 3012, 2930],
         },
         {
-          label: "Watches",
+          label: fake("{{commerce.product}}"),
           data: [1200, 3600, 2480, 5049, 4596],
         },
       ],
@@ -261,13 +291,13 @@ const pieKnobGroupID = "Pie chart";
 
 export const PieChart = () => {
   const dataVizProps = {
-    title: "Pie chart sample",
+    title: { "en-US": "Pie chart sample", fa: "نمونه نمودار پای" },
     type: EChartTypes.Pie,
     data: {
-      labels: ["Jan", "Feb", "March", "April", "May"],
+      labels: months,
       datasets: [
         {
-          label: "Watches",
+          label: fake("{{commerce.product}}"),
           data: [2004, 1600, 480, 504, 1000],
         },
       ],
@@ -284,13 +314,13 @@ const doughnutKnobGroupID = "Doughnut chart";
 
 export const DoughnutChart = () => {
   const dataVizProps = {
-    title: "Doughnut chart sample",
+    title: { "en-US": "Doughnut chart sample", fa: "نمونه نمودار دونات" },
     type: EChartTypes.Doughnut,
     data: {
-      labels: ["Jan", "Feb", "March", "April", "May"],
+      labels: months,
       datasets: [
         {
-          label: "Watches",
+          label: fake("{{commerce.product}}"),
           data: [2004, 1600, 480, 504, 1000],
         },
       ],
@@ -307,13 +337,16 @@ const bubbleKnobGroupID = "Bubble chart";
 
 export const GroupedBubbleChart = () => {
   const dataVizProps = {
-    title: "Bubble chart sample",
+    title: {
+      "en-US": "Grouped bubble chart sample",
+      fa: "نمونه نمودار حباب گروهی",
+    },
     type: EChartTypes.Bubble,
     data: {
-      labels: "Africa",
+      labels: fake("{{address.country}}"),
       datasets: [
         {
-          label: "China",
+          label: fake("{{address.country}}"),
           data: [
             {
               x: 21269017,
@@ -323,7 +356,7 @@ export const GroupedBubbleChart = () => {
           ],
         },
         {
-          label: "Denmark",
+          label: fake("{{address.country}}"),
           data: [
             {
               x: 258702,
@@ -333,7 +366,7 @@ export const GroupedBubbleChart = () => {
           ],
         },
         {
-          label: "Germany",
+          label: fake("{{address.country}}"),
           data: [
             {
               x: 3979083,
@@ -343,7 +376,7 @@ export const GroupedBubbleChart = () => {
           ],
         },
         {
-          label: "Japan",
+          label: fake("{{address.country}}"),
           data: [
             {
               x: 4931877,
@@ -353,7 +386,7 @@ export const GroupedBubbleChart = () => {
           ],
         },
         {
-          label: "France",
+          label: fake("{{address.country}}"),
           data: [
             {
               x: 17269017,
@@ -374,13 +407,13 @@ export const GroupedBubbleChart = () => {
 
 export const BubbleChart = () => {
   const dataVizProps = {
-    title: "Bubble chart sample",
+    title: { "en-US": "Bubble chart sample", fa: "نمونه نمودار حباب" },
     type: EChartTypes.Bubble,
     data: {
-      labels: "Africa",
+      labels: fake("{{address.country}}"),
       datasets: [
         {
-          label: "China",
+          label: fake("{{address.country}}"),
           data: Array.from({ length: 99 }, () => ({
             x: random(200000, 600000),
             y: random(50, 150),
@@ -388,7 +421,7 @@ export const BubbleChart = () => {
           })),
         },
         {
-          label: "USA",
+          label: fake("{{address.country}}"),
           data: Array.from({ length: 99 }, () => ({
             x: random(200000, 600000),
             y: random(50, 150),
@@ -409,7 +442,7 @@ const noDataKnobGroupID = "Chart empty state";
 
 export const NoDataState = () => {
   const dataVizProps = {
-    title: "Chart no data",
+    title: { "en-US": "No data sample", fa: "نمونه داده ای وجود ندارد" },
     type: EChartTypes.LineStacked,
     data: {
       labels: [],
@@ -426,7 +459,7 @@ export const NoDataState = () => {
 const errorKnobGroupID = "Chart error state";
 export const ErrorState = () => {
   const dataVizProps = {
-    title: "Error",
+    title: { "en-US": "Error sample", fa: "نمونه خطا" },
     type: EChartTypes.LineStacked,
   };
   return (
@@ -436,7 +469,7 @@ export const ErrorState = () => {
   );
 };
 
-const Container = (props) => (
+const Container = (props: any) => (
   <Flex
     styles={{
       width: "100%",

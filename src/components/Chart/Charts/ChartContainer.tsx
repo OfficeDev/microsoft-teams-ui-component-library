@@ -10,6 +10,7 @@ import {
 import { TeamsTheme } from "../../../themes";
 import { IChartPatterns, ILegendItem } from "../ChartTypes";
 import { legendLabels } from "../ChartPatterns";
+import { getText } from "../../../translations";
 
 const LabelColorValue = ({
   index,
@@ -134,7 +135,7 @@ const LegendItems = (
     ? Array.from(data.labels, (label: any, key) =>
         legendItem({
           key,
-          value: label,
+          value: getText(siteVariables.t.locale, label),
           siteVariables,
           chartDataPointColors,
           onLegendClick,
@@ -144,7 +145,7 @@ const LegendItems = (
     : Array.from(data.datasets, (dataset: any, key) =>
         legendItem({
           key,
-          value: dataset.label,
+          value: getText(siteVariables.t.local, dataset.label),
           hidden: dataset.hidden,
           siteVariables,
           chartDataPointColors,
@@ -172,7 +173,7 @@ export const ChartContainer = ({
 }) => {
   const [overflowOpen, setOverflowOpen] = useState(false);
   const [overflowItems, setOverflowItems] = useState<number>(0);
-  const { theme, colorScheme } = siteVariables;
+  const { theme, colorScheme, t } = siteVariables;
   let legendItems: ILegendItem[] = LegendItems(
     data,
     siteVariables,
@@ -215,7 +216,7 @@ export const ChartContainer = ({
       {/* Legend should be in differen container to avoid FluentUI window resize issue */}
       <Box>
         <Legend
-          aria-label="Toolbar overflow menu"
+          aria-label={t["toolbar overflow menu"]}
           items={legendItems as any}
           overflow
           overflowOpen={overflowOpen}

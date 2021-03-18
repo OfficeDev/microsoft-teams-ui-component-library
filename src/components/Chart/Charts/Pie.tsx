@@ -12,6 +12,7 @@ import {
 } from "../ChartUtils";
 import { ChartContainer } from "./ChartContainer";
 import { buildPattern, chartBarDataPointPatterns } from "../ChartPatterns";
+import { getText } from "../../../translations";
 
 export const PieChart = ({
   title,
@@ -30,7 +31,7 @@ export const PieChart = ({
       "Please follow design guidence and apply 6 or less data points per one chart."
     );
   }
-  const { colorScheme, theme, colors } = siteVariables;
+  const { colorScheme, theme, colors, t } = siteVariables;
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
   const chartRef = React.useRef<Chart | undefined>();
   const chartId = React.useMemo(
@@ -67,7 +68,7 @@ export const PieChart = ({
 
   const createDataPoints = (): Chart.ChartDataSets[] => {
     let dataPointConfig = {
-      label: data.datasets[0].label,
+      label: getText(t.locale, data.datasets[0].label),
       data: data.datasets[0].data,
       borderWidth: 2,
       borderColor: colorScheme.default.background,
@@ -114,7 +115,7 @@ export const PieChart = ({
     }
     // Pie chart custom settings
     config.options.tooltips.callbacks.label = (tooltipItem: any, data: any) =>
-      data.labels[tooltipItem.index];
+      getText(t.locale, data.labels[tooltipItem.index]);
     config.options.tooltips.callbacks.labelColor = (tooltipItem: any) => ({
       backgroundColor: chartDataPointColors[tooltipItem.index],
     });
@@ -132,7 +133,9 @@ export const PieChart = ({
     chartRef.current = new Chart(ctx, {
       ...(config as any),
       data: {
-        labels: data.labels,
+        labels: Array.isArray(data.labels)
+          ? data.labels.map((label) => getText(t.locale, label))
+          : getText(t.locale, data.labels),
         datasets: [],
       },
     });
@@ -311,7 +314,10 @@ export const PieChart = ({
             <div key={itemKey} id={`${chartId}-tooltip-${setKey}-${itemKey}`}>
               <p>{item}</p>
               <span>
-                {data.labels[setKey]}: {set.data[itemKey]}
+                {data.labels && Array.isArray(data.labels)
+                  ? getText(t.locale, data.labels[setKey])
+                  : getText(t.locale, data.labels)}
+                : {set.data[itemKey]}
               </span>
             </div>
           ))

@@ -9,5 +9,5 @@ The label for this set.
 <b>Signature:</b>
 
 ```typescript
-label: string;
+label: TTextObject;
 ```

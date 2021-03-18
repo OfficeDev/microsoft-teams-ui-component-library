@@ -18,5 +18,5 @@ export interface IChartDataSet
 |  --- | --- | --- |
 |  [data](./react-teams.ichartdataset.data.md) | number\[\] \| [IBubbleChartData](./react-teams.ibubblechartdata.md)<!-- -->\[\] | The scalar values of the set’s data. |
 |  [hidden?](./react-teams.ichartdataset.hidden.md) | boolean | <i>(Optional)</i> Whether this set should be ignored by the Chart. |
-|  [label](./react-teams.ichartdataset.label.md) | string | The label for this set. |
+|  [label](./react-teams.ichartdataset.label.md) | [TTextObject](./react-teams.ttextobject.md) | The label for this set. |
 

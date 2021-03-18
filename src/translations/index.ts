@@ -96,5 +96,8 @@ export default {
       "You have cancelled dragging the item called {itemTitle}.",
     "board lane instructions":
       "Press Enter to explore board lane items, then use Escape to shift focus back to the board lane.",
+    "toolbar overflow menu": "Toolbar overflow menu",
+    "could not load data": "Could not load data.",
+    "no data": "No data available.",
   } as TTranslations,
 };

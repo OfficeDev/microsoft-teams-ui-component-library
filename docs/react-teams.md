@@ -20,7 +20,7 @@
 
 |  Function | Description |
 |  --- | --- |
-|  [Chart\_2({ title, type, data, })](./react-teams.chart_2.md) |  |
+|  [Chart\_2({ title, type, data })](./react-teams.chart_2.md) |  |
 |  [Communication({ option, fields, onInteraction, })](./react-teams.communication.md) |  |
 |  [Dashboard({ widgets })](./react-teams.dashboard.md) |  |
 

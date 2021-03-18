@@ -7,14 +7,14 @@
 <b>Signature:</b>
 
 ```typescript
-export declare function Chart({ title, type, data, }: IChartProps): JSX.Element;
+export declare function Chart({ title, type, data }: IChartProps): JSX.Element;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  { title, type, data, } | [IChartProps](./react-teams.ichartprops.md) |  |
+|  { title, type, data } | [IChartProps](./react-teams.ichartprops.md) |  |
 
 <b>Returns:</b>
 

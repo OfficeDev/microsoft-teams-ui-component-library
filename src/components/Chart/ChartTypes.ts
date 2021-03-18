@@ -1,3 +1,5 @@
+import { TTextObject } from "../../translations";
+
 /**
  * The data to display in this Chart.
  */
@@ -6,7 +8,7 @@ export interface IChartData {
    * How the x-axis or pie slices should be labeled on the chart, if relevant. Some chart types will
    * not render this label.
    */
-  labels: string | string[];
+  labels: TTextObject | TTextObject[];
   /**
    * The Chart’s data, grouped into sets.
    */
@@ -29,7 +31,7 @@ export interface IChartDataSet {
   /**
    * The label for this set.
    */
-  label: string;
+  label: TTextObject;
   /**
    * The scalar values of the set’s data.
    */

@@ -17,6 +17,7 @@ import {
   chartLineStackedDataPointPatterns,
   lineChartPatterns,
 } from "../ChartPatterns";
+import { getText } from "../../../translations";
 
 export const LineStackedChart = ({
   title,
@@ -27,7 +28,7 @@ export const LineStackedChart = ({
   data: IChartData;
   siteVariables: SiteVariablesPrepared;
 }) => {
-  const { colorScheme, theme, colors } = siteVariables;
+  const { colorScheme, theme, colors, t } = siteVariables;
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
   const chartRef = React.useRef<Chart | undefined>();
   const chartId = React.useMemo(
@@ -49,7 +50,7 @@ export const LineStackedChart = ({
   const createDataPoints = (): Chart.ChartDataSets[] =>
     Array.from(data.datasets, (set, i) => {
       let dataPointConfig = {
-        label: set.label,
+        label: getText(t.locale, set.label),
         data: set.data,
         borderWidth: 1,
         borderColor: colorScheme.default.background,
@@ -123,7 +124,9 @@ export const LineStackedChart = ({
     chartRef.current = new Chart(ctx, {
       ...config,
       data: {
-        labels: data.labels,
+        labels: Array.isArray(data.labels)
+          ? data.labels.map((label) => getText(t.locale, label))
+          : getText(t.locale, data.labels),
         datasets: [],
       },
       plugins: [
@@ -327,7 +330,7 @@ export const LineStackedChart = ({
             <div key={itemKey} id={`${chartId}-tooltip-${setKey}-${itemKey}`}>
               <p>{item}</p>
               <span>
-                {set.label}: {set.data[itemKey]}
+                {getText(t.locale, set.label)}: {set.data[itemKey]}
               </span>
             </div>
           ))

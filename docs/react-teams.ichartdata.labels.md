@@ -9,5 +9,5 @@ How the x-axis or pie slices should be labeled on the chart, if relevant. Some c
 <b>Signature:</b>
 
 ```typescript
-labels: string | string[];
+labels: TTextObject | TTextObject[];
 ```

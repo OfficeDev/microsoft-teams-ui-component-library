@@ -67,7 +67,7 @@ export function Chart({ title, type, data }: IChartProps) {
   if (data && data.datasets && data.datasets.length > 6) {
     data.datasets = data.datasets.slice(0, 6);
     console.warn(
-      "Please follow design guidance and apply 6 or less data points per one chart."
+      "Please follow design guidance and apply 6 or fewer data points per one chart."
     );
   }
   const ChartContainer = CHARTS[type];
@@ -79,7 +79,7 @@ export function Chart({ title, type, data }: IChartProps) {
           <ChartTheme globalTheme={globalTheme}>
             <React.Suspense fallback={<Loader />}>
               {data ? (
-                data?.datasets.length || data?.labels.length ? (
+                data?.datasets.length || data?.labels?.length ? (
                   <ChartContainer
                     title={getText(t.locale, title)}
                     data={data}

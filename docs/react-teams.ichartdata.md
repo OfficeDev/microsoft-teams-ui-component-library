@@ -17,5 +17,5 @@ export interface IChartData
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [datasets](./react-teams.ichartdata.datasets.md) | [IChartDataSet](./react-teams.ichartdataset.md)<!-- -->\[\] | The Chart’s data, grouped into sets. |
-|  [labels](./react-teams.ichartdata.labels.md) | string \| string\[\] | How the x-axis or pie slices should be labeled on the chart, if relevant. Some chart types will not render this label. |
+|  [labels](./react-teams.ichartdata.labels.md) | [TTextObject](./react-teams.ttextobject.md) \| [TTextObject](./react-teams.ttextobject.md)<!-- -->\[\] | How the x-axis or pie slices should be labeled on the chart, if relevant. Some chart types will not render this label. |
 

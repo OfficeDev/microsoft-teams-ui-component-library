@@ -13,6 +13,7 @@ import {
 import { TeamsTheme } from "../../../themes";
 import { ChartContainer } from "./ChartContainer";
 import { lineChartPatterns } from "../ChartPatterns";
+import { getText } from "../../../translations";
 
 export const LineChart = ({
   title,
@@ -25,7 +26,7 @@ export const LineChart = ({
   siteVariables: SiteVariablesPrepared;
   gradients?: boolean;
 }) => {
-  const { colorScheme, theme } = siteVariables;
+  const { colorScheme, theme, t } = siteVariables;
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
   const chartRef = React.useRef<Chart | undefined>();
   const chartId = React.useMemo(
@@ -47,7 +48,7 @@ export const LineChart = ({
   const createDataPoints = (): Chart.ChartDataSets[] =>
     Array.from(data.datasets, (set, i) => {
       let dataPointConfig = {
-        label: set.label,
+        label: getText(t.locale, set.label),
         data: set.data,
         borderColor: chartDataPointColors[i],
         hoverBorderColor: chartDataPointColors[i],
@@ -119,7 +120,7 @@ export const LineChart = ({
       }
 
       let dataPointConfig = {
-        label: set.label,
+        label: getText(t.locale, set.label),
         data: set.data,
         borderColor: chartDataPointColors[i],
         hoverBorderColor: chartDataPointColors[i],
@@ -169,7 +170,9 @@ export const LineChart = ({
     chartRef.current = new Chart(ctx, {
       ...(chartConfig({ type: "line" }) as any),
       data: {
-        labels: data.labels,
+        labels: Array.isArray(data.labels)
+          ? data.labels.map((label) => getText(t.locale, label))
+          : getText(t.locale, data.labels),
         datasets: [],
       },
       plugins: [
@@ -382,7 +385,7 @@ export const LineChart = ({
             <div key={itemKey} id={`${chartId}-tooltip-${setKey}-${itemKey}`}>
               <p>{item}</p>
               <span>
-                {set.label}: {set.data[itemKey]}
+                {getText(t.locale, set.label)}: {set.data[itemKey]}
               </span>
             </div>
           ))
