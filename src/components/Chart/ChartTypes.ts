@@ -2,6 +2,7 @@ import { TTextObject } from "../../translations";
 
 /**
  * The data to display in this Chart.
+ * @public
  */
 export interface IChartData {
   /**
@@ -17,6 +18,7 @@ export interface IChartData {
 
 /**
  * A vector datum for bubble charts and related types.
+ * @public
  */
 export interface IBubbleChartData {
   x: number;
@@ -26,6 +28,7 @@ export interface IBubbleChartData {
 
 /**
  * One set of the Chart’s data.
+ * @public
  */
 export interface IChartDataSet {
   /**
@@ -45,6 +48,7 @@ export interface IChartDataSet {
 /**
  * Each chart type can be previewed in the [Data visualizations page of the Microsoft Teams UI Kit](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A4091),
  * or in [this library’s Storybook](https://dev-int.teams.microsoft.com/storybook/main/index.html?path=/story/components-charts--line-chart).
+ * @public
  */
 export enum EChartTypes {
   Line = "line",

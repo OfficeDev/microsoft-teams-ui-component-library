@@ -2,6 +2,7 @@ import { TTextObject } from "../translations";
 
 /**
  * An action a user can apply to an entity.
+ * @public
  */
 export type TAction = {
   /**
@@ -22,10 +23,14 @@ export type TAction = {
   multi?: boolean;
 };
 
+/**
+ * @public
+ */
 export type actionKey = string;
 
 /**
  * A collection of actions, keyed by the action ID.
+ * @public
  */
 export type TActions = {
   [actionKey: string]: TAction;
@@ -33,6 +38,7 @@ export type TActions = {
 
 /**
  * A User entity, which certain components can use as part of their content.
+ * @public
  */
 export type TUser = {
   image?: string;
@@ -41,11 +47,15 @@ export type TUser = {
 
 /**
  * A collection of Users, keyed by their unique ID.
+ * @public
  */
 export type TUsers = {
   [userKey: string]: TUser;
 };
 
+/**
+ * @internal
+ */
 export enum Surface {
   base = "base",
   raised = "raised",

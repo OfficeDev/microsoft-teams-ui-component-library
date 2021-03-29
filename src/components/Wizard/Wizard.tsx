@@ -23,6 +23,7 @@ import { TeamsTheme } from "../../themes";
  * An interaction payload triggered when the user clicks on a step in the sidebar. The subject will
  * be in the form of `wizard-step__{step_index}`, where `step_index` is the index of the
  * target step.
+ * @public
  */
 export interface IWizardSidebarInteraction {
   event: "click";
@@ -34,12 +35,14 @@ export interface IWizardSidebarInteraction {
  * An interaction event emitted by the Wizard component. The payload is either proxied from the Form
  * component rendered in the primary area as the active step, or is triggered when the user
  * interacts with any step listed in the sidebar.
+ * @public
  */
 export type TWizardInteraction = TFormInteraction | IWizardSidebarInteraction;
 
 /**
  * The Wizard component can be used to render a series of Forms. Designs for this component are
  * available in the [Wizard page of the Microsoft Teams UI Kit](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A4233).
+ * @public
  */
 export interface IWizardProps {
   /**
@@ -197,6 +200,9 @@ const WizardSidebar = ({
   );
 };
 
+/**
+ * @public
+ */
 export const Wizard = ({
   stepTitles,
   activeStepIndex,

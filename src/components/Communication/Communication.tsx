@@ -11,7 +11,7 @@ import { TeamsTheme } from "../../themes";
 import {
   CommunicationOptions,
   TCommunicationFields,
-  TCommunication,
+  TCommunicationProps,
   ICommunicationFields,
   ICommunicationFieldsWithThemedImage,
   ICommunicationIllustration,
@@ -31,12 +31,16 @@ import {
   THANKS_MESSAGE,
   WELCOME_MESSAGE,
 } from "./CommunicationOptions";
+import { getText } from "../../translations";
 
+/**
+ * @public
+ */
 export function Communication({
   option,
   fields,
   onInteraction,
-}: TCommunication) {
+}: TCommunicationProps) {
   const [componentTheme, setComponentTheme] = React.useState<TeamsTheme>(
     TeamsTheme.Default
   );
@@ -104,6 +108,7 @@ export function Communication({
     <FluentUIThemeConsumer
       render={(globalTheme) => {
         setComponentTheme(globalTheme.siteVariables.theme as TeamsTheme);
+        const { t } = globalTheme.siteVariables;
         return (
           <Flex
             vAlign="center"
@@ -201,8 +206,8 @@ export function Communication({
                   >
                     {actions.primary && (
                       <Button
-                        content={actions.primary.label}
-                        aria-label={actions.primary.label}
+                        content={getText(t.locale, actions.primary.label)}
+                        aria-label={getText(t.locale, actions.primary.label)}
                         styles={{ width: "100%" }}
                         primary
                         {...onClick(actions.primary.target)}
@@ -210,8 +215,8 @@ export function Communication({
                     )}
                     {actions.secondary && (
                       <Button
-                        content={actions.secondary.label}
-                        aria-label={actions.secondary.label}
+                        content={getText(t.locale, actions.secondary.label)}
+                        aria-label={getText(t.locale, actions.secondary.label)}
                         styles={{ width: "100%" }}
                         {...onClick(actions.secondary.target)}
                       />
@@ -219,7 +224,7 @@ export function Communication({
                     {actions.tertiary && (
                       <Button text primary>
                         <Text
-                          content={actions.tertiary.label}
+                          content={getText(t.locale, actions.tertiary.label)}
                           weight="light"
                           {...onClick(actions.tertiary.target)}
                         />

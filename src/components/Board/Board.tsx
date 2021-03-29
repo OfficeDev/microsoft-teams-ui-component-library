@@ -79,6 +79,7 @@ const defaultBoardItemCardLayout: IBoardItemCardLayout = {
 /**
  * This payload is emitted when the user updates the Board’s lanes, which occurs when the user adds
  * or removes a lane, or rearranges the lanes.
+ * @public
  */
 export interface IBoardInteractionUpdateLanes {
   event: "update";
@@ -89,6 +90,7 @@ export interface IBoardInteractionUpdateLanes {
 /**
  * This payload is emitted when the user updates the Board’s items, which occurs when the user
  * creates a new item, deletes an item, or edits an item.
+ * @public
  */
 export interface IBoardInteractionUpdateItems {
   event: "update";
@@ -99,6 +101,7 @@ export interface IBoardInteractionUpdateItems {
 /**
  * The interaction payloads emitted by the Board component is either an update of the Board’s lanes,
  * or an update of the Board’s items.
+ * @public
  */
 export type TBoardInteraction =
   | IBoardInteractionUpdateLanes
@@ -107,6 +110,7 @@ export type TBoardInteraction =
 /**
  * The Board component can be used to render kanban and task board experiences in your app. Designs
  * for this component are available in the [Task board page of the Microsoft Teams UI Kit](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A3840).
+ * @public
  */
 export interface IBoardProps {
   /**
@@ -516,6 +520,9 @@ const BoardStandalone = (props: IBoardStandaloneProps) => {
   );
 };
 
+/**
+ * @public
+ */
 export const Board = (props: IBoardProps) => {
   const [arrangedLanes, setStateArrangedLanes] = useState<TBoardLanes>(
     props.lanes

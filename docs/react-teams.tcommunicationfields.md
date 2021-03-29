@@ -4,6 +4,7 @@
 
 ## TCommunicationFields type
 
+
 <b>Signature:</b>
 
 ```typescript

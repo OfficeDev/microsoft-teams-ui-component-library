@@ -4,6 +4,7 @@
 
 ## Table variable
 
+
 <b>Signature:</b>
 
 ```typescript

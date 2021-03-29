@@ -16,6 +16,6 @@ export interface ICommunicationAction
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [label](./react-teams.icommunicationaction.label.md) | string | The text to display in the button for the action. |
+|  [label](./react-teams.icommunicationaction.label.md) | [TTextObject](./react-teams.ttextobject.md) | The text to display in the button for the action. |
 |  [target](./react-teams.icommunicationaction.target.md) | string | The ID of the action to pass along to the interaction payload. |
 

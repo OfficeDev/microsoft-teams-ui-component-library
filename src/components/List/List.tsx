@@ -19,12 +19,14 @@ import { TActions } from "../..";
 
 /**
  * List interactions are proxied from the Table or the Toolbar. All are clicks on actions.
+ * @public
  */
 export type TListInteraction = TTableInteraction | TToolbarInteraction;
 
 /**
  * The List component can be used to display a list of items as a table which can be sorted,
  * filtered, and searched.. Designs for this component are available in the [List page of the Microsoft Teams UI Kit](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A3790).
+ * @public
  */
 export interface IListProps extends ITableProps {
   /**
@@ -53,6 +55,9 @@ export interface IListProps extends ITableProps {
   onInteraction?: (interaction: TListInteraction) => void;
 }
 
+/**
+ * @public
+ */
 export const List = (props: IListProps) => {
   const tableProps = pick(props, [
     "columns",

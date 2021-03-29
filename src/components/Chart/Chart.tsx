@@ -47,6 +47,7 @@ const CHARTS = {
 /**
  * The Chart component can be used to render data visualizations. Designs for this component are
  * available in the [Data visualizations page of the Microsoft Teams UI Kit](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A4091).
+ * @public
  */
 export interface IChartProps {
   /**
@@ -63,6 +64,9 @@ export interface IChartProps {
   data?: IChartData;
 }
 
+/**
+ * @public
+ */
 export function Chart({ title, type, data }: IChartProps) {
   if (data && data.datasets && data.datasets.length > 6) {
     data.datasets = data.datasets.slice(0, 6);

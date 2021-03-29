@@ -62,6 +62,7 @@ export interface IBoardItemProps {
 
 /**
  * The badges to display for a Board item. Currently only the attachments badge is supported.
+ * @public
  */
 export interface IBoardItemBadges {
   /**
@@ -73,6 +74,7 @@ export interface IBoardItemBadges {
 
 /**
  * An item in a Board component.
+ * @public
  */
 export interface IBoardItem {
   /**
@@ -114,6 +116,7 @@ export interface IBoardItem {
 
 /**
  * The collection of a Board’s items, keyed by the items’ unique ID.
+ * @public
  */
 export type TBoardItems = {
   [itemKey: string]: IBoardItem;
@@ -122,6 +125,7 @@ export type TBoardItems = {
 /**
  * A prepared Board item places the item’s unique key within itself so the item can be handled on
  * its own.
+ * @public
  */
 export interface IPreparedBoardItem extends IBoardItem {
   itemKey: string;
@@ -131,6 +135,7 @@ export interface IPreparedBoardItem extends IBoardItem {
  * Prepared Board items are arranged in an object of arrays keyed by the lane’s unique ID.
  * The items in the arrays are in the order in which they appear to the user (after any interactions
  * the user may have triggered).
+ * @internal
  */
 export interface IPreparedBoardItems {
   [laneKey: string]: IPreparedBoardItem[];
@@ -138,6 +143,7 @@ export interface IPreparedBoardItems {
 
 /**
  * The way a Board item’s content is mapped to the adaptive card used to represent the item.
+ * @public
  */
 export interface IBoardItemCardLayout {
   /**

@@ -4,6 +4,7 @@
 
 ## Chart\_2() function
 
+
 <b>Signature:</b>
 
 ```typescript

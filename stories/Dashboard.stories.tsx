@@ -4,7 +4,7 @@ import { object } from "@storybook/addon-knobs";
 import { Dashboard } from "../src/components/Dashboard";
 import {
   IWidget,
-  WidgetSize,
+  EWidgetSize,
 } from "../src/components/Dashboard/DashboardWidget";
 import {
   ExclamationCircleIcon,
@@ -49,7 +49,7 @@ const defaultWidgets: IWidget[] = [
     title: "Card 1",
     desc: "Last updated Monday, April 4 at 11:15 AM (PT)",
     widgetActionGroup: calloutItemsExample,
-    size: WidgetSize.Triple,
+    size: EWidgetSize.Triple,
     body: [
       {
         id: "t1",
@@ -101,27 +101,27 @@ const defaultWidgets: IWidget[] = [
   },
   {
     title: "Card 2",
-    size: WidgetSize.Single,
+    size: EWidgetSize.Single,
     link: linkExample,
   },
   {
     title: "Card 3",
-    size: WidgetSize.Double,
+    size: EWidgetSize.Double,
     link: linkExample,
   },
   {
     title: "Card 4",
-    size: WidgetSize.Single,
+    size: EWidgetSize.Single,
     link: linkExample,
   },
   {
     title: "Card 5",
-    size: WidgetSize.Single,
+    size: EWidgetSize.Single,
     link: linkExample,
   },
   {
     title: "Card 6",
-    size: WidgetSize.Single,
+    size: EWidgetSize.Single,
     link: linkExample,
   },
 ];
@@ -144,7 +144,7 @@ const dataVizWidgets: IWidget[] = [
     title: "Line Chart",
     desc: "Last updated Monday, April 4 at 11:15 AM (PT)",
     widgetActionGroup: calloutItemsExample,
-    size: WidgetSize.Double,
+    size: EWidgetSize.Double,
     body: [
       {
         id: "t1",
@@ -232,7 +232,7 @@ const dataVizWidgets: IWidget[] = [
   },
   {
     title: "Doughnut chart sample",
-    size: WidgetSize.Single,
+    size: EWidgetSize.Single,
     link: linkExample,
     body: [
       {
@@ -258,7 +258,7 @@ const dataVizWidgets: IWidget[] = [
   },
   {
     title: "Bubble chart sample",
-    size: WidgetSize.Double,
+    size: EWidgetSize.Double,
     link: linkExample,
     body: [
       {
@@ -330,7 +330,7 @@ const dataVizWidgets: IWidget[] = [
   },
   {
     title: "Bubble chart sample",
-    size: WidgetSize.Double,
+    size: EWidgetSize.Double,
     link: linkExample,
     body: [
       {
@@ -360,7 +360,7 @@ const dataVizWidgets: IWidget[] = [
   },
   {
     title: "Pie chart",
-    size: WidgetSize.Single,
+    size: EWidgetSize.Single,
     link: linkExample,
     body: [
       {
@@ -386,7 +386,7 @@ const dataVizWidgets: IWidget[] = [
   },
   {
     title: "Stacked area chart sample",
-    size: WidgetSize.Double,
+    size: EWidgetSize.Double,
     body: [
       {
         id: "1",
@@ -420,7 +420,7 @@ const dataVizWidgets: IWidget[] = [
   },
   {
     title: "Gradient area chart sample",
-    size: WidgetSize.Double,
+    size: EWidgetSize.Double,
     link: linkExample,
     body: [
       {
@@ -450,7 +450,7 @@ const dataVizWidgets: IWidget[] = [
   },
   {
     title: "Bar chart sample",
-    size: WidgetSize.Single,
+    size: EWidgetSize.Single,
     body: [
       {
         id: "Bar chart sample",
@@ -476,7 +476,7 @@ const dataVizWidgets: IWidget[] = [
   },
   {
     title: "Stacked bar chart sample",
-    size: WidgetSize.Single,
+    size: EWidgetSize.Single,
     body: [
       {
         id: "Stacked bar chart sample",
@@ -506,7 +506,7 @@ const dataVizWidgets: IWidget[] = [
   },
   {
     title: "Horizontal bar chart sample",
-    size: WidgetSize.Single,
+    size: EWidgetSize.Single,
     body: [
       {
         id: "Horizontal bar chart sample",
@@ -532,7 +532,7 @@ const dataVizWidgets: IWidget[] = [
   },
   {
     title: "Grouped bar chart sample",
-    size: WidgetSize.Double,
+    size: EWidgetSize.Double,
     body: [
       {
         id: "1",
@@ -571,7 +571,7 @@ const dataVizWidgets: IWidget[] = [
   ,
   {
     title: "Horizontal stacked bar chart sample",
-    size: WidgetSize.Double,
+    size: EWidgetSize.Double,
     body: [
       {
         id: "Horizontal stacked bar chart sample",
@@ -601,7 +601,7 @@ const dataVizWidgets: IWidget[] = [
   },
   {
     title: "Error chart state",
-    size: WidgetSize.Single,
+    size: EWidgetSize.Single,
     body: [
       {
         id: "1",
@@ -615,7 +615,7 @@ const dataVizWidgets: IWidget[] = [
   },
   {
     title: "No data chart state",
-    size: WidgetSize.Single,
+    size: EWidgetSize.Single,
     body: [
       {
         id: "1",
@@ -636,7 +636,7 @@ const dataVizWidgets: IWidget[] = [
   },
   {
     title: "Card 6",
-    size: WidgetSize.Single,
+    size: EWidgetSize.Single,
     link: linkExample,
   },
 ];

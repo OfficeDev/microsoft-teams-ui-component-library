@@ -4,6 +4,7 @@
 
 ## Dashboard() function
 
+
 <b>Signature:</b>
 
 ```typescript

@@ -13,8 +13,8 @@
 |  [EInlineInputType](./react-teams.einlineinputtype.md) | The types of inline inputs. |
 |  [EInputBlockType](./react-teams.einputblocktype.md) | The types of input blocks. |
 |  [EInputWidth](./react-teams.einputwidth.md) | An inline input’s width. |
+|  [EWidgetSize](./react-teams.ewidgetsize.md) | The widget’s target size in the Dashboard’s grid layout. |
 |  [themeNames](./react-teams.themenames.md) |  |
-|  [WidgetSize](./react-teams.widgetsize.md) | The widget’s size relative to other widgets. |
 
 ## Functions
 
@@ -59,11 +59,12 @@
 |  [IMultilineTextInput](./react-teams.imultilinetextinput.md) | A multi-line text field. |
 |  [IPreparedBoardItem](./react-teams.ipreparedboarditem.md) | A prepared Board item places the item’s unique key within itself so the item can be handled on its own. |
 |  [IRadioButtonsInput](./react-teams.iradiobuttonsinput.md) | A set of radio buttons (from which only one can be selected). |
+|  [IRow](./react-teams.irow.md) | A collection of data to display for a row, keyed by the column ID except for <code>actions</code>, which contains the collection of actions to make available in the row’s overflow menu. |
 |  [ISection](./react-teams.isection.md) |  |
 |  [ITableProps](./react-teams.itableprops.md) | The Table component is used by the List template as its primary content. |
 |  [ITextField](./react-teams.itextfield.md) | A single-line text field. |
 |  [ITextInputBase](./react-teams.itextinputbase.md) | Properties shared by text inputs (single- and multi-line). |
-|  [IThemeProviderProps](./react-teams.ithemeproviderprops.md) |  |
+|  [IThemeProviderProps](./react-teams.ithemeproviderprops.md) | The Provider’s props configure how these components should be rendered: the color palette to use as <code>themeName</code>, the language as <code>lang</code>, and any languages to make available through <code>translations</code>. Its children should be a single component from this library. |
 |  [IToolbarProps](./react-teams.itoolbarprops.md) | The Toolbar component can be used to render a Toolbar above the main view, which can make actions, find, and filter available. Designs for this component are available in the \[Toolbar page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A4186). |
 |  [IWidget](./react-teams.iwidget.md) | A Dashboard widget is rendered as a card of a certain size, containing the content specified. |
 |  [IWidgetAction](./react-teams.iwidgetaction.md) | An action item displayed in a widget’s overflow menu. |
@@ -96,19 +97,19 @@
 |  [TBoardItems](./react-teams.tboarditems.md) | The collection of a Board’s items, keyed by the items’ unique ID. |
 |  [TBoardLane](./react-teams.tboardlane.md) | Board lanes currently only need a <code>title</code>. |
 |  [TBoardLanes](./react-teams.tboardlanes.md) | Each Board lane has a unique key, which is associated with the lane’s configuration. |
-|  [TCommunication](./react-teams.tcommunication.md) | The Communication component can be used to render empty state messages and other combinations of illustration, coaching text, and actions. Designs for this component are available in the \[Empty state page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A4042). |
 |  [TCommunicationFields](./react-teams.tcommunicationfields.md) |  |
+|  [TCommunicationProps](./react-teams.tcommunicationprops.md) | The Communication component can be used to render empty state messages and other combinations of illustration, coaching text, and actions. Designs for this component are available in the \[Empty state page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A4042). |
 |  [TFormErrors](./react-teams.tformerrors.md) | A collection of error messages associated with inputs, keyed by input ID. |
 |  [TFormInteraction](./react-teams.tforminteraction.md) | An interaction event emitted by the Form component. The payload always contains the Form’s state, which contains the values of all the Form’s inputs. |
 |  [TInlineField](./react-teams.tinlinefield.md) |  |
 |  [TInputBlock](./react-teams.tinputblock.md) | A block with a single input which occupies the full width of the form. |
 |  [TListInteraction](./react-teams.tlistinteraction.md) | List interactions are proxied from the Table or the Toolbar. All are clicks on actions. |
-|  [TLocale](./react-teams.tlocale.md) | The locale of the current view. |
+|  [TLocale](./react-teams.tlocale.md) | A locale as an \[IETF BCP 47 language tag\](https://tools.ietf.org/rfc/bcp/bcp47.txt). |
 |  [TSortable](./react-teams.tsortable.md) | Currently only alphabetical sort is available. |
 |  [TTableInteraction](./react-teams.ttableinteraction.md) | An interaction payload emitted by Table. |
 |  [TTextObject](./react-teams.ttextobject.md) | Text content to display. When the preferred locale is not available, the plain string or the only available locale will be used instead. |
 |  [TToolbarInteraction](./react-teams.ttoolbarinteraction.md) | The interaction payload sent when a user clicks on an action in the Toolbar. The action may have one or more subjects if the action applies to entities in the main view, or it may be <code>null</code> if the action has no subject. |
-|  [TTranslations](./react-teams.ttranslations.md) |  |
+|  [TTranslations](./react-teams.ttranslations.md) | A collection of strings for a certain locale. This library fetches translations by a <code>stringKey</code>, which is common between all translations. |
 |  [TUser](./react-teams.tuser.md) | A User entity, which certain components can use as part of their content. |
 |  [TUsers](./react-teams.tusers.md) | A collection of Users, keyed by their unique ID. |
 |  [TWizardInteraction](./react-teams.twizardinteraction.md) | An interaction event emitted by the Wizard component. The payload is either proxied from the Form component rendered in the primary area as the active step, or is triggered when the user interacts with any step listed in the sidebar. |

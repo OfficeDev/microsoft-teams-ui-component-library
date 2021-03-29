@@ -18,6 +18,7 @@ import { TeamsTheme } from "../../themes";
 
 /**
  * An action item displayed in a widget’s overflow menu.
+ * @public
  */
 export interface IWidgetAction {
   /**

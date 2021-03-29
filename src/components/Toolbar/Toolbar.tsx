@@ -35,6 +35,7 @@ type TToolbarItems = ShorthandCollection<
 
 /**
  * A collection of action groups, keyed by group ID.
+ * @public
  */
 export type TActionGroups = {
   [actionGroupKey: string]: TActions;
@@ -46,6 +47,7 @@ export type TFilters = ObjectShorthandCollection<TreeItemProps, never>;
  * The interaction payload sent when a user clicks on an action in the Toolbar. The action may
  * have one or more subjects if the action applies to entities in the main view, or it may be
  * `null` if the action has no subject.
+ * @public
  */
 export type TToolbarInteraction = {
   event: "click";
@@ -58,6 +60,7 @@ export type TToolbarInteraction = {
  * The Toolbar component can be used to render a Toolbar above the main view, which can make
  * actions, find, and filter available. Designs for this component are available in the [Toolbar
  * page of the Microsoft Teams UI Kit](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A4186).
+ * @public
  */
 export interface IToolbarProps {
   /**
@@ -195,7 +198,9 @@ const InFlowToolbarItem = ({ action, layout }: IInFlowToolbarItemProps) => {
       );
   }
 };
-
+/**
+ * @public
+ */
 export const Toolbar = (props: IToolbarProps) => {
   const { actionGroups, filters, filtersSingleSelect, find } = props;
 

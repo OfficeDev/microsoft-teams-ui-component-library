@@ -9,5 +9,5 @@ The text to display in the button for the action.
 <b>Signature:</b>
 
 ```typescript
-label: string;
+label: TTextObject;
 ```

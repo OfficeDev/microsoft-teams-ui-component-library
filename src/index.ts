@@ -27,7 +27,7 @@ export {
 export {
   Communication,
   CommunicationOptions,
-  TCommunication,
+  TCommunicationProps,
   TCommunicationFields,
   ICommunicationAction,
   ICommunicationFields,
@@ -41,7 +41,7 @@ export {
   IDashboard,
   IWidgetAction,
   IWidget,
-  WidgetSize,
+  EWidgetSize,
   IWidgetBodyContent,
   IWidgetLink,
 } from "./components/Dashboard";
@@ -52,6 +52,7 @@ export {
   Table,
   ITableProps,
   TTableInteraction,
+  IRow,
 } from "./components/Table/Table";
 export { TSortable, IColumn } from "./components/Table/tableBreakpoints";
 

@@ -30,6 +30,7 @@ import {
 /**
  * A collection of input values, keyed by input ID. If the input is a block of checkboxes or a
  * dropdown with multiple selection, the value will be an array of option IDs.
+ * @public
  */
 export interface IFormState {
   [inputId: string]: string | string[];
@@ -37,12 +38,14 @@ export interface IFormState {
 
 /**
  * A collection of error messages associated with inputs, keyed by input ID.
+ * @public
  */
 export type TFormErrors = { [inputId: string]: TTextObject };
 
 /**
  * An interaction event emitted by the Form component. The payload always contains the Form’s state,
  * which contains the values of all the Form’s inputs.
+ * @public
  */
 export type TFormInteraction = {
   event: "submit" | "cancel" | "back";
@@ -53,6 +56,7 @@ export type TFormInteraction = {
 /**
  * The Form component can be used to render an interactive Form. Designs for this component are
  * available in the [Forms page of the Microsoft Teams UI Kit](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=5271%3A221958).
+ * @public
  */
 export interface IFormProps {
   /**
@@ -100,6 +104,7 @@ export interface IFormDialogProps extends IFormProps {
 /**
  * A Form which is a step in a Wizard has the same inputs as Form with an additional option to
  * override the text of the Wizard’s back button for the current step.
+ * @public
  */
 export interface IFormWizardStepProps extends IFormProps {
   back?: TTextObject;
@@ -137,6 +142,9 @@ const initialFormState = (sections: ISection[]) => {
   );
 };
 
+/**
+ * @public
+ */
 export const Form = ({
   cancel,
   errors,

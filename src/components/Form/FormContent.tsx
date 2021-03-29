@@ -34,6 +34,7 @@ import { IFormProps, IFormState, TFormErrors } from "./Form";
 
 /**
  * Properties for each option for Enumerable inputs (radio buttons, checkboxes, dropdowns).
+ * @public
  */
 export interface IEnumerableInputOption {
   /**
@@ -48,6 +49,7 @@ export interface IEnumerableInputOption {
 
 /**
  * Properties shared by all enumerable inputs (radio buttons, checkboxes, dropdowns).
+ * @public
  */
 export interface IEnumerableInputBase {
   /**
@@ -66,6 +68,7 @@ export interface IEnumerableInputBase {
 
 /**
  * Properties shared by singleton enumerable inputs (radio buttons, single-select dropdowns).
+ * @public
  */
 export interface IEnumerableSingletonInputBase extends IEnumerableInputBase {
   /**
@@ -77,6 +80,7 @@ export interface IEnumerableSingletonInputBase extends IEnumerableInputBase {
 /**
  * Properties shared by enumerable inputs supporting multiple selections (checkboxes,
  * multiple-select dropdowns).
+ * @public
  */
 export interface IEnumerableMultipleInputBase extends IEnumerableInputBase {
   /**
@@ -87,6 +91,7 @@ export interface IEnumerableMultipleInputBase extends IEnumerableInputBase {
 
 /**
  * Properties shared by text inputs (single- and multi-line).
+ * @public
  */
 export interface ITextInputBase {
   /**
@@ -109,6 +114,7 @@ export interface ITextInputBase {
 
 /**
  * An inline input’s width.
+ * @public
  */
 export enum EInputWidth {
   /**
@@ -131,6 +137,7 @@ interface IPreparedInput {
 
 /**
  * The types of inline inputs.
+ * @public
  */
 export enum EInlineInputType {
   text = "text",
@@ -139,6 +146,7 @@ export enum EInlineInputType {
 
 /**
  * The types of input blocks.
+ * @public
  */
 export enum EInputBlockType {
   inlineInputs = "inline-inputs",
@@ -150,6 +158,7 @@ export enum EInputBlockType {
 
 /**
  * A single-line text field.
+ * @public
  */
 export interface ITextField extends ITextInputBase {
   type: EInlineInputType.text;
@@ -158,6 +167,7 @@ export interface ITextField extends ITextInputBase {
 
 /**
  * A multi-line text field.
+ * @public
  */
 export interface IMultilineTextInput extends ITextInputBase {
   type: EInputBlockType.multilineText;
@@ -167,10 +177,14 @@ interface IPreparedMultilineTextInput
   extends IMultilineTextInput,
     IPreparedInput {}
 
+/**
+ * @public
+ */
 export type TInlineField = IDropdownInput | IDropdownMultipleInput | ITextField;
 
 /**
  * A block containing a set of one or more text inputs or dropdowns.
+ * @public
  */
 export interface IInlineInputsBlock {
   type: EInputBlockType.inlineInputs;
@@ -181,6 +195,7 @@ interface IPreparedInlineInputs extends IInlineInputsBlock, IPreparedInput {}
 
 /**
  * A single-select dropdown.
+ * @public
  */
 export interface IDropdownInput extends IEnumerableSingletonInputBase {
   type: EInlineInputType.dropdown | EInputBlockType.dropdown;
@@ -192,6 +207,7 @@ interface IPreparedDropdownInput extends IDropdownInput, IPreparedInput {}
 
 /**
  * A multiple-select dropdown.
+ * @public
  */
 export interface IDropdownMultipleInput extends IEnumerableMultipleInputBase {
   type: EInlineInputType.dropdown | EInputBlockType.dropdown;
@@ -205,6 +221,7 @@ interface IPreparedDropdownMultipleInput
 
 /**
  * A set of radio buttons (from which only one can be selected).
+ * @public
  */
 export interface IRadioButtonsInput extends IEnumerableSingletonInputBase {
   type: EInputBlockType.radioButtons;
@@ -216,6 +233,7 @@ interface IPreparedRadioButtonsInput
 
 /**
  * A set of checkboxes.
+ * @public
  */
 export interface ICheckboxesInput extends IEnumerableMultipleInputBase {
   type: EInputBlockType.checkboxes;
@@ -225,6 +243,7 @@ interface IPreparedCheckboxesInput extends ICheckboxesInput, IPreparedInput {}
 
 /**
  * A block with a single input which occupies the full width of the form.
+ * @public
  */
 export type TInputBlock =
   | IMultilineTextInput
@@ -241,6 +260,9 @@ type TPreparedInputBlock =
   | IPreparedRadioButtonsInput
   | IPreparedCheckboxesInput;
 
+/**
+ * @public
+ */
 export interface ISection {
   /**
    * The title of the section, rendered as an `h#` element.

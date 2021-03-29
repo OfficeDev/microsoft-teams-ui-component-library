@@ -4,10 +4,10 @@
 
 ## TLocale type
 
-The locale of the current view.
+A locale as an \[IETF BCP 47 language tag\](https://tools.ietf.org/rfc/bcp/bcp47.txt).
 
 <b>Signature:</b>
 
 ```typescript
-export declare type TLocale = "en-US" | "fa" | string;
+export declare type TLocale = string;
 ```

@@ -4,17 +4,18 @@
 
 ## Communication() function
 
+
 <b>Signature:</b>
 
 ```typescript
-export declare function Communication({ option, fields, onInteraction, }: TCommunication): JSX.Element;
+export declare function Communication({ option, fields, onInteraction, }: TCommunicationProps): JSX.Element;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  { option, fields, onInteraction, } | [TCommunication](./react-teams.tcommunication.md) |  |
+|  { option, fields, onInteraction, } | [TCommunicationProps](./react-teams.tcommunicationprops.md) |  |
 
 <b>Returns:</b>
 

@@ -1,7 +1,9 @@
 import { TeamsTheme } from "../../themes";
+import { TTextObject } from "../../translations";
 
 /**
  * The illustration, text, and actions (if any) to use by default as the content of this component.
+ * @public
  */
 export enum CommunicationOptions {
   Default = "default",
@@ -15,6 +17,7 @@ export enum CommunicationOptions {
 /**
  * The interaction payload emitted by this component will only come from click interactions on any
  * action buttons specified in the props.
+ * @public
  */
 export type TCommunicationInteraction = {
   event: "click";
@@ -25,8 +28,9 @@ export type TCommunicationInteraction = {
  * The Communication component can be used to render empty state messages and other combinations of
  * illustration, coaching text, and actions. Designs for this component are available in the [Empty
  * state page of the Microsoft Teams UI Kit](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A4042).
+ * @public
  */
-export type TCommunication =
+export type TCommunicationProps =
   | {
       option?: CommunicationOptions;
       fields: TCommunicationFields;
@@ -38,12 +42,16 @@ export type TCommunication =
       onInteraction?: (interaction: TCommunicationInteraction) => void;
     };
 
+/**
+ * @public
+ */
 export type TCommunicationFields =
   | ICommunicationFields
   | ICommunicationFieldsWithThemedImage;
 
 /**
  * The specific content to display in the component.
+ * @public
  */
 export interface ICommunicationFields {
   /**
@@ -67,6 +75,7 @@ export interface ICommunicationFields {
 /**
  * A variation of `ICommunicationFields` using a `themedImage` instead of `image`, which responds
  * to the user’s active theme (light, dark, or high-contrast).
+ * @public
  */
 export interface ICommunicationFieldsWithThemedImage
   extends Omit<ICommunicationFields, "image"> {
@@ -76,6 +85,7 @@ export interface ICommunicationFieldsWithThemedImage
 /**
  * The image to use at the beginning of a Communication component’s content. This does not respond
  * to the user’s active theme, so will remain the same across themes.
+ * @public
  */
 export interface ICommunicationImage {
   /**
@@ -90,6 +100,7 @@ export interface ICommunicationImage {
 
 /**
  * An internal type for illustrations provided as part of this library.
+ * @public
  */
 export interface ICommunicationIllustration {
   [TeamsTheme.Default]: React.ReactNode;
@@ -100,6 +111,7 @@ export interface ICommunicationIllustration {
 /**
  * The image to use at the beginning of a Communication component’s content. The user’s active theme
  * determines which image to display.
+ * @public
  */
 export interface ICommunicationThemedImage
   extends Omit<ICommunicationImage, "src"> {
@@ -123,6 +135,7 @@ export interface ICommunicationThemedImage
  * - secondary
  * - tertiary
  * This means up to 3 actions can be rendered.
+ * @public
  */
 export type CommunicationActions =
   | {
@@ -143,13 +156,13 @@ export type CommunicationActions =
 
 /**
  * An action rendered at the end of the Communication component’s content.
+ * @public
  */
 export interface ICommunicationAction {
-  // TODO [wsn]: this should probably become a TTextObject
   /**
    * The text to display in the button for the action.
    */
-  label: string;
+  label: TTextObject;
   /**
    * The ID of the action to pass along to the interaction payload.
    */

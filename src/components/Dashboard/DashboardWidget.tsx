@@ -13,9 +13,10 @@ import {
 import { DashboardCallout, IWidgetAction } from "./DashboardCallout";
 
 /**
- * The widget’s size relative to other widgets.
+ * The widget’s target size in the Dashboard’s grid layout.
+ * @public
  */
-export enum WidgetSize {
+export enum EWidgetSize {
   /**
    * The widget will occupy 1×1 grid cells.
    */
@@ -36,9 +37,10 @@ export enum WidgetSize {
 
 /**
  * A Dashboard widget is rendered as a card of a certain size, containing the content specified.
+ * @public
  */
 export interface IWidget {
-  size: WidgetSize;
+  size: EWidgetSize;
   /**
    * The title of the widget, rendered in a header style.
    */
@@ -66,7 +68,7 @@ export const Widget = ({
   size,
 }: {
   children: ReactNode;
-  size: WidgetSize;
+  size: EWidgetSize;
 }) => {
   const cardStyle = {
     gridColumnEnd: "auto",
@@ -75,14 +77,14 @@ export const Widget = ({
       gridColumnEnd: "span 3",
     },
   };
-  if (size === WidgetSize.Double) {
+  if (size === EWidgetSize.Double) {
     cardStyle.gridColumnEnd = "span 2";
   }
-  if (size === WidgetSize.Box) {
+  if (size === EWidgetSize.Box) {
     cardStyle.gridColumnEnd = "span 2";
     cardStyle.gridRowEnd = "span 2";
   }
-  if (size === WidgetSize.Triple) {
+  if (size === EWidgetSize.Triple) {
     cardStyle.gridColumnEnd = "span 3";
   }
   return (
@@ -142,6 +144,7 @@ const EmptyState = ({ borderColor }: { borderColor: string }) => {
 
 /**
  * A piece of content to make available in the widget.
+ * @public
  */
 export interface IWidgetBodyContent {
   /**
@@ -220,6 +223,9 @@ export const WidgetBody = ({
   );
 };
 
+/**
+ * @public
+ */
 export interface IWidgetLink {
   href: string;
 }

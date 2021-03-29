@@ -4,6 +4,7 @@
 
 ## IColumn interface
 
+
 <b>Signature:</b>
 
 ```typescript

@@ -4,6 +4,7 @@
 
 ## Toolbar variable
 
+
 <b>Signature:</b>
 
 ```typescript

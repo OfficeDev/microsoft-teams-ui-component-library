@@ -3,9 +3,13 @@ import { TTextObject } from "../../translations";
 
 /**
  * Currently only alphabetical sort is available.
+ * @public
  */
 export type TSortable = "alphabetical" | false;
 
+/**
+ * @public
+ */
 export interface IColumn {
   /**
    * The text content of the column's header cell.

@@ -54,6 +54,7 @@ export type TSelected = Set<rowKey>;
 /**
  * A collection of data to display for a row, keyed by the column ID except for `actions`, which
  * contains the collection of actions to make available in the row’s overflow menu.
+ * @public
  */
 export interface IRow {
   [columnKey: string]: string | TActions | undefined;
@@ -62,6 +63,7 @@ export interface IRow {
 
 /**
  * An interaction payload emitted by Table.
+ * @public
  */
 export type TTableInteraction = {
   event: "click";
@@ -72,6 +74,7 @@ export type TTableInteraction = {
 
 /**
  * The Table component is used by the List template as its primary content.
+ * @public
  */
 export interface ITableProps extends PropsOfElement<"div"> {
   /**
@@ -163,6 +166,9 @@ const defaultSortOrder: sortOrder = ["__rowKey__", "desc"];
 
 const passThrough = (arg: any) => arg;
 
+/**
+ * @public
+ */
 export const Table = (props: ITableProps) => {
   const rowKeys = Object.keys(props.rows);
   const columnKeys = Object.keys(props.columns);

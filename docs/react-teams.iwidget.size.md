@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-size: WidgetSize;
+size: EWidgetSize;
 ```

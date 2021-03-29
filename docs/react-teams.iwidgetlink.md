@@ -4,6 +4,7 @@
 
 ## IWidgetLink interface
 
+
 <b>Signature:</b>
 
 ```typescript

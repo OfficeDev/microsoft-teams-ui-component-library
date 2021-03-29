@@ -4,6 +4,8 @@
 
 ## TTranslations type
 
+A collection of strings for a certain locale. This library fetches translations by a `stringKey`<!-- -->, which is common between all translations.
+
 <b>Signature:</b>
 
 ```typescript

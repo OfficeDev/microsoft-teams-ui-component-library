@@ -4,6 +4,8 @@
 
 ## IThemeProviderProps interface
 
+The Provider’s props configure how these components should be rendered: the color palette to use as `themeName`<!-- -->, the language as `lang`<!-- -->, and any languages to make available through `translations`<!-- -->. Its children should be a single component from this library.
+
 <b>Signature:</b>
 
 ```typescript
