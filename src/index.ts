@@ -1,10 +1,13 @@
-export { HVCThemeProvider as Provider } from "./lib/withTheme";
+export {
+  HVCThemeProvider as Provider,
+  IThemeProviderProps,
+} from "./lib/withTheme";
 
 export { TeamsTheme as themeNames } from "./themes";
 
 export { actionKey, TAction, TActions, TUser, TUsers } from "./types/types";
 
-export { TLocale, TTextObject } from "./translations";
+export { TLocale, TTextObject, TTranslations } from "./translations";
 
 export {
   Board,
@@ -16,6 +19,7 @@ export {
 export { TBoardLanes, TBoardLane } from "./components/Board/BoardLane";
 export {
   IBoardItem,
+  TBoardItems,
   IPreparedBoardItem,
   IBoardItemCardLayout,
 } from "./components/Board/BoardItem";

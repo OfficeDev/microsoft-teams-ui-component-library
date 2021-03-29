@@ -4,6 +4,8 @@
 
 ### [Playground ↗️][sb] | [Sample app ↗️][as]
 
+[**API Documentation**](./docs/react-teams.md)
+
 This library of React components implements many of the designs released in the [**Microsoft Teams UI Kit**][fc]. With these components, your Teams app can offer accessible, high-quality experiences that align with Microsoft Teams.
 
 ## Installation
@@ -70,11 +72,19 @@ Components with interactivity accept an `onInteraction` handler, which calls you
 }
 ```
 
-This payload differs depending on the component and the kinds of interactions it supports; consider checking the type of `onInteraction` on the component you want to use.
+This payload differs depending on the component and the kinds of interactions it supports; consider checking the type of `onInteraction` on the component you want to use in [the API docs](./docs/react-teams.md).
 
 ## Localization
 
-Developers can override all text with their own wording by providing a `TTranslations` object to the `translations` prop on the `HVCThemeProvider` component. US English is already built-in.
+Developers can override all text with their own wording by providing a [`TTranslations`](./docs/react-teams.ttranslations.md) object to the `translations` prop on the [`HVCThemeProvider`](./docs/react-teams.provider.md) component. US English is already built-in.
+
+Any component props which become rendered text in the UI are defined as a [`TTextObject`](./docs/react-teams.ttextobject.md), which lets you configure what to display in supported locales.
+
+## API Docs
+
+You can read more about each component’s specific props and their types in the API docs in the `docs` folder. The index for the entire project is [`docs/react-teams.md`](./docs/react-teams.md).
+
+The best place to start for each component is its `I{Component}Props`, where `Component` is the component name, e.g. the main API docs for Board is [`IBoardProps`](./docs/react-teams.iboardprops.md).
 
 ## Improving this library
 

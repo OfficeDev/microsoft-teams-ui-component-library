@@ -17,7 +17,7 @@ export interface IBoardProps
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [boardItemCardLayout?](./react-teams.iboardprops.boarditemcardlayout.md) | [IBoardItemCardLayout](./react-teams.iboarditemcardlayout.md) | <i>(Optional)</i> If the cards representing the Board’s items should be different from the default, that design can be configured here. |
-|  [items](./react-teams.iboardprops.items.md) | TBoardItems | The Board’s items. |
+|  [items](./react-teams.iboardprops.items.md) | [TBoardItems](./react-teams.tboarditems.md) | The Board’s items. |
 |  [lanes](./react-teams.iboardprops.lanes.md) | [TBoardLanes](./react-teams.tboardlanes.md) | The Board’s lanes, or columns. |
 |  [onInteraction?](./react-teams.iboardprops.oninteraction.md) | (interaction: [TBoardInteraction](./react-teams.tboardinteraction.md)<!-- -->) =&gt; void | <i>(Optional)</i> The Board’s interaction handler, called when the user changes the Board’s items or lanes. |
 |  [users](./react-teams.iboardprops.users.md) | [TUsers](./react-teams.tusers.md) | The users the Board’s items may associate with. To improve performance, this object should contain only the users associated with any items in the Board. |

@@ -63,6 +63,7 @@
 |  [ITableProps](./react-teams.itableprops.md) | The Table component is used by the List template as its primary content. |
 |  [ITextField](./react-teams.itextfield.md) | A single-line text field. |
 |  [ITextInputBase](./react-teams.itextinputbase.md) | Properties shared by text inputs (single- and multi-line). |
+|  [IThemeProviderProps](./react-teams.ithemeproviderprops.md) |  |
 |  [IToolbarProps](./react-teams.itoolbarprops.md) | The Toolbar component can be used to render a Toolbar above the main view, which can make actions, find, and filter available. Designs for this component are available in the \[Toolbar page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A4186). |
 |  [IWidget](./react-teams.iwidget.md) | A Dashboard widget is rendered as a card of a certain size, containing the content specified. |
 |  [IWidgetAction](./react-teams.iwidgetaction.md) | An action item displayed in a widget’s overflow menu. |
@@ -92,6 +93,7 @@
 |  [TActionGroups](./react-teams.tactiongroups.md) | A collection of action groups, keyed by group ID. |
 |  [TActions](./react-teams.tactions.md) | A collection of actions, keyed by the action ID. |
 |  [TBoardInteraction](./react-teams.tboardinteraction.md) | The interaction payloads emitted by the Board component is either an update of the Board’s lanes, or an update of the Board’s items. |
+|  [TBoardItems](./react-teams.tboarditems.md) | The collection of a Board’s items, keyed by the items’ unique ID. |
 |  [TBoardLane](./react-teams.tboardlane.md) | Board lanes currently only need a <code>title</code>. |
 |  [TBoardLanes](./react-teams.tboardlanes.md) | Each Board lane has a unique key, which is associated with the lane’s configuration. |
 |  [TCommunication](./react-teams.tcommunication.md) | The Communication component can be used to render empty state messages and other combinations of illustration, coaching text, and actions. Designs for this component are available in the \[Empty state page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A4042). |
@@ -106,6 +108,7 @@
 |  [TTableInteraction](./react-teams.ttableinteraction.md) | An interaction payload emitted by Table. |
 |  [TTextObject](./react-teams.ttextobject.md) | Text content to display. When the preferred locale is not available, the plain string or the only available locale will be used instead. |
 |  [TToolbarInteraction](./react-teams.ttoolbarinteraction.md) | The interaction payload sent when a user clicks on an action in the Toolbar. The action may have one or more subjects if the action applies to entities in the main view, or it may be <code>null</code> if the action has no subject. |
+|  [TTranslations](./react-teams.ttranslations.md) |  |
 |  [TUser](./react-teams.tuser.md) | A User entity, which certain components can use as part of their content. |
 |  [TUsers](./react-teams.tusers.md) | A collection of Users, keyed by their unique ID. |
 |  [TWizardInteraction](./react-teams.twizardinteraction.md) | An interaction event emitted by the Wizard component. The payload is either proxied from the Form component rendered in the primary area as the active step, or is triggered when the user interacts with any step listed in the sidebar. |
