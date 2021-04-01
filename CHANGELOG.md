@@ -1,8 +1,16 @@
 # Change Log - @fluentui/react-teams
 
-This log was last generated on Thu, 01 Apr 2021 22:29:03 GMT and should not be manually modified.
+This log was last generated on Thu, 01 Apr 2021 22:37:40 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 3.2.0
+
+Thu, 01 Apr 2021 22:37:40 GMT
+
+### Minor changes
+
+- Integrate Communication component with List for empty states. (v-wishow@microsoft.com)
 
 ## 3.1.0
 
