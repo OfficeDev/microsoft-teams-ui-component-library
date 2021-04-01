@@ -1,7 +1,6 @@
 import React from "react";
-import { withKnobs, object } from "@storybook/addon-knobs";
+import { object } from "@storybook/addon-knobs";
 import { actions } from "@storybook/addon-actions";
-import { withA11y } from "@storybook/addon-a11y";
 import { withDesign } from "storybook-addon-designs";
 
 import {

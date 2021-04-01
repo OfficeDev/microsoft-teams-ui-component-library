@@ -5,7 +5,6 @@ import { random } from "../src/components/Chart/ChartUtils";
 import { Card, Flex } from "@fluentui/react-northstar";
 import fakerEN from "faker/locale/en_US";
 import fakerFA from "faker/locale/fa";
-import range from "lodash/range";
 
 const fake = (template: string) => {
   return { "en-US": fakerEN.fake(template), fa: fakerFA.fake(template) };

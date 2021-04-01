@@ -9,7 +9,8 @@ import fakerFA from "faker/locale/fa";
 
 import { Button } from "@fluentui/react-northstar";
 
-import { Wizard, WizardDialog } from "../src";
+import { Wizard } from "../src";
+import { WizardDialog } from "../src/components/Wizard/Wizard";
 import { IFormWizardStepProps } from "../src/components/Form/Form";
 import {
   EInlineInputType,

@@ -13,7 +13,7 @@ import {
   ShareGenericIcon,
   Text,
 } from "@fluentui/react-northstar";
-import { Chart, EChartTypes } from "../src/components/Chart";
+import { Chart, EChartTypes } from "../src";
 import { random } from "../src/components/Chart/ChartUtils";
 
 export default {
@@ -139,7 +139,7 @@ export const Default = () => {
 
 Default.parameters = figmaSource;
 
-const dataVizWidgets: IWidget[] = [
+const dataVizWidgets = [
   {
     title: "Line Chart",
     desc: "Last updated Monday, April 4 at 11:15 AM (PT)",
@@ -255,7 +255,7 @@ const dataVizWidgets: IWidget[] = [
         ),
       },
     ],
-  },
+  } as IWidget,
   {
     title: "Bubble chart sample",
     size: EWidgetSize.Double,
@@ -327,7 +327,7 @@ const dataVizWidgets: IWidget[] = [
         ),
       },
     ],
-  },
+  } as IWidget,
   {
     title: "Bubble chart sample",
     size: EWidgetSize.Double,
@@ -357,7 +357,7 @@ const dataVizWidgets: IWidget[] = [
         ),
       },
     ],
-  },
+  } as IWidget,
   {
     title: "Pie chart",
     size: EWidgetSize.Single,
@@ -383,7 +383,7 @@ const dataVizWidgets: IWidget[] = [
         ),
       },
     ],
-  },
+  } as IWidget,
   {
     title: "Stacked area chart sample",
     size: EWidgetSize.Double,
@@ -417,7 +417,7 @@ const dataVizWidgets: IWidget[] = [
       },
     ],
     link: linkExample,
-  },
+  } as IWidget,
   {
     title: "Gradient area chart sample",
     size: EWidgetSize.Double,
@@ -447,7 +447,7 @@ const dataVizWidgets: IWidget[] = [
         ),
       },
     ],
-  },
+  } as IWidget,
   {
     title: "Bar chart sample",
     size: EWidgetSize.Single,
@@ -473,7 +473,7 @@ const dataVizWidgets: IWidget[] = [
       },
     ],
     link: linkExample,
-  },
+  } as IWidget,
   {
     title: "Stacked bar chart sample",
     size: EWidgetSize.Single,
@@ -503,7 +503,7 @@ const dataVizWidgets: IWidget[] = [
       },
     ],
     link: linkExample,
-  },
+  } as IWidget,
   {
     title: "Horizontal bar chart sample",
     size: EWidgetSize.Single,
@@ -529,7 +529,7 @@ const dataVizWidgets: IWidget[] = [
       },
     ],
     link: linkExample,
-  },
+  } as IWidget,
   {
     title: "Grouped bar chart sample",
     size: EWidgetSize.Double,
@@ -567,8 +567,7 @@ const dataVizWidgets: IWidget[] = [
       },
     ],
     link: linkExample,
-  },
-  ,
+  } as IWidget,
   {
     title: "Horizontal stacked bar chart sample",
     size: EWidgetSize.Double,
@@ -598,7 +597,7 @@ const dataVizWidgets: IWidget[] = [
       },
     ],
     link: linkExample,
-  },
+  } as IWidget,
   {
     title: "Error chart state",
     size: EWidgetSize.Single,
@@ -612,7 +611,7 @@ const dataVizWidgets: IWidget[] = [
       },
     ],
     link: linkExample,
-  },
+  } as IWidget,
   {
     title: "No data chart state",
     size: EWidgetSize.Single,
@@ -633,12 +632,12 @@ const dataVizWidgets: IWidget[] = [
       },
     ],
     link: linkExample,
-  },
+  } as IWidget,
   {
     title: "Card 6",
     size: EWidgetSize.Single,
     link: linkExample,
-  },
+  } as IWidget,
 ];
 
 const dataVizConfig = { widgets: dataVizWidgets };
