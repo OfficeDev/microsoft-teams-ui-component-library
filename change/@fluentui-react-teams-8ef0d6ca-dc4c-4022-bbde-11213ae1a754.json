@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "Integrate Communication component with List for empty states.",
+  "packageName": "@fluentui/react-teams",
+  "email": "v-wishow@microsoft.com",
+  "dependentChangeType": "patch"
+}

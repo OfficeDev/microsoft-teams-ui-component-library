@@ -1,4 +1,5 @@
 import { TeamsTheme } from "../../themes";
+import { TTextObject } from "../../translations";
 
 export enum CommunicationOptions {
   Default = "default",
@@ -31,8 +32,8 @@ export type TCommunicationFields =
   | ICommunicationFieldsWithThemedImage;
 
 export interface ICommunicationFields {
-  title?: string;
-  desc?: string;
+  title?: TTextObject;
+  desc?: TTextObject;
   image?: ICommunicationImage;
   actions?: CommunicationActions;
 }
@@ -79,6 +80,6 @@ export type CommunicationActions =
     };
 
 export interface ICommunicationAction {
-  label: string;
+  label: TTextObject;
   target: string;
 }

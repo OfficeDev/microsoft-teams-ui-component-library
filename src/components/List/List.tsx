@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import pick from "lodash/pick";
+import { Box } from "@fluentui/react-northstar";
 import {
   Table,
   ITableProps,
@@ -15,9 +16,16 @@ import {
   TFilters,
   TToolbarInteraction,
 } from "../Toolbar/Toolbar";
-import { TActions } from "../..";
+import { TActions, Communication } from "../..";
+import { TCommunication, TCommunicationInteraction } from "../Communication";
+import { ProviderConsumer as FluentUIThemeConsumer } from "@fluentui/react-northstar/dist/es/components/Provider/ProviderConsumer";
+import { CommunicationOptions } from "../Communication";
+import { getText } from "../../translations";
 
-export type TListInteraction = TTableInteraction | TToolbarInteraction;
+export type TListInteraction =
+  | TTableInteraction
+  | TToolbarInteraction
+  | TCommunicationInteraction;
 
 export interface IListProps extends ITableProps {
   emptySelectionActionGroups: TActionGroups;
@@ -25,6 +33,7 @@ export interface IListProps extends ITableProps {
   filtersSingleSelect?: boolean;
   find?: boolean;
   onInteraction?: (interaction: TListInteraction) => void;
+  emptyState?: TCommunication;
 }
 
 export const List = (props: IListProps) => {
@@ -208,13 +217,35 @@ export const List = (props: IListProps) => {
         aria-controls="fluentui-teams__list-content"
         aria-label="List content controls"
       />
-      <Table
-        {...tableProps}
-        {...{ onSelectedChange, filterBy }}
-        aria-live="polite"
-        id="fluentui-teams__list-content"
-        aria-label="List content"
-      />
+      {Object.keys(props.rows).length > 0 ? (
+        <Table
+          {...tableProps}
+          {...{ onSelectedChange, filterBy }}
+          aria-live="polite"
+          id="fluentui-teams__list-content"
+          aria-label="List content"
+        />
+      ) : (
+        <FluentUIThemeConsumer
+          render={(globalTheme) => {
+            const { t } = globalTheme.siteVariables;
+            return (
+              <Box styles={{ height: "calc(100vh - 4.25rem)" }}>
+                <Communication
+                  {...(props.emptyState || {
+                    option: CommunicationOptions.Empty,
+                    fields: {
+                      title: getText(t.locale, t["list empty header"]),
+                      desc: getText(t.locale, t["list empty body"]),
+                    },
+                  })}
+                  onInteraction={props.onInteraction}
+                />
+              </Box>
+            );
+          }}
+        />
+      )}
     </>
   );
 };
