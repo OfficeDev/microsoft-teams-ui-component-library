@@ -4,12 +4,12 @@
 
 ## TListInteraction type
 
-List interactions are proxied from the Table or the Toolbar. All are clicks on actions.
+List interactions are proxied from the Table, the Toolbar, or the empty state Communication component. All are clicks on actions.
 
 <b>Signature:</b>
 
 ```typescript
-export declare type TListInteraction = TTableInteraction | TToolbarInteraction;
+export declare type TListInteraction = TTableInteraction | TToolbarInteraction | TCommunicationInteraction;
 ```
 <b>References:</b> [TTableInteraction](./react-teams.ttableinteraction.md)<!-- -->, [TToolbarInteraction](./react-teams.ttoolbarinteraction.md)
 

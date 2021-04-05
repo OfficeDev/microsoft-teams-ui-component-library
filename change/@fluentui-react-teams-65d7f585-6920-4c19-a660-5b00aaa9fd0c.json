@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "Implement Wizard component.",
-  "packageName": "@fluentui/react-teams",
-  "email": "v-wishow@microsoft.com",
-  "dependentChangeType": "patch"
-}

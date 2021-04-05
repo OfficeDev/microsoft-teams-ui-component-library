@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import pick from "lodash/pick";
+import { Box } from "@fluentui/react-northstar";
 import {
   Table,
   ITableProps,
@@ -15,13 +16,24 @@ import {
   TFilters,
   TToolbarInteraction,
 } from "../Toolbar/Toolbar";
-import { TActions } from "../..";
+import { TActions, Communication } from "../..";
+import {
+  TCommunicationProps,
+  TCommunicationInteraction,
+} from "../Communication";
+import { ProviderConsumer as FluentUIThemeConsumer } from "@fluentui/react-northstar/dist/es/components/Provider/ProviderConsumer";
+import { CommunicationOptions } from "../Communication";
+import { getText } from "../../translations";
 
 /**
- * List interactions are proxied from the Table or the Toolbar. All are clicks on actions.
+ * List interactions are proxied from the Table, the Toolbar, or the empty state Communication
+ * component. All are clicks on actions.
  * @public
  */
-export type TListInteraction = TTableInteraction | TToolbarInteraction;
+export type TListInteraction =
+  | TTableInteraction
+  | TToolbarInteraction
+  | TCommunicationInteraction;
 
 /**
  * The List component can be used to display a list of items as a table which can be sorted,
@@ -53,6 +65,10 @@ export interface IListProps extends ITableProps {
    * action for the List or for an item in the List.
    */
   onInteraction?: (interaction: TListInteraction) => void;
+  /**
+   * The Communication component to render if the content of this component is empty.
+   */
+  emptyState?: TCommunicationProps;
 }
 
 /**
@@ -239,13 +255,35 @@ export const List = (props: IListProps) => {
         aria-controls="fluentui-teams__list-content"
         aria-label="List content controls"
       />
-      <Table
-        {...tableProps}
-        {...{ onSelectedChange, filterBy }}
-        aria-live="polite"
-        id="fluentui-teams__list-content"
-        aria-label="List content"
-      />
+      {Object.keys(props.rows).length > 0 ? (
+        <Table
+          {...tableProps}
+          {...{ onSelectedChange, filterBy }}
+          aria-live="polite"
+          id="fluentui-teams__list-content"
+          aria-label="List content"
+        />
+      ) : (
+        <FluentUIThemeConsumer
+          render={(globalTheme) => {
+            const { t } = globalTheme.siteVariables;
+            return (
+              <Box styles={{ height: "calc(100vh - 4.25rem)" }}>
+                <Communication
+                  {...(props.emptyState || {
+                    option: CommunicationOptions.Empty,
+                    fields: {
+                      title: getText(t.locale, t["list empty header"]),
+                      desc: getText(t.locale, t["list empty body"]),
+                    },
+                  })}
+                  onInteraction={props.onInteraction}
+                />
+              </Box>
+            );
+          }}
+        />
+      )}
     </>
   );
 };

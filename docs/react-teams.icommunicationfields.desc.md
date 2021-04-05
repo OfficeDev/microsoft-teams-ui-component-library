@@ -9,5 +9,5 @@ The body text, rendered as body text below any title.
 <b>Signature:</b>
 
 ```typescript
-desc?: string;
+desc?: TTextObject;
 ```

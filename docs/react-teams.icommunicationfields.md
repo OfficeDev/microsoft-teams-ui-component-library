@@ -17,7 +17,7 @@ export interface ICommunicationFields
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [actions?](./react-teams.icommunicationfields.actions.md) | CommunicationActions | <i>(Optional)</i> The interactive buttons to render at the end of the content. |
-|  [desc?](./react-teams.icommunicationfields.desc.md) | string | <i>(Optional)</i> The body text, rendered as body text below any title. |
+|  [desc?](./react-teams.icommunicationfields.desc.md) | [TTextObject](./react-teams.ttextobject.md) | <i>(Optional)</i> The body text, rendered as body text below any title. |
 |  [image?](./react-teams.icommunicationfields.image.md) | [ICommunicationImage](./react-teams.icommunicationimage.md) | <i>(Optional)</i> The image to use above the text content. |
-|  [title?](./react-teams.icommunicationfields.title.md) | string | <i>(Optional)</i> The title, rendered as a header. |
+|  [title?](./react-teams.icommunicationfields.title.md) | [TTextObject](./react-teams.ttextobject.md) | <i>(Optional)</i> The title, rendered as a header. |
 

@@ -57,11 +57,11 @@ export interface ICommunicationFields {
   /**
    * The title, rendered as a header.
    */
-  title?: string;
+  title?: TTextObject;
   /**
    * The body text, rendered as body text below any title.
    */
-  desc?: string;
+  desc?: TTextObject;
   /**
    * The image to use above the text content.
    */

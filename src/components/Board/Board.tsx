@@ -35,7 +35,7 @@ import { getCode, keyboardKey } from "@fluentui/keyboard-key";
 
 import { BoardTheme } from "./BoardTheme";
 
-import { TUsers, Toolbar } from "../..";
+import { TUsers, Toolbar, TCommunicationProps, Communication } from "../..";
 
 import { getText, interpolate, TTranslations } from "../../translations";
 
@@ -55,6 +55,7 @@ import {
 } from "./BoardItem";
 
 import { BoardItemDialog, BoardItemDialogAction } from "./BoardItemDialog";
+import { CommunicationOptions } from "../Communication";
 
 const boardBehavior: Accessibility = () => ({
   attributes: {
@@ -131,6 +132,10 @@ export interface IBoardProps {
    * can be configured here.
    */
   boardItemCardLayout?: IBoardItemCardLayout;
+  /**
+   * The empty state Communication component to render if this Component has no content.
+   */
+  emptyState?: TCommunicationProps;
   /**
    * The Board’s interaction handler, called when the user changes the Board’s items or lanes.
    */
@@ -582,23 +587,35 @@ export const Board = (props: IBoardProps) => {
                   if (subject === "add_column") setAddingLane(true);
                 }}
               />
-              <BoardStandalone
-                {...{
-                  t,
-                  rtl,
-                  arrangedLanes,
-                  arrangedItems,
-                  setArrangedItems: setArrangedItems as Dispatch<
-                    SetStateAction<IPreparedBoardItems>
-                  >,
-                  addingLane,
-                  setAddingLane,
-                  setArrangedLanes: setArrangedLanes as Dispatch<
-                    SetStateAction<TBoardLanes>
-                  >,
-                }}
-                {...pick(props, ["users", "boardItemCardLayout"])}
-              />
+              {Object.keys(arrangedLanes).length > 0 || addingLane ? (
+                <BoardStandalone
+                  {...{
+                    t,
+                    rtl,
+                    arrangedLanes,
+                    arrangedItems,
+                    setArrangedItems: setArrangedItems as Dispatch<
+                      SetStateAction<IPreparedBoardItems>
+                    >,
+                    addingLane,
+                    setAddingLane,
+                    setArrangedLanes: setArrangedLanes as Dispatch<
+                      SetStateAction<TBoardLanes>
+                    >,
+                  }}
+                  {...pick(props, ["users", "boardItemCardLayout"])}
+                />
+              ) : (
+                <Communication
+                  {...(props.emptyState || {
+                    option: CommunicationOptions.Empty,
+                    fields: {
+                      title: getText(t.locale, t["board empty header"]),
+                      desc: getText(t.locale, t["board empty body"]),
+                    },
+                  })}
+                />
+              )}
             </Flex>
           </BoardTheme>
         );
