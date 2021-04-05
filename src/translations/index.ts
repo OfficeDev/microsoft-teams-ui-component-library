@@ -112,5 +112,7 @@ export default {
       "Get started with the ‘Add’ button in the toolbar above.",
     "board empty header": "Create your first column",
     "board empty body": "Get started by adding a column in the toolbar above.",
+    close: "Close",
+    "edit dashboard": "Edit dashboard",
   } as TTranslations,
 };

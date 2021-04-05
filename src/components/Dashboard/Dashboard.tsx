@@ -28,6 +28,7 @@ export interface IDashboard {
  */
 export function Dashboard({ widgets }: IDashboard) {
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
+  const closeSidebar = () => setSidebarOpen(false);
 
   return (
     <FluentUIThemeConsumer
@@ -53,11 +54,7 @@ export function Dashboard({ widgets }: IDashboard) {
                 }
               }}
             />
-            <Sidebar
-              open={sidebarOpen}
-              onClose={() => setSidebarOpen(false)}
-              {...{ t }}
-            />
+            <Sidebar open={sidebarOpen} onClose={closeSidebar} {...{ t }} />
             <Box
               styles={{
                 display: "grid",

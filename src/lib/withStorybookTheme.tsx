@@ -49,6 +49,8 @@ const storybookT10s = {
     "no data": "اطلاعاتی موجود نیست.",
     "list empty default header": "اولین لیست خود را ایجاد کنید",
     "list empty default body": "با افزودن مورد لیست شروع کنید.",
+    close: "نزدیک",
+    "edit dashboard": "داشبورد را ویرایش کنید",
   } as TTranslations,
 };
 
