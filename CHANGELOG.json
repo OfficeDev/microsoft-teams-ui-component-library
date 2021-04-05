@@ -2,6 +2,36 @@
   "name": "@fluentui/react-teams",
   "entries": [
     {
+      "date": "Thu, 01 Apr 2021 22:37:40 GMT",
+      "tag": "@fluentui/react-teams_v3.2.0",
+      "version": "3.2.0",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Integrate Communication component with List for empty states.",
+            "author": "v-wishow@microsoft.com",
+            "commit": "59487408f0d5c757c5f57caf8b5d9ab59ce19ae6",
+            "package": "@fluentui/react-teams"
+          }
+        ]
+      }
+    },
+    {
+      "date": "Thu, 01 Apr 2021 22:29:03 GMT",
+      "tag": "@fluentui/react-teams_v3.1.0",
+      "version": "3.1.0",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Implement Wizard component.",
+            "author": "v-wishow@microsoft.com",
+            "commit": "5740c36c74519818890741bb118d6f8f58d8c354",
+            "package": "@fluentui/react-teams"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 10 Mar 2021 19:55:25 GMT",
       "tag": "@fluentui/react-teams_v3.0.0",
       "version": "3.0.0",

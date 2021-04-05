@@ -47,6 +47,8 @@ const storybookT10s = {
     "toolbar overflow menu": "منوی سرریز نوار ابزار",
     "could not load data": "داده بارگیری نمی شود.",
     "no data": "اطلاعاتی موجود نیست.",
+    "list empty default header": "اولین لیست خود را ایجاد کنید",
+    "list empty default body": "با افزودن مورد لیست شروع کنید.",
   } as TTranslations,
 };
 

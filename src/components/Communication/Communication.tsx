@@ -175,7 +175,7 @@ export function Communication({
                   <Flex hAlign="center" column>
                     {title && (
                       <Text
-                        content={title}
+                        content={getText(t.locale, title)}
                         size="large"
                         align="center"
                         weight="bold"
@@ -185,7 +185,7 @@ export function Communication({
                     )}
                     {desc && (
                       <Text
-                        content={desc}
+                        content={getText(t.locale, desc)}
                         align="center"
                         as="p"
                         styles={{ textAlign: "center", margin: 0 }}
