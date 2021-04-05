@@ -54,7 +54,11 @@ export function Dashboard({ widgets }: IDashboard) {
                 }
               }}
             />
-            <Sidebar open={sidebarOpen} onClose={closeSidebar} {...{ t }} />
+            <Sidebar
+              open={sidebarOpen}
+              onClose={closeSidebar}
+              {...{ t, widgets }}
+            />
             <Box
               styles={{
                 display: "grid",

@@ -73,6 +73,24 @@ export const teamsNextVariableAssignments = {
         "&:focus": { boxShadow: variables.elevation },
       }),
     },
+    Checkbox: {
+      label: ({ variables }: ComponentVariablesObject) => ({
+        flex: variables.labelFlex,
+      }),
+    },
+    Dialog: {
+      overlay: ({ variables }: ComponentVariablesObject) => ({
+        background: variables.overlayBackground,
+        flexDirection: variables.dialogLayoutFlexDirection,
+        justifyContent: variables.dialogLayoutJustifyContent,
+        alignItems: variables.dialogLayoutAlignItems,
+      }),
+      root: ({ variables }: ComponentVariablesObject) => ({
+        background: variables.dialogBackground,
+        boxShadow: variables.dialogElevation,
+        flex: variables.dialogLayoutFlex,
+      }),
+    },
     Flex: {
       root: ({ variables }: ComponentVariablesObject) => ({
         color: variables.color,
