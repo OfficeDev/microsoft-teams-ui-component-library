@@ -9,5 +9,5 @@ The title, rendered as a header.
 <b>Signature:</b>
 
 ```typescript
-title?: string;
+title?: TTextObject;
 ```

@@ -35,7 +35,7 @@ import { getCode, keyboardKey } from "@fluentui/keyboard-key";
 
 import { BoardTheme } from "./BoardTheme";
 
-import { TUsers, Toolbar, TCommunication, Communication } from "../..";
+import { TUsers, Toolbar, TCommunicationProps, Communication } from "../..";
 
 import { getText, interpolate, TTranslations } from "../../translations";
 
@@ -135,7 +135,7 @@ export interface IBoardProps {
   /**
    * The empty state Communication component to render if this Component has no content.
    */
-  emptyState?: TCommunication;
+  emptyState?: TCommunicationProps;
   /**
    * The Board’s interaction handler, called when the user changes the Board’s items or lanes.
    */

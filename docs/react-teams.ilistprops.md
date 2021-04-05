@@ -18,6 +18,7 @@ export interface IListProps extends ITableProps
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [emptySelectionActionGroups](./react-teams.ilistprops.emptyselectionactiongroups.md) | [TActionGroups](./react-teams.tactiongroups.md) | The action groups to show when no items are selected. |
+|  [emptyState?](./react-teams.ilistprops.emptystate.md) | [TCommunicationProps](./react-teams.tcommunicationprops.md) | <i>(Optional)</i> The Communication component to render if the content of this component is empty. |
 |  [filters?](./react-teams.ilistprops.filters.md) | columnKey\[\] | <i>(Optional)</i> The set of columns as column IDs to offer in the filter menu. |
 |  [filtersSingleSelect?](./react-teams.ilistprops.filterssingleselect.md) | boolean | <i>(Optional)</i> Whether to prevent multiple filters from being applied; when this is true and one filter is already applied, if the user selects another filter the previous filter is removed and the new filter is applied rather than both applying. |
 |  [find?](./react-teams.ilistprops.find.md) | boolean | <i>(Optional)</i> Whether to provide the find feature, which filters the list by an arbitrary string input the user can provide. |

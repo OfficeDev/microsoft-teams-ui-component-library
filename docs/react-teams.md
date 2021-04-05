@@ -103,7 +103,7 @@
 |  [TFormInteraction](./react-teams.tforminteraction.md) | An interaction event emitted by the Form component. The payload always contains the Form’s state, which contains the values of all the Form’s inputs. |
 |  [TInlineField](./react-teams.tinlinefield.md) |  |
 |  [TInputBlock](./react-teams.tinputblock.md) | A block with a single input which occupies the full width of the form. |
-|  [TListInteraction](./react-teams.tlistinteraction.md) | List interactions are proxied from the Table or the Toolbar. All are clicks on actions. |
+|  [TListInteraction](./react-teams.tlistinteraction.md) | List interactions are proxied from the Table, the Toolbar, or the empty state Communication component. All are clicks on actions. |
 |  [TLocale](./react-teams.tlocale.md) | A locale as an \[IETF BCP 47 language tag\](https://tools.ietf.org/rfc/bcp/bcp47.txt). |
 |  [TSortable](./react-teams.tsortable.md) | Currently only alphabetical sort is available. |
 |  [TTableInteraction](./react-teams.ttableinteraction.md) | An interaction payload emitted by Table. |
