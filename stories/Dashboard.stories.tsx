@@ -1,4 +1,5 @@
 import React from "react";
+import uniqueId from "lodash/uniqueId";
 import { object } from "@storybook/addon-knobs";
 
 import { Dashboard } from "../src/components/Dashboard";
@@ -46,6 +47,7 @@ const linkExample = { href: "#" };
 
 const defaultWidgets: IWidget[] = [
   {
+    id: uniqueId("dw"),
     title: "Card 1",
     desc: "Last updated Monday, April 4 at 11:15 AM (PT)",
     widgetActionGroup: calloutItemsExample,
@@ -100,26 +102,31 @@ const defaultWidgets: IWidget[] = [
     link: linkExample,
   },
   {
+    id: uniqueId("dw"),
     title: "Card 2",
     size: EWidgetSize.Single,
     link: linkExample,
   },
   {
+    id: uniqueId("dw"),
     title: "Card 3",
     size: EWidgetSize.Double,
     link: linkExample,
   },
   {
+    id: uniqueId("dw"),
     title: "Card 4",
     size: EWidgetSize.Single,
     link: linkExample,
   },
   {
+    id: uniqueId("dw"),
     title: "Card 5",
     size: EWidgetSize.Single,
     link: linkExample,
   },
   {
+    id: uniqueId("dw"),
     title: "Card 6",
     size: EWidgetSize.Single,
     link: linkExample,
@@ -141,6 +148,7 @@ Default.parameters = figmaSource;
 
 const dataVizWidgets = [
   {
+    id: uniqueId("dw"),
     title: "Line Chart",
     desc: "Last updated Monday, April 4 at 11:15 AM (PT)",
     widgetActionGroup: calloutItemsExample,
@@ -231,6 +239,7 @@ const dataVizWidgets = [
     link: linkExample,
   },
   {
+    id: uniqueId("dw"),
     title: "Doughnut chart sample",
     size: EWidgetSize.Single,
     link: linkExample,
@@ -257,6 +266,7 @@ const dataVizWidgets = [
     ],
   } as IWidget,
   {
+    id: uniqueId("dw"),
     title: "Bubble chart sample",
     size: EWidgetSize.Double,
     link: linkExample,
@@ -329,6 +339,7 @@ const dataVizWidgets = [
     ],
   } as IWidget,
   {
+    id: uniqueId("dw"),
     title: "Bubble chart sample",
     size: EWidgetSize.Double,
     link: linkExample,
@@ -359,6 +370,7 @@ const dataVizWidgets = [
     ],
   } as IWidget,
   {
+    id: uniqueId("dw"),
     title: "Pie chart",
     size: EWidgetSize.Single,
     link: linkExample,
@@ -385,6 +397,7 @@ const dataVizWidgets = [
     ],
   } as IWidget,
   {
+    id: uniqueId("dw"),
     title: "Stacked area chart sample",
     size: EWidgetSize.Double,
     body: [
@@ -419,6 +432,7 @@ const dataVizWidgets = [
     link: linkExample,
   } as IWidget,
   {
+    id: uniqueId("dw"),
     title: "Gradient area chart sample",
     size: EWidgetSize.Double,
     link: linkExample,
@@ -449,6 +463,7 @@ const dataVizWidgets = [
     ],
   } as IWidget,
   {
+    id: uniqueId("dw"),
     title: "Bar chart sample",
     size: EWidgetSize.Single,
     body: [
@@ -475,6 +490,7 @@ const dataVizWidgets = [
     link: linkExample,
   } as IWidget,
   {
+    id: uniqueId("dw"),
     title: "Stacked bar chart sample",
     size: EWidgetSize.Single,
     body: [
@@ -505,6 +521,7 @@ const dataVizWidgets = [
     link: linkExample,
   } as IWidget,
   {
+    id: uniqueId("dw"),
     title: "Horizontal bar chart sample",
     size: EWidgetSize.Single,
     body: [
@@ -531,6 +548,7 @@ const dataVizWidgets = [
     link: linkExample,
   } as IWidget,
   {
+    id: uniqueId("dw"),
     title: "Grouped bar chart sample",
     size: EWidgetSize.Double,
     body: [
@@ -569,6 +587,7 @@ const dataVizWidgets = [
     link: linkExample,
   } as IWidget,
   {
+    id: uniqueId("dw"),
     title: "Horizontal stacked bar chart sample",
     size: EWidgetSize.Double,
     body: [
@@ -599,6 +618,7 @@ const dataVizWidgets = [
     link: linkExample,
   } as IWidget,
   {
+    id: uniqueId("dw"),
     title: "Error chart state",
     size: EWidgetSize.Single,
     body: [
@@ -613,6 +633,7 @@ const dataVizWidgets = [
     link: linkExample,
   } as IWidget,
   {
+    id: uniqueId("dw"),
     title: "No data chart state",
     size: EWidgetSize.Single,
     body: [
@@ -634,6 +655,7 @@ const dataVizWidgets = [
     link: linkExample,
   } as IWidget,
   {
+    id: uniqueId("dw"),
     title: "Card 6",
     size: EWidgetSize.Single,
     link: linkExample,

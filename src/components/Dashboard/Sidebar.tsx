@@ -1,6 +1,8 @@
-import React from "react";
+import React, { ComponentState, Dispatch, SetStateAction } from "react";
+import get from "lodash/get";
+import set from "lodash/set";
+import cloneDeep from "lodash/cloneDeep";
 import {
-  Box,
   Button,
   Checkbox,
   Dialog,
@@ -12,44 +14,67 @@ import { TTranslations } from "../../translations";
 import { CloseIcon } from "@fluentui/react-icons-northstar";
 import { IWidget } from "./DashboardWidget";
 import { SiteVariablesPrepared } from "@fluentui/styles";
+import { IDashboardPreferences } from "./Dashboard";
 
 interface ISidebarProps {
   open: boolean;
   onClose: () => void;
   widgets: IWidget[];
   t: TTranslations;
+  preferencesState: IDashboardPreferences;
+  setPreferencesState: Dispatch<SetStateAction<IDashboardPreferences>>;
 }
 
 /**
  * @internal
  */
-export const Sidebar = ({ t, open, onClose, widgets }: ISidebarProps) => {
+export const Sidebar = ({
+  t,
+  open,
+  onClose,
+  widgets,
+  preferencesState,
+  setPreferencesState,
+}: ISidebarProps) => {
   return (
     <Dialog
+      trapFocus
       header={
         <Flex>
-          <Text styles={{ flex: "1 0 0" }}>{t["edit dashboard"]}</Text>
+          <Text styles={{ flex: "1 0 0", marginTop: ".5rem" }}>
+            {t["edit dashboard"]}
+          </Text>
           <Button
             text
             iconOnly
             icon={<CloseIcon />}
             title={t["close"]}
             onClick={onClose}
-            styles={{ transform: "translateY(-.4rem)" }}
           />
         </Flex>
       }
       content={
         <>
-          {widgets.map(({ title }: IWidget) => {
+          {widgets.map(({ id, title }: IWidget) => {
             return (
               <Checkbox
                 toggle
-                checked={true}
+                checked={get(preferencesState, `widgetSettings.${id}.display`)}
                 label={title}
                 labelPosition="start"
-                styles={{ display: "flex" }}
+                styles={{ display: "flex", margin: ".5rem 0" }}
                 variables={{ labelFlex: "1 0 0" }}
+                onChange={(_e, props) => {
+                  setPreferencesState(
+                    cloneDeep(
+                      set(
+                        preferencesState,
+                        `widgetSettings.${id}.display`,
+                        !!props?.checked
+                      )
+                    )
+                  );
+                }}
               />
             );
           })}

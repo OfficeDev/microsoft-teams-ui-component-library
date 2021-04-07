@@ -40,6 +40,13 @@ export enum EWidgetSize {
  * @public
  */
 export interface IWidget {
+  /**
+   * A unique ID for the widget.
+   */
+  id: string;
+  /**
+   * The widget’s target size.
+   */
   size: EWidgetSize;
   /**
    * The title of the widget, rendered in a header style.

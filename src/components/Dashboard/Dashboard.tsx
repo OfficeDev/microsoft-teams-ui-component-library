@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import get from "lodash/get";
+import set from "lodash/set";
+import cloneDeep from "lodash/cloneDeep";
 import {
   ProviderConsumer as FluentUIThemeConsumer,
   Box,
@@ -21,14 +24,46 @@ import { Toolbar } from "../Toolbar/Toolbar";
  */
 export interface IDashboard {
   widgets: IWidget[];
+  preferences?: IDashboardPreferences;
+}
+
+/**
+ * A user’s preferences for the particular Dashboard component. For a given Dashboard instance,
+ * a user may set certain widgets to be shown or hidden.
+ * @public
+ */
+export interface IDashboardPreferences {
+  // widgetOrder: string[];
+  widgetSettings: {
+    [widgetKey: string]: {
+      display: boolean;
+    };
+  };
 }
 
 /**
  * @public
  */
-export function Dashboard({ widgets }: IDashboard) {
+export function Dashboard({ widgets, preferences }: IDashboard) {
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
   const closeSidebar = () => setSidebarOpen(false);
+
+  const [preferencesState, setPreferencesState] = useState<
+    IDashboardPreferences
+  >(
+    (() => {
+      const prefs = cloneDeep(
+        preferences || ({ widgetSettings: {} } as IDashboardPreferences)
+      );
+      return widgets.reduce((prefs, { id }) => {
+        return set(
+          prefs,
+          `widgetSettings.${id}.display`,
+          get(prefs, `widgetSettings.${id}.display`, true)
+        );
+      }, prefs);
+    })()
+  );
 
   return (
     <FluentUIThemeConsumer
@@ -57,7 +92,7 @@ export function Dashboard({ widgets }: IDashboard) {
             <Sidebar
               open={sidebarOpen}
               onClose={closeSidebar}
-              {...{ t, widgets }}
+              {...{ t, widgets, preferencesState, setPreferencesState }}
             />
             <Box
               styles={{
@@ -79,6 +114,7 @@ export function Dashboard({ widgets }: IDashboard) {
                 widgets.map(
                   (
                     {
+                      id,
                       title,
                       desc,
                       widgetActionGroup,
@@ -87,26 +123,31 @@ export function Dashboard({ widgets }: IDashboard) {
                       link,
                     }: IWidget,
                     key: number
-                  ) => (
-                    <Widget key={key} size={size}>
-                      <WidgetTitle
-                        title={title}
-                        desc={desc}
-                        globalTheme={globalTheme}
-                        widgetActionGroup={widgetActionGroup}
-                      />
-                      <WidgetBody
-                        body={body}
-                        siteVariables={globalTheme.siteVariables}
-                      />
-                      {link && (
-                        <WidgetFooter
-                          siteVariables={globalTheme.siteVariables}
-                          link={link}
+                  ) =>
+                    get(
+                      preferencesState,
+                      `widgetSettings.${id}.display`,
+                      true
+                    ) && (
+                      <Widget key={key} size={size}>
+                        <WidgetTitle
+                          title={title}
+                          desc={desc}
+                          globalTheme={globalTheme}
+                          widgetActionGroup={widgetActionGroup}
                         />
-                      )}
-                    </Widget>
-                  )
+                        <WidgetBody
+                          body={body}
+                          siteVariables={globalTheme.siteVariables}
+                        />
+                        {link && (
+                          <WidgetFooter
+                            siteVariables={globalTheme.siteVariables}
+                            link={link}
+                          />
+                        )}
+                      </Widget>
+                    )
                 )}
             </Box>
           </DashboardTheme>
