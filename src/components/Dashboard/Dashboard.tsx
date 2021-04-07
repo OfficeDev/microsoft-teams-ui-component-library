@@ -25,6 +25,7 @@ import { Toolbar } from "../Toolbar/Toolbar";
 export interface IDashboard {
   widgets: IWidget[];
   preferences?: IDashboardPreferences;
+  onInteraction?: (interaction: TDashboardInteraction) => void;
 }
 
 /**
@@ -42,9 +43,26 @@ export interface IDashboardPreferences {
 }
 
 /**
+ * A Dashboard will emit onInteraction payloads when the user updates any preferences.
  * @public
  */
-export function Dashboard({ widgets, preferences }: IDashboard) {
+export type TDashboardInteraction = IDashboardInteractionUpdatePreferences;
+
+/**
+ * The preferences update payload carries the preferences the developer should store for the user,
+ * if appropriate.
+ * @public
+ */
+export interface IDashboardInteractionUpdatePreferences {
+  event: "update";
+  target: "preferences";
+  preferences: IDashboardPreferences;
+}
+
+/**
+ * @public
+ */
+export function Dashboard({ widgets, preferences, onInteraction }: IDashboard) {
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
   const closeSidebar = () => setSidebarOpen(false);
 
@@ -64,6 +82,16 @@ export function Dashboard({ widgets, preferences }: IDashboard) {
       }, prefs);
     })()
   );
+
+  const updatePreferences = (nextPreferences: IDashboardPreferences) => {
+    setPreferencesState(cloneDeep(nextPreferences));
+    onInteraction &&
+      onInteraction({
+        event: "update",
+        target: "preferences",
+        preferences: nextPreferences,
+      });
+  };
 
   return (
     <FluentUIThemeConsumer
@@ -92,7 +120,7 @@ export function Dashboard({ widgets, preferences }: IDashboard) {
             <Sidebar
               open={sidebarOpen}
               onClose={closeSidebar}
-              {...{ t, widgets, preferencesState, setPreferencesState }}
+              {...{ t, widgets, preferencesState, updatePreferences }}
             />
             <Box
               styles={{

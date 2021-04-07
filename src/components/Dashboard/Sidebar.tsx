@@ -1,7 +1,6 @@
-import React, { ComponentState, Dispatch, SetStateAction } from "react";
+import React from "react";
 import get from "lodash/get";
 import set from "lodash/set";
-import cloneDeep from "lodash/cloneDeep";
 import {
   Button,
   Checkbox,
@@ -22,7 +21,7 @@ interface ISidebarProps {
   widgets: IWidget[];
   t: TTranslations;
   preferencesState: IDashboardPreferences;
-  setPreferencesState: Dispatch<SetStateAction<IDashboardPreferences>>;
+  updatePreferences: (preferences: IDashboardPreferences) => void;
 }
 
 /**
@@ -34,7 +33,7 @@ export const Sidebar = ({
   onClose,
   widgets,
   preferencesState,
-  setPreferencesState,
+  updatePreferences,
 }: ISidebarProps) => {
   return (
     <Dialog
@@ -65,13 +64,11 @@ export const Sidebar = ({
                 styles={{ display: "flex", margin: ".5rem 0" }}
                 variables={{ labelFlex: "1 0 0" }}
                 onChange={(_e, props) => {
-                  setPreferencesState(
-                    cloneDeep(
-                      set(
-                        preferencesState,
-                        `widgetSettings.${id}.display`,
-                        !!props?.checked
-                      )
+                  updatePreferences(
+                    set(
+                      preferencesState,
+                      `widgetSettings.${id}.display`,
+                      !!props?.checked
                     )
                   );
                 }}

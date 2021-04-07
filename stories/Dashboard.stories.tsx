@@ -1,6 +1,9 @@
 import React from "react";
 import uniqueId from "lodash/uniqueId";
 import { object } from "@storybook/addon-knobs";
+import { actions } from "@storybook/addon-actions";
+
+const eventsFromNames = actions("onInteraction");
 
 import { Dashboard } from "../src/components/Dashboard";
 import {
@@ -139,6 +142,7 @@ const dafaultConfig = { widgets: defaultWidgets };
 export const Default = () => {
   return (
     <Dashboard
+      {...eventsFromNames}
       {...object("Configuration", dafaultConfig, dashboardKnobGroupID)}
     />
   );
@@ -667,6 +671,7 @@ const dataVizConfig = { widgets: dataVizWidgets };
 export const WithDataVizualization = () => {
   return (
     <Dashboard
+      {...eventsFromNames}
       {...object("Configuration", dataVizConfig, dashboardKnobGroupID)}
     />
   );
