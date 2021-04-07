@@ -32,36 +32,98 @@ import {
 import { getText, TTextObject, TTranslations } from "../../translations";
 import { IFormProps, IFormState, TFormErrors } from "./Form";
 
-interface IEnumerableInputOption {
+/**
+ * Properties for each option for Enumerable inputs (radio buttons, checkboxes, dropdowns).
+ * @public
+ */
+export interface IEnumerableInputOption {
+  /**
+   * The option’s text content to display.
+   */
   title: TTextObject;
+  /**
+   * The option’s value, which should be unique for the input in which it’s available.
+   */
   value: string;
 }
 
-interface IEnumerableInputBase {
+/**
+ * Properties shared by all enumerable inputs (radio buttons, checkboxes, dropdowns).
+ * @public
+ */
+export interface IEnumerableInputBase {
+  /**
+   * The input’s label.
+   */
   title: TTextObject;
+  /**
+   * The input’s options.
+   */
   options: IEnumerableInputOption[];
+  /**
+   * The input’s unique ID.
+   */
   inputId: string;
-  optional?: boolean;
 }
 
-interface IEnumerableSingletonInputBase extends IEnumerableInputBase {
+/**
+ * Properties shared by singleton enumerable inputs (radio buttons, single-select dropdowns).
+ * @public
+ */
+export interface IEnumerableSingletonInputBase extends IEnumerableInputBase {
+  /**
+   * The input’s initial value.
+   */
   initialValue?: string;
 }
 
-interface IEnumerableMultipleInputBase extends IEnumerableInputBase {
+/**
+ * Properties shared by enumerable inputs supporting multiple selections (checkboxes,
+ * multiple-select dropdowns).
+ * @public
+ */
+export interface IEnumerableMultipleInputBase extends IEnumerableInputBase {
+  /**
+   * The input’s initial values.
+   */
   initialValues?: string[];
 }
 
-interface ITextInputBase {
+/**
+ * Properties shared by text inputs (single- and multi-line).
+ * @public
+ */
+export interface ITextInputBase {
+  /**
+   * The input’s label.
+   */
   title: TTextObject;
+  /**
+   * The input’s unique ID
+   */
   inputId: string;
-  optional?: boolean;
+  /**
+   * The input’s placeholder content.
+   */
   placeholder?: TTextObject;
+  /**
+   * The input’s initial value.
+   */
   initialValue?: string;
 }
 
+/**
+ * An inline input’s width.
+ * @public
+ */
 export enum EInputWidth {
+  /**
+   * The input should share the width with the other inline inputs.
+   */
   split = "split",
+  /**
+   * The input should occupy the full width of the Form
+   */
   full = "full",
 }
 
@@ -73,51 +135,82 @@ interface IPreparedInput {
   breakpointOffset?: number;
 }
 
-export enum EFieldType {
+/**
+ * The types of inline inputs.
+ * @public
+ */
+export enum EInlineInputType {
   text = "text",
   dropdown = "dropdown",
 }
 
-export enum ESectionType {
-  textInputs = "text-inputs",
+/**
+ * The types of input blocks.
+ * @public
+ */
+export enum EInputBlockType {
+  inlineInputs = "inline-inputs",
   dropdown = "dropdown",
   multilineText = "multiline-text",
   radioButtons = "radio-buttons",
   checkboxes = "checkboxes",
 }
 
-interface ITextField extends ITextInputBase {
-  type: EFieldType.text;
+/**
+ * A single-line text field.
+ * @public
+ */
+export interface ITextField extends ITextInputBase {
+  type: EInlineInputType.text;
   width?: EInputWidth;
 }
 
-interface IMultilineTextInput extends ITextInputBase {
-  type: ESectionType.multilineText;
+/**
+ * A multi-line text field.
+ * @public
+ */
+export interface IMultilineTextInput extends ITextInputBase {
+  type: EInputBlockType.multilineText;
 }
 
 interface IPreparedMultilineTextInput
   extends IMultilineTextInput,
     IPreparedInput {}
 
-export type TField = IDropdownInput | IDropdownMultipleInput | ITextField;
+/**
+ * @public
+ */
+export type TInlineField = IDropdownInput | IDropdownMultipleInput | ITextField;
 
-export interface ITextInputs {
-  type: ESectionType.textInputs;
-  fields: TField[];
+/**
+ * A block containing a set of one or more text inputs or dropdowns.
+ * @public
+ */
+export interface IInlineInputsBlock {
+  type: EInputBlockType.inlineInputs;
+  fields: TInlineField[];
 }
 
-interface IPreparedTextInputs extends ITextInputs, IPreparedInput {}
+interface IPreparedInlineInputs extends IInlineInputsBlock, IPreparedInput {}
 
-interface IDropdownInput extends IEnumerableSingletonInputBase {
-  type: EFieldType.dropdown | ESectionType.dropdown;
+/**
+ * A single-select dropdown.
+ * @public
+ */
+export interface IDropdownInput extends IEnumerableSingletonInputBase {
+  type: EInlineInputType.dropdown | EInputBlockType.dropdown;
   multiple?: false;
   width?: EInputWidth;
 }
 
 interface IPreparedDropdownInput extends IDropdownInput, IPreparedInput {}
 
-interface IDropdownMultipleInput extends IEnumerableMultipleInputBase {
-  type: EFieldType.dropdown | ESectionType.dropdown;
+/**
+ * A multiple-select dropdown.
+ * @public
+ */
+export interface IDropdownMultipleInput extends IEnumerableMultipleInputBase {
+  type: EInlineInputType.dropdown | EInputBlockType.dropdown;
   multiple: true;
   width?: EInputWidth;
 }
@@ -126,39 +219,64 @@ interface IPreparedDropdownMultipleInput
   extends IDropdownMultipleInput,
     IPreparedInput {}
 
-interface IRadioButtonsInput extends IEnumerableSingletonInputBase {
-  type: ESectionType.radioButtons;
+/**
+ * A set of radio buttons (from which only one can be selected).
+ * @public
+ */
+export interface IRadioButtonsInput extends IEnumerableSingletonInputBase {
+  type: EInputBlockType.radioButtons;
 }
 
 interface IPreparedRadioButtonsInput
   extends IRadioButtonsInput,
     IPreparedInput {}
 
-interface ICheckboxesInput extends IEnumerableMultipleInputBase {
-  type: ESectionType.checkboxes;
+/**
+ * A set of checkboxes.
+ * @public
+ */
+export interface ICheckboxesInput extends IEnumerableMultipleInputBase {
+  type: EInputBlockType.checkboxes;
 }
 
 interface IPreparedCheckboxesInput extends ICheckboxesInput, IPreparedInput {}
 
-export type TInputGroup =
+/**
+ * A block with a single input which occupies the full width of the form.
+ * @public
+ */
+export type TInputBlock =
   | IMultilineTextInput
   | IDropdownInput
   | IDropdownMultipleInput
   | IRadioButtonsInput
   | ICheckboxesInput;
 
-type TPreparedInputGroup =
-  | IPreparedTextInputs
+type TPreparedInputBlock =
+  | IPreparedInlineInputs
   | IPreparedMultilineTextInput
   | IPreparedDropdownInput
   | IPreparedDropdownMultipleInput
   | IPreparedRadioButtonsInput
   | IPreparedCheckboxesInput;
 
+/**
+ * @public
+ */
 export interface ISection {
+  /**
+   * The title of the section, rendered as an `h#` element.
+   */
   title?: TTextObject;
+  /**
+   * Text content of the section rendered before the input groups as a `p` element.
+   */
   preface?: TTextObject;
-  inputGroups?: (TInputGroup | ITextInputs)[];
+  /**
+   * The input blocks to render in this section, which can either be a block with an individual
+   * input, or a block with a set of inline inputs.
+   */
+  inputBlocks?: (TInputBlock | IInlineInputsBlock)[];
 }
 
 interface IFormSectionProps extends IPreparedInput {
@@ -236,7 +354,7 @@ const ErrorMessage = ({
   </Box>
 );
 
-const DropdownField = (
+const DropdownBlock = (
   props: IPreparedDropdownInput | IPreparedDropdownMultipleInput
 ) => {
   const { options, t, inputId, title, errors, formState, setFormState } = props;
@@ -315,15 +433,15 @@ const textInputStyles = (
   ...(group === 0 && { alignSelf: "flex-end" }),
 });
 
-const TextInputsGroup = ({
+const InlineInputsBlock = ({
   fields,
   t,
   errors,
   formState,
   setFormState,
   breakpointOffset,
-}: IPreparedTextInputs) => {
-  const rows: TField[][] = [];
+}: IPreparedInlineInputs) => {
+  const rows: TInlineField[][] = [];
   let i = 0;
   while (i < fields.length) {
     switch (fields[i]?.width) {
@@ -507,7 +625,7 @@ const TextInputsGroup = ({
   );
 };
 
-const CheckboxesGroup = ({
+const CheckboxesBlock = ({
   options,
   title,
   t,
@@ -568,7 +686,7 @@ const CheckboxesGroup = ({
   );
 };
 
-const MultilineTextGroup = ({
+const MultilineTextBlock = ({
   title,
   placeholder,
   t,
@@ -602,7 +720,7 @@ const MultilineTextGroup = ({
   );
 };
 
-const RadioButtonsGroup = ({
+const RadioButtonsBlock = ({
   options,
   t,
   inputId,
@@ -639,18 +757,18 @@ const RadioButtonsGroup = ({
   );
 };
 
-const FormInputGroup = (props: TPreparedInputGroup) => {
+const FormInputBlock = (props: TPreparedInputBlock) => {
   switch (props.type) {
-    case "text-inputs":
-      return <TextInputsGroup {...props} />;
+    case "inline-inputs":
+      return <InlineInputsBlock {...props} />;
     case "multiline-text":
-      return <MultilineTextGroup {...props} />;
+      return <MultilineTextBlock {...props} />;
     case "dropdown":
-      return <DropdownField {...props} />;
+      return <DropdownBlock {...props} />;
     case "checkboxes":
-      return <CheckboxesGroup {...props} />;
+      return <CheckboxesBlock {...props} />;
     case "radio-buttons":
-      return <RadioButtonsGroup {...props} />;
+      return <RadioButtonsBlock {...props} />;
     default:
       return null;
   }
@@ -679,10 +797,10 @@ const FormSection = (props: IFormSectionProps | IFormHeaderSectionProps) => {
           {getText(t.locale, section.preface)}
         </Text>
       )}
-      {section.inputGroups?.length &&
-        section.inputGroups.map((inputGroup, gi) => (
-          <FormInputGroup
-            {...inputGroup}
+      {section.inputBlocks?.length &&
+        section.inputBlocks.map((inputBlock, gi) => (
+          <FormInputBlock
+            {...inputBlock}
             {...{
               t,
               errors,
@@ -709,7 +827,7 @@ interface IFormContentProps extends Omit<IFormProps, "submit"> {
 export const setInitialValue = (
   acc: IFormState,
   field:
-    | TField
+    | TInlineField
     | IMultilineTextInput
     | IDropdownInput
     | IDropdownMultipleInput

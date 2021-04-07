@@ -15,48 +15,104 @@ import {
 import { getText, TTextObject } from "../../translations";
 import { TeamsTheme } from "../../themes";
 
-import { WithOptionalInternalCallbacks, Surface } from "../../types/types";
+import { Surface } from "../../types/types";
 
 import { FormTheme } from "./FormTheme";
 import {
   FormContent,
   MaxWidth,
   ISection,
-  ITextInputs,
+  IInlineInputsBlock,
   setInitialValue,
-  TInputGroup,
+  TInputBlock,
 } from "./FormContent";
 
+/**
+ * A collection of input values, keyed by input ID. If the input is a block of checkboxes or a
+ * dropdown with multiple selection, the value will be an array of option IDs.
+ * @public
+ */
 export interface IFormState {
   [inputId: string]: string | string[];
 }
 
+/**
+ * A collection of error messages associated with inputs, keyed by input ID.
+ * @public
+ */
 export type TFormErrors = { [inputId: string]: TTextObject };
 
+/**
+ * An interaction event emitted by the Form component. The payload always contains the Form’s state,
+ * which contains the values of all the Form’s inputs.
+ * @public
+ */
 export type TFormInteraction = {
   event: "submit" | "cancel" | "back";
   target: "form";
   formState: IFormState;
 };
 
-export interface IFormProps extends WithOptionalInternalCallbacks<IFormState> {
+/**
+ * The Form component can be used to render an interactive Form. Designs for this component are
+ * available in the [Forms page of the Microsoft Teams UI Kit](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=5271%3A221958).
+ * @public
+ */
+export interface IFormProps {
+  /**
+   * A section rendered at the top of the Form, which uses an `h1` for the section’s title. Any
+   * input groups are ignored.
+   */
   headerSection?: ISection;
+  /**
+   * Form section, each of which can have a title (rendered as an `h2`) and a preface for any
+   * descriptions or coaching text, which is rendered before any inputs or input groups.
+   */
   sections: ISection[];
+  /**
+   * A collection of error messages associated with inputs, keyed by input ID.
+   */
   errors?: TFormErrors;
+  /**
+   * An error to render at the top of the Form, in case it isn’t relevant to a specific input.
+   */
   topError?: TTextObject;
+  /**
+   * The text content of the submit button.
+   */
   submit: TTextObject;
+  /**
+   * The text content of the cancel button, if relevant. The button is not rendered if this is
+   * absent.
+   */
   cancel?: TTextObject;
+  /**
+   * An interaction handler for the Form. Interactions are triggered when the user clicks 'submit',
+   * 'cancel', or 'back' (only in Wizard components).
+   */
   onInteraction?: (interaction: TFormInteraction) => void;
 }
 
 export interface IFormDialogProps extends IFormProps {
+  /**
+   * A trigger element for a form dialog.
+   * @internal
+   */
   trigger: JSX.Element;
 }
 
+/**
+ * A Form which is a step in a Wizard has the same inputs as Form with an additional option to
+ * override the text of the Wizard’s back button for the current step.
+ * @public
+ */
 export interface IFormWizardStepProps extends IFormProps {
   back?: TTextObject;
 }
 
+/**
+ * @internal
+ */
 export interface IFormWizardStepDialogProps extends IFormWizardStepProps {
   trigger: JSX.Element;
 }
@@ -67,18 +123,18 @@ const dialogStyles = {
 
 const initialFormState = (sections: ISection[]) => {
   return sections.reduce(
-    (acc_i: IFormState, { inputGroups }) =>
-      inputGroups
-        ? inputGroups.reduce((acc_j: IFormState, inputGroup) => {
+    (acc_i: IFormState, { inputBlocks }) =>
+      inputBlocks
+        ? inputBlocks.reduce((acc_j: IFormState, inputGroup) => {
             if (!inputGroup) return acc_j;
             switch (inputGroup.type) {
-              case "text-inputs":
-                return (inputGroup as ITextInputs).fields.reduce(
+              case "inline-inputs":
+                return (inputGroup as IInlineInputsBlock).fields.reduce(
                   setInitialValue,
                   acc_j
                 );
               default:
-                return setInitialValue(acc_j, inputGroup as TInputGroup);
+                return setInitialValue(acc_j, inputGroup as TInputBlock);
             }
           }, acc_i)
         : acc_i,
@@ -86,6 +142,9 @@ const initialFormState = (sections: ISection[]) => {
   );
 };
 
+/**
+ * @public
+ */
 export const Form = ({
   cancel,
   errors,
@@ -200,6 +259,9 @@ export const Form = ({
   );
 };
 
+/**
+ * @internal
+ */
 export const FormDialog = ({
   cancel,
   errors,

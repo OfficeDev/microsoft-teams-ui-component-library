@@ -44,6 +44,9 @@ const storybookT10s = {
       "شما کشیدن موردی به نام {itemTitle} را لغو کرده اید.",
     "board lane instructions":
       "Enter را فشار دهید تا موارد خط تخته را کاوش کنید ، سپس از Escape استفاده کنید تا فوکوس را به سمت صفحه برد تغییر دهید.",
+    "toolbar overflow menu": "منوی سرریز نوار ابزار",
+    "could not load data": "داده بارگیری نمی شود.",
+    "no data": "اطلاعاتی موجود نیست.",
     "list empty default header": "اولین لیست خود را ایجاد کنید",
     "list empty default body": "با افزودن مورد لیست شروع کنید.",
   } as TTranslations,

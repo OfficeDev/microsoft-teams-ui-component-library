@@ -24,6 +24,7 @@ export function ChartErrorState({
       textColor = siteVariables.colors.red["400"];
       break;
   }
+  const { t } = siteVariables;
   return (
     <Flex
       styles={{
@@ -35,8 +36,8 @@ export function ChartErrorState({
       vAlign="center"
       hAlign="center"
     >
-      <InfoIcon outline styles={{ marginRight: ".5rem" }} /> Could not load
-      data.
+      <InfoIcon outline styles={{ marginRight: ".5rem" }} />{" "}
+      {t["could not load data"]}
     </Flex>
   );
 }

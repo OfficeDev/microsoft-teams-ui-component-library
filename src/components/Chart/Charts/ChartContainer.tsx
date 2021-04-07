@@ -10,6 +10,7 @@ import {
 import { TeamsTheme } from "../../../themes";
 import { IChartPatterns, ILegendItem } from "../ChartTypes";
 import { legendLabels } from "../ChartPatterns";
+import { getText } from "../../../translations";
 
 const LabelColorValue = ({
   index,
@@ -92,35 +93,38 @@ const legendItem = ({
   onLegendClick: (key: number) => void;
   hidden?: boolean;
   patterns?: IChartPatterns;
-}): ILegendItem => ({
-  key,
-  kind: "custom",
-  onClick: () => {
-    onLegendClick(key);
-  },
-  content: (
-    <LegendItem
-      styles={{
-        display: "flex",
-        alignItems: "center",
-        fontSize: ".75rem",
-        minWidth: "30px",
-        color: siteVariables.colorScheme.default.foreground2,
-        margin: "2px 0",
-      }}
-      text
-    >
-      <LabelColorValue
-        index={key}
-        siteVariables={siteVariables}
-        dataPointColor={chartDataPointColors[key]}
-        patterns={patterns}
-      />
-      {value}
-    </LegendItem>
-  ),
-  fitted: "horizontally",
-});
+}): ILegendItem => {
+  const { t } = siteVariables;
+  return {
+    key,
+    kind: "custom",
+    onClick: () => {
+      onLegendClick(key);
+    },
+    content: (
+      <LegendItem
+        styles={{
+          display: "flex",
+          alignItems: "center",
+          fontSize: ".75rem",
+          minWidth: "30px",
+          color: siteVariables.colorScheme.default.foreground2,
+          margin: "2px 0",
+        }}
+        text
+      >
+        <LabelColorValue
+          index={key}
+          siteVariables={siteVariables}
+          dataPointColor={chartDataPointColors[key]}
+          patterns={patterns}
+        />
+        {getText(t.locale, value)}
+      </LegendItem>
+    ),
+    fitted: "horizontally",
+  };
+};
 
 const LegendItems = (
   data: any,
@@ -172,7 +176,7 @@ export const ChartContainer = ({
 }) => {
   const [overflowOpen, setOverflowOpen] = useState(false);
   const [overflowItems, setOverflowItems] = useState<number>(0);
-  const { theme, colorScheme } = siteVariables;
+  const { theme, colorScheme, t } = siteVariables;
   let legendItems: ILegendItem[] = LegendItems(
     data,
     siteVariables,
@@ -191,7 +195,7 @@ export const ChartContainer = ({
       verticalDataAlignment,
       patterns
     );
-  }, [theme]);
+  }, [theme, t]);
 
   return (
     <Flex
@@ -215,7 +219,7 @@ export const ChartContainer = ({
       {/* Legend should be in differen container to avoid FluentUI window resize issue */}
       <Box>
         <Legend
-          aria-label="Toolbar overflow menu"
+          aria-label={t["toolbar overflow menu"]}
           items={legendItems as any}
           overflow
           overflowOpen={overflowOpen}

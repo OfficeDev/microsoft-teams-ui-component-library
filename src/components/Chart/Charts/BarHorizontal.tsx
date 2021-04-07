@@ -13,6 +13,7 @@ import {
 } from "../ChartUtils";
 import { ChartContainer } from "./ChartContainer";
 import { buildPattern, chartBarDataPointPatterns } from "../ChartPatterns";
+import { getText } from "../../../translations";
 
 export const BarHorizontalChart = ({
   title,
@@ -25,7 +26,7 @@ export const BarHorizontalChart = ({
   siteVariables: SiteVariablesPrepared;
   stacked?: boolean;
 }) => {
-  const { colorScheme, theme, colors } = siteVariables;
+  const { colorScheme, theme, colors, t } = siteVariables;
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
   const chartRef = React.useRef<Chart | undefined>();
   const chartId = React.useMemo(
@@ -47,7 +48,7 @@ export const BarHorizontalChart = ({
   const createDataPoints = (): Chart.ChartDataSets[] =>
     Array.from(data.datasets, (set, i) => {
       let dataPointConfig = {
-        label: set.label,
+        label: getText(t.locale, set.label),
         data: set.data,
         borderWidth: 0,
         barPercentage: 0.5,
@@ -140,7 +141,9 @@ export const BarHorizontalChart = ({
     chartRef.current = new Chart(ctx, {
       ...(config as any),
       data: {
-        labels: data.labels,
+        labels: Array.isArray(data.labels)
+          ? data.labels.map((label) => getText(t.locale, label))
+          : getText(t.locale, data.labels),
         datasets: [],
       },
       plugins: [
@@ -329,7 +332,7 @@ export const BarHorizontalChart = ({
             <div key={itemKey} id={`${chartId}-tooltip-${setKey}-${itemKey}`}>
               <p>{item}</p>
               <span>
-                {set.label}: {set.data[itemKey]}
+                {getText(t.locale, set.label)}: {set.data[itemKey]}
               </span>
             </div>
           ))

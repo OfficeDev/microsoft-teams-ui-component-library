@@ -10,21 +10,56 @@ import {
   Menu,
   ArrowRightIcon,
 } from "@fluentui/react-northstar";
-import { DashboardCallout, IWidgetActionKey } from "./DashboardCallout";
+import { DashboardCallout, IWidgetAction } from "./DashboardCallout";
 
-export enum WidgetSize {
+/**
+ * The widget’s target size in the Dashboard’s grid layout.
+ * @public
+ */
+export enum EWidgetSize {
+  /**
+   * The widget will occupy 1×1 grid cells.
+   */
   Single = "single",
+  /**
+   * The widget will occupy 2×1 grid cells.
+   */
   Double = "double",
+  /**
+   * The widget will occupy 3×1 grid cells.
+   */
   Triple = "triple",
+  /**
+   * The widget will occupy 2×2 grid cells.
+   */
   Box = "box",
 }
 
+/**
+ * A Dashboard widget is rendered as a card of a certain size, containing the content specified.
+ * @public
+ */
 export interface IWidget {
-  size: WidgetSize;
+  size: EWidgetSize;
+  /**
+   * The title of the widget, rendered in a header style.
+   */
   title: string;
+  /**
+   * Text rendered in boxy test style below the title.
+   */
   desc?: string;
-  widgetActionGroup?: IWidgetActionKey[];
+  /**
+   * A collection of actions available in the widget’s overflow menu.
+   */
+  widgetActionGroup?: IWidgetAction[];
+  /**
+   * The content to make available in the widget.
+   */
   body?: IWidgetBodyContent[];
+  /**
+   * A link to render at the end of the widget’s content.
+   */
   link?: IWidgetLink;
 }
 
@@ -33,7 +68,7 @@ export const Widget = ({
   size,
 }: {
   children: ReactNode;
-  size: WidgetSize;
+  size: EWidgetSize;
 }) => {
   const cardStyle = {
     gridColumnEnd: "auto",
@@ -42,14 +77,14 @@ export const Widget = ({
       gridColumnEnd: "span 3",
     },
   };
-  if (size === WidgetSize.Double) {
+  if (size === EWidgetSize.Double) {
     cardStyle.gridColumnEnd = "span 2";
   }
-  if (size === WidgetSize.Box) {
+  if (size === EWidgetSize.Box) {
     cardStyle.gridColumnEnd = "span 2";
     cardStyle.gridRowEnd = "span 2";
   }
-  if (size === WidgetSize.Triple) {
+  if (size === EWidgetSize.Triple) {
     cardStyle.gridColumnEnd = "span 3";
   }
   return (
@@ -68,7 +103,7 @@ export const WidgetTitle = ({
   title: string;
   desc?: string;
   globalTheme: ThemePrepared;
-  widgetActionGroup?: IWidgetActionKey[];
+  widgetActionGroup?: IWidgetAction[];
 }) => {
   const [calloutOpen, setCalloutOpen] = React.useState(false);
   return (
@@ -107,9 +142,26 @@ const EmptyState = ({ borderColor }: { borderColor: string }) => {
   );
 };
 
+/**
+ * A piece of content to make available in the widget.
+ * @public
+ */
 export interface IWidgetBodyContent {
+  /**
+   * An ID unique to the piece of content.
+   */
   id: string;
+  /**
+   * A title which will appear as a tab’s label in the Dashboard widget. This will only appear if
+   * the widget hosts multiple body content objects.
+   */
   title: string;
+  /**
+   * The content, as a React Node.
+   *
+   * @deprecated This library aims to use only props that can be serialized into JSON, so an
+   * alternative way to specify widget content will appear in subsequent versions.
+   */
   content: ReactNode;
 }
 
@@ -171,6 +223,9 @@ export const WidgetBody = ({
   );
 };
 
+/**
+ * @public
+ */
 export interface IWidgetLink {
   href: string;
 }

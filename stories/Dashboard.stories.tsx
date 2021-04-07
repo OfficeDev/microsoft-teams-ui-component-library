@@ -4,7 +4,7 @@ import { object } from "@storybook/addon-knobs";
 import { Dashboard } from "../src/components/Dashboard";
 import {
   IWidget,
-  WidgetSize,
+  EWidgetSize,
 } from "../src/components/Dashboard/DashboardWidget";
 import {
   ExclamationCircleIcon,
@@ -13,7 +13,7 @@ import {
   ShareGenericIcon,
   Text,
 } from "@fluentui/react-northstar";
-import { Chart, ChartOptions } from "../src/components/Chart";
+import { Chart, EChartTypes } from "../src";
 import { random } from "../src/components/Chart/ChartUtils";
 
 export default {
@@ -49,7 +49,7 @@ const defaultWidgets: IWidget[] = [
     title: "Card 1",
     desc: "Last updated Monday, April 4 at 11:15 AM (PT)",
     widgetActionGroup: calloutItemsExample,
-    size: WidgetSize.Triple,
+    size: EWidgetSize.Triple,
     body: [
       {
         id: "t1",
@@ -101,27 +101,27 @@ const defaultWidgets: IWidget[] = [
   },
   {
     title: "Card 2",
-    size: WidgetSize.Single,
+    size: EWidgetSize.Single,
     link: linkExample,
   },
   {
     title: "Card 3",
-    size: WidgetSize.Double,
+    size: EWidgetSize.Double,
     link: linkExample,
   },
   {
     title: "Card 4",
-    size: WidgetSize.Single,
+    size: EWidgetSize.Single,
     link: linkExample,
   },
   {
     title: "Card 5",
-    size: WidgetSize.Single,
+    size: EWidgetSize.Single,
     link: linkExample,
   },
   {
     title: "Card 6",
-    size: WidgetSize.Single,
+    size: EWidgetSize.Single,
     link: linkExample,
   },
 ];
@@ -139,12 +139,12 @@ export const Default = () => {
 
 Default.parameters = figmaSource;
 
-const dataVizWidgets: IWidget[] = [
+const dataVizWidgets = [
   {
     title: "Line Chart",
     desc: "Last updated Monday, April 4 at 11:15 AM (PT)",
     widgetActionGroup: calloutItemsExample,
-    size: WidgetSize.Double,
+    size: EWidgetSize.Double,
     body: [
       {
         id: "t1",
@@ -152,7 +152,7 @@ const dataVizWidgets: IWidget[] = [
         content: (
           <Chart
             title="Line chart sample"
-            type={ChartOptions.Line}
+            type={EChartTypes.Line}
             data={{
               labels: ["Jan", "Feb", "March", "April", "May"],
               datasets: [
@@ -191,7 +191,7 @@ const dataVizWidgets: IWidget[] = [
         content: (
           <Chart
             title="Area chart sample"
-            type={ChartOptions.LineStacked}
+            type={EChartTypes.LineStacked}
             data={{
               labels: ["Jan", "Feb", "March", "April", "May"],
               datasets: [
@@ -232,7 +232,7 @@ const dataVizWidgets: IWidget[] = [
   },
   {
     title: "Doughnut chart sample",
-    size: WidgetSize.Single,
+    size: EWidgetSize.Single,
     link: linkExample,
     body: [
       {
@@ -241,7 +241,7 @@ const dataVizWidgets: IWidget[] = [
         content: (
           <Chart
             title="Doughnut chart sample"
-            type={ChartOptions.Doughnut}
+            type={EChartTypes.Doughnut}
             data={{
               labels: ["Jan", "Feb", "March", "April", "May"],
               datasets: [
@@ -255,10 +255,10 @@ const dataVizWidgets: IWidget[] = [
         ),
       },
     ],
-  },
+  } as IWidget,
   {
     title: "Bubble chart sample",
-    size: WidgetSize.Double,
+    size: EWidgetSize.Double,
     link: linkExample,
     body: [
       {
@@ -267,7 +267,7 @@ const dataVizWidgets: IWidget[] = [
         content: (
           <Chart
             title="Bubble chart sample"
-            type={ChartOptions.Bubble}
+            type={EChartTypes.Bubble}
             data={{
               labels: "Africa",
               datasets: [
@@ -327,10 +327,10 @@ const dataVizWidgets: IWidget[] = [
         ),
       },
     ],
-  },
+  } as IWidget,
   {
     title: "Bubble chart sample",
-    size: WidgetSize.Double,
+    size: EWidgetSize.Double,
     link: linkExample,
     body: [
       {
@@ -339,7 +339,7 @@ const dataVizWidgets: IWidget[] = [
         content: (
           <Chart
             title="Bubble chart sample"
-            type={ChartOptions.Bubble}
+            type={EChartTypes.Bubble}
             data={{
               labels: "Africa",
               datasets: [
@@ -357,10 +357,10 @@ const dataVizWidgets: IWidget[] = [
         ),
       },
     ],
-  },
+  } as IWidget,
   {
     title: "Pie chart",
-    size: WidgetSize.Single,
+    size: EWidgetSize.Single,
     link: linkExample,
     body: [
       {
@@ -369,7 +369,7 @@ const dataVizWidgets: IWidget[] = [
         content: (
           <Chart
             title="Pie chart sample"
-            type={ChartOptions.Pie}
+            type={EChartTypes.Pie}
             data={{
               labels: ["Jan", "Feb", "March", "April", "May"],
               datasets: [
@@ -383,10 +383,10 @@ const dataVizWidgets: IWidget[] = [
         ),
       },
     ],
-  },
+  } as IWidget,
   {
     title: "Stacked area chart sample",
-    size: WidgetSize.Double,
+    size: EWidgetSize.Double,
     body: [
       {
         id: "1",
@@ -394,7 +394,7 @@ const dataVizWidgets: IWidget[] = [
         content: (
           <Chart
             title="Stacked area chart sample"
-            type={ChartOptions.LineStacked}
+            type={EChartTypes.LineStacked}
             data={{
               labels: ["Jan", "Feb", "March", "April", "May"],
               datasets: [
@@ -417,10 +417,10 @@ const dataVizWidgets: IWidget[] = [
       },
     ],
     link: linkExample,
-  },
+  } as IWidget,
   {
     title: "Gradient area chart sample",
-    size: WidgetSize.Double,
+    size: EWidgetSize.Double,
     link: linkExample,
     body: [
       {
@@ -429,7 +429,7 @@ const dataVizWidgets: IWidget[] = [
         content: (
           <Chart
             title="Gradient area chart"
-            type={ChartOptions.LineArea}
+            type={EChartTypes.LineArea}
             data={{
               labels: ["Jan", "Feb", "March", "April", "May"],
               datasets: [
@@ -447,10 +447,10 @@ const dataVizWidgets: IWidget[] = [
         ),
       },
     ],
-  },
+  } as IWidget,
   {
     title: "Bar chart sample",
-    size: WidgetSize.Single,
+    size: EWidgetSize.Single,
     body: [
       {
         id: "Bar chart sample",
@@ -458,7 +458,7 @@ const dataVizWidgets: IWidget[] = [
         content: (
           <Chart
             title="Bar chart sample"
-            type={ChartOptions.Bar}
+            type={EChartTypes.Bar}
             data={{
               labels: ["Jan", "Feb", "March", "April", "May"],
               datasets: [
@@ -473,10 +473,10 @@ const dataVizWidgets: IWidget[] = [
       },
     ],
     link: linkExample,
-  },
+  } as IWidget,
   {
     title: "Stacked bar chart sample",
-    size: WidgetSize.Single,
+    size: EWidgetSize.Single,
     body: [
       {
         id: "Stacked bar chart sample",
@@ -484,7 +484,7 @@ const dataVizWidgets: IWidget[] = [
         content: (
           <Chart
             title="Stacked bar chart sample"
-            type={ChartOptions.BarStacked}
+            type={EChartTypes.BarStacked}
             data={{
               labels: ["Jan", "Feb", "March", "April", "May"],
               datasets: [
@@ -503,10 +503,10 @@ const dataVizWidgets: IWidget[] = [
       },
     ],
     link: linkExample,
-  },
+  } as IWidget,
   {
     title: "Horizontal bar chart sample",
-    size: WidgetSize.Single,
+    size: EWidgetSize.Single,
     body: [
       {
         id: "Horizontal bar chart sample",
@@ -514,7 +514,7 @@ const dataVizWidgets: IWidget[] = [
         content: (
           <Chart
             title="Horizontal bar chart sample"
-            type={ChartOptions.BarHorizontal}
+            type={EChartTypes.BarHorizontal}
             data={{
               labels: ["Jan", "Feb", "March", "April", "May"],
               datasets: [
@@ -529,10 +529,10 @@ const dataVizWidgets: IWidget[] = [
       },
     ],
     link: linkExample,
-  },
+  } as IWidget,
   {
     title: "Grouped bar chart sample",
-    size: WidgetSize.Double,
+    size: EWidgetSize.Double,
     body: [
       {
         id: "1",
@@ -540,7 +540,7 @@ const dataVizWidgets: IWidget[] = [
         content: (
           <Chart
             title="Grouped bar chart sample"
-            type={ChartOptions.Bar}
+            type={EChartTypes.Bar}
             data={{
               labels: ["Jan", "Feb", "March", "April", "May"],
               datasets: [
@@ -567,11 +567,10 @@ const dataVizWidgets: IWidget[] = [
       },
     ],
     link: linkExample,
-  },
-  ,
+  } as IWidget,
   {
     title: "Horizontal stacked bar chart sample",
-    size: WidgetSize.Double,
+    size: EWidgetSize.Double,
     body: [
       {
         id: "Horizontal stacked bar chart sample",
@@ -579,7 +578,7 @@ const dataVizWidgets: IWidget[] = [
         content: (
           <Chart
             title="Horizontal stacked bar chart sample"
-            type={ChartOptions.BarHorizontalStacked}
+            type={EChartTypes.BarHorizontalStacked}
             data={{
               labels: ["Jan", "Feb", "March", "April", "May"],
               datasets: [
@@ -598,24 +597,24 @@ const dataVizWidgets: IWidget[] = [
       },
     ],
     link: linkExample,
-  },
+  } as IWidget,
   {
     title: "Error chart state",
-    size: WidgetSize.Single,
+    size: EWidgetSize.Single,
     body: [
       {
         id: "1",
         title: "",
         content: (
-          <Chart title="Chart error state" type={ChartOptions.LineStacked} />
+          <Chart title="Chart error state" type={EChartTypes.LineStacked} />
         ),
       },
     ],
     link: linkExample,
-  },
+  } as IWidget,
   {
     title: "No data chart state",
-    size: WidgetSize.Single,
+    size: EWidgetSize.Single,
     body: [
       {
         id: "1",
@@ -623,7 +622,7 @@ const dataVizWidgets: IWidget[] = [
         content: (
           <Chart
             title="Chart no data state"
-            type={ChartOptions.LineStacked}
+            type={EChartTypes.LineStacked}
             data={{
               labels: [],
               datasets: [],
@@ -633,12 +632,12 @@ const dataVizWidgets: IWidget[] = [
       },
     ],
     link: linkExample,
-  },
+  } as IWidget,
   {
     title: "Card 6",
-    size: WidgetSize.Single,
+    size: EWidgetSize.Single,
     link: linkExample,
-  },
+  } as IWidget,
 ];
 
 const dataVizConfig = { widgets: dataVizWidgets };

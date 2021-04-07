@@ -1,4 +1,14 @@
-export type TLocale = "en-US" | "fa";
+/**
+ * A locale as an [IETF BCP 47 language tag](https://tools.ietf.org/rfc/bcp/bcp47.txt).
+ * @public
+ */
+export type TLocale = string;
+
+/**
+ * Text content to display. When the preferred locale is not available, the plain string or the only
+ * available locale will be used instead.
+ * @public
+ */
 export type TTextObject = string | { [locale: string]: string } | undefined;
 
 type TInterpolationArgs = [object] | string[];
@@ -44,6 +54,12 @@ export const getText = (
     );
 };
 
+/**
+ * A collection of strings for a certain locale. This library fetches translations by a `stringKey`,
+ * which is common between all translations.
+ *
+ * @public
+ */
 export type TTranslations = {
   locale: TLocale;
   [stringKey: string]: string;
@@ -87,7 +103,10 @@ export default {
     "on drag cancel board item":
       "You have cancelled dragging the item called {itemTitle}.",
     "board lane instructions":
-      "Press Enter to explore board column items, then use Escape to shift focus back to the board column.",
+      "Press Enter to explore board lane items, then use Escape to shift focus back to the board lane.",
+    "toolbar overflow menu": "Toolbar overflow menu",
+    "could not load data": "Could not load data.",
+    "no data": "No data available.",
     "list empty header": "Create your first list item",
     "list empty body":
       "Get started with the ‘Add’ button in the toolbar above.",

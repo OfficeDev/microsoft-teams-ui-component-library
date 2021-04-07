@@ -5,7 +5,7 @@ import cloneDeep from "lodash/cloneDeep";
 import { getText, TTranslations } from "../../translations";
 
 import { FormDialog } from "../Form/Form";
-import { EFieldType, ESectionType } from "../Form/FormContent";
+import { EInlineInputType, EInputBlockType } from "../Form/FormContent";
 import { IPreparedBoardItem, IPreparedBoardItems } from "./BoardItem";
 import { TBoardLanes } from "./BoardLane";
 import { TUsers } from "../../types/types";
@@ -51,12 +51,12 @@ export const BoardItemDialog = ({
       }}
       sections={[
         {
-          inputGroups: [
+          inputBlocks: [
             {
-              type: ESectionType.textInputs,
+              type: EInputBlockType.inlineInputs,
               fields: [
                 {
-                  type: EFieldType.text,
+                  type: EInlineInputType.text,
                   title: t["title"],
                   inputId: "board-item__title",
                   initialValue: getText(t.locale, initialState["title"]),
@@ -64,22 +64,20 @@ export const BoardItemDialog = ({
               ],
             },
             {
-              type: ESectionType.textInputs,
+              type: EInputBlockType.inlineInputs,
               fields: [
                 {
-                  type: EFieldType.text,
+                  type: EInlineInputType.text,
                   title: t["subtitle"],
                   inputId: "board-item__subtitle",
-                  optional: true,
                   initialValue: getText(t.locale, initialState["subtitle"]),
                 },
               ],
             },
             {
-              type: ESectionType.multilineText,
+              type: EInputBlockType.multilineText,
               title: t["board item body"],
               inputId: "board-item__body",
-              optional: true,
               initialValue: getText(
                 t.locale,
                 initialState.body
@@ -90,7 +88,7 @@ export const BoardItemDialog = ({
               ),
             },
             {
-              type: ESectionType.dropdown,
+              type: EInputBlockType.dropdown,
               title: t["board lane"],
               inputId: "board-item__lane",
               multiple: false,
@@ -101,10 +99,9 @@ export const BoardItemDialog = ({
               initialValue: initialState.lane,
             },
             {
-              type: ESectionType.dropdown,
+              type: EInputBlockType.dropdown,
               title: t["board item users"],
               inputId: "board-item__users",
-              optional: true,
               multiple: true,
               options: Object.keys(users).map((userKey) => ({
                 title: users[userKey].name,

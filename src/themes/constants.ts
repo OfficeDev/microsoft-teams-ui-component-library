@@ -1,3 +1,6 @@
+/**
+ * @public
+ */
 export enum TeamsTheme {
   HighContrast = "teamsHighContrastTheme",
   Dark = "teamsDarkTheme",

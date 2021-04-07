@@ -24,6 +24,7 @@ export function ChartEmptyState({
       textColor = siteVariables.colors.grey["400"];
       break;
   }
+  const { t } = siteVariables;
   return (
     <Flex
       styles={{
@@ -35,7 +36,7 @@ export function ChartEmptyState({
       vAlign="center"
       hAlign="center"
     >
-      <InfoIcon outline styles={{ marginRight: ".5rem" }} /> No data available.
+      <InfoIcon outline styles={{ marginRight: ".5rem" }} /> {t["no data"]}
     </Flex>
   );
 }

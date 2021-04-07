@@ -8,6 +8,7 @@
   "module": "lib/esm/index.js",
   "scripts": {
     "build": "just-scripts build",
+    "postbuild": "api-extractor run --local --verbose && api-documenter markdown --input-folder=temp --output-folder=docs",
     "build:storybook": "just-scripts build:storybook",
     "change": "beachball change --branch origin/main",
     "checkchange": "beachball check --branch origin/main",
@@ -34,6 +35,8 @@
     "@babel/core": "^7.10.5",
     "@fluentui/react-icons-northstar": "^0.51.3",
     "@fluentui/react-northstar": "^0.51.3",
+    "@microsoft/api-documenter": "^7.12.7",
+    "@microsoft/api-extractor": "^7.13.1",
     "@storybook/addon-a11y": "^5.3.19",
     "@storybook/addon-actions": "^6.0.26",
     "@storybook/addon-docs": "^5.3.19",

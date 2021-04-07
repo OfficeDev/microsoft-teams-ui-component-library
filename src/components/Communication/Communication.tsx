@@ -11,7 +11,7 @@ import { TeamsTheme } from "../../themes";
 import {
   CommunicationOptions,
   TCommunicationFields,
-  TCommunication,
+  TCommunicationProps,
   ICommunicationFields,
   ICommunicationFieldsWithThemedImage,
   ICommunicationIllustration,
@@ -33,11 +33,14 @@ import {
 } from "./CommunicationOptions";
 import { getText } from "../../translations";
 
+/**
+ * @public
+ */
 export function Communication({
   option,
   fields,
   onInteraction,
-}: TCommunication) {
+}: TCommunicationProps) {
   const [componentTheme, setComponentTheme] = React.useState<TeamsTheme>(
     TeamsTheme.Default
   );

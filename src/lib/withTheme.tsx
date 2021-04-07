@@ -30,6 +30,14 @@ export enum IThemeTeamsClient {
   Dark = "dark",
   Default = "default",
 }
+
+/**
+ * The Provider’s props configure how these components should be rendered: the color palette to use
+ * as `themeName`, the language as `lang`, and any languages to make available through
+ * `translations`. Its children should be a single component from this library.
+ *
+ * @public
+ */
 export interface IThemeProviderProps {
   children: ReactNode;
   lang: TLocale;
@@ -150,13 +158,9 @@ export const themes: { [themeKey: string]: ThemeInput<any> } = {
   ),
 };
 
-export interface IHVCTheme extends ThemePrepared<any> {
-  themeName: TeamsTheme;
-  rtl: boolean;
-  lang: TLocale;
-  t: TTranslations;
-}
-
+/**
+ * @public
+ */
 export const HVCThemeProvider = ({
   children,
   lang,

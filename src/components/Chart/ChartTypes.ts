@@ -1,21 +1,56 @@
+import { TTextObject } from "../../translations";
+
+/**
+ * The data to display in this Chart.
+ * @public
+ */
 export interface IChartData {
-  labels: string | string[];
+  /**
+   * How the x-axis or pie slices should be labeled on the chart, if relevant. Some chart types will
+   * not render this label.
+   */
+  labels: TTextObject | TTextObject[];
+  /**
+   * The Chart’s data, grouped into sets.
+   */
   datasets: IChartDataSet[];
 }
 
+/**
+ * A vector datum for bubble charts and related types.
+ * @public
+ */
 export interface IBubbleChartData {
   x: number;
   y: number;
   r: number;
 }
 
+/**
+ * One set of the Chart’s data.
+ * @public
+ */
 export interface IChartDataSet {
-  label: string;
+  /**
+   * The label for this set.
+   */
+  label: TTextObject;
+  /**
+   * The scalar values of the set’s data.
+   */
   data: number[] | IBubbleChartData[];
+  /**
+   * Whether this set should be ignored by the Chart.
+   */
   hidden?: boolean;
 }
 
-export enum ChartOptions {
+/**
+ * Each chart type can be previewed in the [Data visualizations page of the Microsoft Teams UI Kit](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A4091),
+ * or in [this library’s Storybook](https://dev-int.teams.microsoft.com/storybook/main/index.html?path=/story/components-charts--line-chart).
+ * @public
+ */
+export enum EChartTypes {
   Line = "line",
   LineStacked = "lineStacked",
   LineArea = "lineArea",
@@ -28,7 +63,7 @@ export enum ChartOptions {
   Bubble = "bubble",
 }
 
-export enum PointStyles {
+export enum EPointStyles {
   Circle = "circle",
   Rectangle = "rect",
   Triangle = "triangle",
@@ -37,10 +72,10 @@ export enum PointStyles {
 
 export interface ILineChartPatterns {
   lineBorderDash: number[];
-  pointStyle: PointStyles;
+  pointStyle: EPointStyles;
 }
 
-export enum Shapes {
+export enum EShapes {
   Square = "square",
   DiagonalRightLeft = "diagonalRightLeft",
   Grid = "grid",
@@ -50,7 +85,7 @@ export enum Shapes {
 }
 
 export interface IDraw {
-  shapeType: Shapes;
+  shapeType: EShapes;
   size: number;
 }
 

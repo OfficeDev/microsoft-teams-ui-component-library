@@ -13,7 +13,12 @@ import {
 import { DashboardTheme } from "./DashboardTheme";
 import { Toolbar } from "../Toolbar/Toolbar";
 
-interface IDashboard {
+/**
+ * The Dashboard component summarizes disparate types of information into a series of widgets.
+ * Designs for this component are available in the [Dashboard page of the Microsoft Teams UI Kit](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A3890).
+ * @public
+ */
+export interface IDashboard {
   widgets: IWidget[];
 }
 
@@ -27,6 +32,9 @@ const toolbarConfig = {
   find: false,
 };
 
+/**
+ * @public
+ */
 export function Dashboard({ widgets }: IDashboard) {
   return (
     <FluentUIThemeConsumer

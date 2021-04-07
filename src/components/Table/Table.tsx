@@ -51,11 +51,20 @@ type sortOrder = [columnKey | "__rowKey__", "asc" | "desc"];
 
 export type TSelected = Set<rowKey>;
 
+/**
+ * A collection of data to display for a row, keyed by the column ID except for `actions`, which
+ * contains the collection of actions to make available in the row’s overflow menu.
+ * @public
+ */
 export interface IRow {
   [columnKey: string]: string | TActions | undefined;
   actions?: TActions;
 }
 
+/**
+ * An interaction payload emitted by Table.
+ * @public
+ */
 export type TTableInteraction = {
   event: "click";
   target: "table";
@@ -63,14 +72,46 @@ export type TTableInteraction = {
   action: actionKey;
 };
 
+/**
+ * The Table component is used by the List template as its primary content.
+ * @public
+ */
 export interface ITableProps extends PropsOfElement<"div"> {
+  /**
+   * A collection of columns to display, keyed by column ID.
+   */
   columns: { [columnKey: string]: IColumn };
+  /**
+   * A collection of rows to display, keyed by row ID.
+   */
   rows: { [rowKey: string]: IRow };
+  /**
+   * If true, limits content to a single line and truncate with the language’s default ellipsis,
+   * or if false, content in each cell wraps exhaustively.
+   */
   truncate?: boolean;
+  /**
+   * Whether the user can select rows. In the context of a List component, this supplies any actions
+   * all rows have in common in the Toolbar instance above the Table.
+   */
   selectable?: boolean;
+  /**
+   * @internal
+   */
   onSelectedChange?: (selected: TSelected) => TSelected;
+  /**
+   * @internal
+   */
   findQuery?: string;
+  /**
+   * @internal
+   */
   filterBy?: (row: IRow) => boolean;
+  /**
+   * An interaction handler for the Table. Interactions are triggered when the user clicks on an
+   * action in a row. If the Table is not rendered on its own, this may be proxied from its parent
+   * component, e.g. the parent List.
+   */
   onInteraction?: (interaction: TTableInteraction) => void;
 }
 
@@ -125,6 +166,9 @@ const defaultSortOrder: sortOrder = ["__rowKey__", "desc"];
 
 const passThrough = (arg: any) => arg;
 
+/**
+ * @public
+ */
 export const Table = (props: ITableProps) => {
   const rowKeys = Object.keys(props.rows);
   const columnKeys = Object.keys(props.columns);
