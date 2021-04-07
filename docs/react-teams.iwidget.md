@@ -18,8 +18,9 @@ export interface IWidget
 |  --- | --- | --- |
 |  [body?](./react-teams.iwidget.body.md) | [IWidgetBodyContent](./react-teams.iwidgetbodycontent.md)<!-- -->\[\] | <i>(Optional)</i> The content to make available in the widget. |
 |  [desc?](./react-teams.iwidget.desc.md) | string | <i>(Optional)</i> Text rendered in boxy test style below the title. |
+|  [id](./react-teams.iwidget.id.md) | string | A unique ID for the widget. |
 |  [link?](./react-teams.iwidget.link.md) | [IWidgetLink](./react-teams.iwidgetlink.md) | <i>(Optional)</i> A link to render at the end of the widget’s content. |
-|  [size](./react-teams.iwidget.size.md) | [EWidgetSize](./react-teams.ewidgetsize.md) |  |
+|  [size](./react-teams.iwidget.size.md) | [EWidgetSize](./react-teams.ewidgetsize.md) | The widget’s target size. |
 |  [title](./react-teams.iwidget.title.md) | string | The title of the widget, rendered in a header style. |
 |  [widgetActionGroup?](./react-teams.iwidget.widgetactiongroup.md) | [IWidgetAction](./react-teams.iwidgetaction.md)<!-- -->\[\] | <i>(Optional)</i> A collection of actions available in the widget’s overflow menu. |
 

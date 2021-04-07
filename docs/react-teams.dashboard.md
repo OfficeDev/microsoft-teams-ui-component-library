@@ -8,14 +8,14 @@
 <b>Signature:</b>
 
 ```typescript
-export declare function Dashboard({ widgets }: IDashboard): JSX.Element;
+export declare function Dashboard({ widgets, preferences, onInteraction }: IDashboard): JSX.Element;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  { widgets } | [IDashboard](./react-teams.idashboard.md) |  |
+|  { widgets, preferences, onInteraction } | [IDashboard](./react-teams.idashboard.md) |  |
 
 <b>Returns:</b>
 
