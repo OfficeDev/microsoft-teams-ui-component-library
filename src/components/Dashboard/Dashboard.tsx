@@ -59,6 +59,17 @@ export interface IDashboardInteractionUpdatePreferences {
   preferences: IDashboardPreferences;
 }
 
+const staticLocalStorageKey = "dashboard";
+
+/*
+ * This method returns the same stored preferences for any Dashboard.
+ */
+const getStoredPrefs = () =>
+  ((() => {
+    const storedPrefs = window.localStorage.getItem(staticLocalStorageKey);
+    return storedPrefs ? JSON.parse(storedPrefs) : false;
+  })() || { widgetSettings: {} }) as IDashboardPreferences;
+
 /**
  * @public
  */
@@ -70,21 +81,24 @@ export function Dashboard({ widgets, preferences, onInteraction }: IDashboard) {
     IDashboardPreferences
   >(
     (() => {
-      const prefs = cloneDeep(
-        preferences || ({ widgetSettings: {} } as IDashboardPreferences)
+      return cloneDeep(
+        widgets.reduce((loadedPrefs, { id }) => {
+          return set(
+            loadedPrefs,
+            `widgetSettings.${id}.display`,
+            get(loadedPrefs, `widgetSettings.${id}.display`, true)
+          );
+        }, preferences || getStoredPrefs())
       );
-      return widgets.reduce((prefs, { id }) => {
-        return set(
-          prefs,
-          `widgetSettings.${id}.display`,
-          get(prefs, `widgetSettings.${id}.display`, true)
-        );
-      }, prefs);
     })()
   );
 
   const updatePreferences = (nextPreferences: IDashboardPreferences) => {
     setPreferencesState(cloneDeep(nextPreferences));
+    window.localStorage.setItem(
+      staticLocalStorageKey,
+      JSON.stringify(nextPreferences)
+    );
     onInteraction &&
       onInteraction({
         event: "update",

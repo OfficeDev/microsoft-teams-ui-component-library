@@ -58,6 +58,7 @@ export const Sidebar = ({
             return (
               <Checkbox
                 toggle
+                key={`widgetDisplayToggle-${id}`}
                 checked={get(preferencesState, `widgetSettings.${id}.display`)}
                 label={title}
                 labelPosition="start"
