@@ -66,6 +66,7 @@ const randomLocalStorageKey = () => Math.random().toString(36).substr(2, 9);
  */
 const getStoredPrefs = (localStorageKey: string) =>
   ((() => {
+    console.log("[get stored prefs]", localStorageKey);
     const storedPrefs = window.localStorage.getItem(localStorageKey);
     return storedPrefs ? JSON.parse(storedPrefs) : false;
   })() || { widgetSettings: {} }) as IDashboardPreferences;
