@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import get from "lodash/get";
 import set from "lodash/set";
 import cloneDeep from "lodash/cloneDeep";
@@ -59,14 +59,14 @@ export interface IDashboardInteractionUpdatePreferences {
   preferences: IDashboardPreferences;
 }
 
-const staticLocalStorageKey = "dashboard";
+const randomLocalStorageKey = () => Math.random().toString(36).substr(2, 9);
 
 /*
  * This method returns the same stored preferences for any Dashboard.
  */
-const getStoredPrefs = () =>
+const getStoredPrefs = (localStorageKey: string) =>
   ((() => {
-    const storedPrefs = window.localStorage.getItem(staticLocalStorageKey);
+    const storedPrefs = window.localStorage.getItem(localStorageKey);
     return storedPrefs ? JSON.parse(storedPrefs) : false;
   })() || { widgetSettings: {} }) as IDashboardPreferences;
 
@@ -76,6 +76,8 @@ const getStoredPrefs = () =>
 export function Dashboard({ widgets, preferences, onInteraction }: IDashboard) {
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
   const closeSidebar = () => setSidebarOpen(false);
+
+  const localStorageKey = useRef(randomLocalStorageKey());
 
   const [preferencesState, setPreferencesState] = useState<
     IDashboardPreferences
@@ -88,7 +90,7 @@ export function Dashboard({ widgets, preferences, onInteraction }: IDashboard) {
             `widgetSettings.${id}.display`,
             get(loadedPrefs, `widgetSettings.${id}.display`, true)
           );
-        }, preferences || getStoredPrefs())
+        }, preferences || getStoredPrefs(localStorageKey.current))
       );
     })()
   );
@@ -96,7 +98,7 @@ export function Dashboard({ widgets, preferences, onInteraction }: IDashboard) {
   const updatePreferences = (nextPreferences: IDashboardPreferences) => {
     setPreferencesState(cloneDeep(nextPreferences));
     window.localStorage.setItem(
-      staticLocalStorageKey,
+      localStorageKey.current,
       JSON.stringify(nextPreferences)
     );
     onInteraction &&
