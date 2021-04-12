@@ -5,7 +5,14 @@ export {
 
 export { TeamsTheme as themeNames } from "./themes";
 
-export { actionKey, TAction, TActions, TUser, TUsers } from "./types/types";
+export {
+  actionKey,
+  TAction,
+  TActions,
+  TUser,
+  TUsers,
+  TCacheKey,
+} from "./types/types";
 
 export { TLocale, TTextObject, TTranslations } from "./translations";
 
@@ -39,12 +46,16 @@ export {
 export {
   Dashboard,
   IDashboard,
-  IWidgetAction,
+  TDashboardInteraction,
+  IDashboardInteractionUpdatePreferences,
+} from "./components/Dashboard/Dashboard";
+export {
   IWidget,
   EWidgetSize,
   IWidgetBodyContent,
   IWidgetLink,
-} from "./components/Dashboard";
+} from "./components/Dashboard/DashboardWidget";
+export { IWidgetAction } from "./components/Dashboard/DashboardCallout";
 
 export { List, IListProps, TListInteraction } from "./components/List/List";
 

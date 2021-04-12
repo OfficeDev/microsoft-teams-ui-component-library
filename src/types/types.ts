@@ -54,6 +54,14 @@ export type TUsers = {
 };
 
 /**
+ * If undefined, the component should not attempt to save or load properties from local storage.
+ * Otherwise this string should be used to identify a component’s intention; user preferences
+ * and potentially other properties will be saved to and loaded from the local storage for a user’s
+ * client by this key.
+ */
+export type TCacheKey = string | undefined;
+
+/**
  * @internal
  */
 export enum Surface {

@@ -4,11 +4,7 @@ import { actions } from "@storybook/addon-actions";
 
 const eventsFromNames = actions("onInteraction");
 
-import { Dashboard } from "../src/components/Dashboard";
-import {
-  IWidget,
-  EWidgetSize,
-} from "../src/components/Dashboard/DashboardWidget";
+import { Dashboard, IWidget, EWidgetSize, Chart, EChartTypes } from "../src/";
 import {
   ExclamationCircleIcon,
   Flex,
@@ -16,7 +12,6 @@ import {
   ShareGenericIcon,
   Text,
 } from "@fluentui/react-northstar";
-import { Chart, EChartTypes } from "../src";
 import { random } from "../src/components/Chart/ChartUtils";
 
 export default {
@@ -136,7 +131,10 @@ const defaultWidgets: IWidget[] = [
 ];
 
 const dashboardKnobGroupID = "Dashboards";
-const dafaultConfig = { widgets: defaultWidgets };
+const dafaultConfig = {
+  widgets: defaultWidgets,
+  cacheKey: "default-dashboard",
+};
 
 export const Default = () => {
   return (
@@ -665,7 +663,10 @@ const dataVizWidgets = [
   } as IWidget,
 ];
 
-const dataVizConfig = { widgets: dataVizWidgets };
+const dataVizConfig = {
+  widgets: dataVizWidgets,
+  cacheKey: "dashboard-with-dataViz",
+};
 
 export const WithDataVizualization = () => {
   return (

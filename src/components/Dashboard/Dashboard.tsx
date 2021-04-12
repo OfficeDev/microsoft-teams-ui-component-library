@@ -16,6 +16,7 @@ import {
 import { DashboardTheme } from "./DashboardTheme";
 import { Sidebar } from "./Sidebar";
 import { Toolbar } from "../Toolbar/Toolbar";
+import { TCacheKey } from "../../types/types";
 
 /**
  * The Dashboard component summarizes disparate types of information into a series of widgets.
@@ -25,6 +26,7 @@ import { Toolbar } from "../Toolbar/Toolbar";
 export interface IDashboard {
   widgets: IWidget[];
   preferences?: IDashboardPreferences;
+  cacheKey?: TCacheKey;
   onInteraction?: (interaction: TDashboardInteraction) => void;
 }
 
@@ -59,26 +61,34 @@ export interface IDashboardInteractionUpdatePreferences {
   preferences: IDashboardPreferences;
 }
 
-const randomLocalStorageKey = () => Math.random().toString(36).substr(2, 9);
+const emptyPrefs = { widgetSettings: {} };
 
 /*
  * This method returns the same stored preferences for any Dashboard.
  */
-const getStoredPrefs = (localStorageKey: string) =>
-  ((() => {
-    console.log("[get stored prefs]", localStorageKey);
-    const storedPrefs = window.localStorage.getItem(localStorageKey);
-    return storedPrefs ? JSON.parse(storedPrefs) : false;
-  })() || { widgetSettings: {} }) as IDashboardPreferences;
+const getStoredPrefs = (cacheKey: TCacheKey) =>
+  cacheKey
+    ? (() => {
+        const storedPrefs = window.localStorage.getItem(cacheKey);
+        return storedPrefs ? JSON.parse(storedPrefs) : false;
+      })() || emptyPrefs
+    : (emptyPrefs as IDashboardPreferences);
 
 /**
  * @public
  */
-export function Dashboard({ widgets, preferences, onInteraction }: IDashboard) {
+export function Dashboard({
+  widgets,
+  preferences,
+  cacheKey,
+  onInteraction,
+}: IDashboard) {
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
   const closeSidebar = () => setSidebarOpen(false);
 
-  const localStorageKey = useRef(randomLocalStorageKey());
+  const localStorageKey = cacheKey
+    ? `@fluentui/react-teams__${cacheKey}`
+    : undefined;
 
   const [preferencesState, setPreferencesState] = useState<
     IDashboardPreferences
@@ -91,17 +101,18 @@ export function Dashboard({ widgets, preferences, onInteraction }: IDashboard) {
             `widgetSettings.${id}.display`,
             get(loadedPrefs, `widgetSettings.${id}.display`, true)
           );
-        }, preferences || getStoredPrefs(localStorageKey.current))
+        }, preferences || getStoredPrefs(localStorageKey))
       );
     })()
   );
 
   const updatePreferences = (nextPreferences: IDashboardPreferences) => {
     setPreferencesState(cloneDeep(nextPreferences));
-    window.localStorage.setItem(
-      localStorageKey.current,
-      JSON.stringify(nextPreferences)
-    );
+    localStorageKey &&
+      window.localStorage.setItem(
+        localStorageKey,
+        JSON.stringify(nextPreferences)
+      );
     onInteraction &&
       onInteraction({
         event: "update",

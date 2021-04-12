@@ -16,7 +16,8 @@ export interface IDashboard
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [onInteraction?](./react-teams.idashboard.oninteraction.md) | (interaction: TDashboardInteraction) =&gt; void | <i>(Optional)</i> |
+|  [cacheKey?](./react-teams.idashboard.cachekey.md) | [TCacheKey](./react-teams.tcachekey.md) | <i>(Optional)</i> |
+|  [onInteraction?](./react-teams.idashboard.oninteraction.md) | (interaction: [TDashboardInteraction](./react-teams.tdashboardinteraction.md)<!-- -->) =&gt; void | <i>(Optional)</i> |
 |  [preferences?](./react-teams.idashboard.preferences.md) | IDashboardPreferences | <i>(Optional)</i> |
 |  [widgets](./react-teams.idashboard.widgets.md) | [IWidget](./react-teams.iwidget.md)<!-- -->\[\] |  |
 
