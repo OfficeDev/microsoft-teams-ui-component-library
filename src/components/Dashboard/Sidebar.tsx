@@ -1,19 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import get from "lodash/get";
 import set from "lodash/set";
 import {
+  Box,
   Button,
   Checkbox,
   Dialog,
   Flex,
+  Input,
   Text,
 } from "@fluentui/react-northstar";
 import { TTranslations } from "../../translations";
 
-import { CloseIcon } from "@fluentui/react-icons-northstar";
+import { CloseIcon, SearchIcon } from "@fluentui/react-icons-northstar";
 import { IWidget } from "./DashboardWidget";
 import { SiteVariablesPrepared } from "@fluentui/styles";
 import { IDashboardPreferences } from "./Dashboard";
+import { Surface, DialogVariant } from "../../types/types";
 
 interface ISidebarProps {
   open: boolean;
@@ -23,6 +26,13 @@ interface ISidebarProps {
   preferencesState: IDashboardPreferences;
   updatePreferences: (preferences: IDashboardPreferences) => void;
 }
+
+const matchesFind = (findQuery: string, title: string) => {
+  return (
+    findQuery.length < 3 ||
+    title.toLowerCase().includes(findQuery.toLowerCase())
+  );
+};
 
 /**
  * @internal
@@ -35,6 +45,8 @@ export const Sidebar = ({
   preferencesState,
   updatePreferences,
 }: ISidebarProps) => {
+  const [findQuery, setFindQuery] = useState<string>("");
+
   return (
     <Dialog
       trapFocus
@@ -54,42 +66,58 @@ export const Sidebar = ({
       }
       content={
         <>
-          {widgets.map(({ id, title }: IWidget) => {
-            return (
-              <Checkbox
-                toggle
-                key={`widgetDisplayToggle-${id}`}
-                checked={get(preferencesState, `widgetSettings.${id}.display`)}
-                label={title}
-                labelPosition="start"
-                styles={{ display: "flex", margin: ".5rem 0" }}
-                variables={{ labelFlex: "1 0 0" }}
-                onChange={(_e, props) => {
-                  updatePreferences(
-                    set(
+          <Text as="p" styles={{ marginBottom: "2.5rem" }}>
+            {t["edit dashboard coaching"]}
+          </Text>
+          <Input
+            clearable
+            fluid
+            placeholder={t["find"]}
+            aria-label={t["find"]}
+            value={findQuery}
+            icon={<SearchIcon outline />}
+            onChange={(e, inputProps) => {
+              setFindQuery(get(inputProps, "value", ""));
+            }}
+            variables={{ surface: Surface.base }}
+            styles={{ marginBottom: "2.5rem" }}
+          />
+          <Box styles={{ marginBottom: "2.5rem" }}>
+            {widgets.map(({ id, title }: IWidget) => {
+              return (
+                matchesFind(findQuery, title) && (
+                  <Checkbox
+                    toggle
+                    key={`widgetDisplayToggle-${id}`}
+                    checked={get(
                       preferencesState,
-                      `widgetSettings.${id}.display`,
-                      !!props?.checked
-                    )
-                  );
-                }}
-              />
-            );
-          })}
+                      `widgetSettings.${id}.display`
+                    )}
+                    label={title}
+                    labelPosition="start"
+                    styles={{ display: "flex", margin: ".5rem 0" }}
+                    variables={{ labelFlex: "1 0 0" }}
+                    onChange={(_e, props) => {
+                      updatePreferences(
+                        set(
+                          preferencesState,
+                          `widgetSettings.${id}.display`,
+                          !!props?.checked
+                        )
+                      );
+                    }}
+                  />
+                )
+              );
+            })}
+          </Box>
         </>
       }
       onCancel={onClose}
       onConfirm={onClose}
+      confirmButton={t["ok"]}
       {...{ open }}
-      variables={({ colorScheme }: SiteVariablesPrepared) => ({
-        overlayBackground: "transparent",
-        dialogBackground: colorScheme.default.background2,
-        dialogLayoutFlexDirection: "column",
-        dialogLayoutFlex: "1 0 0",
-        dialogLayoutJustifyContent: "stretch",
-        dialogLayoutAlignItems: "flex-end",
-        dialogElevation: colorScheme.elevations[8],
-      })}
+      variables={{ variant: DialogVariant.sidebar }}
       styles={{
         width: "20rem",
         display: "block",

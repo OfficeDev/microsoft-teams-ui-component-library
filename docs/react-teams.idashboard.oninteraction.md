@@ -4,6 +4,8 @@
 
 ## IDashboard.onInteraction property
 
+A Dashboard will emit onInteraction payloads when the user updates any preferences.
+
 <b>Signature:</b>
 
 ```typescript

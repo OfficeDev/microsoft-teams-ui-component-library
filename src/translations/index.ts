@@ -114,5 +114,9 @@ export default {
     "board empty body": "Get started by adding a column in the toolbar above.",
     close: "Close",
     "edit dashboard": "Edit dashboard",
+    "edit dashboard coaching":
+      "Enable or disable the data you want to see on the dashboard.",
+    find: "Find",
+    ok: "OK",
   } as TTranslations,
 };

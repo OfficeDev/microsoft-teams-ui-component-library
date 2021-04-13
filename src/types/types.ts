@@ -68,3 +68,11 @@ export enum Surface {
   base = "base",
   raised = "raised",
 }
+
+/**
+ * @internal
+ */
+export enum DialogVariant {
+  normal = "normal",
+  sidebar = "sidebar",
+}

@@ -24,9 +24,21 @@ import { TCacheKey } from "../../types/types";
  * @public
  */
 export interface IDashboard {
+  /**
+   * The widgets to make available in this Dashboard.
+   */
   widgets: IWidget[];
+  /**
+   * Any initial preferences that should be set for this user, in case you save users’ preferences remotely.
+   */
   preferences?: IDashboardPreferences;
+  /**
+   * Set this `cacheKey` to save user’s preferences on their local clients.
+   */
   cacheKey?: TCacheKey;
+  /**
+   * A Dashboard will emit onInteraction payloads when the user updates any preferences.
+   */
   onInteraction?: (interaction: TDashboardInteraction) => void;
 }
 

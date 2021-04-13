@@ -4,6 +4,8 @@
 
 ## IDashboard.preferences property
 
+Any initial preferences that should be set for this user, in case you save users’ preferences remotely.
+
 <b>Signature:</b>
 
 ```typescript

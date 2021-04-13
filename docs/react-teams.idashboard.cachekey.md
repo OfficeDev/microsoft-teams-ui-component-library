@@ -4,6 +4,8 @@
 
 ## IDashboard.cacheKey property
 
+Set this `cacheKey` to save user’s preferences on their local clients.
+
 <b>Signature:</b>
 
 ```typescript
