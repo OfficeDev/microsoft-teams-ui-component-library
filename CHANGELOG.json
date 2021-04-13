@@ -2,6 +2,21 @@
   "name": "@fluentui/react-teams",
   "entries": [
     {
+      "date": "Wed, 07 Apr 2021 23:01:34 GMT",
+      "tag": "@fluentui/react-teams_v4.0.0",
+      "version": "4.0.0",
+      "comments": {
+        "major": [
+          {
+            "comment": "Add documentation for each component’s props and types.",
+            "author": "v-wishow@microsoft.com",
+            "commit": "f7388e73b61b221e5d230a9e58c2dd7f627cbcdd",
+            "package": "@fluentui/react-teams"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 01 Apr 2021 22:37:40 GMT",
       "tag": "@fluentui/react-teams_v3.2.0",
       "version": "3.2.0",

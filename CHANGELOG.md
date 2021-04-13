@@ -1,8 +1,16 @@
 # Change Log - @fluentui/react-teams
 
-This log was last generated on Thu, 01 Apr 2021 22:37:40 GMT and should not be manually modified.
+This log was last generated on Wed, 07 Apr 2021 23:01:34 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 4.0.0
+
+Wed, 07 Apr 2021 23:01:34 GMT
+
+### Major changes
+
+- Add documentation for each component’s props and types. (v-wishow@microsoft.com)
 
 ## 3.2.0
 
