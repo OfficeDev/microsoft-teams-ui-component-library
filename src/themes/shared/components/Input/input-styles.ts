@@ -23,14 +23,12 @@ export const inputStyles: ComponentSlotStylesPrepared<
             return colorScheme.default.background;
           case Surface.raised:
           default:
-            return (() => {
-              switch (theme as TeamsTheme) {
-                case TeamsTheme.Dark:
-                  return colorScheme.default.background1;
-                default:
-                  return colorScheme.default.background2;
-              }
-            })();
+            switch (theme as TeamsTheme) {
+              case TeamsTheme.Dark:
+                return colorScheme.default.background1;
+              default:
+                return colorScheme.default.background2;
+            }
         }
       })(),
     };

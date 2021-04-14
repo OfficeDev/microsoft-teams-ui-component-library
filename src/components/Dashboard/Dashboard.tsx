@@ -1,7 +1,7 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import get from "lodash/get";
 import set from "lodash/set";
-import cloneDeep from "lodash/cloneDeep";
+import produce from "immer";
 import {
   ProviderConsumer as FluentUIThemeConsumer,
   Box,
@@ -102,29 +102,35 @@ export function Dashboard({
     ? `@fluentui/react-teams__${cacheKey}`
     : undefined;
 
+  const initializePreferencesState = () => {
+    return produce(
+      preferences || (getStoredPrefs(localStorageKey) as IDashboardPreferences),
+      (draft: IDashboardPreferences) => {
+        widgets.reduce((draft, { id }) => {
+          return set(
+            draft,
+            `widgetSettings.${id}.display`,
+            get(draft, `widgetSettings.${id}.display`, true)
+          );
+        }, draft);
+      }
+    );
+  };
+
   const [preferencesState, setPreferencesState] = useState<
     IDashboardPreferences
-  >(
-    (() => {
-      return cloneDeep(
-        widgets.reduce((loadedPrefs, { id }) => {
-          return set(
-            loadedPrefs,
-            `widgetSettings.${id}.display`,
-            get(loadedPrefs, `widgetSettings.${id}.display`, true)
-          );
-        }, preferences || getStoredPrefs(localStorageKey))
-      );
-    })()
-  );
+  >(initializePreferencesState);
 
-  const updatePreferences = (nextPreferences: IDashboardPreferences) => {
-    setPreferencesState(cloneDeep(nextPreferences));
+  useEffect(() => {
     localStorageKey &&
       window.localStorage.setItem(
         localStorageKey,
-        JSON.stringify(nextPreferences)
+        JSON.stringify(preferencesState)
       );
+  }, [preferencesState]);
+
+  const updatePreferences = (nextPreferences: IDashboardPreferences) => {
+    setPreferencesState(nextPreferences);
     onInteraction &&
       onInteraction({
         event: "update",

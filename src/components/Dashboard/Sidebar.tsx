@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import get from "lodash/get";
 import set from "lodash/set";
+import produce from "immer";
 import {
   Box,
   Button,
@@ -14,7 +15,6 @@ import { TTranslations } from "../../translations";
 
 import { CloseIcon, SearchIcon } from "@fluentui/react-icons-northstar";
 import { IWidget } from "./DashboardWidget";
-import { SiteVariablesPrepared } from "@fluentui/styles";
 import { IDashboardPreferences } from "./Dashboard";
 import { Surface, DialogVariant } from "../../types/types";
 
@@ -99,11 +99,13 @@ export const Sidebar = ({
                     variables={{ labelFlex: "1 0 0" }}
                     onChange={(_e, props) => {
                       updatePreferences(
-                        set(
-                          preferencesState,
-                          `widgetSettings.${id}.display`,
-                          !!props?.checked
-                        )
+                        produce(preferencesState, (draft) => {
+                          set(
+                            draft,
+                            `widgetSettings.${id}.display`,
+                            !!props?.checked
+                          );
+                        })
                       );
                     }}
                   />

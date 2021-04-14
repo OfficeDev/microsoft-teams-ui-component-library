@@ -21,6 +21,7 @@
   "dependencies": {
     "chart.js": "^2.9.4",
     "classnames": "^2.2.6",
+    "immer": "^9.0.1",
     "lodash": "^4.17.15",
     "react-beautiful-dnd": "^13.0.0",
     "react-perfect-scrollbar": "^1.5.8"
