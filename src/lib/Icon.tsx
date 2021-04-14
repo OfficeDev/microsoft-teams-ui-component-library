@@ -1,39 +1,22 @@
-import React from "react";
+import React, { FunctionComponent, HTMLAttributes } from "react";
 
-import {
-  AddIcon,
-  EditIcon,
-  GalleryNewIcon,
-  GalleryNewLargeIcon,
-  ShareGenericIcon,
-  TrashCanIcon,
-} from "@fluentui/react-icons-northstar";
+import * as FluentUIIcons from "@fluentui/react-icons-northstar";
+import { SvgIconProps } from "@fluentui/react-icons-northstar";
+
+const Icons = (FluentUIIcons as unknown) as {
+  [iconName: string]: FunctionComponent<
+    HTMLAttributes<HTMLSpanElement> & SvgIconProps
+  >;
+};
 
 export interface IIconProps {
   icon?: string;
 }
 
 export default ({ icon }: IIconProps) => {
-  let iconElement = null;
-  switch (icon) {
-    case "Add":
-      iconElement = <AddIcon outline />;
-      break;
-    case "Edit":
-      iconElement = <EditIcon outline />;
-      break;
-    case "GalleryNew":
-      iconElement = <GalleryNewIcon outline />;
-      break;
-    case "GalleryNewLarge":
-      iconElement = <GalleryNewLargeIcon outline />;
-      break;
-    case "ShareGeneric":
-      iconElement = <ShareGenericIcon outline />;
-      break;
-    case "TrashCan":
-      iconElement = <TrashCanIcon outline />;
-      break;
-  }
-  return iconElement;
+  const componentName = `${icon}Icon`;
+  if (Icons.hasOwnProperty(componentName)) {
+    const IconComponent = Icons[componentName];
+    return <IconComponent outline />;
+  } else return null;
 };
