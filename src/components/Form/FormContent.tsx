@@ -5,6 +5,8 @@ import React, {
   SyntheticEvent,
 } from "react";
 
+import produce from "immer";
+
 import get from "lodash/get";
 import chunk from "lodash/chunk";
 
@@ -378,22 +380,23 @@ const DropdownBlock = (
       label={getText(t?.locale, title)}
       styles={{ marginBottom: ".75rem" }}
       onChange={(_e, props) => {
-        if (props.multiple) {
-          const values = (get(
-            props,
-            "value",
-            []
-          ) as DropdownItemProps[]).map(
-            (selectedItemProps: DropdownItemProps) =>
-              get(selectedItemProps, "data-value")
-          );
-          values.length
-            ? (formState[inputId] = values)
-            : delete formState[inputId];
-        } else {
-          formState[inputId] = get(props, ["value", "data-value"]);
-        }
-        setFormState(formState);
+        setFormState(
+          produce(formState, (draft) => {
+            if (props.multiple) {
+              const values = (get(
+                props,
+                "value",
+                []
+              ) as DropdownItemProps[]).map(
+                (selectedItemProps: DropdownItemProps) =>
+                  get(selectedItemProps, "data-value")
+              );
+              values.length ? (draft[inputId] = values) : delete draft[inputId];
+            } else {
+              draft[inputId] = get(props, ["value", "data-value"]);
+            }
+          })
+        );
       }}
       defaultValue={
         props.multiple
@@ -524,25 +527,28 @@ const InlineInputsBlock = ({
                               ...(error && { marginBottom: 0 }),
                             }}
                             onChange={(_e, props) => {
-                              if (props.multiple) {
-                                const values = (get(
-                                  props,
-                                  "value",
-                                  []
-                                ) as DropdownItemProps[]).map(
-                                  (selectedItemProps: DropdownItemProps) =>
-                                    get(selectedItemProps, "data-value")
-                                );
-                                values.length
-                                  ? (formState[inputId] = values)
-                                  : delete formState[inputId];
-                              } else {
-                                formState[inputId] = get(props, [
-                                  "value",
-                                  "data-value",
-                                ]);
-                              }
-                              setFormState(formState);
+                              setFormState(
+                                produce(formState, (draft) => {
+                                  if (props.multiple) {
+                                    const values = (get(
+                                      props,
+                                      "value",
+                                      []
+                                    ) as DropdownItemProps[]).map(
+                                      (selectedItemProps: DropdownItemProps) =>
+                                        get(selectedItemProps, "data-value")
+                                    );
+                                    values.length
+                                      ? (draft[inputId] = values)
+                                      : delete draft[inputId];
+                                  } else {
+                                    draft[inputId] = get(props, [
+                                      "value",
+                                      "data-value",
+                                    ]);
+                                  }
+                                })
+                              );
                             }}
                             defaultValue={
                               multiple
@@ -580,10 +586,13 @@ const InlineInputsBlock = ({
                               .concat(error ? errorId(id) : [])
                               .join(" ")}
                             value={formState[inputId] as string}
-                            onChange={(e, props) => {
+                            onChange={(_e, props) => {
                               if (props && "value" in props) {
-                                formState[inputId] = props.value.toString();
-                                setFormState(formState);
+                                setFormState(
+                                  produce(formState, (draft) => {
+                                    draft[inputId] = props.value.toString();
+                                  })
+                                );
                               }
                             }}
                           />
@@ -661,20 +670,23 @@ const CheckboxesBlock = ({
                 label={getText(t?.locale, title)}
                 data-value={value}
                 onChange={(e, props) => {
-                  const value = get(props, "data-value");
-                  if (props?.checked) {
-                    Array.isArray(formState[inputId])
-                      ? (formState[inputId] as string[]).push(value)
-                      : (formState[inputId] = [value]);
-                  } else {
-                    const next_values = (formState[inputId] as string[]).filter(
-                      (v) => v !== value
-                    );
-                    next_values.length > 0
-                      ? (formState[inputId] = next_values)
-                      : delete formState[inputId];
-                  }
-                  setFormState(formState);
+                  setFormState(
+                    produce(formState, (draft) => {
+                      const value = get(props, "data-value");
+                      if (props?.checked) {
+                        Array.isArray(draft[inputId])
+                          ? (draft[inputId] as string[]).push(value)
+                          : (draft[inputId] = [value]);
+                      } else {
+                        const next_values = (draft[inputId] as string[]).filter(
+                          (v) => v !== value
+                        );
+                        next_values.length > 0
+                          ? (draft[inputId] = next_values)
+                          : delete draft[inputId];
+                      }
+                    })
+                  );
                 }}
               />
             </Box>
@@ -709,10 +721,13 @@ const MultilineTextBlock = ({
         value={(formState[inputId] as string) || ""}
         {...(placeholder && { placeholder: getText(t?.locale, placeholder) })}
         onChange={(e, props) => {
-          props && props.value
-            ? (formState[inputId] = props.value)
-            : delete formState[inputId];
-          setFormState(formState);
+          setFormState(
+            produce(formState, (draft) => {
+              props && props.value
+                ? (draft[inputId] = props.value)
+                : delete draft[inputId];
+            })
+          );
         }}
       />
       {error && <ErrorMessage message={error} t={t} />}
@@ -748,8 +763,11 @@ const RadioButtonsBlock = ({
           props: RadioGroupItemProps | undefined
         ) => {
           if (props && props.checked && props.value)
-            formState[inputId] = props.value.toString();
-          setFormState(formState);
+            setFormState(
+              produce(formState, (draft) => {
+                draft[inputId] = props.value!.toString();
+              })
+            );
         };
         return { key, value, label, name, checked, onChange };
       })}

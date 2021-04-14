@@ -1,6 +1,5 @@
-import React, { SetStateAction, useState } from "react";
+import React, { useState } from "react";
 import CustomScrollArea from "react-perfect-scrollbar";
-import clone from "lodash/clone";
 
 import {
   Box,
@@ -154,12 +153,9 @@ export const Form = ({
   topError,
   onInteraction,
 }: IFormProps) => {
-  const [formState, setUnclonedFormState] = useState<IFormState>(() =>
+  const [formState, setFormState] = useState<IFormState>(() =>
     initialFormState(sections)
   );
-
-  const setFormState = (formState: SetStateAction<IFormState>) =>
-    setUnclonedFormState(clone(formState));
 
   return (
     <FluentUIThemeConsumer
@@ -272,12 +268,9 @@ export const FormDialog = ({
   trigger,
   onInteraction,
 }: IFormDialogProps) => {
-  const [formState, setUnclonedFormState] = useState<IFormState>(
+  const [formState, setFormState] = useState<IFormState>(
     initialFormState(sections)
   );
-
-  const setFormState = (formState: SetStateAction<IFormState>) =>
-    setUnclonedFormState(clone(formState));
 
   return (
     <Dialog
@@ -353,12 +346,9 @@ export const FormWizardStep = ({
   back,
   onInteraction,
 }: IFormWizardStepProps) => {
-  const [formState, setUnclonedFormState] = useState<IFormState>(
+  const [formState, setFormState] = useState<IFormState>(
     initialFormState(sections)
   );
-
-  const setFormState = (formState: SetStateAction<IFormState>) =>
-    setUnclonedFormState(clone(formState));
 
   return (
     <FluentUIThemeConsumer
@@ -488,12 +478,9 @@ export const FormWizardStepDialog = ({
   trigger,
   onInteraction,
 }: IFormWizardStepDialogProps) => {
-  const [formState, setUnclonedFormState] = useState<IFormState>(
+  const [formState, setFormState] = useState<IFormState>(
     initialFormState(sections)
   );
-
-  const setFormState = (formState: SetStateAction<IFormState>) =>
-    setUnclonedFormState(clone(formState));
 
   return (
     <FluentUIThemeConsumer
