@@ -118,5 +118,8 @@ export default {
       "Enable or disable the data you want to see on the dashboard.",
     find: "Find",
     ok: "OK",
+    more: "More",
+    filter: "Filter",
+    clear: "Clear",
   } as TTranslations,
 };

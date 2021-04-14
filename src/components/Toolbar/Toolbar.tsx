@@ -301,101 +301,105 @@ export const Toolbar = (props: IToolbarProps) => {
 
   return (
     <FluentUIThemeConsumer
-      render={(globalTheme) => (
-        <ToolbarTheme globalTheme={globalTheme}>
-          <Box
-            className="extended-toolbar"
-            variables={({ colorScheme, theme }: SiteVariablesPrepared) => ({
-              backgroundColor:
-                theme === TeamsTheme.HighContrast
-                  ? colorScheme.grey.background
-                  : colorScheme.default.background2,
-              elevation: colorScheme.elevations[16],
-            })}
-            styles={{
-              display: "flex",
-              justifyContent: "space-between",
-              padding: "0 1.25rem",
-              boxShadow: "none",
-            }}
-            {...omit(props, [
-              "actionGroups",
-              "filters",
-              "find",
-              "filtersSingleSelect",
-              "onSelectedFiltersChange",
-              "onFindQueryChange",
-            ])}
-          >
-            {!displayFindOnly && (
-              <FluentUIToolbar
-                aria-label="Extended toolbar"
-                className="extended-toolbar__near-side"
-                items={inFlowToolbarItems}
-                overflow
-                overflowOpen={overflowOpen}
-                overflowItem={{
-                  title: "More",
-                  menu: toolbarMenuProps,
-                  styles: toolbarButtonStyles,
-                }}
-                onOverflowOpenChange={(e, props) => {
-                  const open = !!props?.overflowOpen;
-                  setOverflowOpen(open);
-                  if (open) setFiltersOpen(false);
-                }}
-                getOverflowItems={(startIndex) =>
-                  overflowToolbarItems.slice(startIndex)
-                }
-                styles={{
-                  flex: "1 0 0",
-                  overflow: "hidden",
-                  maxWidth: "40rem",
-                  minWidth: "2rem",
-                }}
-              />
-            )}
+      render={(globalTheme) => {
+        const { t } = globalTheme.siteVariables;
+        return (
+          <ToolbarTheme globalTheme={globalTheme}>
             <Box
-              className="extended-toolbar__far-side"
+              className="extended-toolbar"
+              variables={({ colorScheme, theme }: SiteVariablesPrepared) => ({
+                backgroundColor:
+                  theme === TeamsTheme.HighContrast
+                    ? colorScheme.grey.background
+                    : colorScheme.default.background2,
+                elevation: colorScheme.elevations[16],
+              })}
               styles={{
-                flex: displayFindOnly ? "1 1 100%" : "0 1 auto",
                 display: "flex",
-                flexFlow: "row nowrap",
-                overflow: "hidden",
-                paddingLeft: displayFindOnly ? "0" : "2.5rem",
+                justifyContent: "space-between",
+                padding: "0 1.25rem",
+                boxShadow: "none",
               }}
+              {...omit(props, [
+                "actionGroups",
+                "filters",
+                "find",
+                "filtersSingleSelect",
+                "onSelectedFiltersChange",
+                "onFindQueryChange",
+              ])}
             >
-              {!displayFindOnly && filters && (
-                <ToolbarFilter
-                  layout={layout}
-                  filters={filters}
-                  singleSelect={!!filtersSingleSelect}
-                  open={filtersOpen}
-                  onOpenChange={(_e, props) => {
-                    const open = !!props?.open;
-                    setFiltersOpen(open);
-                    if (open) setOverflowOpen(false);
+              {!displayFindOnly && (
+                <FluentUIToolbar
+                  items={inFlowToolbarItems}
+                  overflow
+                  overflowOpen={overflowOpen}
+                  overflowItem={{
+                    title: t["more"],
+                    menu: toolbarMenuProps,
+                    styles: toolbarButtonStyles,
                   }}
-                  onSelectedFiltersChange={props.onSelectedFiltersChange}
-                  toolbarMenuProps={toolbarMenuProps}
-                  toolbarButtonStyles={toolbarButtonStyles}
+                  onOverflowOpenChange={(e, props) => {
+                    const open = !!props?.overflowOpen;
+                    setOverflowOpen(open);
+                    if (open) setFiltersOpen(false);
+                  }}
+                  getOverflowItems={(startIndex) =>
+                    overflowToolbarItems.slice(startIndex)
+                  }
+                  styles={{
+                    flex: "1 0 0",
+                    overflow: "hidden",
+                    maxWidth: "40rem",
+                    minWidth: "2rem",
+                  }}
                 />
               )}
-              {find && (
-                <ToolbarFind
-                  {...{
-                    layout,
-                    findActive,
-                    setFindActive,
-                    toolbarButtonStyles,
-                    onFindQueryChange: props.onFindQueryChange,
-                  }}
-                />
-              )}
+              <Box
+                styles={{
+                  flex: displayFindOnly ? "1 1 100%" : "0 1 auto",
+                  display: "flex",
+                  flexFlow: "row nowrap",
+                  overflow: "hidden",
+                  paddingLeft: displayFindOnly ? "0" : "2.5rem",
+                }}
+              >
+                {!displayFindOnly && filters && (
+                  <ToolbarFilter
+                    singleSelect={!!filtersSingleSelect}
+                    open={filtersOpen}
+                    onOpenChange={(_e, props) => {
+                      const open = !!props?.open;
+                      setFiltersOpen(open);
+                      if (open) setOverflowOpen(false);
+                    }}
+                    onSelectedFiltersChange={props.onSelectedFiltersChange}
+                    {...{
+                      layout,
+                      filters,
+                      toolbarMenuProps,
+                      toolbarButtonStyles,
+                      t,
+                    }}
+                  />
+                )}
+                {find && (
+                  <ToolbarFind
+                    {...{
+                      layout,
+                      findActive,
+                      setFindActive,
+                      toolbarButtonStyles,
+                      onFindQueryChange: props.onFindQueryChange,
+                      t,
+                    }}
+                  />
+                )}
+              </Box>
             </Box>
-          </Box>
-        </ToolbarTheme>
-      )}
+          </ToolbarTheme>
+        );
+      }}
     />
   );
 };
