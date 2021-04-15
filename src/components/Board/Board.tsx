@@ -14,7 +14,7 @@ import {
 } from "react-beautiful-dnd";
 
 import {
-  Accessibility,
+  AccessibilityDefinition,
   Box,
   Button,
   Dialog,
@@ -57,20 +57,21 @@ import {
 import { BoardItemDialog, BoardItemDialogAction } from "./BoardItemDialog";
 import { CommunicationOptions } from "../Communication";
 
-const boardBehavior: Accessibility = () => ({
-  attributes: {
-    root: {
-      role: "region",
-      "aria-label": "Board lanes",
+const boardBehavior = () =>
+  ({
+    attributes: {
+      root: {
+        role: "region",
+        "aria-label": "Board lanes",
+      },
     },
-  },
-  focusZone: {
-    props: {
-      shouldEnterInnerZone: (event) => getCode(event) === keyboardKey.Enter,
-      handleTabKey: FocusZoneTabbableElements.all,
+    focusZone: {
+      props: {
+        shouldEnterInnerZone: (event) => getCode(event) === keyboardKey.Enter,
+        handleTabKey: FocusZoneTabbableElements.all,
+      },
     },
-  },
-});
+  } as AccessibilityDefinition);
 
 const defaultBoardItemCardLayout: IBoardItemCardLayout = {
   previewPosition: "top",

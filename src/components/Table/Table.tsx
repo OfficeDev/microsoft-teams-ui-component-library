@@ -1,4 +1,9 @@
-import React, { useLayoutEffect, useState, useRef } from "react";
+import React, {
+  useLayoutEffect,
+  useState,
+  useRef,
+  SyntheticEvent,
+} from "react";
 import omit from "lodash/omit";
 import debounce from "lodash/debounce";
 
@@ -474,7 +479,7 @@ export const Table = (props: ITableProps) => {
                           : {
                               backgroundColor: colorScheme.default.background2,
                             },
-                      onClick: ({ type }) => {
+                      onClick: ({ type }: SyntheticEvent<HTMLElement>) => {
                         if (type === "click") return;
                         // respond only to keyboard space & enter for selection
                         props.selectable &&

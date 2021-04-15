@@ -38,8 +38,8 @@ import { TUsers } from "../..";
 import setMultiple from "../../lib/setMultiple";
 import { useAccessibility } from "@fluentui/react-bindings";
 
-const boardItemBehavior = (props: CardBehaviorProps) =>
-  setMultiple(gridCellWithFocusableElementBehavior(props), {
+const boardItemBehavior = (_props: CardBehaviorProps) =>
+  setMultiple(gridCellWithFocusableElementBehavior(), {
     "focusZone.props": {
       handleTabKey: FocusZoneTabbableElements.all,
       isCircularNavigation: true,
