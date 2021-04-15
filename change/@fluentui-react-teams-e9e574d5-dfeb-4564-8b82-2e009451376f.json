@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "Use all icons in react-icons-northstar.",
+  "packageName": "@fluentui/react-teams",
+  "email": "v-wishow@microsoft.com",
+  "dependentChangeType": "patch"
+}
