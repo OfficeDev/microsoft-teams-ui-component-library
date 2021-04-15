@@ -57,16 +57,16 @@ const getLocalTheme = (
           "&:hover": { backgroundColor: "inherit", borderColor: "transparent" },
         }),
       },
-      Input: {
-        input: () => ({ backgroundColor: "var(--input-background)" }),
-      },
-      InputLabel: {
+      FormLabel: {
         root: ({ theme }: SiteVariablesPrepared) => ({
           color: theme.siteVariables.colorScheme.default.foreground1,
           fontSize: ".75rem",
         }),
       },
-      FormLabel: {
+      Input: {
+        input: () => ({ backgroundColor: "var(--input-background)" }),
+      },
+      InputLabel: {
         root: ({ theme }: SiteVariablesPrepared) => ({
           color: theme.siteVariables.colorScheme.default.foreground1,
           fontSize: ".75rem",
