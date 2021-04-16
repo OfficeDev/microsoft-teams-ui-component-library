@@ -102,15 +102,19 @@ export const Widget = ({
 };
 
 export const WidgetTitle = ({
+  widgetId,
   title,
   desc,
   globalTheme,
   widgetActionGroup,
+  hideWidget,
 }: {
+  widgetId: string;
   title: string;
   desc?: string;
   globalTheme: ThemePrepared;
   widgetActionGroup?: IWidgetAction[];
+  hideWidget: (widgetId: string) => void;
 }) => {
   const [calloutOpen, setCalloutOpen] = React.useState(false);
   return (
@@ -122,7 +126,6 @@ export const WidgetTitle = ({
         </Flex>
         <DashboardCallout
           open={calloutOpen}
-          globalTheme={globalTheme}
           onOpenChange={({ currentTarget }, props) => {
             const open = !!props?.open;
             setCalloutOpen(open);
@@ -131,7 +134,12 @@ export const WidgetTitle = ({
             offset: [0, 0],
             position: "below",
           }}
-          widgetActionGroup={widgetActionGroup}
+          {...{
+            widgetId,
+            globalTheme,
+            widgetActionGroup,
+            hideWidget,
+          }}
         />
       </Flex>
     </Card.Header>

@@ -139,6 +139,14 @@ export function Dashboard({
       });
   };
 
+  const hideWidget = (widgetId: string) => {
+    updatePreferences(
+      produce(preferencesState, (draft) => {
+        set(draft, `widgetSettings.${widgetId}.display`, false);
+      })
+    );
+  };
+
   return (
     <FluentUIThemeConsumer
       render={(globalTheme) => {
@@ -205,10 +213,15 @@ export function Dashboard({
                     ) && (
                       <Widget key={key} size={size}>
                         <WidgetTitle
-                          title={title}
-                          desc={desc}
-                          globalTheme={globalTheme}
-                          widgetActionGroup={widgetActionGroup}
+                          {...{
+                            widgetId: id,
+                            title,
+                            desc,
+                            globalTheme,
+                            widgetActionGroup,
+                            onInteraction,
+                            hideWidget,
+                          }}
                         />
                         <WidgetBody
                           body={body}

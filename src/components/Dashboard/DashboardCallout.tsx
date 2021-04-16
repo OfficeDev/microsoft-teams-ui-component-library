@@ -39,11 +39,13 @@ export interface IWidgetAction {
 }
 
 interface IDashboardCallout {
+  widgetId: string;
   open: boolean;
   onOpenChange: ComponentEventHandler<PopupProps>;
   menuProps: any;
   globalTheme: ThemePrepared;
   widgetActionGroup?: IWidgetAction[];
+  hideWidget: (widgetId: string) => void;
 }
 
 const getLocalTheme = () => {
@@ -97,20 +99,24 @@ const getLocalTheme = () => {
   };
 };
 
-const hideWidgetAction = {
-  id: "hide_widget",
-  content: "Hide widget",
-  icon: <EyeSlashIcon />,
-};
-
 export const DashboardCallout = ({
+  widgetId,
   open,
   onOpenChange,
   menuProps,
   globalTheme,
   widgetActionGroup,
+  hideWidget,
 }: IDashboardCallout) => {
   const theme = mergeThemes(globalTheme, getLocalTheme());
+
+  const hideWidgetAction = {
+    id: "hide_widget",
+    content: "Hide widget",
+    icon: <EyeSlashIcon />,
+    onClick: () => hideWidget(widgetId),
+  };
+
   return (
     <FluentUIThemeProvider theme={theme}>
       <Popup
