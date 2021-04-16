@@ -50,7 +50,6 @@ const storybookT10s = {
     "list empty default header": "اولین لیست خود را ایجاد کنید",
     "list empty default body": "با افزودن مورد لیست شروع کنید.",
     close: "نزدیک",
-    "edit dashboard": "داشبورد را ویرایش کنید",
     "edit dashboard coaching":
       "داده هایی را که می خواهید در داشبورد مشاهده کنید فعال یا غیرفعال کنید.",
     find: "پیدا کردن",

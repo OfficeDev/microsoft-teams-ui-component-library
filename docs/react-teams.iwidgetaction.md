@@ -18,5 +18,5 @@ export interface IWidgetAction
 |  --- | --- | --- |
 |  [icon?](./react-teams.iwidgetaction.icon.md) | JSX.Element | <i>(Optional)</i> The icon, as a JSX.Element |
 |  [id](./react-teams.iwidgetaction.id.md) | string | A unique ID to use to refer to the action. |
-|  [title](./react-teams.iwidgetaction.title.md) | string | The text content of the trigger for the action. |
+|  [title](./react-teams.iwidgetaction.title.md) | [TTextObject](./react-teams.ttextobject.md) | The text content of the trigger for the action. |
 
