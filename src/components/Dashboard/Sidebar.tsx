@@ -11,7 +11,7 @@ import {
   Input,
   Text,
 } from "@fluentui/react-northstar";
-import { TTranslations } from "../../translations";
+import { getText, TTranslations } from "../../translations";
 
 import { CloseIcon, SearchIcon } from "@fluentui/react-icons-northstar";
 import { IWidget } from "./DashboardWidget";
@@ -93,7 +93,7 @@ export const Sidebar = ({
                       preferencesState,
                       `widgetSettings.${id}.display`
                     )}
-                    label={title}
+                    label={getText(t.locale, title)}
                     labelPosition="start"
                     styles={{
                       display: "flex",

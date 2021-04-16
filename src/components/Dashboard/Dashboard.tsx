@@ -157,7 +157,7 @@ export function Dashboard({
               {...{
                 actionGroups: {
                   h1: {
-                    edit: { title: "Edit dashboard", icon: "Edit" },
+                    edit: { title: t["edit dashboard"], icon: "Edit" },
                   },
                 },
                 filters: [],

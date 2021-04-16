@@ -123,6 +123,6 @@ export default {
     clear: "Clear",
     "hide widget": "Hide widget",
     "view more": "View more",
-    "arrow-end": "",
+    "edit dashboard": "Edit dashboard",
   } as TTranslations,
 };

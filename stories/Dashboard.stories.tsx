@@ -29,13 +29,13 @@ const figmaSource = {
 const calloutItemsExample = [
   {
     id: "action_1",
-    title: "Info",
+    title: { "en-US": "Info", fa: "اطلاعات" },
     icon: <ExclamationCircleIcon />,
   },
   { id: "action_2", title: "Popup", icon: <ScreenshareIcon /> },
   {
     id: "action_3",
-    title: "Share",
+    title: { "en-US": "Share", fa: "اشتراک گذاری" },
     icon: <ShareGenericIcon />,
   },
 ];
