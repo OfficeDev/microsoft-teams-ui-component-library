@@ -358,7 +358,7 @@ MigrationBackup/
 dist-storybook
 
 # We use yarn.lock
-package-lock.json
+# package-lock.json
 
 # API Extractor's temp directory
 temp
