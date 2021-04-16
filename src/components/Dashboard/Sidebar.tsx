@@ -52,7 +52,7 @@ export const Sidebar = ({
       trapFocus
       header={
         <Flex>
-          <Text styles={{ flex: "1 0 0", marginTop: ".5rem" }}>
+          <Text styles={{ flex: "1 0 0", marginTop: ".25rem" }}>
             {t["edit dashboard"]}
           </Text>
           <Button
@@ -95,7 +95,12 @@ export const Sidebar = ({
                     )}
                     label={title}
                     labelPosition="start"
-                    styles={{ display: "flex", margin: ".5rem 0" }}
+                    styles={{
+                      display: "flex",
+                      margin: ".5rem 0",
+                      paddingLeft: 0,
+                      paddingRight: 0,
+                    }}
                     variables={{ labelFlex: "1 0 0" }}
                     onChange={(_e, props) => {
                       updatePreferences(

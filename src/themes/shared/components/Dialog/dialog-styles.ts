@@ -38,6 +38,7 @@ export const dialogStyles: ComponentSlotStylesPrepared<
     switch (variables.variant) {
       case DialogVariant.sidebar:
         return {
+          borderRadius: 0,
           background: colorScheme.default.background2,
           boxShadow: colorScheme.elevations[8],
           flex: "1 0 0",
