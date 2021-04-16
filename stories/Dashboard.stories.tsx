@@ -1,7 +1,10 @@
 import React from "react";
 import { object } from "@storybook/addon-knobs";
+import { actions } from "@storybook/addon-actions";
 
 import { Dashboard, IWidget, EWidgetSize, EChartTypes } from "../src";
+
+const eventsFromNames = actions("onInteraction");
 
 import { random } from "../src/components/Chart/ChartUtils";
 
@@ -35,6 +38,7 @@ const linkExample = { href: "#" };
 
 const defaultWidgets: IWidget[] = [
   {
+    id: "w1",
     title: "Card 1",
     desc: "Last updated Monday, April 4 at 11:15 AM (PT)",
     widgetActionGroup: calloutItemsExample,
@@ -68,26 +72,31 @@ const defaultWidgets: IWidget[] = [
     link: linkExample,
   },
   {
+    id: "w2",
     title: "Card 2",
     size: EWidgetSize.Single,
     link: linkExample,
   },
   {
+    id: "w3",
     title: "Card 3",
     size: EWidgetSize.Double,
     link: linkExample,
   },
   {
+    id: "w4",
     title: "Card 4",
     size: EWidgetSize.Single,
     link: linkExample,
   },
   {
+    id: "w5",
     title: "Card 5",
     size: EWidgetSize.Single,
     link: linkExample,
   },
   {
+    id: "w6",
     title: "Card 6",
     size: EWidgetSize.Single,
     link: linkExample,
@@ -100,6 +109,7 @@ const dafaultConfig = { widgets: defaultWidgets };
 export const Default = () => {
   return (
     <Dashboard
+      {...eventsFromNames}
       {...object("Configuration", dafaultConfig, dashboardKnobGroupID)}
     />
   );
@@ -109,6 +119,7 @@ Default.parameters = figmaSource;
 
 const dataVizWidgets = [
   {
+    id: "w1",
     title: "Line Chart",
     desc: "Last updated Monday, April 4 at 11:15 AM (PT)",
     widgetActionGroup: calloutItemsExample,
@@ -218,6 +229,7 @@ const dataVizWidgets = [
     ],
   } as IWidget,
   {
+    id: "w3",
     title: "Bubble chart sample",
     size: EWidgetSize.Double,
     link: linkExample,
@@ -291,6 +303,7 @@ const dataVizWidgets = [
     ],
   } as IWidget,
   {
+    id: "w4",
     title: "Bubble chart sample",
     size: EWidgetSize.Double,
     link: linkExample,
@@ -322,6 +335,7 @@ const dataVizWidgets = [
     ],
   } as IWidget,
   {
+    id: "w5",
     title: "Pie chart",
     size: EWidgetSize.Single,
     link: linkExample,
@@ -349,6 +363,7 @@ const dataVizWidgets = [
     ],
   } as IWidget,
   {
+    id: "w6",
     title: "Stacked area chart sample",
     size: EWidgetSize.Double,
     body: [
@@ -384,6 +399,7 @@ const dataVizWidgets = [
     link: linkExample,
   } as IWidget,
   {
+    id: "w7",
     title: "Gradient area chart sample",
     size: EWidgetSize.Double,
     link: linkExample,
@@ -415,6 +431,7 @@ const dataVizWidgets = [
     ],
   } as IWidget,
   {
+    id: "w8",
     title: "Bar chart sample",
     size: EWidgetSize.Single,
     body: [
@@ -442,6 +459,7 @@ const dataVizWidgets = [
     link: linkExample,
   } as IWidget,
   {
+    id: "w9",
     title: "Stacked bar chart sample",
     size: EWidgetSize.Single,
     body: [
@@ -473,6 +491,7 @@ const dataVizWidgets = [
     link: linkExample,
   } as IWidget,
   {
+    id: "w10",
     title: "Horizontal bar chart sample",
     size: EWidgetSize.Single,
     body: [
@@ -500,6 +519,7 @@ const dataVizWidgets = [
     link: linkExample,
   } as IWidget,
   {
+    id: "w11",
     title: "Grouped bar chart sample",
     size: EWidgetSize.Double,
     body: [
@@ -539,6 +559,7 @@ const dataVizWidgets = [
     link: linkExample,
   } as IWidget,
   {
+    id: "w12",
     title: "Horizontal stacked bar chart sample",
     size: EWidgetSize.Double,
     body: [
@@ -570,6 +591,7 @@ const dataVizWidgets = [
     link: linkExample,
   } as IWidget,
   {
+    id: "w13",
     title: "Error chart state",
     size: EWidgetSize.Single,
     body: [
@@ -585,6 +607,7 @@ const dataVizWidgets = [
     link: linkExample,
   } as IWidget,
   {
+    id: "w14",
     title: "No data chart state",
     size: EWidgetSize.Single,
     body: [
@@ -607,6 +630,7 @@ const dataVizWidgets = [
     link: linkExample,
   } as IWidget,
   {
+    id: "w15",
     title: "Card 6",
     size: EWidgetSize.Single,
     link: linkExample,
@@ -618,6 +642,7 @@ const dataVizConfig = { widgets: dataVizWidgets };
 export const WithDataVizualization = () => {
   return (
     <Dashboard
+      {...eventsFromNames}
       {...object("Configuration", dataVizConfig, dashboardKnobGroupID)}
     />
   );

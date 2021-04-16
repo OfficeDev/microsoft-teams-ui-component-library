@@ -16,5 +16,6 @@ export interface IDashboard
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [widgets](./react-teams.idashboard.widgets.md) | [IWidget](./react-teams.iwidget.md)<!-- -->\[\] |  |
+|  [onInteraction?](./react-teams.idashboard.oninteraction.md) | (interaction: TDashboardInteraction) =&gt; void | <i>(Optional)</i> A Dashboard will emit onInteraction payloads when the user updates any preferences. |
+|  [widgets](./react-teams.idashboard.widgets.md) | [IWidget](./react-teams.iwidget.md)<!-- -->\[\] | The widgets to make available in this Dashboard. |
 

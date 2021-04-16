@@ -16,6 +16,7 @@ import {
 
 import { TeamsTheme } from "../../themes";
 import Icon from "../../lib/Icon";
+import { TDashboardInteraction } from "./Dashboard";
 
 /**
  * An action item displayed in a widget’s overflow menu.
@@ -37,11 +38,13 @@ export interface IWidgetAction {
 }
 
 interface IDashboardCallout {
+  widgetId: string;
   open: boolean;
   onOpenChange: ComponentEventHandler<PopupProps>;
   menuProps: any;
   globalTheme: ThemePrepared;
   widgetActionGroup?: IWidgetAction[];
+  onInteraction?: (interaction: TDashboardInteraction) => void;
 }
 
 const getLocalTheme = () => {
@@ -102,11 +105,13 @@ const hideWidgetAction = {
 };
 
 export const DashboardCallout = ({
+  widgetId,
   open,
   onOpenChange,
   menuProps,
   globalTheme,
   widgetActionGroup,
+  onInteraction,
 }: IDashboardCallout) => {
   const theme = mergeThemes(globalTheme, getLocalTheme());
   return (
@@ -139,6 +144,15 @@ export const DashboardCallout = ({
                             key: id,
                             icon: <Icon icon={icon} />,
                             content: title,
+                            ...(onInteraction && {
+                              onClick: () =>
+                                onInteraction({
+                                  event: "click",
+                                  target: "action",
+                                  widget: widgetId,
+                                  action: id,
+                                }),
+                            }),
                           };
                         }
                       ),

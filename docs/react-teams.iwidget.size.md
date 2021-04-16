@@ -4,6 +4,8 @@
 
 ## IWidget.size property
 
+The widget’s target size.
+
 <b>Signature:</b>
 
 ```typescript

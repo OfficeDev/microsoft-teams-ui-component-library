@@ -13,6 +13,7 @@ import {
 import { DashboardCallout, IWidgetAction } from "./DashboardCallout";
 import { Chart, IChartProps } from "../Chart/Chart";
 import { Placeholder } from "./Placeholder";
+import { TDashboardInteraction } from "./Dashboard";
 
 /**
  * The widget’s target size in the Dashboard’s grid layout.
@@ -42,6 +43,13 @@ export enum EWidgetSize {
  * @public
  */
 export interface IWidget {
+  /**
+   * A unique ID for the widget.
+   */
+  id: string;
+  /**
+   * The widget’s target size.
+   */
   size: EWidgetSize;
   /**
    * The title of the widget, rendered in a header style.
@@ -97,15 +105,19 @@ export const Widget = ({
 };
 
 export const WidgetTitle = ({
+  widgetId,
   title,
   desc,
   globalTheme,
   widgetActionGroup,
+  onInteraction,
 }: {
+  widgetId: string;
   title: string;
   desc?: string;
   globalTheme: ThemePrepared;
   widgetActionGroup?: IWidgetAction[];
+  onInteraction?: (interaction: TDashboardInteraction) => void;
 }) => {
   const [calloutOpen, setCalloutOpen] = React.useState(false);
   return (
@@ -117,7 +129,6 @@ export const WidgetTitle = ({
         </Flex>
         <DashboardCallout
           open={calloutOpen}
-          globalTheme={globalTheme}
           onOpenChange={({ currentTarget }, props) => {
             const open = !!props?.open;
             setCalloutOpen(open);
@@ -126,7 +137,12 @@ export const WidgetTitle = ({
             offset: [0, 0],
             position: "below",
           }}
-          widgetActionGroup={widgetActionGroup}
+          {...{
+            widgetId,
+            globalTheme,
+            widgetActionGroup,
+            onInteraction,
+          }}
         />
       </Flex>
     </Card.Header>
