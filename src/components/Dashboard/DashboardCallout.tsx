@@ -15,6 +15,7 @@ import {
 } from "@fluentui/react-northstar";
 
 import { TeamsTheme } from "../../themes";
+import { getText, TTextObject, TTranslations } from "../../translations";
 
 /**
  * An action item displayed in a widget’s overflow menu.
@@ -35,7 +36,7 @@ export interface IWidgetAction {
   /**
    * The text content of the trigger for the action.
    */
-  title: string;
+  title: TTextObject;
 }
 
 interface IDashboardCallout {
@@ -46,6 +47,7 @@ interface IDashboardCallout {
   globalTheme: ThemePrepared;
   widgetActionGroup?: IWidgetAction[];
   hideWidget: (widgetId: string) => void;
+  t: TTranslations;
 }
 
 const getLocalTheme = () => {
@@ -107,12 +109,13 @@ export const DashboardCallout = ({
   globalTheme,
   widgetActionGroup,
   hideWidget,
+  t,
 }: IDashboardCallout) => {
   const theme = mergeThemes(globalTheme, getLocalTheme());
 
   const hideWidgetAction = {
     id: "hide_widget",
-    content: "Hide widget",
+    content: t["hide widget"],
     icon: <EyeSlashIcon />,
     onClick: () => hideWidget(widgetId),
   };
@@ -127,7 +130,7 @@ export const DashboardCallout = ({
           <Button
             text
             iconOnly
-            aria-label="More actions"
+            aria-label={t["more"]}
             icon={<MoreIcon />}
             styles={{
               margin: "0 -0.35rem",
@@ -146,7 +149,7 @@ export const DashboardCallout = ({
                           return {
                             key: id,
                             icon,
-                            content: title,
+                            content: getText(t.locale, title),
                           };
                         }
                       ),

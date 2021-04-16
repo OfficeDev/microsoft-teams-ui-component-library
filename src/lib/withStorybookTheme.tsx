@@ -58,6 +58,8 @@ const storybookT10s = {
     more: "بیشتر",
     filter: "پالودن",
     clear: "زدودن",
+    "hide widget": "مخفی کردن ویجت",
+    "view more": "بیشتر ببینید",
   } as TTranslations,
 };
 

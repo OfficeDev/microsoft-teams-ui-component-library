@@ -9,8 +9,10 @@ import {
   tabListBehavior,
   Menu,
   ArrowRightIcon,
+  ArrowLeftIcon,
 } from "@fluentui/react-northstar";
 import { DashboardCallout, IWidgetAction } from "./DashboardCallout";
+import { getText, TTextObject, TTranslations } from "../../translations";
 
 /**
  * The widget’s target size in the Dashboard’s grid layout.
@@ -108,21 +110,27 @@ export const WidgetTitle = ({
   globalTheme,
   widgetActionGroup,
   hideWidget,
+  t,
 }: {
   widgetId: string;
-  title: string;
-  desc?: string;
+  title: TTextObject;
+  desc?: TTextObject;
   globalTheme: ThemePrepared;
   widgetActionGroup?: IWidgetAction[];
   hideWidget: (widgetId: string) => void;
+  t: TTranslations;
 }) => {
   const [calloutOpen, setCalloutOpen] = React.useState(false);
   return (
     <Card.Header>
       <Flex gap="gap.small" space="between" style={{ minHeight: "2rem" }}>
         <Flex gap="gap.small" column>
-          <Text content={title} style={{ margin: 0 }} weight="bold" />
-          {desc && <Text content={desc} size="small" />}
+          <Text
+            content={getText(t.locale, title)}
+            style={{ margin: 0 }}
+            weight="bold"
+          />
+          {desc && <Text content={getText(t.locale, desc)} size="small" />}
         </Flex>
         <DashboardCallout
           open={calloutOpen}
@@ -139,6 +147,7 @@ export const WidgetTitle = ({
             globalTheme,
             widgetActionGroup,
             hideWidget,
+            t,
           }}
         />
       </Flex>
@@ -183,9 +192,11 @@ export interface IWidgetBodyContent {
 export const WidgetBody = ({
   body,
   siteVariables,
+  t,
 }: {
   body?: IWidgetBodyContent[];
   siteVariables: SiteVariablesPrepared;
+  t: TTranslations;
 }) => {
   const [activeTabId, setActiveTabId] = React.useState(0);
   return (
@@ -207,7 +218,7 @@ export const WidgetBody = ({
                 marginBottom: "1.25rem",
               }}
               items={Array.from(body, ({ id, title }) =>
-                Object.assign({ key: id, content: title })
+                Object.assign({ key: id, content: getText(t.locale, title) })
               )}
               activeIndex={activeTabId}
               onItemClick={({ currentTarget }, props) =>
@@ -242,15 +253,20 @@ export const WidgetBody = ({
  * @public
  */
 export interface IWidgetLink {
+  title?: TTextObject;
   href: string;
 }
 
 export const WidgetFooter = ({
   link,
   siteVariables,
+  t,
+  rtl,
 }: {
   link: IWidgetLink;
   siteVariables: SiteVariablesPrepared;
+  t: TTranslations;
+  rtl: boolean;
 }) => (
   <Card.Footer fitted>
     <Flex space="between" vAlign="center">
@@ -267,8 +283,12 @@ export const WidgetFooter = ({
           },
         }}
       >
-        View more
-        <ArrowRightIcon size="small" styles={{ margin: "0 .4rem" }} />
+        {link.title ? getText(t.locale, link.title) : t["view more"]}
+        {rtl ? (
+          <ArrowLeftIcon size="small" styles={{ margin: "0 .4rem" }} />
+        ) : (
+          <ArrowRightIcon size="small" styles={{ margin: "0 .4rem" }} />
+        )}
       </Text>
     </Flex>
   </Card.Footer>

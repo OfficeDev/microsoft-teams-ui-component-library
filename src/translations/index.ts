@@ -121,5 +121,8 @@ export default {
     more: "More",
     filter: "Filter",
     clear: "Clear",
+    "hide widget": "Hide widget",
+    "view more": "View more",
+    "arrow-end": "",
   } as TTranslations,
 };

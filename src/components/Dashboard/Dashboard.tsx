@@ -150,7 +150,7 @@ export function Dashboard({
   return (
     <FluentUIThemeConsumer
       render={(globalTheme) => {
-        const { t } = globalTheme.siteVariables;
+        const { t, rtl } = globalTheme.siteVariables;
         return (
           <DashboardTheme globalTheme={globalTheme}>
             <Toolbar
@@ -221,16 +221,17 @@ export function Dashboard({
                             widgetActionGroup,
                             onInteraction,
                             hideWidget,
+                            t,
                           }}
                         />
                         <WidgetBody
-                          body={body}
+                          {...{ body, t }}
                           siteVariables={globalTheme.siteVariables}
                         />
                         {link && (
                           <WidgetFooter
+                            {...{ link, t, rtl }}
                             siteVariables={globalTheme.siteVariables}
-                            link={link}
                           />
                         )}
                       </Widget>
