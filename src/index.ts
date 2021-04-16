@@ -36,15 +36,16 @@ export {
   ICommunicationThemedImage,
 } from "./components/Communication";
 
+export { Dashboard, IDashboard } from "./components/Dashboard/Dashboard";
 export {
-  Dashboard,
-  IDashboard,
-  IWidgetAction,
   IWidget,
   EWidgetSize,
   IWidgetBodyContent,
   IWidgetLink,
-} from "./components/Dashboard";
+  TWidgetContent,
+  IChartWidgetContent,
+} from "./components/Dashboard/DashboardWidget";
+export { IWidgetAction } from "./components/Dashboard/DashboardCallout";
 
 export { List, IListProps, TListInteraction } from "./components/List/List";
 

@@ -11,6 +11,8 @@ import {
   ArrowRightIcon,
 } from "@fluentui/react-northstar";
 import { DashboardCallout, IWidgetAction } from "./DashboardCallout";
+import { Chart, IChartProps } from "../Chart/Chart";
+import { Placeholder } from "./Placeholder";
 
 /**
  * The widget’s target size in the Dashboard’s grid layout.
@@ -143,6 +145,30 @@ const EmptyState = ({ borderColor }: { borderColor: string }) => {
 };
 
 /**
+ * A chart widget
+ * @public
+ */
+export interface IChartWidgetContent {
+  type: "chart" | string;
+  chart: IChartProps;
+}
+
+/**
+ * A placeholder widget
+ * @internal
+ */
+interface IPlaceholderWidgetContent {
+  type: "placeholder" | string;
+  message: string;
+}
+
+/**
+ * Widget content specifies a type, then a payload with a special key depending on the type of widget.
+ * @public
+ */
+export type TWidgetContent = IChartWidgetContent | IPlaceholderWidgetContent;
+
+/**
  * A piece of content to make available in the widget.
  * @public
  */
@@ -158,11 +184,8 @@ export interface IWidgetBodyContent {
   title: string;
   /**
    * The content, as a React Node.
-   *
-   * @deprecated This library aims to use only props that can be serialized into JSON, so an
-   * alternative way to specify widget content will appear in subsequent versions.
    */
-  content: ReactNode;
+  content: TWidgetContent;
 }
 
 export const WidgetBody = ({
@@ -212,7 +235,20 @@ export const WidgetBody = ({
               }}
               column
             >
-              {content}
+              {(() => {
+                switch (content.type) {
+                  case "chart":
+                    return (
+                      <Chart {...(content as IChartWidgetContent).chart} />
+                    );
+                  case "placeholder":
+                    return (
+                      <Placeholder
+                        message={(content as IPlaceholderWidgetContent).message}
+                      />
+                    );
+                }
+              })()}
             </Flex>
           ))}
         </>

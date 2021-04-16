@@ -15,6 +15,7 @@ import {
 } from "@fluentui/react-northstar";
 
 import { TeamsTheme } from "../../themes";
+import Icon from "../../lib/Icon";
 
 /**
  * An action item displayed in a widget’s overflow menu.
@@ -26,12 +27,9 @@ export interface IWidgetAction {
    */
   id: string;
   /**
-   * The icon, as a JSX.Element
-   *
-   * @deprecated This library aims to use only props that can be serialized into JSON, so an
-   * alternative way to specify widget content will appear in subsequent versions.
+   * The icon
    */
-  icon?: JSX.Element;
+  icon?: string;
   /**
    * The text content of the trigger for the action.
    */
@@ -139,7 +137,7 @@ export const DashboardCallout = ({
                         ({ id, icon, title }: IWidgetAction) => {
                           return {
                             key: id,
-                            icon,
+                            icon: <Icon icon={icon} />,
                             content: title,
                           };
                         }
