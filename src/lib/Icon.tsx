@@ -18,5 +18,9 @@ export default ({ icon }: IIconProps) => {
   if (Icons.hasOwnProperty(componentName)) {
     const IconComponent = Icons[componentName];
     return <IconComponent outline />;
-  } else return null;
+  } else {
+    if (process.env.NODE_ENV === "development")
+      console.warn("No such icon available:", icon);
+    return null;
+  }
 };
