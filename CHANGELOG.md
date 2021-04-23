@@ -1,8 +1,16 @@
 # Change Log - @fluentui/react-teams
 
-This log was last generated on Wed, 07 Apr 2021 23:01:34 GMT and should not be manually modified.
+This log was last generated on Fri, 23 Apr 2021 21:39:14 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 5.0.0
+
+Fri, 23 Apr 2021 21:39:14 GMT
+
+### Major changes
+
+- Use all icons in react-icons-northstar. Remove deprecated patterns from Dashboard API. (v-wishow@microsoft.com)
 
 ## 4.0.0
 
