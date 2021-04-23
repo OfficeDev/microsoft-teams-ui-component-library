@@ -11,6 +11,9 @@ import {
   Input,
   Text,
 } from "@fluentui/react-northstar";
+
+import CustomScrollArea from "react-perfect-scrollbar";
+
 import { getText, TTranslations } from "../../translations";
 
 import { CloseIcon, SearchIcon } from "@fluentui/react-icons-northstar";
@@ -50,22 +53,26 @@ export const Sidebar = ({
   return (
     <Dialog
       trapFocus
-      header={
-        <Flex>
-          <Text styles={{ flex: "1 0 0", marginTop: ".25rem" }}>
-            {t["edit dashboard"]}
-          </Text>
-          <Button
-            text
-            iconOnly
-            icon={<CloseIcon />}
-            title={t["close"]}
-            onClick={onClose}
-          />
-        </Flex>
-      }
       content={
-        <>
+        <CustomScrollArea
+          style={{ flex: "1 0 0", padding: "2rem 2rem 1rem 2rem" }}
+        >
+          <Flex>
+            <Text
+              size="large"
+              weight="bold"
+              styles={{ flex: "1 0 0", marginTop: ".25rem" }}
+            >
+              {t["edit dashboard"]}
+            </Text>
+            <Button
+              text
+              iconOnly
+              icon={<CloseIcon />}
+              title={t["close"]}
+              onClick={onClose}
+            />
+          </Flex>
           <Text as="p" styles={{ marginBottom: "2.5rem" }}>
             {t["edit dashboard coaching"]}
           </Text>
@@ -82,7 +89,7 @@ export const Sidebar = ({
             variables={{ surface: Surface.base }}
             styles={{ marginBottom: "2.5rem" }}
           />
-          <Box styles={{ marginBottom: "2.5rem" }}>
+          <Box>
             {widgets.map(({ id, title }: IWidget) => {
               return (
                 matchesFind(findQuery, title) && (
@@ -118,7 +125,7 @@ export const Sidebar = ({
               );
             })}
           </Box>
-        </>
+        </CustomScrollArea>
       }
       onCancel={onClose}
       onConfirm={onClose}
@@ -127,7 +134,6 @@ export const Sidebar = ({
       variables={{ variant: DialogVariant.sidebar }}
       styles={{
         width: "20rem",
-        display: "block",
       }}
     />
   );
