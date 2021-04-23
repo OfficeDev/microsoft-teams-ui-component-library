@@ -1,19 +1,11 @@
 import React from "react";
 import { object } from "@storybook/addon-knobs";
+import { actions } from "@storybook/addon-actions";
 
-import { Dashboard } from "../src/components/Dashboard";
-import {
-  IWidget,
-  EWidgetSize,
-} from "../src/components/Dashboard/DashboardWidget";
-import {
-  ExclamationCircleIcon,
-  Flex,
-  ScreenshareIcon,
-  ShareGenericIcon,
-  Text,
-} from "@fluentui/react-northstar";
-import { Chart, EChartTypes } from "../src";
+import { Dashboard, IWidget, EWidgetSize, EChartTypes } from "../src";
+
+const eventsFromNames = actions("onInteraction");
+
 import { random } from "../src/components/Chart/ChartUtils";
 
 export default {
@@ -32,13 +24,13 @@ const calloutItemsExample = [
   {
     id: "action_1",
     title: "Info",
-    icon: <ExclamationCircleIcon />,
+    icon: "ExclamationCircle",
   },
-  { id: "action_2", title: "Popup", icon: <ScreenshareIcon /> },
+  { id: "action_2", title: "Popup", icon: "Screenshare" },
   {
     id: "action_3",
     title: "Share",
-    icon: <ShareGenericIcon />,
+    icon: "ShareGeneric",
   },
 ];
 
@@ -46,6 +38,7 @@ const linkExample = { href: "#" };
 
 const defaultWidgets: IWidget[] = [
   {
+    id: "w1",
     title: "Card 1",
     desc: "Last updated Monday, April 4 at 11:15 AM (PT)",
     widgetActionGroup: calloutItemsExample,
@@ -54,72 +47,56 @@ const defaultWidgets: IWidget[] = [
       {
         id: "t1",
         title: "Tab 1",
-        content: (
-          <Flex
-            vAlign="center"
-            hAlign="center"
-            styles={{ height: "100%", border: "1px dashed rgb(179, 176, 173)" }}
-          >
-            <Text size="large" weight="semibold">
-              Content #1
-            </Text>
-          </Flex>
-        ),
+        content: {
+          type: "placeholder",
+          message: "Content #1",
+        },
       },
       {
         id: "t2",
         title: "Tab 2",
-        content: (
-          <Flex
-            vAlign="center"
-            hAlign="center"
-            styles={{ height: "100%", border: "1px dashed rgb(179, 176, 173)" }}
-          >
-            <Text size="large" weight="semibold">
-              Content #2
-            </Text>
-          </Flex>
-        ),
+        content: {
+          type: "placeholder",
+          message: "Content #2",
+        },
       },
       {
         id: "t3",
         title: "Tab 3",
-        content: (
-          <Flex
-            vAlign="center"
-            hAlign="center"
-            styles={{ height: "100%", border: "1px dashed rgb(179, 176, 173)" }}
-          >
-            <Text size="large" weight="semibold">
-              Content #3
-            </Text>
-          </Flex>
-        ),
+        content: {
+          type: "placeholder",
+          message: "Content #3",
+        },
       },
     ],
     link: linkExample,
   },
   {
+    id: "w2",
     title: "Card 2",
     size: EWidgetSize.Single,
     link: linkExample,
   },
   {
+    id: "w3",
     title: "Card 3",
     size: EWidgetSize.Double,
     link: linkExample,
   },
   {
+    id: "w4",
     title: "Card 4",
     size: EWidgetSize.Single,
     link: linkExample,
   },
   {
+    id: "w5",
     title: "Card 5",
     size: EWidgetSize.Single,
     link: linkExample,
   },
   {
+    id: "w6",
     title: "Card 6",
     size: EWidgetSize.Single,
     link: linkExample,
@@ -132,6 +109,7 @@ const dafaultConfig = { widgets: defaultWidgets };
 export const Default = () => {
   return (
     <Dashboard
+      {...eventsFromNames}
       {...object("Configuration", dafaultConfig, dashboardKnobGroupID)}
     />
   );
@@ -141,6 +119,7 @@ Default.parameters = figmaSource;
 
 const dataVizWidgets = [
   {
+    id: "w1",
     title: "Line Chart",
     desc: "Last updated Monday, April 4 at 11:15 AM (PT)",
     widgetActionGroup: calloutItemsExample,
@@ -149,11 +128,12 @@ const dataVizWidgets = [
       {
         id: "t1",
         title: "Tab 1",
-        content: (
-          <Chart
-            title="Line chart sample"
-            type={EChartTypes.Line}
-            data={{
+        content: {
+          type: "chart",
+          chart: {
+            title: "Line chart sample",
+            type: EChartTypes.Line,
+            data: {
               labels: ["Jan", "Feb", "March", "April", "May"],
               datasets: [
                 {
@@ -181,18 +161,19 @@ const dataVizWidgets = [
                   data: [1000, 4600, 480, 4049, 3596],
                 },
               ],
-            }}
-          />
-        ),
+            },
+          },
+        },
       },
       {
         id: "t2",
         title: "Tab 2",
-        content: (
-          <Chart
-            title="Area chart sample"
-            type={EChartTypes.LineStacked}
-            data={{
+        content: {
+          type: "chart",
+          chart: {
+            title: "Area chart sample",
+            type: EChartTypes.LineStacked,
+            data: {
               labels: ["Jan", "Feb", "March", "April", "May"],
               datasets: [
                 {
@@ -208,24 +189,14 @@ const dataVizWidgets = [
                   data: [960, 8700, 5100, 5012, 3930],
                 },
               ],
-            }}
-          />
-        ),
+            },
+          },
+        },
       },
       {
         id: "t3",
         title: "Tab 3",
-        content: (
-          <Flex
-            vAlign="center"
-            hAlign="center"
-            styles={{ height: "100%", border: "1px dashed rgb(179, 176, 173)" }}
-          >
-            <Text size="large" weight="semibold">
-              Content #3
-            </Text>
-          </Flex>
-        ),
+        content: { type: "placeholder", message: "Content #3" },
       },
     ],
     link: linkExample,
@@ -238,11 +209,12 @@ const dataVizWidgets = [
       {
         id: "1",
         title: "",
-        content: (
-          <Chart
-            title="Doughnut chart sample"
-            type={EChartTypes.Doughnut}
-            data={{
+        content: {
+          type: "chart",
+          chart: {
+            title: "Doughnut chart sample",
+            type: EChartTypes.Doughnut,
+            data: {
               labels: ["Jan", "Feb", "March", "April", "May"],
               datasets: [
                 {
@@ -250,13 +222,14 @@ const dataVizWidgets = [
                   data: [2004, 1600, 480, 504, 1000],
                 },
               ],
-            }}
-          />
-        ),
+            },
+          },
+        },
       },
     ],
   } as IWidget,
   {
+    id: "w3",
     title: "Bubble chart sample",
     size: EWidgetSize.Double,
     link: linkExample,
@@ -264,11 +237,12 @@ const dataVizWidgets = [
       {
         id: "1",
         title: "",
-        content: (
-          <Chart
-            title="Bubble chart sample"
-            type={EChartTypes.Bubble}
-            data={{
+        content: {
+          type: "chart",
+          chart: {
+            title: "Bubble chart sample",
+            type: EChartTypes.Bubble,
+            data: {
               labels: "Africa",
               datasets: [
                 {
@@ -322,13 +296,14 @@ const dataVizWidgets = [
                   ],
                 },
               ],
-            }}
-          />
-        ),
+            },
+          },
+        },
       },
     ],
   } as IWidget,
   {
+    id: "w4",
     title: "Bubble chart sample",
     size: EWidgetSize.Double,
     link: linkExample,
@@ -336,11 +311,12 @@ const dataVizWidgets = [
       {
         id: "1",
         title: "",
-        content: (
-          <Chart
-            title="Bubble chart sample"
-            type={EChartTypes.Bubble}
-            data={{
+        content: {
+          type: "chart",
+          chart: {
+            title: "Bubble chart sample",
+            type: EChartTypes.Bubble,
+            data: {
               labels: "Africa",
               datasets: [
                 {
@@ -352,13 +328,14 @@ const dataVizWidgets = [
                   })),
                 },
               ],
-            }}
-          />
-        ),
+            },
+          },
+        },
       },
     ],
   } as IWidget,
   {
+    id: "w5",
     title: "Pie chart",
     size: EWidgetSize.Single,
     link: linkExample,
@@ -366,11 +343,12 @@ const dataVizWidgets = [
       {
         id: "1",
         title: "",
-        content: (
-          <Chart
-            title="Pie chart sample"
-            type={EChartTypes.Pie}
-            data={{
+        content: {
+          type: "chart",
+          chart: {
+            title: "Pie chart sample",
+            type: EChartTypes.Pie,
+            data: {
               labels: ["Jan", "Feb", "March", "April", "May"],
               datasets: [
                 {
@@ -378,24 +356,26 @@ const dataVizWidgets = [
                   data: [1860, 7700, 4100, 3012, 2930],
                 },
               ],
-            }}
-          />
-        ),
+            },
+          },
+        },
       },
     ],
   } as IWidget,
   {
+    id: "w6",
     title: "Stacked area chart sample",
     size: EWidgetSize.Double,
     body: [
       {
         id: "1",
         title: "",
-        content: (
-          <Chart
-            title="Stacked area chart sample"
-            type={EChartTypes.LineStacked}
-            data={{
+        content: {
+          type: "chart",
+          chart: {
+            title: "Stacked area chart sample",
+            type: EChartTypes.LineStacked,
+            data: {
               labels: ["Jan", "Feb", "March", "April", "May"],
               datasets: [
                 {
@@ -411,14 +391,15 @@ const dataVizWidgets = [
                   data: [1860, 5700, 4100, 3012, 2930],
                 },
               ],
-            }}
-          />
-        ),
+            },
+          },
+        },
       },
     ],
     link: linkExample,
   } as IWidget,
   {
+    id: "w7",
     title: "Gradient area chart sample",
     size: EWidgetSize.Double,
     link: linkExample,
@@ -426,11 +407,12 @@ const dataVizWidgets = [
       {
         id: "1",
         title: "",
-        content: (
-          <Chart
-            title="Gradient area chart"
-            type={EChartTypes.LineArea}
-            data={{
+        content: {
+          type: "chart",
+          chart: {
+            title: "Gradient area chart",
+            type: EChartTypes.LineArea,
+            data: {
               labels: ["Jan", "Feb", "March", "April", "May"],
               datasets: [
                 {
@@ -442,24 +424,26 @@ const dataVizWidgets = [
                   data: [200, 3600, 480, 5049, 4596],
                 },
               ],
-            }}
-          />
-        ),
+            },
+          },
+        },
       },
     ],
   } as IWidget,
   {
+    id: "w8",
     title: "Bar chart sample",
     size: EWidgetSize.Single,
     body: [
       {
         id: "Bar chart sample",
         title: "",
-        content: (
-          <Chart
-            title="Bar chart sample"
-            type={EChartTypes.Bar}
-            data={{
+        content: {
+          type: "chart",
+          chart: {
+            title: "Bar chart sample",
+            type: EChartTypes.Bar,
+            data: {
               labels: ["Jan", "Feb", "March", "April", "May"],
               datasets: [
                 {
@@ -467,25 +451,27 @@ const dataVizWidgets = [
                   data: [2300, 3600, 4800, 5049, 4596],
                 },
               ],
-            }}
-          />
-        ),
+            },
+          },
+        },
       },
     ],
     link: linkExample,
   } as IWidget,
   {
+    id: "w9",
     title: "Stacked bar chart sample",
     size: EWidgetSize.Single,
     body: [
       {
         id: "Stacked bar chart sample",
         title: "",
-        content: (
-          <Chart
-            title="Stacked bar chart sample"
-            type={EChartTypes.BarStacked}
-            data={{
+        content: {
+          type: "chart",
+          chart: {
+            title: "Stacked bar chart sample",
+            type: EChartTypes.BarStacked,
+            data: {
               labels: ["Jan", "Feb", "March", "April", "May"],
               datasets: [
                 {
@@ -497,25 +483,27 @@ const dataVizWidgets = [
                   data: [1200, 3600, 2480, 5049, 4596],
                 },
               ],
-            }}
-          />
-        ),
+            },
+          },
+        },
       },
     ],
     link: linkExample,
   } as IWidget,
   {
+    id: "w10",
     title: "Horizontal bar chart sample",
     size: EWidgetSize.Single,
     body: [
       {
         id: "Horizontal bar chart sample",
         title: "",
-        content: (
-          <Chart
-            title="Horizontal bar chart sample"
-            type={EChartTypes.BarHorizontal}
-            data={{
+        content: {
+          type: "chart",
+          chart: {
+            title: "Horizontal bar chart sample",
+            type: EChartTypes.BarHorizontal,
+            data: {
               labels: ["Jan", "Feb", "March", "April", "May"],
               datasets: [
                 {
@@ -523,25 +511,27 @@ const dataVizWidgets = [
                   data: [200, 3600, 480, 5049, 4596],
                 },
               ],
-            }}
-          />
-        ),
+            },
+          },
+        },
       },
     ],
     link: linkExample,
   } as IWidget,
   {
+    id: "w11",
     title: "Grouped bar chart sample",
     size: EWidgetSize.Double,
     body: [
       {
         id: "1",
         title: "",
-        content: (
-          <Chart
-            title="Grouped bar chart sample"
-            type={EChartTypes.Bar}
-            data={{
+        content: {
+          type: "chart",
+          chart: {
+            title: "Grouped bar chart sample",
+            type: EChartTypes.Bar,
+            data: {
               labels: ["Jan", "Feb", "March", "April", "May"],
               datasets: [
                 {
@@ -561,25 +551,27 @@ const dataVizWidgets = [
                   data: [1200, 3600, 2480, 5049, 4596],
                 },
               ],
-            }}
-          />
-        ),
+            },
+          },
+        },
       },
     ],
     link: linkExample,
   } as IWidget,
   {
+    id: "w12",
     title: "Horizontal stacked bar chart sample",
     size: EWidgetSize.Double,
     body: [
       {
         id: "Horizontal stacked bar chart sample",
         title: "",
-        content: (
-          <Chart
-            title="Horizontal stacked bar chart sample"
-            type={EChartTypes.BarHorizontalStacked}
-            data={{
+        content: {
+          type: "chart",
+          chart: {
+            title: "Horizontal stacked bar chart sample",
+            type: EChartTypes.BarHorizontalStacked,
+            data: {
               labels: ["Jan", "Feb", "March", "April", "May"],
               datasets: [
                 {
@@ -591,49 +583,54 @@ const dataVizWidgets = [
                   data: [1200, 3600, 2480, 5049, 4596],
                 },
               ],
-            }}
-          />
-        ),
+            },
+          },
+        },
       },
     ],
     link: linkExample,
   } as IWidget,
   {
+    id: "w13",
     title: "Error chart state",
     size: EWidgetSize.Single,
     body: [
       {
         id: "1",
         title: "",
-        content: (
-          <Chart title="Chart error state" type={EChartTypes.LineStacked} />
-        ),
+        content: {
+          type: "chart",
+          chart: { title: "Chart error state", type: EChartTypes.LineStacked },
+        },
       },
     ],
     link: linkExample,
   } as IWidget,
   {
+    id: "w14",
     title: "No data chart state",
     size: EWidgetSize.Single,
     body: [
       {
         id: "1",
         title: "",
-        content: (
-          <Chart
-            title="Chart no data state"
-            type={EChartTypes.LineStacked}
-            data={{
+        content: {
+          type: "chart",
+          chart: {
+            title: "Chart no data state",
+            type: EChartTypes.LineStacked,
+            data: {
               labels: [],
               datasets: [],
-            }}
-          />
-        ),
+            },
+          },
+        },
       },
     ],
     link: linkExample,
   } as IWidget,
   {
+    id: "w15",
     title: "Card 6",
     size: EWidgetSize.Single,
     link: linkExample,
@@ -645,6 +642,7 @@ const dataVizConfig = { widgets: dataVizWidgets };
 export const WithDataVizualization = () => {
   return (
     <Dashboard
+      {...eventsFromNames}
       {...object("Configuration", dataVizConfig, dashboardKnobGroupID)}
     />
   );

@@ -1,0 +1,7 @@
+{
+  "type": "major",
+  "comment": "Use all icons in react-icons-northstar. Remove deprecated patterns from Dashboard API.",
+  "packageName": "@fluentui/react-teams",
+  "email": "v-wishow@microsoft.com",
+  "dependentChangeType": "patch"
+}

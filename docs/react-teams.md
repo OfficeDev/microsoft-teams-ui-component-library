@@ -22,7 +22,7 @@
 |  --- | --- |
 |  [Chart\_2({ title, type, data })](./react-teams.chart_2.md) |  |
 |  [Communication({ option, fields, onInteraction, })](./react-teams.communication.md) |  |
-|  [Dashboard({ widgets })](./react-teams.dashboard.md) |  |
+|  [Dashboard({ widgets, onInteraction })](./react-teams.dashboard.md) |  |
 
 ## Interfaces
 
@@ -37,6 +37,7 @@
 |  [IChartData](./react-teams.ichartdata.md) | The data to display in this Chart. |
 |  [IChartDataSet](./react-teams.ichartdataset.md) | One set of the Chart’s data. |
 |  [IChartProps](./react-teams.ichartprops.md) | The Chart component can be used to render data visualizations. Designs for this component are available in the \[Data visualizations page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A4091). |
+|  [IChartWidgetContent](./react-teams.ichartwidgetcontent.md) | A chart widget |
 |  [ICheckboxesInput](./react-teams.icheckboxesinput.md) | A set of checkboxes. |
 |  [IColumn](./react-teams.icolumn.md) |  |
 |  [ICommunicationAction](./react-teams.icommunicationaction.md) | An action rendered at the end of the Communication component’s content. |
@@ -112,5 +113,6 @@
 |  [TTranslations](./react-teams.ttranslations.md) | A collection of strings for a certain locale. This library fetches translations by a <code>stringKey</code>, which is common between all translations. |
 |  [TUser](./react-teams.tuser.md) | A User entity, which certain components can use as part of their content. |
 |  [TUsers](./react-teams.tusers.md) | A collection of Users, keyed by their unique ID. |
+|  [TWidgetContent](./react-teams.twidgetcontent.md) | Widget content specifies a type, then a payload with a special key depending on the type of widget. |
 |  [TWizardInteraction](./react-teams.twizardinteraction.md) | An interaction event emitted by the Wizard component. The payload is either proxied from the Form component rendered in the primary area as the active step, or is triggered when the user interacts with any step listed in the sidebar. |
 

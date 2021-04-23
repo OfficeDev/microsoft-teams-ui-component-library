@@ -19,7 +19,31 @@ import { Toolbar } from "../Toolbar/Toolbar";
  * @public
  */
 export interface IDashboard {
+  /**
+   * The widgets to make available in this Dashboard.
+   */
   widgets: IWidget[];
+  /**
+   * A Dashboard will emit onInteraction payloads when the user updates any preferences.
+   */
+  onInteraction?: (interaction: TDashboardInteraction) => void;
+}
+
+/**
+ * A Dashboard will emit onInteraction payloads when the user clicks on any widget actions.
+ * @public
+ */
+export type TDashboardInteraction = IDashboardInteractionWidgetAction;
+
+/**
+ * The widget action payload carries widget's action the user clicked on.
+ * @public
+ */
+export interface IDashboardInteractionWidgetAction {
+  event: "click";
+  target: "action";
+  widget: string;
+  action: string;
 }
 
 const toolbarConfig = {
@@ -35,7 +59,7 @@ const toolbarConfig = {
 /**
  * @public
  */
-export function Dashboard({ widgets }: IDashboard) {
+export function Dashboard({ widgets, onInteraction }: IDashboard) {
   return (
     <FluentUIThemeConsumer
       render={(globalTheme) => (
@@ -60,15 +84,27 @@ export function Dashboard({ widgets }: IDashboard) {
             {widgets &&
               widgets.map(
                 (
-                  { title, desc, widgetActionGroup, size, body, link }: IWidget,
+                  {
+                    id,
+                    title,
+                    desc,
+                    widgetActionGroup,
+                    size,
+                    body,
+                    link,
+                  }: IWidget,
                   key: number
                 ) => (
                   <Widget key={key} size={size}>
                     <WidgetTitle
-                      title={title}
-                      desc={desc}
-                      globalTheme={globalTheme}
-                      widgetActionGroup={widgetActionGroup}
+                      {...{
+                        widgetId: id,
+                        title,
+                        desc,
+                        globalTheme,
+                        widgetActionGroup,
+                        onInteraction,
+                      }}
                     />
                     <WidgetBody
                       body={body}

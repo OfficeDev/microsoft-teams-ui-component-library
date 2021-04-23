@@ -11,6 +11,9 @@ import {
   ArrowRightIcon,
 } from "@fluentui/react-northstar";
 import { DashboardCallout, IWidgetAction } from "./DashboardCallout";
+import { Chart, IChartProps } from "../Chart/Chart";
+import { Placeholder } from "./Placeholder";
+import { TDashboardInteraction } from "./Dashboard";
 
 /**
  * The widget’s target size in the Dashboard’s grid layout.
@@ -40,6 +43,13 @@ export enum EWidgetSize {
  * @public
  */
 export interface IWidget {
+  /**
+   * A unique ID for the widget.
+   */
+  id: string;
+  /**
+   * The widget’s target size.
+   */
   size: EWidgetSize;
   /**
    * The title of the widget, rendered in a header style.
@@ -95,15 +105,19 @@ export const Widget = ({
 };
 
 export const WidgetTitle = ({
+  widgetId,
   title,
   desc,
   globalTheme,
   widgetActionGroup,
+  onInteraction,
 }: {
+  widgetId: string;
   title: string;
   desc?: string;
   globalTheme: ThemePrepared;
   widgetActionGroup?: IWidgetAction[];
+  onInteraction?: (interaction: TDashboardInteraction) => void;
 }) => {
   const [calloutOpen, setCalloutOpen] = React.useState(false);
   return (
@@ -115,7 +129,6 @@ export const WidgetTitle = ({
         </Flex>
         <DashboardCallout
           open={calloutOpen}
-          globalTheme={globalTheme}
           onOpenChange={({ currentTarget }, props) => {
             const open = !!props?.open;
             setCalloutOpen(open);
@@ -124,7 +137,12 @@ export const WidgetTitle = ({
             offset: [0, 0],
             position: "below",
           }}
-          widgetActionGroup={widgetActionGroup}
+          {...{
+            widgetId,
+            globalTheme,
+            widgetActionGroup,
+            onInteraction,
+          }}
         />
       </Flex>
     </Card.Header>
@@ -143,6 +161,30 @@ const EmptyState = ({ borderColor }: { borderColor: string }) => {
 };
 
 /**
+ * A chart widget
+ * @public
+ */
+export interface IChartWidgetContent {
+  type: "chart" | string;
+  chart: IChartProps;
+}
+
+/**
+ * A placeholder widget
+ * @internal
+ */
+interface IPlaceholderWidgetContent {
+  type: "placeholder" | string;
+  message: string;
+}
+
+/**
+ * Widget content specifies a type, then a payload with a special key depending on the type of widget.
+ * @public
+ */
+export type TWidgetContent = IChartWidgetContent | IPlaceholderWidgetContent;
+
+/**
  * A piece of content to make available in the widget.
  * @public
  */
@@ -158,11 +200,8 @@ export interface IWidgetBodyContent {
   title: string;
   /**
    * The content, as a React Node.
-   *
-   * @deprecated This library aims to use only props that can be serialized into JSON, so an
-   * alternative way to specify widget content will appear in subsequent versions.
    */
-  content: ReactNode;
+  content: TWidgetContent;
 }
 
 export const WidgetBody = ({
@@ -212,7 +251,20 @@ export const WidgetBody = ({
               }}
               column
             >
-              {content}
+              {(() => {
+                switch (content.type) {
+                  case "chart":
+                    return (
+                      <Chart {...(content as IChartWidgetContent).chart} />
+                    );
+                  case "placeholder":
+                    return (
+                      <Placeholder
+                        message={(content as IPlaceholderWidgetContent).message}
+                      />
+                    );
+                }
+              })()}
             </Flex>
           ))}
         </>

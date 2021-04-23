@@ -4,6 +4,8 @@
 
 ## IDashboard.widgets property
 
+The widgets to make available in this Dashboard.
+
 <b>Signature:</b>
 
 ```typescript

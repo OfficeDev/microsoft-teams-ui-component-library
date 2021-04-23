@@ -24,6 +24,7 @@ export const radiogroupItemStyles: ComponentSlotStylesPrepared<
       borderWidth: "1px",
       borderStyle: "solid",
       borderColor: "var(--radiogroup__item__indicator-color--outer)",
+      borderRadius: "99px",
       "&::before": {
         content: '""',
         display: "block",
@@ -34,6 +35,7 @@ export const radiogroupItemStyles: ComponentSlotStylesPrepared<
         backgroundClip: "content-box !important",
         background: "var(--radiogroup__item__indicator-color--inner)",
       },
+      "& .ui-icon": { display: "none" },
     };
   },
   root: (componentStyleParameters) => {
@@ -46,6 +48,10 @@ export const radiogroupItemStyles: ComponentSlotStylesPrepared<
     const checked = get(props, "checked");
     return {
       borderWidth: 0,
+      marginLeft: 0,
+      marginTop: 0,
+      marginRight: 0,
+      marginBottom: 0,
       padding: ".25rem .3125rem",
       "--radiogroup__item__indicator-color--outer": checked
         ? colorScheme.brand.borderFocus1
