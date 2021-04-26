@@ -15,6 +15,8 @@ import {
 } from "@fluentui/react-northstar";
 
 import { TeamsTheme } from "../../themes";
+import Icon from "../../lib/Icon";
+import { TDashboardInteraction } from "./Dashboard";
 import { getText, TTextObject, TTranslations } from "../../translations";
 
 /**
@@ -27,12 +29,9 @@ export interface IWidgetAction {
    */
   id: string;
   /**
-   * The icon, as a JSX.Element
-   *
-   * @deprecated This library aims to use only props that can be serialized into JSON, so an
-   * alternative way to specify widget content will appear in subsequent versions.
+   * The icon
    */
-  icon?: JSX.Element;
+  icon?: string;
   /**
    * The text content of the trigger for the action.
    */
@@ -48,6 +47,7 @@ interface IDashboardCallout {
   widgetActionGroup?: IWidgetAction[];
   hideWidget: (widgetId: string) => void;
   t: TTranslations;
+  onInteraction?: (interaction: TDashboardInteraction) => void;
 }
 
 const getLocalTheme = () => {
@@ -110,6 +110,7 @@ export const DashboardCallout = ({
   widgetActionGroup,
   hideWidget,
   t,
+  onInteraction,
 }: IDashboardCallout) => {
   const theme = mergeThemes(globalTheme, getLocalTheme());
 
@@ -148,8 +149,17 @@ export const DashboardCallout = ({
                         ({ id, icon, title }: IWidgetAction) => {
                           return {
                             key: id,
-                            icon,
+                            icon: <Icon icon={icon} />,
                             content: getText(t.locale, title),
+                            ...(onInteraction && {
+                              onClick: () =>
+                                onInteraction({
+                                  event: "click",
+                                  target: "action",
+                                  widget: widgetId,
+                                  action: id,
+                                }),
+                            }),
                           };
                         }
                       ),

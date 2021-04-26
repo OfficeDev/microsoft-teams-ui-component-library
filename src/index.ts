@@ -54,6 +54,8 @@ export {
   EWidgetSize,
   IWidgetBodyContent,
   IWidgetLink,
+  TWidgetContent,
+  IChartWidgetContent,
 } from "./components/Dashboard/DashboardWidget";
 export { IWidgetAction } from "./components/Dashboard/DashboardCallout";
 

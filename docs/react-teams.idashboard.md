@@ -16,8 +16,6 @@ export interface IDashboard
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [cacheKey?](./react-teams.idashboard.cachekey.md) | [TCacheKey](./react-teams.tcachekey.md) | <i>(Optional)</i> Set this <code>cacheKey</code> to save user’s preferences on their local clients. |
-|  [onInteraction?](./react-teams.idashboard.oninteraction.md) | (interaction: [TDashboardInteraction](./react-teams.tdashboardinteraction.md)<!-- -->) =&gt; void | <i>(Optional)</i> A Dashboard will emit onInteraction payloads when the user updates any preferences. |
-|  [preferences?](./react-teams.idashboard.preferences.md) | IDashboardPreferences | <i>(Optional)</i> Any initial preferences that should be set for this user, in case you save users’ preferences remotely. |
+|  [onInteraction?](./react-teams.idashboard.oninteraction.md) | (interaction: TDashboardInteraction) =&gt; void | <i>(Optional)</i> A Dashboard will emit onInteraction payloads when the user updates any preferences. |
 |  [widgets](./react-teams.idashboard.widgets.md) | [IWidget](./react-teams.iwidget.md)<!-- -->\[\] | The widgets to make available in this Dashboard. |
 

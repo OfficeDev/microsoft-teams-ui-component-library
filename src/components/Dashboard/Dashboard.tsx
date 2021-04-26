@@ -60,7 +60,9 @@ export interface IDashboardPreferences {
  * A Dashboard will emit onInteraction payloads when the user updates any preferences.
  * @public
  */
-export type TDashboardInteraction = IDashboardInteractionUpdatePreferences;
+export type TDashboardInteraction =
+  | IDashboardInteractionUpdatePreferences
+  | IDashboardInteractionWidgetAction;
 
 /**
  * The preferences update payload carries the preferences the developer should store for the user,
@@ -71,6 +73,17 @@ export interface IDashboardInteractionUpdatePreferences {
   event: "update";
   target: "preferences";
   preferences: IDashboardPreferences;
+}
+
+/**
+ * The widget action payload carries widget's action the user clicked on.
+ * @public
+ */
+export interface IDashboardInteractionWidgetAction {
+  event: "click";
+  target: "action";
+  widget: string;
+  action: string;
 }
 
 const emptyPrefs = { widgetSettings: {} };

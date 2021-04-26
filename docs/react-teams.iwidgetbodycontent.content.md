@@ -4,15 +4,10 @@
 
 ## IWidgetBodyContent.content property
 
-> Warning: This API is now obsolete.
-> 
-> This library aims to use only props that can be serialized into JSON, so an alternative way to specify widget content will appear in subsequent versions.
-> 
-
 The content, as a React Node.
 
 <b>Signature:</b>
 
 ```typescript
-content: ReactNode;
+content: TWidgetContent;
 ```

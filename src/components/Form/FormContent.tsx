@@ -12,18 +12,21 @@ import chunk from "lodash/chunk";
 
 import {
   Alert,
+  Accessibility,
   Box,
   Checkbox,
   Dropdown,
   DropdownItemProps,
   Flex,
-  Form as FluentUIForm,
+  FormDropdown as FluentUIFormDropdown,
+  FormRadioGroup as FluentUIFormRadioGroup,
   Input,
   RadioGroupItemProps,
   selectableListBehavior,
   SiteVariablesPrepared,
   Text,
   TextArea,
+  AccessibilityDefinition,
 } from "@fluentui/react-northstar";
 import { ICSSInJSStyle } from "@fluentui/styles";
 import {
@@ -374,7 +377,7 @@ const DropdownBlock = (
     "data-value": value,
   }));
   return (
-    <FluentUIForm.Dropdown
+    <FluentUIFormDropdown
       fluid
       id={id}
       label={getText(t?.locale, title)}
@@ -652,7 +655,7 @@ const CheckboxesBlock = ({
       </Input.Label>
       <Box
         id={id}
-        accessibility={selectableListBehavior}
+        accessibility={selectableListBehavior as () => AccessibilityDefinition}
         aria-labelledby={[labelId(id)]
           .concat(error ? errorId(id) : [])
           .join(" ")}
@@ -747,7 +750,7 @@ const RadioButtonsBlock = ({
   const id = fullInputId(inputId);
   const error = get(errors, inputId, false);
   return (
-    <FluentUIForm.RadioGroup
+    <FluentUIFormRadioGroup
       id={id}
       vertical
       styles={{ marginBottom: ".75rem" }}

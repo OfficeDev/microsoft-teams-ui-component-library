@@ -2,6 +2,21 @@
   "name": "@fluentui/react-teams",
   "entries": [
     {
+      "date": "Fri, 23 Apr 2021 21:39:14 GMT",
+      "tag": "@fluentui/react-teams_v5.0.0",
+      "version": "5.0.0",
+      "comments": {
+        "major": [
+          {
+            "comment": "Use all icons in react-icons-northstar. Remove deprecated patterns from Dashboard API.",
+            "author": "v-wishow@microsoft.com",
+            "commit": "64c3f91871ba4782c7eb637812ded5a78fcc8029",
+            "package": "@fluentui/react-teams"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 07 Apr 2021 23:01:34 GMT",
       "tag": "@fluentui/react-teams_v4.0.0",
       "version": "4.0.0",

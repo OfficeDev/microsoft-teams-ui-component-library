@@ -20,7 +20,7 @@ import {
 } from "@fluentui/react-northstar";
 
 import {
-  AudienceIcon,
+  FilterIcon,
   TriangleDownIcon,
   TriangleEndIcon,
 } from "@fluentui/react-icons-northstar";
@@ -182,7 +182,7 @@ export const ToolbarFilter = (props: IExtendedToolbarFilterProps) => {
       title={t["filter"]}
       content={invokerTitle}
       className="extended-toolbar__filters-invoker"
-      icon={<AudienceIcon outline />}
+      icon={<FilterIcon outline />}
       styles={{
         ...toolbarButtonStyles,
         marginRight: ".5rem",
