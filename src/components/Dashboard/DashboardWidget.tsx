@@ -56,11 +56,11 @@ export interface IWidget {
   /**
    * The title of the widget, rendered in a header style.
    */
-  title: string;
+  title: TTextObject;
   /**
    * Text rendered in boxy test style below the title.
    */
-  desc?: string;
+  desc?: TTextObject;
   /**
    * A collection of actions available in the widget’s overflow menu.
    */
@@ -209,7 +209,7 @@ export interface IWidgetBodyContent {
    * A title which will appear as a tab’s label in the Dashboard widget. This will only appear if
    * the widget hosts multiple body content objects.
    */
-  title: string;
+  title: TTextObject;
   /**
    * The content, as a React Node.
    */
