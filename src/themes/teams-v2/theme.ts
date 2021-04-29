@@ -26,3 +26,5 @@ export const defaultV2ThemeOverrides: Partial<ThemePrepared> = {
   },
   staticStyles: sharedStaticStyles.concat(staticStyles),
 };
+
+export { default as defaultV2ColorAssignments } from "./color-scheme-assignments";

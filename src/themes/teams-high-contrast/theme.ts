@@ -27,3 +27,5 @@ export const highContrastThemeOverrides: Partial<ThemePrepared> = {
   },
   staticStyles: sharedStaticStyles.concat(staticStyles),
 };
+
+export { default as highContrastColorAssignments } from "./color-scheme-assignments";
