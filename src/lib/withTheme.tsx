@@ -7,7 +7,6 @@ import {
   teamsDarkTheme,
   teamsHighContrastTheme,
   ComponentVariablesInput,
-  ThemePrepared,
 } from "@fluentui/react-northstar";
 
 import { ComponentVariablesObject, ThemeInput } from "@fluentui/styles";
@@ -43,6 +42,7 @@ export interface IThemeProviderProps {
   lang: TLocale;
   themeName: TeamsTheme | IThemeTeamsClient;
   translations?: { [locale: string]: TTranslations };
+  customColors?: ThemeInput;
 }
 
 export const teamsNextVariableAssignments = {
@@ -166,6 +166,7 @@ export const HVCThemeProvider = ({
   lang,
   themeName,
   translations,
+  customColors,
 }: IThemeProviderProps) => {
   // [v-wishow] todo: translations will (presumably) eventually need to be loaded asynchronously
 
@@ -181,7 +182,9 @@ export const HVCThemeProvider = ({
       break;
   }
 
-  const theme = themes[themeName];
+  const theme = customColors
+    ? mergeThemes(themes[themeName], { siteVariables: customColors })
+    : themes[themeName];
   const rtl = lang === "fa";
 
   if (theme.siteVariables) {

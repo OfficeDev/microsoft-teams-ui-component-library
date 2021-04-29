@@ -19,6 +19,7 @@
     "test": "just-scripts test"
   },
   "dependencies": {
+    "@adobe/leonardo-contrast-colors": ">=1.0.0-alpha.8",
     "@fluentui/keyboard-key": "^0.2.16",
     "@fluentui/react-icons-northstar": "^0.54.0",
     "chart.js": "^2.9.4",
@@ -92,5 +93,8 @@
   ],
   "publishConfig": {
     "access": "public"
+  },
+  "bin": {
+    "fluentui-react-teams-theme": "cli/theme/bin"
   }
 }

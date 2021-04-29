@@ -5,6 +5,8 @@ import { HVCThemeProvider } from "./withTheme";
 import { TeamsTheme } from "../themes";
 import { TTranslations } from "../translations";
 
+import customColors from "../../temp/react-teams-theme.js";
+
 const storybookT10s = {
   // The Farsi translations here are not certified and are intended for demonstration purposes only at this time.
   fa: {
@@ -87,6 +89,7 @@ export const StorybookThemeProvider = ({
       themeName={themeKnob()}
       lang={langKnob()}
       translations={storybookT10s}
+      customColors={customColors}
     >
       {children}
     </HVCThemeProvider>
