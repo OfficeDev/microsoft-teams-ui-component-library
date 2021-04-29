@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "Add CLI for generating custom color palettes.",
+  "packageName": "@fluentui/react-teams",
+  "email": "v-wishow@microsoft.com",
+  "dependentChangeType": "patch"
+}
