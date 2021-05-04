@@ -8,7 +8,7 @@ interface ISignifiedOverflow {
 
 export const SignifiedOverflow = ({ body, footer }: ISignifiedOverflow) => {
   return (
-    <Box>
+    <>
       {body}
       <Box
         styles={{
@@ -39,6 +39,6 @@ export const SignifiedOverflow = ({ body, footer }: ISignifiedOverflow) => {
       >
         {footer}
       </Box>
-    </Box>
+    </>
   );
 };

@@ -3,7 +3,6 @@ import {
   TeamsThemeStylesProps,
 } from "@fluentui/react-northstar";
 import { DialogVariant } from "../../../../types/types";
-import { TeamsTheme } from "../../../constants";
 
 export const dialogStyles: ComponentSlotStylesPrepared<
   NonNullable<Partial<TeamsThemeStylesProps["Dialog"]>>,
@@ -22,6 +21,7 @@ export const dialogStyles: ComponentSlotStylesPrepared<
           background: "transparent",
           flexDirection: "column",
           alignItems: "flex-end",
+          overflow: "none",
         };
       default:
         return {};
@@ -44,6 +44,8 @@ export const dialogStyles: ComponentSlotStylesPrepared<
           display: "flex",
           flexFlow: "column nowrap",
           padding: 0,
+          "--surface-background": colorScheme.default.background2,
+          "--shadow-background": colorScheme.default.border2,
         };
       default:
         return {};
