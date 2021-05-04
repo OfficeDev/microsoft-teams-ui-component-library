@@ -91,8 +91,9 @@ export const Sidebar = ({
           />
           <Box>
             {widgets.map(({ id, title }: IWidget) => {
+              const widgetTitle = getText(t.locale, title);
               return (
-                matchesFind(findQuery, title) && (
+                matchesFind(findQuery, widgetTitle) && (
                   <Checkbox
                     toggle
                     key={`widgetDisplayToggle-${id}`}
@@ -100,7 +101,7 @@ export const Sidebar = ({
                       preferencesState,
                       `widgetSettings.${id}.display`
                     )}
-                    label={getText(t.locale, title)}
+                    label={widgetTitle}
                     labelPosition="start"
                     styles={{
                       display: "flex",

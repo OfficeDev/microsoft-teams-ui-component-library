@@ -16,6 +16,8 @@ import { TeamsTheme } from "../../themes";
 
 import { Surface } from "../../types/types";
 
+import { SignifiedOverflow } from "../../lib/SignifiedOverflow";
+
 import { FormTheme } from "./FormTheme";
 import {
   FormContent,
@@ -179,74 +181,52 @@ export const Form = ({
                   }),
               })}
             >
-              <FormContent
-                {...{
-                  headerSection,
-                  sections,
-                  topError,
-                  errors,
-                  t,
-                  formState,
-                  setFormState,
-                }}
-              />
-              <Box
-                styles={{
-                  backgroundColor: "var(--surface-background)",
-                  height: "1px",
-                  position: "absolute",
-                  left: 0,
-                  right: 0,
-                  zIndex: 1,
-                }}
-              />
-              <Box
-                styles={{
-                  backgroundColor: "var(--shadow-background)",
-                  height: "1px",
-                  position: "sticky",
-                  bottom: "4.5rem",
-                }}
-              />
-              <Box
-                styles={{
-                  backgroundColor: "var(--surface-background)",
-                  position: "sticky",
-                  bottom: 0,
-                  height: "4.5rem",
-                  zIndex: 2,
-                }}
-              >
-                <MaxWidth
-                  styles={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    padding: "1.25rem 2rem",
-                  }}
-                >
-                  {cancel && (
-                    <Button
-                      content={getText(t.locale, cancel)}
-                      styles={{ marginRight: ".5rem" }}
-                      {...(onInteraction && {
-                        onClick: (e) => {
-                          e.preventDefault();
-                          onInteraction({
-                            event: "cancel",
-                            target: "form",
-                            formState,
-                          });
-                        },
-                      })}
-                    />
-                  )}
-                  <Button
-                    primary
-                    type="submit"
-                    content={getText(t.locale, submit)}
+              <SignifiedOverflow
+                body={
+                  <FormContent
+                    {...{
+                      headerSection,
+                      sections,
+                      topError,
+                      errors,
+                      t,
+                      formState,
+                      setFormState,
+                    }}
                   />
-                </MaxWidth>
-              </Box>
+                }
+                footer={
+                  <MaxWidth
+                    styles={{
+                      display: "flex",
+                      justifyContent: "flex-end",
+                      padding: "1.25rem 2rem",
+                    }}
+                  >
+                    {cancel && (
+                      <Button
+                        content={getText(t.locale, cancel)}
+                        styles={{ marginRight: ".5rem" }}
+                        {...(onInteraction && {
+                          onClick: (e) => {
+                            e.preventDefault();
+                            onInteraction({
+                              event: "cancel",
+                              target: "form",
+                              formState,
+                            });
+                          },
+                        })}
+                      />
+                    )}
+                    <Button
+                      primary
+                      type="submit"
+                      content={getText(t.locale, submit)}
+                    />
+                  </MaxWidth>
+                }
+              />
             </FluentUIForm>
           </FormTheme>
         );
