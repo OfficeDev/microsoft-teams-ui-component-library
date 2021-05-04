@@ -276,6 +276,7 @@ export const HVCThemeProvider = ({
         bottom: 2px;
         /* please don't change 'position' */
         position: absolute;
+        z-index: 1000;
       }
       
       .ps__thumb-y {
@@ -291,6 +292,7 @@ export const HVCThemeProvider = ({
         right: 2px;
         /* please don't change 'position' */
         position: absolute;
+        z-index: 1000;
       }
       
       .ps__rail-x:hover > .ps__thumb-x,

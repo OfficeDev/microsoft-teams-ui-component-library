@@ -1,14 +1,21 @@
 import React from "react";
 import { Box } from "@fluentui/react-northstar";
+import CustomScrollArea from "react-perfect-scrollbar";
 
 interface ISignifiedOverflow {
   body: JSX.Element;
   footer: JSX.Element;
+  useCustomScrollbar?: boolean;
 }
 
-export const SignifiedOverflow = ({ body, footer }: ISignifiedOverflow) => {
+export const SignifiedOverflow = ({
+  body,
+  footer,
+  useCustomScrollbar,
+}: ISignifiedOverflow) => {
+  const Wrapper = useCustomScrollbar ? CustomScrollArea : React.Fragment;
   return (
-    <>
+    <Wrapper>
       {body}
       <Box
         styles={{
@@ -39,6 +46,6 @@ export const SignifiedOverflow = ({ body, footer }: ISignifiedOverflow) => {
       >
         {footer}
       </Box>
-    </>
+    </Wrapper>
   );
 };

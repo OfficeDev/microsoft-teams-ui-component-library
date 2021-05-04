@@ -56,6 +56,7 @@ export const Sidebar = ({
       trapFocus
       content={
         <SignifiedOverflow
+          useCustomScrollbar
           body={
             <Box style={{ flex: "1 0 0", padding: "2rem 2rem 1rem 2rem" }}>
               <Flex>
