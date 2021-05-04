@@ -9,5 +9,5 @@ Text rendered in boxy test style below the title.
 <b>Signature:</b>
 
 ```typescript
-desc?: string;
+desc?: TTextObject;
 ```
