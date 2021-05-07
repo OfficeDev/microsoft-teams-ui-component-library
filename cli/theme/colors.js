@@ -1,4 +1,3 @@
-const get = require('lodash/get')
 const { generateAdaptiveTheme } = require('@adobe/leonardo-contrast-colors');
 
 const contrasts = {
