@@ -3,6 +3,8 @@ const fs = require('fs')
 const colors = require('./colors.js')
 
 export function cli(args) {
+  if(!(args[2] && args[3])) return console.log('Please choose an input file and an output directory, e.g. `fluentui-react-teams-theme theme-config.json ./theme`')
+
   console.log('[Generating theme…]')
 
   const config = JSON.parse(
