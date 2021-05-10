@@ -18,7 +18,7 @@ const contrasts = {
 const separator = "__"
 
 module.exports = function(config){
-  return {colors: generateAdaptiveTheme({
+  return generateAdaptiveTheme({
       colorScales: [
         {
           name: 'brand',
@@ -42,5 +42,5 @@ module.exports = function(config){
         return acc
       }
       else return acc
-    }, {})}
+    }, {})
 }

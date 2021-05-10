@@ -51,7 +51,7 @@ export interface IThemeProviderProps {
   lang: TLocale;
   themeName: TeamsTheme | IThemeTeamsClient;
   translations?: { [locale: string]: TTranslations };
-  customColors?: ThemeInput;
+  customColors?: Record<string, any>;
 }
 
 export const teamsNextVariableAssignments = {
@@ -193,7 +193,9 @@ export const HVCThemeProvider = ({
 
   const theme = assignColors[themeName](
     customColors
-      ? mergeThemes(themes[themeName], { siteVariables: customColors })
+      ? mergeThemes(themes[themeName], {
+          siteVariables: { colors: customColors },
+        })
       : themes[themeName]
   );
 
