@@ -2,6 +2,21 @@
   "name": "@fluentui/react-teams",
   "entries": [
     {
+      "date": "Wed, 19 May 2021 18:48:48 GMT",
+      "tag": "@fluentui/react-teams_v5.1.0",
+      "version": "5.1.0",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Add support for hide/show widgets on Dashboard.",
+            "author": "v-wishow@microsoft.com",
+            "commit": "8670e22a802822c05c93c3f039c7f325fd1b733b",
+            "package": "@fluentui/react-teams"
+          }
+        ]
+      }
+    },
+    {
       "date": "Fri, 23 Apr 2021 21:39:14 GMT",
       "tag": "@fluentui/react-teams_v5.0.0",
       "version": "5.0.0",

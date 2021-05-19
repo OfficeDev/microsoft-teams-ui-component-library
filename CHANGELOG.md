@@ -1,8 +1,16 @@
 # Change Log - @fluentui/react-teams
 
-This log was last generated on Fri, 23 Apr 2021 21:39:14 GMT and should not be manually modified.
+This log was last generated on Wed, 19 May 2021 18:48:48 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 5.1.0
+
+Wed, 19 May 2021 18:48:48 GMT
+
+### Minor changes
+
+- Add support for hide/show widgets on Dashboard. (v-wishow@microsoft.com)
 
 ## 5.0.0
 

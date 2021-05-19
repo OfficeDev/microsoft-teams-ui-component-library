@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "Add support for hide/show widgets on Dashboard.",
-  "packageName": "@fluentui/react-teams",
-  "email": "v-wishow@microsoft.com",
-  "dependentChangeType": "patch"
-}
