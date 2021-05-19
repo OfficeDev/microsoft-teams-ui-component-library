@@ -34,6 +34,7 @@ const listConfig = {
     c1: {
       title: "Member name",
       sortable: "alphabetical" as TSortable,
+      icon: "ContactCard",
     },
     c2: {
       title: "Location",

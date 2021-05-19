@@ -9,7 +9,7 @@ export const buttonContentStyles: ComponentSlotStylesPrepared<
 > = {
   root: () => {
     return {
-      fontWeight: "var(--button__content--font-weight, 600)" as "inherit",
+      fontWeight: "var(--button__content--font-weight, 400)" as "inherit",
     };
   },
 };

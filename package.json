@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@fluentui/keyboard-key": "^0.2.16",
-    "@fluentui/react-icons-northstar": "^0.54.0",
+    "@fluentui/react-icons-northstar": "^0.56.0",
     "chart.js": "^2.9.4",
     "classnames": "2.x",
     "lodash": "4.x",
@@ -28,13 +28,13 @@
     "react-perfect-scrollbar": "^1.5.8"
   },
   "peerDependencies": {
-    "@fluentui/react-northstar": "^0.54.0",
+    "@fluentui/react-northstar": "^0.56.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
-    "@fluentui/react-northstar": "^0.54.0",
+    "@fluentui/react-northstar": "^0.56.0",
     "@microsoft/api-documenter": "^7.12.7",
     "@microsoft/api-extractor": "^7.13.1",
     "@storybook/addon-a11y": "^5.3.19",
