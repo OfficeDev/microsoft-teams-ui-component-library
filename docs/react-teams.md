@@ -22,7 +22,7 @@
 |  --- | --- |
 |  [Chart\_2({ title, type, data })](./react-teams.chart_2.md) |  |
 |  [Communication({ option, fields, onInteraction, })](./react-teams.communication.md) |  |
-|  [Dashboard({ widgets, onInteraction })](./react-teams.dashboard.md) |  |
+|  [Dashboard({ widgets, preferences, cacheKey, onInteraction, })](./react-teams.dashboard.md) |  |
 
 ## Interfaces
 
@@ -46,6 +46,7 @@
 |  [ICommunicationImage](./react-teams.icommunicationimage.md) | The image to use at the beginning of a Communication component’s content. This does not respond to the user’s active theme, so will remain the same across themes. |
 |  [ICommunicationThemedImage](./react-teams.icommunicationthemedimage.md) | The image to use at the beginning of a Communication component’s content. The user’s active theme determines which image to display. |
 |  [IDashboard](./react-teams.idashboard.md) | The Dashboard component summarizes disparate types of information into a series of widgets. Designs for this component are available in the \[Dashboard page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A3890). |
+|  [IDashboardInteractionUpdatePreferences](./react-teams.idashboardinteractionupdatepreferences.md) | The preferences update payload carries the preferences the developer should store for the user, if appropriate. |
 |  [IDropdownInput](./react-teams.idropdowninput.md) | A single-select dropdown. |
 |  [IDropdownMultipleInput](./react-teams.idropdownmultipleinput.md) | A multiple-select dropdown. |
 |  [IEnumerableInputBase](./react-teams.ienumerableinputbase.md) | Properties shared by all enumerable inputs (radio buttons, checkboxes, dropdowns). |
@@ -98,8 +99,10 @@
 |  [TBoardItems](./react-teams.tboarditems.md) | The collection of a Board’s items, keyed by the items’ unique ID. |
 |  [TBoardLane](./react-teams.tboardlane.md) | Board lanes currently only need a <code>title</code>. |
 |  [TBoardLanes](./react-teams.tboardlanes.md) | Each Board lane has a unique key, which is associated with the lane’s configuration. |
+|  [TCacheKey](./react-teams.tcachekey.md) | If undefined, the component should not attempt to save or load properties from local storage. Otherwise this string should be used to identify a component’s intention; user preferences and potentially other properties will be saved to and loaded from the local storage for a user’s client by this key. |
 |  [TCommunicationFields](./react-teams.tcommunicationfields.md) |  |
 |  [TCommunicationProps](./react-teams.tcommunicationprops.md) | The Communication component can be used to render empty state messages and other combinations of illustration, coaching text, and actions. Designs for this component are available in the \[Empty state page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A4042). |
+|  [TDashboardInteraction](./react-teams.tdashboardinteraction.md) | A Dashboard will emit onInteraction payloads when the user updates any preferences. |
 |  [TFormErrors](./react-teams.tformerrors.md) | A collection of error messages associated with inputs, keyed by input ID. |
 |  [TFormInteraction](./react-teams.tforminteraction.md) | An interaction event emitted by the Form component. The payload always contains the Form’s state, which contains the values of all the Form’s inputs. |
 |  [TInlineField](./react-teams.tinlinefield.md) |  |

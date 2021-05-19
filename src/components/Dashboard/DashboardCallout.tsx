@@ -17,6 +17,7 @@ import {
 import { TeamsTheme } from "../../themes";
 import Icon from "../../lib/Icon";
 import { TDashboardInteraction } from "./Dashboard";
+import { getText, TTextObject, TTranslations } from "../../translations";
 
 /**
  * An action item displayed in a widget’s overflow menu.
@@ -34,7 +35,7 @@ export interface IWidgetAction {
   /**
    * The text content of the trigger for the action.
    */
-  title: string;
+  title: TTextObject;
 }
 
 interface IDashboardCallout {
@@ -44,6 +45,8 @@ interface IDashboardCallout {
   menuProps: any;
   globalTheme: ThemePrepared;
   widgetActionGroup?: IWidgetAction[];
+  hideWidget: (widgetId: string) => void;
+  t: TTranslations;
   onInteraction?: (interaction: TDashboardInteraction) => void;
 }
 
@@ -98,12 +101,6 @@ const getLocalTheme = () => {
   };
 };
 
-const hideWidgetAction = {
-  id: "hide_widget",
-  content: "Hide widget",
-  icon: <EyeSlashIcon />,
-};
-
 export const DashboardCallout = ({
   widgetId,
   open,
@@ -111,9 +108,19 @@ export const DashboardCallout = ({
   menuProps,
   globalTheme,
   widgetActionGroup,
+  hideWidget,
+  t,
   onInteraction,
 }: IDashboardCallout) => {
   const theme = mergeThemes(globalTheme, getLocalTheme());
+
+  const hideWidgetAction = {
+    id: "hide_widget",
+    content: t["hide widget"],
+    icon: <EyeSlashIcon />,
+    onClick: () => hideWidget(widgetId),
+  };
+
   return (
     <FluentUIThemeProvider theme={theme}>
       <Popup
@@ -124,7 +131,7 @@ export const DashboardCallout = ({
           <Button
             text
             iconOnly
-            aria-label="More actions"
+            aria-label={t["more"]}
             icon={<MoreIcon />}
             styles={{
               margin: "0 -0.35rem",
@@ -143,7 +150,7 @@ export const DashboardCallout = ({
                           return {
                             key: id,
                             icon: <Icon icon={icon} />,
-                            content: title,
+                            content: getText(t.locale, title),
                             ...(onInteraction && {
                               onClick: () =>
                                 onInteraction({

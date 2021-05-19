@@ -9,5 +9,5 @@ The text content of the trigger for the action.
 <b>Signature:</b>
 
 ```typescript
-title: string;
+title: TTextObject;
 ```

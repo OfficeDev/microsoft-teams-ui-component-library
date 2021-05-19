@@ -24,6 +24,7 @@
     "chart.js": "^2.9.4",
     "classnames": "2.x",
     "lodash": "4.x",
+    "immer": "^9.0.1",
     "react-beautiful-dnd": "^13.0.0",
     "react-perfect-scrollbar": "^1.5.8"
   },

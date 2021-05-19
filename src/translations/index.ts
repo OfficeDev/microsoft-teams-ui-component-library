@@ -112,5 +112,16 @@ export default {
       "Get started with the ‘Add’ button in the toolbar above.",
     "board empty header": "Create your first column",
     "board empty body": "Get started by adding a column in the toolbar above.",
+    close: "Close",
+    "edit dashboard coaching":
+      "Enable or disable the data you want to see on the dashboard.",
+    find: "Find",
+    ok: "OK",
+    more: "More",
+    filter: "Filter",
+    clear: "Clear",
+    "hide widget": "Hide widget",
+    "view more": "View more",
+    "edit dashboard": "Edit dashboard",
   } as TTranslations,
 };

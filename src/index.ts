@@ -5,7 +5,14 @@ export {
 
 export { TeamsTheme as themeNames } from "./themes";
 
-export { actionKey, TAction, TActions, TUser, TUsers } from "./types/types";
+export {
+  actionKey,
+  TAction,
+  TActions,
+  TUser,
+  TUsers,
+  TCacheKey,
+} from "./types/types";
 
 export { TLocale, TTextObject, TTranslations } from "./translations";
 
@@ -36,7 +43,12 @@ export {
   ICommunicationThemedImage,
 } from "./components/Communication";
 
-export { Dashboard, IDashboard } from "./components/Dashboard/Dashboard";
+export {
+  Dashboard,
+  IDashboard,
+  TDashboardInteraction,
+  IDashboardInteractionUpdatePreferences,
+} from "./components/Dashboard/Dashboard";
 export {
   IWidget,
   EWidgetSize,

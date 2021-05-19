@@ -16,4 +16,5 @@ export interface IWidgetLink
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [href](./react-teams.iwidgetlink.href.md) | string |  |
+|  [title?](./react-teams.iwidgetlink.title.md) | [TTextObject](./react-teams.ttextobject.md) | <i>(Optional)</i> |
 

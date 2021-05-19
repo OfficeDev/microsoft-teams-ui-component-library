@@ -14,8 +14,7 @@ This library expects a few peer dependencies; if your project doesn’t have the
 
 - `react@^16.8.0`
 - `react-dom@^16.8.0`
-- `@fluentui/react-northstar@^0.51.0`
--  `@fluentui/react-icons-northstar/@^0.51.0`
+- `@fluentui/react-northstar@^0.54.0`
 
 Next, simply add as a dependency to your project:
 

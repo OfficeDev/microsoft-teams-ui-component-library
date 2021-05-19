@@ -9,6 +9,8 @@ import {
 import { SearchIcon } from "@fluentui/react-icons-northstar";
 
 import { TToolbarLayout } from "./Toolbar";
+import { TTranslations } from "../../translations";
+import { Surface } from "../../types/types";
 
 export interface IToolbarFindProps {
   layout: TToolbarLayout;
@@ -16,38 +18,45 @@ export interface IToolbarFindProps {
   findActive: boolean;
   setFindActive: Dispatch<SetStateAction<boolean>>;
   onFindQueryChange?: (findQuery: string) => string;
+  t: TTranslations;
 }
 
-export const ToolbarFind = (props: IToolbarFindProps) => {
-  switch (props.layout) {
+export const ToolbarFind = ({
+  layout,
+  onFindQueryChange,
+  findActive,
+  setFindActive,
+  toolbarButtonStyles,
+  t,
+}: IToolbarFindProps) => {
+  switch (layout) {
     case "verbose":
       return (
         <Input
           clearable
-          placeholder="Find"
-          aria-label="Find"
-          className="extended-toolbar__far-side__input"
+          placeholder={t["find"]}
+          aria-label={t["find"]}
           icon={<SearchIcon outline />}
           styles={{
             flexShrink: 1,
             width: "13.125rem",
           }}
           onChange={(e, inputProps) => {
-            if (props.onFindQueryChange && inputProps)
-              props.onFindQueryChange(inputProps.value);
+            if (onFindQueryChange && inputProps)
+              onFindQueryChange(inputProps.value);
           }}
+          variables={{ surface: Surface.base }}
         />
       );
     default:
     case "compact":
-      return props.findActive ? (
+      return findActive ? (
         <>
           <Input
             autoFocus
             clearable
-            placeholder="Find"
-            aria-label="Find"
-            className="extended-toolbar__far-side__input"
+            placeholder={t["find"]}
+            aria-label={t["find"]}
             icon={<SearchIcon outline />}
             styles={{
               flexShrink: 1,
@@ -55,23 +64,24 @@ export const ToolbarFind = (props: IToolbarFindProps) => {
               width: "13.125rem",
             }}
             onChange={(e, inputProps) => {
-              if (props.onFindQueryChange && inputProps)
-                props.onFindQueryChange(inputProps.value);
+              if (onFindQueryChange && inputProps)
+                onFindQueryChange(inputProps.value);
             }}
+            variables={{ surface: Surface.base }}
           />
           <Button
             text
-            title="Cancel"
-            content="Cancel"
+            title={t["cancel"]}
+            content={t["cancel"]}
             className="extended-toolbar__find-cancel"
             styles={{
               marginLeft: "1px",
               marginRight: "1px",
-              ...props.toolbarButtonStyles,
+              ...toolbarButtonStyles,
             }}
             onClick={(_e) => {
-              props.onFindQueryChange && props.onFindQueryChange("");
-              props.setFindActive(false);
+              onFindQueryChange && onFindQueryChange("");
+              setFindActive(false);
             }}
           />
         </>
@@ -80,19 +90,19 @@ export const ToolbarFind = (props: IToolbarFindProps) => {
           trigger={
             <Button
               text
-              title="Find"
+              title={t["find"]}
               content=""
               className="extended-toolbar__find-invoker"
               icon={<SearchIcon outline />}
               styles={{
-                ...props.toolbarButtonStyles,
+                ...toolbarButtonStyles,
                 marginRight: ".5rem",
                 flex: "0 0 auto",
               }}
-              onClick={(_e) => props.setFindActive(true)}
+              onClick={(_e) => setFindActive(true)}
             />
           }
-          content="Find"
+          content={t["find"]}
           accessibility={tooltipAsLabelBehavior}
         />
       );
