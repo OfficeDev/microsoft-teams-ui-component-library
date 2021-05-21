@@ -224,13 +224,10 @@ export const List = (props: IListProps) => {
     if (findQuery) {
       return (
         Object.keys(row).findIndex((columnKey) => {
-          const value = row[columnKey];
-          return (
-            typeof value === "string" &&
-            (typeof findQuery === "string"
-              ? value.includes(findQuery)
-              : findQuery.test(value))
-          );
+          const value = JSON.stringify(row[columnKey]);
+          return typeof findQuery === "string"
+            ? value.includes(findQuery)
+            : findQuery.test(value);
         }) > -1
       );
     } else return true;

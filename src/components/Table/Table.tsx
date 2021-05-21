@@ -37,7 +37,8 @@ import {
 
 import { SiteVariablesPrepared } from "@fluentui/styles";
 
-import Icon from "../../lib/Icon";
+import Icon, { IIconProps } from "../../lib/Icon";
+import Avatar, { IAvatarProps } from "../../lib/Avatar";
 
 import { TableTheme } from "./TableTheme";
 
@@ -48,7 +49,7 @@ import getBreakpoints, {
   TSortable,
 } from "./tableBreakpoints";
 
-import { TActions, actionKey } from "../..";
+import { TActions, actionKey, TTextObject, TLocale } from "../..";
 import { TeamsTheme } from "../../themes";
 import { TTranslations, getText } from "../../translations";
 
@@ -58,13 +59,42 @@ type sortOrder = [columnKey | "__rowKey__", "asc" | "desc"];
 
 export type TSelected = Set<rowKey>;
 
+export interface IIconOrnament extends IIconProps {
+  type: "icon";
+}
+
+export interface IAvatarOrnament extends Omit<IAvatarProps, "name"> {
+  type: "avatar";
+  name: TTextObject;
+}
+
+/**
+ * Table cell content ornaments can be avatars or icons.
+ */
+export type TContentOrnament = IAvatarOrnament | IIconOrnament;
+
+/**
+ * Content for a table cell can specify optional elements to display before and after the cell’s
+ * text content.
+ */
+export interface ICellContent {
+  before?: TContentOrnament;
+  content: TTextObject;
+  after?: TContentOrnament;
+}
+
+/**
+ * The content for a table cell
+ */
+export type TCellContent = TTextObject | ICellContent;
+
 /**
  * A collection of data to display for a row, keyed by the column ID except for `actions`, which
  * contains the collection of actions to make available in the row’s overflow menu.
  * @public
  */
 export interface IRow {
-  [columnKey: string]: string | TActions | undefined;
+  [columnKey: string]: TCellContent | TActions | undefined;
   actions?: TActions;
 }
 
@@ -172,6 +202,75 @@ const ariaSort = ({
 const defaultSortOrder: sortOrder = ["__rowKey__", "desc"];
 
 const passThrough = (arg: any) => arg;
+
+const CellContentOrnament = ({ type, ...props }: TContentOrnament) => {
+  switch (type) {
+    case "avatar":
+      return (
+        <Avatar
+          {...(props as IAvatarProps)}
+          styles={{ margin: "-0.375rem 0 -0.375rem 0" }}
+        />
+      );
+    case "icon":
+      return <Icon {...(props as IIconProps)} />;
+    default:
+      return null;
+  }
+};
+
+interface ICellContentProps {
+  locale: TLocale;
+  rtl: boolean;
+  cell: TCellContent;
+}
+
+const CellContent = ({ locale, rtl, cell }: ICellContentProps) => {
+  if (!cell) return null;
+  if (cell.hasOwnProperty("content")) {
+    const ornamentedCell = cell as ICellContent;
+    return (
+      <Flex vAlign="center">
+        {ornamentedCell.before && (
+          <CellContentOrnament
+            {...ornamentedCell.before}
+            {...(ornamentedCell.before.hasOwnProperty("name") && {
+              name: getText(
+                locale,
+                (ornamentedCell.before as IAvatarOrnament).name
+              ),
+            })}
+          />
+        )}
+        <Text
+          styles={{
+            marginLeft: ornamentedCell.hasOwnProperty(rtl ? "after" : "before")
+              ? ".5rem"
+              : 0,
+            marginRight: ornamentedCell.hasOwnProperty(rtl ? "before" : "after")
+              ? ".5rem"
+              : 0,
+          }}
+        >
+          {getText(locale, ornamentedCell.content)}
+        </Text>
+        {ornamentedCell.after && (
+          <CellContentOrnament
+            {...ornamentedCell.after}
+            {...(ornamentedCell.after.hasOwnProperty("name") && {
+              name: getText(
+                locale,
+                (ornamentedCell.after as IAvatarOrnament).name
+              ),
+            })}
+          />
+        )}
+      </Flex>
+    );
+  } else {
+    return <Text>{getText(locale, cell as TTextObject)}</Text>;
+  }
+};
 
 /**
  * @public
@@ -508,9 +607,11 @@ export const Table = (props: ITableProps) => {
                                 backgroundColor:
                                   colorScheme.default.background2,
                               },
-                        onClick: (_e: SyntheticEvent<HTMLElement>) => {
-                          props.selectable &&
+                        onClickCapture: (e: SyntheticEvent<HTMLElement>) => {
+                          if (props.selectable) {
+                            e.stopPropagation();
                             setRowSelected(!selected.has(rowKey), rowKey);
+                          }
                         },
                         items: columnOrder.reduce(
                           (
@@ -626,7 +727,13 @@ export const Table = (props: ITableProps) => {
                                   const cell = row[columnKey];
                                   acc.push({
                                     key: `${rowKey}__${columnKey}`,
-                                    content: cell,
+                                    content: (
+                                      <CellContent
+                                        locale={t.locale}
+                                        rtl={t.rtl}
+                                        cell={cell as TCellContent}
+                                      />
+                                    ),
                                     truncateContent: !!props.truncate,
                                     styles: columnWidthStyles(
                                       columnKey,

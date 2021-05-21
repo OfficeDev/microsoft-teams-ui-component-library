@@ -7,7 +7,6 @@ import {
 } from "react-beautiful-dnd";
 
 import {
-  Avatar,
   Box,
   Button,
   Card,
@@ -35,8 +34,10 @@ import {
 
 import { TUsers } from "../..";
 
+import Avatar from "../../lib/Avatar";
 import setMultiple from "../../lib/setMultiple";
 import { useAccessibility } from "@fluentui/react-bindings";
+import { Avatar as FluentUIAvatar } from "@fluentui/react-northstar/dist/es/components/Avatar/Avatar";
 
 const boardItemBehavior = (_props: CardBehaviorProps) =>
   setMultiple(gridCellWithFocusableElementBehavior(), {
@@ -217,7 +218,6 @@ const BoardItemUsers = ({
           const user = users[userKey];
           return associatedUserKeys.length > 3 && i === 2 ? (
             <Avatar
-              size="small"
               key={`BoardItemUserAvatar__overflow`}
               name={`+${associatedUserKeys.length - 2}`}
               getInitials={(name) => name}
@@ -228,7 +228,6 @@ const BoardItemUsers = ({
             />
           ) : (
             <Avatar
-              size="small"
               key={`BoardItemUserAvatar__${userKey}`}
               name={getText(locale, user.name)}
               variables={({ colorScheme }: SiteVariablesPrepared) => ({

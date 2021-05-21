@@ -54,6 +54,10 @@ export {
   ITableProps,
   TTableInteraction,
   IRow,
+  TCellContent,
+  ICellContent,
+  IAvatarOrnament,
+  IIconOrnament,
 } from "./components/Table/Table";
 export { TSortable, IColumn } from "./components/Table/tableBreakpoints";
 
