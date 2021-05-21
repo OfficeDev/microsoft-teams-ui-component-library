@@ -17,6 +17,7 @@ export interface IColumn
 |  --- | --- | --- |
 |  [hideable?](./react-teams.icolumn.hideable.md) | boolean | <i>(Optional)</i> Whether the column can be hidden when horizontal space is constrained. |
 |  [hidePriority?](./react-teams.icolumn.hidepriority.md) | number | <i>(Optional)</i> Columns with a lower <code>hidePriority</code> are hidden before columns with a higher <code>hidePriority</code>. |
+|  [icon?](./react-teams.icolumn.icon.md) | string | <i>(Optional)</i> The icon to display before the column’s title in the header cell. |
 |  [minWidth?](./react-teams.icolumn.minwidth.md) | number | <i>(Optional)</i> The column’s minimum width in pixels. |
 |  [sortable?](./react-teams.icolumn.sortable.md) | [TSortable](./react-teams.tsortable.md) | <i>(Optional)</i> Whether the column is sortable, and if so what sort to make available. |
 |  [title](./react-teams.icolumn.title.md) | [TTextObject](./react-teams.ttextobject.md) | The text content of the column's header cell. |
