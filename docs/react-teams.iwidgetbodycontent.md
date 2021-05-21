@@ -18,5 +18,5 @@ export interface IWidgetBodyContent
 |  --- | --- | --- |
 |  [content](./react-teams.iwidgetbodycontent.content.md) | [TWidgetContent](./react-teams.twidgetcontent.md) | The content, as a React Node. |
 |  [id](./react-teams.iwidgetbodycontent.id.md) | string | An ID unique to the piece of content. |
-|  [title](./react-teams.iwidgetbodycontent.title.md) | string | A title which will appear as a tab’s label in the Dashboard widget. This will only appear if the widget hosts multiple body content objects. |
+|  [title](./react-teams.iwidgetbodycontent.title.md) | [TTextObject](./react-teams.ttextobject.md) | A title which will appear as a tab’s label in the Dashboard widget. This will only appear if the widget hosts multiple body content objects. |
 

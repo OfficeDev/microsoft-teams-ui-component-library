@@ -9,5 +9,5 @@ A title which will appear as a tab’s label in the Dashboard widget. This will 
 <b>Signature:</b>
 
 ```typescript
-title: string;
+title: TTextObject;
 ```

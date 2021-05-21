@@ -50,12 +50,6 @@ const getLocalTheme = (themeKey: string): ThemeInput<any> => {
   return {
     componentVariables: {
       Button: buttonRootVariables,
-      Input: ({ colors, colorScheme, theme }: ComponentVariablesInput) => ({
-        backgroundColor:
-          theme === TeamsTheme.Dark
-            ? colors.grey[750]
-            : colorScheme.black.background,
-      }),
       ToolbarItem: buttonRootVariables,
       TreeItem: ({ colorScheme, theme }: ComponentVariablesInput) => ({
         color:

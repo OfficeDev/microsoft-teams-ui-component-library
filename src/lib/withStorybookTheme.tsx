@@ -49,6 +49,17 @@ const storybookT10s = {
     "no data": "اطلاعاتی موجود نیست.",
     "list empty default header": "اولین لیست خود را ایجاد کنید",
     "list empty default body": "با افزودن مورد لیست شروع کنید.",
+    close: "نزدیک",
+    "edit dashboard coaching":
+      "داده هایی را که می خواهید در داشبورد مشاهده کنید فعال یا غیرفعال کنید.",
+    find: "پیدا کردن",
+    ok: "خوب",
+    more: "بیشتر",
+    filter: "پالودن",
+    clear: "زدودن",
+    "hide widget": "مخفی کردن ویجت",
+    "view more": "بیشتر ببینید",
+    "edit dashboard": "داشبورد را ویرایش کنید",
   } as TTranslations,
 };
 

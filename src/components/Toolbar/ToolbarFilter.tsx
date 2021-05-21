@@ -29,6 +29,7 @@ import { ComponentSlotStyle, SiteVariablesPrepared } from "@fluentui/styles";
 
 import { TToolbarLayout } from "./Toolbar";
 import { TeamsTheme } from "../../themes";
+import { TTranslations } from "../../translations";
 
 const treeItemIconStyles = {
   position: "relative",
@@ -116,13 +117,16 @@ const findSingleTitle = (
 };
 
 const getSingleTitle = (
+  t: TTranslations,
   layout: TToolbarLayout,
   selectedId: string | undefined,
   filters: ObjectShorthandCollection<TreeItemProps, never>
 ): string => {
   switch (layout) {
     case "verbose":
-      return (selectedId && findSingleTitle(selectedId!, filters)) || "Filter";
+      return (
+        (selectedId && findSingleTitle(selectedId!, filters)) || t["filter"]
+      );
     default:
     case "compact":
       return selectedId ? "(1)" : "";
@@ -138,6 +142,7 @@ export interface IExtendedToolbarFilterProps {
   toolbarMenuProps: any;
   toolbarButtonStyles: any;
   onSelectedFiltersChange?: (selectedFilters: string[]) => string[];
+  t: TTranslations;
 }
 
 const passThrough = (arg: any) => arg;
@@ -151,6 +156,7 @@ export const ToolbarFilter = (props: IExtendedToolbarFilterProps) => {
     onOpenChange,
     toolbarMenuProps,
     toolbarButtonStyles,
+    t,
   } = props;
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   const propagateSetSelectedFilters = (selectedFilters: string[]) =>
@@ -159,8 +165,8 @@ export const ToolbarFilter = (props: IExtendedToolbarFilterProps) => {
     );
 
   const invokerTitle = singleSelect
-    ? getSingleTitle(layout, selectedFilters[0], filters)
-    : `${layout === "verbose" ? "Filter" : ""}${
+    ? getSingleTitle(t, layout, selectedFilters[0], filters)
+    : `${layout === "verbose" ? t["filter"] : ""}${
         selectedFilters.length > 0 ? ` (${selectedFilters.length})` : ""
       }`;
   const filtersForTree = singleSelect
@@ -173,7 +179,7 @@ export const ToolbarFilter = (props: IExtendedToolbarFilterProps) => {
   const filterInvoker = (
     <Button
       text
-      title="Filter"
+      title={t["filter"]}
       content={invokerTitle}
       className="extended-toolbar__filters-invoker"
       icon={<FilterIcon outline />}
@@ -195,7 +201,7 @@ export const ToolbarFilter = (props: IExtendedToolbarFilterProps) => {
         layout === "compact" ? (
           <Tooltip
             trigger={filterInvoker}
-            content="Filter"
+            content={t["filter"]}
             accessibility={tooltipAsLabelBehavior}
           />
         ) : (
@@ -216,7 +222,7 @@ export const ToolbarFilter = (props: IExtendedToolbarFilterProps) => {
               }}
             >
               <Text
-                content="Filter"
+                content={t["filter"]}
                 className="extended-toolbar__filters-menu__title"
                 styles={{
                   flex: "1 0 auto",
@@ -226,8 +232,8 @@ export const ToolbarFilter = (props: IExtendedToolbarFilterProps) => {
               <Button
                 text
                 primary
-                content="Clear"
-                aria-label="Clear filter"
+                content={t["clear"]}
+                aria-label={t["clear"]}
                 className="extended-toolbar__filters-menu__clear-action"
                 onClick={() => propagateSetSelectedFilters([])}
                 styles={{

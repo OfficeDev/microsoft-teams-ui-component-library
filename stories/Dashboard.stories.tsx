@@ -23,13 +23,13 @@ const figmaSource = {
 const calloutItemsExample = [
   {
     id: "action_1",
-    title: "Info",
+    title: { "en-US": "Info", fa: "اطلاعات" },
     icon: "ExclamationCircle",
   },
   { id: "action_2", title: "Popup", icon: "Screenshare" },
   {
     id: "action_3",
-    title: "Share",
+    title: { "en-US": "Share", fa: "اشتراک گذاری" },
     icon: "ShareGeneric",
   },
 ];
@@ -39,14 +39,17 @@ const linkExample = { href: "#" };
 const defaultWidgets: IWidget[] = [
   {
     id: "w1",
-    title: "Card 1",
-    desc: "Last updated Monday, April 4 at 11:15 AM (PT)",
+    title: { "en-US": "Card 1", fa: "کارت 1" },
+    desc: {
+      "en-US": "Last updated Monday, April 4 at 11:15 AM (PT)",
+      fa: "آخرین به روزرسانی دوشنبه ، 4 آوریل در ساعت 11:15 صبح (PT)",
+    },
     widgetActionGroup: calloutItemsExample,
     size: EWidgetSize.Triple,
     body: [
       {
         id: "t1",
-        title: "Tab 1",
+        title: { "en-US": "Tab 1", fa: "برگه 1" },
         content: {
           type: "placeholder",
           message: "Content #1",
@@ -54,7 +57,7 @@ const defaultWidgets: IWidget[] = [
       },
       {
         id: "t2",
-        title: "Tab 2",
+        title: { "en-US": "Tab 2", fa: "برگه 2" },
         content: {
           type: "placeholder",
           message: "Content #2",
@@ -62,7 +65,7 @@ const defaultWidgets: IWidget[] = [
       },
       {
         id: "t3",
-        title: "Tab 3",
+        title: { "en-US": "Tab 3", fa: "برگه 3" },
         content: {
           type: "placeholder",
           message: "Content #3",
@@ -73,38 +76,41 @@ const defaultWidgets: IWidget[] = [
   },
   {
     id: "w2",
-    title: "Card 2",
+    title: { "en-US": "Card 1", fa: "کارت 1" },
     size: EWidgetSize.Single,
     link: linkExample,
   },
   {
     id: "w3",
-    title: "Card 3",
+    title: { "en-US": "Card 2", fa: "کارت 2" },
     size: EWidgetSize.Double,
     link: linkExample,
   },
   {
     id: "w4",
-    title: "Card 4",
+    title: { "en-US": "Card 3", fa: "کارت 3" },
     size: EWidgetSize.Single,
     link: linkExample,
   },
   {
     id: "w5",
-    title: "Card 5",
+    title: { "en-US": "Card 4", fa: "کارت 4" },
     size: EWidgetSize.Single,
     link: linkExample,
   },
   {
     id: "w6",
-    title: "Card 6",
+    title: { "en-US": "Card 5", fa: "کارت 5" },
     size: EWidgetSize.Single,
     link: linkExample,
   },
 ];
 
 const dashboardKnobGroupID = "Dashboards";
-const dafaultConfig = { widgets: defaultWidgets };
+const dafaultConfig = {
+  widgets: defaultWidgets,
+  cacheKey: "default-dashboard",
+};
 
 export const Default = () => {
   return (
@@ -202,6 +208,7 @@ const dataVizWidgets = [
     link: linkExample,
   },
   {
+    id: "w2",
     title: "Doughnut chart sample",
     size: EWidgetSize.Single,
     link: linkExample,
@@ -637,7 +644,10 @@ const dataVizWidgets = [
   } as IWidget,
 ];
 
-const dataVizConfig = { widgets: dataVizWidgets };
+const dataVizConfig = {
+  widgets: dataVizWidgets,
+  cacheKey: "dashboard-with-dataViz",
+};
 
 export const WithDataVizualization = () => {
   return (
