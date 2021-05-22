@@ -16,6 +16,10 @@ export interface IColumn {
    */
   title: TTextObject;
   /**
+   * The icon to display before the column’s title in the header cell.
+   */
+  icon?: string;
+  /**
    * The column’s minimum width in pixels.
    * @defaultValue `240`
    */

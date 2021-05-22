@@ -14,7 +14,7 @@ export const avatarStyles: ComponentSlotStylesPrepared<
       },
     } = componentStyleParameters;
     return {
-      borderColor: `var(--surface-background-color, ${colorScheme.default.background})`,
+      borderColor: `var(--surface-background-color, transparent)`,
     };
   },
   label: (componentStyleParameters) => {
@@ -24,7 +24,7 @@ export const avatarStyles: ComponentSlotStylesPrepared<
       },
     } = componentStyleParameters;
     return {
-      borderColor: `var(--surface-background-color, ${colorScheme.default.background})`,
+      borderColor: `var(--surface-background-color, transparent)`,
     };
   },
   root: (componentStyleParameters) => {
@@ -34,7 +34,7 @@ export const avatarStyles: ComponentSlotStylesPrepared<
       },
     } = componentStyleParameters;
     return {
-      backgroundColor: `var(--surface-background-color, ${colorScheme.default.background})`,
+      backgroundColor: `var(--surface-background-color, transparent)`,
     };
   },
 };

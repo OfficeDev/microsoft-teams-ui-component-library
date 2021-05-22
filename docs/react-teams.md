@@ -28,12 +28,14 @@
 
 |  Interface | Description |
 |  --- | --- |
+|  [IAvatarOrnament](./react-teams.iavatarornament.md) |  |
 |  [IBoardInteractionUpdateItems](./react-teams.iboardinteractionupdateitems.md) | This payload is emitted when the user updates the Board’s items, which occurs when the user creates a new item, deletes an item, or edits an item. |
 |  [IBoardInteractionUpdateLanes](./react-teams.iboardinteractionupdatelanes.md) | This payload is emitted when the user updates the Board’s lanes, which occurs when the user adds or removes a lane, or rearranges the lanes. |
 |  [IBoardItem](./react-teams.iboarditem.md) | An item in a Board component. |
 |  [IBoardItemCardLayout](./react-teams.iboarditemcardlayout.md) | The way a Board item’s content is mapped to the adaptive card used to represent the item. |
 |  [IBoardProps](./react-teams.iboardprops.md) | The Board component can be used to render kanban and task board experiences in your app. Designs for this component are available in the \[Task board page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A3840). |
 |  [IBubbleChartData](./react-teams.ibubblechartdata.md) | A vector datum for bubble charts and related types. |
+|  [ICellContent](./react-teams.icellcontent.md) | Content for a table cell can specify optional elements to display before and after the cell’s text content. |
 |  [IChartData](./react-teams.ichartdata.md) | The data to display in this Chart. |
 |  [IChartDataSet](./react-teams.ichartdataset.md) | One set of the Chart’s data. |
 |  [IChartProps](./react-teams.ichartprops.md) | The Chart component can be used to render data visualizations. Designs for this component are available in the \[Data visualizations page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A4091). |
@@ -56,6 +58,7 @@
 |  [IFormProps](./react-teams.iformprops.md) | The Form component can be used to render an interactive Form. Designs for this component are available in the \[Forms page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=5271%3A221958). |
 |  [IFormState](./react-teams.iformstate.md) | A collection of input values, keyed by input ID. If the input is a block of checkboxes or a dropdown with multiple selection, the value will be an array of option IDs. |
 |  [IFormWizardStepProps](./react-teams.iformwizardstepprops.md) | A Form which is a step in a Wizard has the same inputs as Form with an additional option to override the text of the Wizard’s back button for the current step. |
+|  [IIconOrnament](./react-teams.iiconornament.md) |  |
 |  [IInlineInputsBlock](./react-teams.iinlineinputsblock.md) | A block containing a set of one or more text inputs or dropdowns. |
 |  [IListProps](./react-teams.ilistprops.md) | The List component can be used to display a list of items as a table which can be sorted, filtered, and searched.. Designs for this component are available in the \[List page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A3790). |
 |  [IMultilineTextInput](./react-teams.imultilinetextinput.md) | A multi-line text field. |
@@ -100,6 +103,7 @@
 |  [TBoardLane](./react-teams.tboardlane.md) | Board lanes currently only need a <code>title</code>. |
 |  [TBoardLanes](./react-teams.tboardlanes.md) | Each Board lane has a unique key, which is associated with the lane’s configuration. |
 |  [TCacheKey](./react-teams.tcachekey.md) | If undefined, the component should not attempt to save or load properties from local storage. Otherwise this string should be used to identify a component’s intention; user preferences and potentially other properties will be saved to and loaded from the local storage for a user’s client by this key. |
+|  [TCellContent](./react-teams.tcellcontent.md) | The content for a table cell |
 |  [TCommunicationFields](./react-teams.tcommunicationfields.md) |  |
 |  [TCommunicationProps](./react-teams.tcommunicationprops.md) | The Communication component can be used to render empty state messages and other combinations of illustration, coaching text, and actions. Designs for this component are available in the \[Empty state page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A4042). |
 |  [TDashboardInteraction](./react-teams.tdashboardinteraction.md) | A Dashboard will emit onInteraction payloads when the user updates any preferences. |

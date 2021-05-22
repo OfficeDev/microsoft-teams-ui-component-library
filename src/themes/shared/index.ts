@@ -11,6 +11,8 @@ import { dropdownStyles } from "./components/Dropdown/dropdown-styles";
 import { formMessageStyles } from "./components/Form/formMessage-styles";
 import { inputStyles } from "./components/Input/input-styles";
 import { radiogroupItemStyles } from "./components/Radiogroup/radiogroupItem-styles";
+import { tableCellStyles } from "./components/Table/tableCell-styles";
+import { tableRowStyles } from "./components/Table/tableRow-styles";
 
 import {
   ComponentSlotStylesPrepared,
@@ -34,6 +36,8 @@ export const sharedComponentStyles: TComponentStyles = {
   FormMessage: formMessageStyles,
   Input: inputStyles,
   RadioGroupItem: radiogroupItemStyles,
+  TableCell: tableCellStyles,
+  TableRow: tableRowStyles,
 };
 
 export const mergeSharedComponentStyles = (
