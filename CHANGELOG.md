@@ -1,8 +1,16 @@
 # Change Log - @fluentui/react-teams
 
-This log was last generated on Wed, 19 May 2021 18:48:48 GMT and should not be manually modified.
+This log was last generated on Sat, 22 May 2021 00:18:28 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 5.2.0
+
+Sat, 22 May 2021 00:18:28 GMT
+
+### Minor changes
+
+- List & Table content & style improvements (v-wishow@microsoft.com)
 
 ## 5.1.0
 

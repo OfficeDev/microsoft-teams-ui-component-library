@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "List & Table content & style improvements",
-  "packageName": "@fluentui/react-teams",
-  "email": "v-wishow@microsoft.com",
-  "dependentChangeType": "patch"
-}
