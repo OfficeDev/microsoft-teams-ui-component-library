@@ -12,6 +12,7 @@ export {
   TUser,
   TUsers,
   TCacheKey,
+  EButtonVariants,
 } from "./types/types";
 
 export { TLocale, TTextObject, TTranslations } from "./translations";
