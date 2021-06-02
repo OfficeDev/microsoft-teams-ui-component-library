@@ -7,34 +7,21 @@ export const avatarStyles: ComponentSlotStylesPrepared<
   NonNullable<Partial<TeamsThemeStylesProps["Avatar"]>>,
   any
 > = {
-  image: (componentStyleParameters) => {
-    const {
-      theme: {
-        siteVariables: { colorScheme },
-      },
-    } = componentStyleParameters;
+  image: () => {
     return {
-      borderColor: `var(--surface-background-color, transparent)`,
+      borderColor: "var(--surface-background-color, transparent)",
+      borderRadius: "var(--avatar__border-radius, 9999px)",
+      clipPath: "var(--avatar__clip-path, none)",
     };
   },
-  label: (componentStyleParameters) => {
-    const {
-      theme: {
-        siteVariables: { colorScheme },
-      },
-    } = componentStyleParameters;
+  label: () => {
     return {
-      borderColor: `var(--surface-background-color, transparent)`,
+      borderColor: "var(--surface-background-color, transparent)",
     };
   },
-  root: (componentStyleParameters) => {
-    const {
-      theme: {
-        siteVariables: { colorScheme },
-      },
-    } = componentStyleParameters;
+  root: () => {
     return {
-      backgroundColor: `var(--surface-background-color, transparent)`,
+      backgroundColor: "var(--surface-background-color, transparent)",
     };
   },
 };

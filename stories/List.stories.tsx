@@ -7,6 +7,7 @@ import { List, TSortable } from "../src";
 import { CommunicationOptions } from "../src";
 import fakerEN from "faker/locale/en_US";
 import fakerFA from "faker/locale/fa";
+import { EAvatarVariant } from "../src/lib/Avatar";
 
 export default {
   title: "UI Templates/Lists",
@@ -57,6 +58,7 @@ const listConfig = {
             ...{
               name,
               image: fakerEN.internet.avatar(),
+              variant: EAvatarVariant.entity,
             },
           },
           content: name,
@@ -81,6 +83,7 @@ const listConfig = {
             ...{
               name,
               image: fakerEN.internet.avatar(),
+              variant: EAvatarVariant.bot,
             },
           },
           content: name,

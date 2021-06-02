@@ -72,7 +72,8 @@ export interface IIconOrnament extends IIconProps {
   type: "icon";
 }
 
-export interface IAvatarOrnament extends Omit<IAvatarProps, "name"> {
+export interface IAvatarOrnament
+  extends Pick<IAvatarProps, "image" | "variant"> {
   type: "avatar";
   name: TTextObject;
 }
