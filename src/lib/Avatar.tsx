@@ -18,6 +18,7 @@ export interface IAvatarProps
 const extendStyles = (variant: EAvatarVariant, size: string, styles = {}) => {
   let borderRadius;
   let clipPath;
+  let dims;
   switch (variant) {
     case EAvatarVariant.entity:
       borderRadius = "0.1875rem";
@@ -27,12 +28,15 @@ const extendStyles = (variant: EAvatarVariant, size: string, styles = {}) => {
       switch (size) {
         case "large":
           clipPath = `url('#avatar-clip-path--hex--large')`;
+          dims = { width: "2.875rem", height: "2.625rem" };
           break;
         case "medium":
           clipPath = `url('#avatar-clip-path--hex--medium')`;
+          dims = { width: "2.25rem", height: "2rem" };
           break;
         default:
           clipPath = `url('#avatar-clip-path--hex--small')`;
+          dims = { width: "2rem", height: "1.875rem" };
           break;
       }
       break;
@@ -42,6 +46,7 @@ const extendStyles = (variant: EAvatarVariant, size: string, styles = {}) => {
       ...styles,
       ...(borderRadius && { "--avatar__border-radius": borderRadius }),
       ...(clipPath && { "--avatar__clip-path": clipPath }),
+      ...dims,
     },
   };
 };
