@@ -225,13 +225,14 @@ const defaultSortOrder: sortOrder = ["__rowKey__", "desc"];
 
 const passThrough = (arg: any) => arg;
 
-const nonTextRowContentMargin = { margin: "-0.375rem 0 -0.375rem 0" };
-
 const CellContentOrnament = ({ type, ...props }: TContentOrnament) => {
   switch (type) {
     case "avatar":
       return (
-        <Avatar {...(props as IAvatarProps)} styles={nonTextRowContentMargin} />
+        <Avatar
+          {...(props as IAvatarProps)}
+          styles={{ margin: "-0.375rem 0 -0.375rem 0" }}
+        />
       );
     case "icon":
       return <Icon {...(props as IIconProps)} />;
@@ -261,6 +262,7 @@ const CellContent = ({
     const textContent = getText(locale, buttonCell.content);
     let props: ComponentProps<typeof Button> = {
       title: textContent,
+      style: { margin: "-.8125rem 0", transform: "translateY(-.125rem)" },
       ...(buttonCell.disabled && { disabled: true }),
       ...(buttonCell.iconOnly ? { iconOnly: true } : { content: textContent }),
       ...(onInteraction && {
@@ -274,7 +276,6 @@ const CellContent = ({
       }),
       ...(buttonCell.icon && { icon: <Icon icon={buttonCell.icon} /> }),
       ...(buttonCell.iconPosition && { iconPosition: buttonCell.iconPosition }),
-      styles: nonTextRowContentMargin,
     };
     switch (buttonCell.variant) {
       case EButtonVariants.primary:
@@ -822,6 +823,9 @@ export const Table = (props: ITableProps) => {
                                       columnKey,
                                       !!props.truncate
                                     ),
+                                    ...(get(cell, "type") === "button" && {
+                                      accessibility: gridCellWithFocusableElementBehavior,
+                                    }),
                                   });
                                   break;
                               }

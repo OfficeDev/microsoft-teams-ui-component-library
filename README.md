@@ -28,7 +28,11 @@ or
 npm i --save @fluentui/react-teams
 ```
 
-Since the components require fairly specific, structured props, development is easier in projects that use TypeScript.
+### Use TypeScript without `skipLibCheck`
+
+Since the components require fairly specific, structured props, development is far easier in projects that use TypeScript. Avoid setting `skipLibCheck: true` in your project’s `tsconfig.json` in order to ensure your content’s types are checked.
+
+The API’s promises are communicated in the [docs](./docs/react-teams.md), which are derived directly from the type declarations. This library uses [semver](https://semver.org/) to indicate breaking changes in the API, so props that pass a type check will still work for all releases of this library with the same major version.
 
 ## Getting started
 
