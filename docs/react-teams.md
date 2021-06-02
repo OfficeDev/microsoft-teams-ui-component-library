@@ -9,6 +9,8 @@
 |  Enumeration | Description |
 |  --- | --- |
 |  [CommunicationOptions](./react-teams.communicationoptions.md) | The illustration, text, and actions (if any) to use by default as the content of this component. |
+|  [EAvatarVariant](./react-teams.eavatarvariant.md) | The stylistic variants available to the avatars used by these components. |
+|  [EButtonVariants](./react-teams.ebuttonvariants.md) | The stylistic variants available to the buttons used by these components. |
 |  [EChartTypes](./react-teams.echarttypes.md) | Each chart type can be previewed in the \[Data visualizations page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A4091), or in \[this library’s Storybook\](https://dev-int.teams.microsoft.com/storybook/main/index.html?path=/story/components-charts--line-chart). |
 |  [EInlineInputType](./react-teams.einlineinputtype.md) | The types of inline inputs. |
 |  [EInputBlockType](./react-teams.einputblocktype.md) | The types of input blocks. |
@@ -35,6 +37,7 @@
 |  [IBoardItemCardLayout](./react-teams.iboarditemcardlayout.md) | The way a Board item’s content is mapped to the adaptive card used to represent the item. |
 |  [IBoardProps](./react-teams.iboardprops.md) | The Board component can be used to render kanban and task board experiences in your app. Designs for this component are available in the \[Task board page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A3840). |
 |  [IBubbleChartData](./react-teams.ibubblechartdata.md) | A vector datum for bubble charts and related types. |
+|  [ICellButtonContent](./react-teams.icellbuttoncontent.md) | Content for a table cell can be a button. When clicked, buttons emit an Interaction event. |
 |  [ICellContent](./react-teams.icellcontent.md) | Content for a table cell can specify optional elements to display before and after the cell’s text content. |
 |  [IChartData](./react-teams.ichartdata.md) | The data to display in this Chart. |
 |  [IChartDataSet](./react-teams.ichartdataset.md) | One set of the Chart’s data. |

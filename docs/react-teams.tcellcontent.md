@@ -9,7 +9,7 @@ The content for a table cell
 <b>Signature:</b>
 
 ```typescript
-export declare type TCellContent = TTextObject | ICellContent;
+export declare type TCellContent = TTextObject | ICellContent | ICellButtonContent;
 ```
-<b>References:</b> [TTextObject](./react-teams.ttextobject.md)<!-- -->, [ICellContent](./react-teams.icellcontent.md)
+<b>References:</b> [TTextObject](./react-teams.ttextobject.md)<!-- -->, [ICellContent](./react-teams.icellcontent.md)<!-- -->, [ICellButtonContent](./react-teams.icellbuttoncontent.md)
 

@@ -86,3 +86,13 @@ export enum EButtonVariants {
   tinted = "tinted",
   text = "text",
 }
+
+/**
+ * The stylistic variants available to the avatars used by these components.
+ */
+
+export enum EAvatarVariant {
+  human = "human",
+  entity = "entity",
+  bot = "bot",
+}

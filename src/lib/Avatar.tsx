@@ -4,6 +4,8 @@ import {
 } from "@fluentui/react-northstar";
 import React from "react";
 
+import { EAvatarVariant } from "../types/types";
+
 export interface IAvatarProps
   extends Pick<
     AvatarProps,
@@ -11,12 +13,6 @@ export interface IAvatarProps
   > {
   name: string;
   variant?: EAvatarVariant;
-}
-
-export enum EAvatarVariant {
-  human = "human",
-  entity = "entity",
-  bot = "bot",
 }
 
 const extendStyles = (variant: EAvatarVariant, size: string, styles = {}) => {
