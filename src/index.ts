@@ -12,6 +12,8 @@ export {
   TUser,
   TUsers,
   TCacheKey,
+  EButtonVariants,
+  EAvatarVariant,
 } from "./types/types";
 
 export { TLocale, TTextObject, TTranslations } from "./translations";
@@ -70,6 +72,7 @@ export {
   ICellContent,
   IAvatarOrnament,
   IIconOrnament,
+  ICellButtonContent,
 } from "./components/Table/Table";
 export { TSortable, IColumn } from "./components/Table/tableBreakpoints";
 

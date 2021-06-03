@@ -3,8 +3,7 @@ import { object, boolean } from "@storybook/addon-knobs";
 import { withDesign } from "storybook-addon-designs";
 import { actions } from "@storybook/addon-actions";
 
-import { List, TSortable } from "../src";
-import { CommunicationOptions } from "../src";
+import { List, TSortable, CommunicationOptions, EAvatarVariant } from "../src";
 import fakerEN from "faker/locale/en_US";
 import fakerFA from "faker/locale/fa";
 
@@ -57,6 +56,7 @@ const listConfig = {
             ...{
               name,
               image: fakerEN.internet.avatar(),
+              variant: EAvatarVariant.entity,
             },
           },
           content: name,
@@ -81,6 +81,7 @@ const listConfig = {
             ...{
               name,
               image: fakerEN.internet.avatar(),
+              variant: EAvatarVariant.bot,
             },
           },
           content: name,

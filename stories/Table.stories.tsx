@@ -2,7 +2,7 @@ import React from "react";
 import { object, boolean } from "@storybook/addon-knobs";
 import { actions } from "@storybook/addon-actions";
 
-import { Table, TSortable } from "../src";
+import { EButtonVariants, Table, TSortable } from "../src";
 
 export default {
   title: "Components/Table",
@@ -30,12 +30,25 @@ export const KitchenSink = () => {
         hideable: true,
         hidePriority: 1,
       },
+      c4: {
+        title: "",
+        hideable: false,
+        hidePriority: 1,
+      },
     },
     rows: {
       r4: {
         c1: "Babak Shammas (no delete)",
         c2: "Seattle, WA",
         c3: "Senior analyst",
+        c4: {
+          type: "button",
+          actionId: "open",
+          content: "Open",
+          icon: "ArrowRight",
+          iconPosition: "after",
+          variant: EButtonVariants.primary,
+        },
         actions: {
           share: { title: "Share", icon: "ShareGeneric" },
           manage: { title: "Edit", icon: "Edit" },
@@ -45,6 +58,13 @@ export const KitchenSink = () => {
         c1: "Aadi Kapoor",
         c2: "Seattle, WA",
         c3: "Security associate",
+        c4: {
+          type: "button",
+          actionId: "open",
+          content: "Open",
+          icon: "ArrowRight",
+          iconPosition: "after",
+        },
         actions: {
           share: { title: "Share", icon: "ShareGeneric" },
           manage: { title: "Edit", icon: "Edit" },
@@ -56,6 +76,14 @@ export const KitchenSink = () => {
         c2: "Seattle, WA",
         c3:
           "Security engineer: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras in ultricies mi. Sed aliquet odio et magna maximus, et aliquam ipsum faucibus. Sed pulvinar vel nibh eget scelerisque. Vestibulum ornare id felis ut feugiat. Ut vulputate ante non odio condimentum, eget dignissim erat tincidunt. Etiam sodales lobortis viverra. Sed gravida nisi at nisi ornare, non maximus nisi elementum.",
+        c4: {
+          type: "button",
+          actionId: "open",
+          content: "Open",
+          icon: "ArrowRight",
+          iconPosition: "after",
+          variant: EButtonVariants.tinted,
+        },
         actions: {
           share: { title: "Share", icon: "ShareGeneric" },
           manage: { title: "Edit", icon: "Edit" },
@@ -66,11 +94,26 @@ export const KitchenSink = () => {
         c1: "Alvin Tao (no actions)",
         c2: "Seattle, WA",
         c3: "Marketing analyst",
+        c4: {
+          type: "button",
+          actionId: "open",
+          content: "Open",
+          variant: EButtonVariants.text,
+        },
       },
       r5: {
         c1: "Beth Davies",
         c2: "Seattle, WA",
         c3: "Senior engineer",
+        c4: {
+          type: "button",
+          actionId: "open",
+          content: "Open",
+          icon: "ArrowRight",
+          iconPosition: "after",
+          variant: EButtonVariants.text,
+          iconOnly: true,
+        },
         actions: {
           share: { title: "Share", icon: "ShareGeneric" },
           manage: { title: "Edit", icon: "Edit" },

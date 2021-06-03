@@ -7,9 +7,9 @@
 <b>Signature:</b>
 
 ```typescript
-export interface IAvatarOrnament extends Omit<IAvatarProps, "name"> 
+export interface IAvatarOrnament extends Pick<IAvatarProps, "image" | "variant"> 
 ```
-<b>Extends:</b> Omit&lt;IAvatarProps, "name"&gt;
+<b>Extends:</b> Pick&lt;IAvatarProps, "image" \| "variant"&gt;
 
 ## Properties
 

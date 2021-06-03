@@ -3,9 +3,11 @@ import React, {
   useState,
   useRef,
   SyntheticEvent,
+  ComponentProps,
 } from "react";
 import omit from "lodash/omit";
 import debounce from "lodash/debounce";
+import get from "lodash/get";
 
 import {
   Button,
@@ -24,6 +26,7 @@ import {
   dialogBehavior,
   gridNestedBehavior,
   gridCellWithFocusableElementBehavior,
+  ButtonProps,
 } from "@fluentui/react-northstar";
 
 import {
@@ -49,7 +52,13 @@ import getBreakpoints, {
   TSortable,
 } from "./tableBreakpoints";
 
-import { TActions, actionKey, TTextObject, TLocale } from "../..";
+import {
+  TActions,
+  actionKey,
+  TTextObject,
+  TLocale,
+  EButtonVariants,
+} from "../..";
 import { TeamsTheme } from "../../themes";
 import { TTranslations, getText } from "../../translations";
 
@@ -63,7 +72,8 @@ export interface IIconOrnament extends IIconProps {
   type: "icon";
 }
 
-export interface IAvatarOrnament extends Omit<IAvatarProps, "name"> {
+export interface IAvatarOrnament
+  extends Pick<IAvatarProps, "image" | "variant"> {
   type: "avatar";
   name: TTextObject;
 }
@@ -84,9 +94,21 @@ export interface ICellContent {
 }
 
 /**
+ * Content for a table cell can be a button. When clicked, buttons emit an Interaction event.
+ */
+export interface ICellButtonContent
+  extends Pick<ButtonProps, "iconPosition" | "disabled" | "iconOnly"> {
+  type: "button";
+  actionId: string;
+  content: TTextObject;
+  variant?: EButtonVariants;
+  icon?: string;
+}
+
+/**
  * The content for a table cell
  */
-export type TCellContent = TTextObject | ICellContent;
+export type TCellContent = TTextObject | ICellContent | ICellButtonContent;
 
 /**
  * A collection of data to display for a row, keyed by the column ID except for `actions`, which
@@ -223,10 +245,63 @@ interface ICellContentProps {
   locale: TLocale;
   rtl: boolean;
   cell: TCellContent;
+  onInteraction: ((interaction: TTableInteraction) => void) | undefined;
+  rowKey: rowKey;
 }
 
-const CellContent = ({ locale, rtl, cell }: ICellContentProps) => {
+const CellContent = ({
+  locale,
+  rtl,
+  cell,
+  onInteraction,
+  rowKey,
+}: ICellContentProps) => {
   if (!cell) return null;
+  if (get(cell, "type") === "button") {
+    const buttonCell = cell as ICellButtonContent;
+    const textContent = getText(locale, buttonCell.content);
+    let props: ComponentProps<typeof Button> = {
+      title: textContent,
+      style: { margin: "-.8125rem 0", transform: "translateY(-.125rem)" },
+      ...(buttonCell.disabled && { disabled: true }),
+      ...(buttonCell.iconOnly ? { iconOnly: true } : { content: textContent }),
+      ...(onInteraction && {
+        onClick: () =>
+          onInteraction({
+            event: "click",
+            target: "table",
+            subject: rowKey,
+            action: buttonCell.actionId,
+          }),
+      }),
+      ...(buttonCell.icon && { icon: <Icon icon={buttonCell.icon} /> }),
+      ...(buttonCell.iconPosition && { iconPosition: buttonCell.iconPosition }),
+    };
+    switch (buttonCell.variant) {
+      case EButtonVariants.primary:
+        props = {
+          ...props,
+          primary: true,
+        };
+        break;
+      case EButtonVariants.text:
+        props = {
+          ...props,
+          text: true,
+        };
+        break;
+      case EButtonVariants.tinted:
+        props = {
+          ...props,
+          tinted: true,
+        };
+        break;
+      case EButtonVariants.default:
+      default:
+        break;
+    }
+    return <Button {...props} />;
+  }
   if (cell.hasOwnProperty("content")) {
     const ornamentedCell = cell as ICellContent;
     return (
@@ -609,8 +684,13 @@ export const Table = (props: ITableProps) => {
                               },
                         onClickCapture: (e: SyntheticEvent<HTMLElement>) => {
                           if (props.selectable) {
-                            e.stopPropagation();
-                            setRowSelected(!selected.has(rowKey), rowKey);
+                            const aaClass = (e.target as HTMLElement).getAttribute(
+                              "data-aa-class"
+                            );
+                            if (aaClass && aaClass.startsWith("Table")) {
+                              e.stopPropagation();
+                              setRowSelected(!selected.has(rowKey), rowKey);
+                            }
                           }
                         },
                         items: columnOrder.reduce(
@@ -732,6 +812,10 @@ export const Table = (props: ITableProps) => {
                                         locale={t.locale}
                                         rtl={t.rtl}
                                         cell={cell as TCellContent}
+                                        {...{
+                                          rowKey,
+                                          onInteraction: props.onInteraction,
+                                        }}
                                       />
                                     ),
                                     truncateContent: !!props.truncate,
@@ -739,6 +823,9 @@ export const Table = (props: ITableProps) => {
                                       columnKey,
                                       !!props.truncate
                                     ),
+                                    ...(get(cell, "type") === "button" && {
+                                      accessibility: gridCellWithFocusableElementBehavior,
+                                    }),
                                   });
                                   break;
                               }
