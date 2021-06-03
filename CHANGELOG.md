@@ -1,8 +1,16 @@
 # Change Log - @fluentui/react-teams
 
-This log was last generated on Sat, 22 May 2021 00:18:28 GMT and should not be manually modified.
+This log was last generated on Thu, 03 Jun 2021 06:51:54 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 5.3.0
+
+Thu, 03 Jun 2021 06:51:54 GMT
+
+### Minor changes
+
+- Adds support for buttons and avatars in table cells. (v-wishow@microsoft.com)
 
 ## 5.2.0
 

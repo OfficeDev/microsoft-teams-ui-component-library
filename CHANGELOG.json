@@ -2,6 +2,21 @@
   "name": "@fluentui/react-teams",
   "entries": [
     {
+      "date": "Thu, 03 Jun 2021 06:51:54 GMT",
+      "tag": "@fluentui/react-teams_v5.3.0",
+      "version": "5.3.0",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Adds support for buttons and avatars in table cells.",
+            "author": "v-wishow@microsoft.com",
+            "commit": "084e73acbce623f63f0dd7f51ef1513270df93e8",
+            "package": "@fluentui/react-teams"
+          }
+        ]
+      }
+    },
+    {
       "date": "Sat, 22 May 2021 00:18:28 GMT",
       "tag": "@fluentui/react-teams_v5.2.0",
       "version": "5.2.0",

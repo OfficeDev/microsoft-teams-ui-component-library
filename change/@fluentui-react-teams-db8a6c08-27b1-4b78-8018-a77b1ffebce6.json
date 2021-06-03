@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "Adds support for buttons and avatars in table cells.",
-  "packageName": "@fluentui/react-teams",
-  "email": "v-wishow@microsoft.com",
-  "dependentChangeType": "patch"
-}
