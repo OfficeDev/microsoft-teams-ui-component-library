@@ -28,3 +28,5 @@ export const darkV2ThemeOverrides: Partial<ThemePrepared> = {
   },
   staticStyles: sharedStaticStyles.concat(staticStyles),
 };
+
+export { default as darkV2ColorAssignments } from "./color-scheme-assignments";

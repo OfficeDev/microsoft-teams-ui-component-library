@@ -1,9 +1,10 @@
-import { radios, select } from "@storybook/addon-knobs";
+import { radios, select, color } from "@storybook/addon-knobs";
 import { StoryFn } from "@storybook/addons";
 import React, { ReactNode } from "react";
 import { HVCThemeProvider } from "./withTheme";
 import { TeamsTheme } from "../themes";
 import { TTranslations } from "../translations";
+const generateCustomColors = require("../../cli/theme/colors");
 
 const storybookT10s = {
   // The Farsi translations here are not certified and are intended for demonstration purposes only at this time.
@@ -63,29 +64,6 @@ const storybookT10s = {
   } as TTranslations,
 };
 
-const langKnob = () =>
-  select(
-    "Language",
-    {
-      "English (US)": "en-US",
-      "Machine-translated Farsi for RTL demonstration purposes only": "fa",
-    },
-    "en-US",
-    "Theme"
-  );
-
-const themeKnob = () =>
-  radios(
-    "Theme",
-    {
-      "Teams Light": TeamsTheme.Default,
-      "Teams Dark": TeamsTheme.Dark,
-      "Teams High Contrast": TeamsTheme.HighContrast,
-    },
-    TeamsTheme.Default,
-    "Theme"
-  );
-
 export interface IStorybookThemeProviderProps {
   children: ReactNode;
 }
@@ -95,8 +73,33 @@ export const StorybookThemeProvider = ({
 }: IStorybookThemeProviderProps) => {
   return (
     <HVCThemeProvider
-      themeName={themeKnob()}
-      lang={langKnob()}
+      themeName={radios(
+        "Theme",
+        {
+          "Teams Light": TeamsTheme.Default,
+          "Teams Dark": TeamsTheme.Dark,
+          "Teams High Contrast": TeamsTheme.HighContrast,
+        },
+        TeamsTheme.Default,
+        "Theme"
+      )}
+      lang={select(
+        "Language",
+        {
+          "English (US)": "en-US",
+          "Machine-translated Farsi for RTL demonstration purposes only": "fa",
+        },
+        "en-US",
+        "Theme"
+      )}
+      customColors={generateCustomColors({
+        brand: {
+          colorKeys: [
+            color("Dark custom theme color", "#2a8377", "Theme"),
+            color("Light custom theme color", "#f7fabb", "Theme"),
+          ],
+        },
+      })}
       translations={storybookT10s}
     >
       {children}

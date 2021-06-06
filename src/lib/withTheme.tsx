@@ -7,15 +7,17 @@ import {
   teamsDarkTheme,
   teamsHighContrastTheme,
   ComponentVariablesInput,
-  ThemePrepared,
 } from "@fluentui/react-northstar";
 
 import { ComponentVariablesObject, ThemeInput } from "@fluentui/styles";
 
 import {
   defaultV2ThemeOverrides,
+  defaultV2ColorAssignments,
   darkV2ThemeOverrides,
+  darkV2ColorAssignments,
   highContrastThemeOverrides,
+  highContrastColorAssignments,
   TeamsTheme,
 } from "../themes";
 
@@ -31,6 +33,12 @@ export enum IThemeTeamsClient {
   Default = "default",
 }
 
+const assignColors = {
+  [TeamsTheme.Default]: defaultV2ColorAssignments,
+  [TeamsTheme.Dark]: darkV2ColorAssignments,
+  [TeamsTheme.HighContrast]: highContrastColorAssignments,
+};
+
 /**
  * The Provider’s props configure how these components should be rendered: the color palette to use
  * as `themeName`, the language as `lang`, and any languages to make available through
@@ -43,6 +51,7 @@ export interface IThemeProviderProps {
   lang: TLocale;
   themeName: TeamsTheme | IThemeTeamsClient;
   translations?: { [locale: string]: TTranslations };
+  customColors?: Record<string, any>;
 }
 
 export const teamsNextVariableAssignments = {
@@ -171,6 +180,7 @@ export const HVCThemeProvider = ({
   lang,
   themeName,
   translations,
+  customColors,
 }: IThemeProviderProps) => {
   // [v-wishow] todo: translations will (presumably) eventually need to be loaded asynchronously
 
@@ -186,7 +196,14 @@ export const HVCThemeProvider = ({
       break;
   }
 
-  const theme = themes[themeName];
+  const theme = assignColors[themeName](
+    customColors
+      ? mergeThemes(themes[themeName], {
+          siteVariables: { colors: customColors },
+        })
+      : themes[themeName]
+  );
+
   const rtl = lang === "fa";
 
   if (theme.siteVariables) {
