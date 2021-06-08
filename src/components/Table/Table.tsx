@@ -682,7 +682,7 @@ export const Table = (props: ITableProps) => {
                                 backgroundColor:
                                   colorScheme.default.background2,
                               },
-                        onClickCapture: (e: SyntheticEvent<HTMLElement>) => {
+                        onClick: (e: SyntheticEvent<HTMLElement>) => {
                           if (props.selectable) {
                             const aaClass = (e.target as HTMLElement).getAttribute(
                               "data-aa-class"
