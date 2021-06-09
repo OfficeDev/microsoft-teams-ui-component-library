@@ -10,11 +10,11 @@
     "build": "just-scripts build",
     "postbuild": "api-extractor run --local --verbose && api-documenter markdown --input-folder=temp --output-folder=docs",
     "build:storybook": "just-scripts build:storybook",
-    "change": "beachball change --branch origin/main",
-    "checkchange": "beachball check --branch origin/main",
+    "change": "beachball change",
+    "checkchange": "beachball check",
     "prepare": "node ./scripts/prepare",
     "lint": "just-scripts lint",
-    "release": "beachball publish --branch origin/main",
+    "release": "beachball publish",
     "start": "just-scripts start",
     "test": "just-scripts test"
   },
@@ -93,5 +93,9 @@
   ],
   "publishConfig": {
     "access": "public"
+  },
+  "beachball": {
+    "branch": "origin/main",
+    "prerelease-prefix": "alpha"
   }
 }
