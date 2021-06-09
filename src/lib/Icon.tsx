@@ -9,15 +9,15 @@ const Icons = (FluentUIIcons as unknown) as {
   >;
 };
 
-export interface IIconProps {
+export interface IIconProps extends Pick<SvgIconProps, "styles"> {
   icon?: string;
 }
 
-export default ({ icon }: IIconProps) => {
+export default ({ icon, styles }: IIconProps) => {
   const componentName = `${icon}Icon`;
   if (Icons.hasOwnProperty(componentName)) {
     const IconComponent = Icons[componentName];
-    return <IconComponent outline />;
+    return <IconComponent outline styles={styles} />;
   } else {
     if (process.env.NODE_ENV === "development")
       console.warn("No such icon available:", icon);

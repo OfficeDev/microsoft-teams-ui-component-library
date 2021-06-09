@@ -40,7 +40,7 @@ import {
 
 import { SiteVariablesPrepared } from "@fluentui/styles";
 
-import Icon, { IIconProps } from "../../lib/Icon";
+import Icon from "../../lib/Icon";
 import Avatar, { IAvatarProps } from "../../lib/Avatar";
 
 import { TableTheme } from "./TableTheme";
@@ -58,40 +58,20 @@ import {
   TTextObject,
   TLocale,
   EButtonVariants,
+  TPhrasingContent,
 } from "../..";
 import { TeamsTheme } from "../../themes";
-import { TTranslations, getText } from "../../translations";
+import { TTranslations, getText, getAllText } from "../../translations";
+import Phrasing, {
+  phrasingHasFocusableElements,
+  getPhrasingTextContent,
+} from "../../lib/Phrasing";
 
 export type columnKey = string;
 export type rowKey = string;
 type sortOrder = [columnKey | "__rowKey__", "asc" | "desc"];
 
 export type TSelected = Set<rowKey>;
-
-export interface IIconOrnament extends IIconProps {
-  type: "icon";
-}
-
-export interface IAvatarOrnament
-  extends Pick<IAvatarProps, "image" | "variant"> {
-  type: "avatar";
-  name: TTextObject;
-}
-
-/**
- * Table cell content ornaments can be avatars or icons.
- */
-export type TContentOrnament = IAvatarOrnament | IIconOrnament;
-
-/**
- * Content for a table cell can specify optional elements to display before and after the cell’s
- * text content.
- */
-export interface ICellContent {
-  before?: TContentOrnament;
-  content: TTextObject;
-  after?: TContentOrnament;
-}
 
 /**
  * Content for a table cell can be a button. When clicked, buttons emit an Interaction event.
@@ -106,9 +86,39 @@ export interface ICellButtonContent
 }
 
 /**
+ * Content for a table cell can be a name with an avatar. The avatar preceeds the name in the inline
+ * direction and the name labels the avatar.
+ */
+export type TCellAvatarContent =
+  | ICellIconAvatarContent
+  | ICellImageAvatarContent;
+
+/**
+ * Table cells using avatars can specify an icon as the avatar’s visual content.
+ */
+export interface ICellIconAvatarContent
+  extends Pick<IAvatarProps, "icon" | "variant"> {
+  type: "avatar";
+  content: TTextObject;
+}
+
+/**
+ * Table cells using avatars can specify an image as the avatar’s visual content.
+ */
+export interface ICellImageAvatarContent
+  extends Pick<IAvatarProps, "image" | "variant"> {
+  type: "avatar";
+  content: TTextObject;
+}
+
+/**
  * The content for a table cell
  */
-export type TCellContent = TTextObject | ICellContent | ICellButtonContent;
+export type TCellContent =
+  | TPhrasingContent
+  | ICellButtonContent
+  | TCellAvatarContent
+  | TTextObject;
 
 /**
  * A collection of data to display for a row, keyed by the column ID except for `actions`, which
@@ -225,38 +235,33 @@ const defaultSortOrder: sortOrder = ["__rowKey__", "desc"];
 
 const passThrough = (arg: any) => arg;
 
-const CellContentOrnament = ({ type, ...props }: TContentOrnament) => {
-  switch (type) {
-    case "avatar":
-      return (
-        <Avatar
-          {...(props as IAvatarProps)}
-          styles={{ margin: "-0.375rem 0 -0.375rem 0" }}
-        />
-      );
-    case "icon":
-      return <Icon {...(props as IIconProps)} />;
-    default:
-      return null;
-  }
-};
-
 interface ICellContentProps {
   locale: TLocale;
-  rtl: boolean;
   cell: TCellContent;
   onInteraction: ((interaction: TTableInteraction) => void) | undefined;
   rowKey: rowKey;
 }
 
+const cellIconContentStyles = { marginTop: "-.25rem", marginBottom: "-.25rem" };
+
 const CellContent = ({
   locale,
-  rtl,
   cell,
   onInteraction,
   rowKey,
 }: ICellContentProps) => {
   if (!cell) return null;
+  if (Array.isArray(cell)) {
+    return (
+      <Phrasing
+        {...{
+          content: cell as TPhrasingContent,
+          iconStyles: cellIconContentStyles,
+          locale,
+        }}
+      />
+    );
+  }
   if (get(cell, "type") === "button") {
     const buttonCell = cell as ICellButtonContent;
     const textContent = getText(locale, buttonCell.content);
@@ -302,49 +307,31 @@ const CellContent = ({
     }
     return <Button {...props} />;
   }
-  if (cell.hasOwnProperty("content")) {
-    const ornamentedCell = cell as ICellContent;
+  if (get(cell, "type") === "avatar") {
+    const avatarCell = cell as TCellAvatarContent;
+    const name = getText(locale, avatarCell.content);
+    const image = get(cell, "image");
+    const icon = get(cell, "icon");
     return (
       <Flex vAlign="center">
-        {ornamentedCell.before && (
-          <CellContentOrnament
-            {...ornamentedCell.before}
-            {...(ornamentedCell.before.hasOwnProperty("name") && {
-              name: getText(
-                locale,
-                (ornamentedCell.before as IAvatarOrnament).name
-              ),
-            })}
-          />
-        )}
-        <Text
-          styles={{
-            marginLeft: ornamentedCell.hasOwnProperty(rtl ? "after" : "before")
-              ? ".5rem"
-              : 0,
-            marginRight: ornamentedCell.hasOwnProperty(rtl ? "before" : "after")
-              ? ".5rem"
-              : 0,
-          }}
-        >
-          {getText(locale, ornamentedCell.content)}
-        </Text>
-        {ornamentedCell.after && (
-          <CellContentOrnament
-            {...ornamentedCell.after}
-            {...(ornamentedCell.after.hasOwnProperty("name") && {
-              name: getText(
-                locale,
-                (ornamentedCell.after as IAvatarOrnament).name
-              ),
-            })}
-          />
-        )}
+        <Avatar
+          {...{ name, variant: avatarCell.variant }}
+          {...(image ? { image } : icon && { icon })}
+          styles={{ margin: "-0.375rem 0 -0.375rem 0" }}
+        />
+        <Text styles={{ marginLeft: ".5rem" }} content={name} />
       </Flex>
     );
   } else {
     return <Text>{getText(locale, cell as TTextObject)}</Text>;
   }
+};
+
+export const getCellTextContent = (cell: TCellContent): string => {
+  if (!cell) return "";
+  if (Array.isArray(cell))
+    return getPhrasingTextContent(cell as TPhrasingContent);
+  else return getAllText(get(cell, "content", cell));
 };
 
 /**
@@ -446,8 +433,12 @@ export const Table = (props: ITableProps) => {
             rowKeyI = rowKeyB;
             rowKeyJ = rowKeyA;
           }
-          return (props.rows[rowKeyI][sortOrder[0]] as string).localeCompare(
-            props.rows[rowKeyJ]![sortOrder[0]] as string
+          return getCellTextContent(
+            props.rows[rowKeyI][sortOrder[0]] as TCellContent
+          ).localeCompare(
+            getCellTextContent(
+              props.rows[rowKeyJ][sortOrder[0]] as TCellContent
+            )
           );
         });
 
@@ -810,10 +801,10 @@ export const Table = (props: ITableProps) => {
                                     content: (
                                       <CellContent
                                         locale={t.locale}
-                                        rtl={t.rtl}
                                         cell={cell as TCellContent}
                                         {...{
                                           rowKey,
+                                          columnKey,
                                           onInteraction: props.onInteraction,
                                         }}
                                       />
@@ -823,7 +814,11 @@ export const Table = (props: ITableProps) => {
                                       columnKey,
                                       !!props.truncate
                                     ),
-                                    ...(get(cell, "type") === "button" && {
+                                    ...((get(cell, "type") === "button" ||
+                                      (Array.isArray(cell) &&
+                                        phrasingHasFocusableElements(
+                                          cell
+                                        ))) && {
                                       accessibility: gridCellWithFocusableElementBehavior,
                                     }),
                                   });

@@ -9,6 +9,8 @@ import {
   columnKey,
   rowKey,
   IRow,
+  getCellTextContent,
+  TCellContent,
 } from "../Table/Table";
 import {
   Toolbar,
@@ -224,7 +226,7 @@ export const List = (props: IListProps) => {
     if (findQuery) {
       return (
         Object.keys(row).findIndex((columnKey) => {
-          const value = JSON.stringify(row[columnKey]);
+          const value = getCellTextContent(row[columnKey] as TCellContent);
           return typeof findQuery === "string"
             ? value.includes(findQuery)
             : findQuery.test(value);

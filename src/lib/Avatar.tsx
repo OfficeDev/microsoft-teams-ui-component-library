@@ -4,13 +4,16 @@ import {
 } from "@fluentui/react-northstar";
 import React from "react";
 
+import Icon, { IIconProps } from "./Icon";
+
 import { EAvatarVariant } from "../types/types";
 
 export interface IAvatarProps
   extends Pick<
-    AvatarProps,
-    "image" | "styles" | "variables" | "size" | "getInitials"
-  > {
+      AvatarProps,
+      "image" | "styles" | "variables" | "size" | "getInitials"
+    >,
+    Pick<IIconProps, "icon"> {
   name: string;
   variant?: EAvatarVariant;
 }
@@ -54,6 +57,7 @@ const extendStyles = (variant: EAvatarVariant, size: string, styles = {}) => {
 const Avatar = ({
   name,
   image,
+  icon,
   styles,
   variables,
   size = "small",
@@ -62,6 +66,7 @@ const Avatar = ({
   return (
     <FluentUIAvatar
       {...(image && { image })}
+      {...(icon && { icon: <Icon icon={icon} /> })}
       {...{ name, size, variables }}
       {...extendStyles(variant, size, styles)}
     />

@@ -1,3 +1,5 @@
+export { TPhrasingContent } from "./lib/Phrasing";
+
 export {
   HVCThemeProvider as Provider,
   IThemeProviderProps,
@@ -69,10 +71,8 @@ export {
   TTableInteraction,
   IRow,
   TCellContent,
-  ICellContent,
-  IAvatarOrnament,
-  IIconOrnament,
   ICellButtonContent,
+  TCellAvatarContent,
 } from "./components/Table/Table";
 export { TSortable, IColumn } from "./components/Table/tableBreakpoints";
 

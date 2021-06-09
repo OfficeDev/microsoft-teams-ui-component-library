@@ -37,6 +37,7 @@ const listConfig = {
     },
     c2: {
       title: "Location",
+      sortable: "alphabetical" as TSortable,
       hideable: true,
       minWidth: 100,
     },
@@ -48,24 +49,13 @@ const listConfig = {
   },
   rows: {
     r4: {
-      c1: (() => {
-        const name = fake("{{name.findName}}");
-        return {
-          before: {
-            type: "avatar" as "avatar",
-            ...{
-              name,
-              image: fakerEN.internet.avatar(),
-              variant: EAvatarVariant.entity,
-            },
-          },
-          content: name,
-        };
-      })(),
-      c2: {
-        after: { type: "icon" as "icon", icon: "Location" },
-        content: fake("{{address.city}}"),
+      c1: {
+        type: "avatar" as "avatar",
+        image: fakerEN.internet.avatar(),
+        variant: EAvatarVariant.entity,
+        content: fake("{{name.findName}}"),
       },
+      c2: [fake("{{address.city}}"), { icon: "Location" }],
       c3: "Senior analyst",
       actions: {
         share: { title: "Share", icon: "ShareGeneric" },
@@ -73,24 +63,13 @@ const listConfig = {
       },
     },
     r1: {
-      c1: (() => {
-        const name = fake("{{name.findName}}");
-        return {
-          before: {
-            type: "avatar" as "avatar",
-            ...{
-              name,
-              image: fakerEN.internet.avatar(),
-              variant: EAvatarVariant.bot,
-            },
-          },
-          content: name,
-        };
-      })(),
-      c2: {
-        after: { type: "icon" as "icon", icon: "Location" },
-        content: fake("{{address.city}}"),
+      c1: {
+        type: "avatar" as "avatar",
+        image: fakerEN.internet.avatar(),
+        variant: EAvatarVariant.human,
+        content: fake("{{name.findName}}"),
       },
+      c2: [fake("{{address.city}}"), { icon: "Location" }],
       c3: "Security associate",
       actions: {
         share: { title: "Share", icon: "ShareGeneric" },
@@ -99,23 +78,13 @@ const listConfig = {
       },
     },
     r2: {
-      c1: (() => {
-        const name = fake("{{name.findName}}");
-        return {
-          before: {
-            type: "avatar" as "avatar",
-            ...{
-              name,
-              image: fakerEN.internet.avatar(),
-            },
-          },
-          content: name,
-        };
-      })(),
-      c2: {
-        after: { type: "icon" as "icon", icon: "Location" },
-        content: fake("{{address.city}}"),
+      c1: {
+        type: "avatar" as "avatar",
+        icon: "Calendar",
+        variant: EAvatarVariant.bot,
+        content: fake("{{name.findName}}"),
       },
+      c2: [fake("{{address.city}}"), { icon: "Location" }],
       c3:
         "Security engineer: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras in ultricies mi. Sed aliquet odio et magna maximus, et aliquam ipsum faucibus. Sed pulvinar vel nibh eget scelerisque. Vestibulum ornare id felis ut feugiat. Ut vulputate ante non odio condimentum, eget dignissim erat tincidunt. Etiam sodales lobortis viverra. Sed gravida nisi at nisi ornare, non maximus nisi elementum.",
       actions: {
@@ -125,43 +94,23 @@ const listConfig = {
       },
     },
     r3: {
-      c1: (() => {
-        const name = fake("{{name.findName}}");
-        return {
-          before: {
-            type: "avatar" as "avatar",
-            ...{
-              name,
-              image: fakerEN.internet.avatar(),
-            },
-          },
-          content: name,
-        };
-      })(),
-      c2: {
-        after: { type: "icon" as "icon", icon: "Location" },
-        content: fake("{{address.city}}"),
+      c1: {
+        type: "avatar" as "avatar",
+        image: fakerEN.internet.avatar(),
+        variant: EAvatarVariant.entity,
+        content: fake("{{name.findName}}"),
       },
+      c2: [fake("{{address.city}}"), { icon: "Location" }],
       c3: "Marketing analyst",
     },
     r5: {
-      c1: (() => {
-        const name = fake("{{name.findName}}");
-        return {
-          before: {
-            type: "avatar" as "avatar",
-            ...{
-              name,
-              image: fakerEN.internet.avatar(),
-            },
-          },
-          content: name,
-        };
-      })(),
-      c2: {
-        after: { type: "icon" as "icon", icon: "Location" },
-        content: fake("{{address.city}}"),
+      c1: {
+        type: "avatar" as "avatar",
+        image: fakerEN.internet.avatar(),
+        variant: EAvatarVariant.entity,
+        content: fake("{{name.findName}}"),
       },
+      c2: [fake("{{address.city}}"), { icon: "Location" }],
       c3: "Senior engineer",
       actions: {
         share: { title: "Share", icon: "ShareGeneric" },
