@@ -45,6 +45,7 @@ const listConfig = {
       title: "Role",
       hideable: true,
       hidePriority: 1,
+      textSelectable: true,
     },
   },
   rows: {

@@ -138,7 +138,7 @@ export type TTableInteraction = {
   event: "click";
   target: "table";
   subject: rowKey | rowKey[];
-  action: actionKey;
+  action?: actionKey;
 };
 
 /**
@@ -161,7 +161,8 @@ export interface ITableProps extends PropsOfElement<"div"> {
   truncate?: boolean;
   /**
    * Whether the user can select rows. In the context of a List component, this supplies any actions
-   * all rows have in common in the Toolbar instance above the Table.
+   * all rows have in common in the Toolbar instance above the Table. If this is false, the Table
+   * will call `onInteraction` any time the user clicks on a row.
    */
   selectable?: boolean;
   /**
@@ -178,8 +179,9 @@ export interface ITableProps extends PropsOfElement<"div"> {
   filterBy?: (row: IRow) => boolean;
   /**
    * An interaction handler for the Table. Interactions are triggered when the user clicks on an
-   * action in a row. If the Table is not rendered on its own, this may be proxied from its parent
-   * component, e.g. the parent List.
+   * action in a row, a button in a table cell, or anywhere in a row if `selectable` is `false. If
+   * the Table is not rendered on its own, this may be proxied from its parent component, e.g. the
+   * parent List.
    */
   onInteraction?: (interaction: TTableInteraction) => void;
 }
@@ -241,6 +243,7 @@ interface ICellContentProps {
   onInteraction: ((interaction: TTableInteraction) => void) | undefined;
   rowKey: rowKey;
   truncate: boolean;
+  textSelectable: boolean;
 }
 
 const cellIconContentStyles = { marginTop: "-.25rem", marginBottom: "-.25rem" };
@@ -251,6 +254,7 @@ const CellContent = ({
   onInteraction,
   truncate,
   rowKey,
+  textSelectable,
 }: ICellContentProps) => {
   if (!cell) return null;
   if (get(cell, "type") === "button") {
@@ -310,7 +314,13 @@ const CellContent = ({
           {...(image ? { image } : icon && { icon })}
           styles={{ margin: "-0.375rem 0 -0.375rem 0" }}
         />
-        <Text styles={{ marginLeft: ".5rem" }} content={name} />
+        <Text
+          styles={{
+            marginLeft: ".5rem",
+            ...(textSelectable && { pointerEvents: "all", cursor: "text" }),
+          }}
+          content={name}
+        />
       </Flex>
     );
   } else {
@@ -321,6 +331,7 @@ const CellContent = ({
           iconStyles: cellIconContentStyles,
           truncate,
           locale,
+          textSelectable,
         }}
       />
     );
@@ -680,13 +691,15 @@ export const Table = (props: ITableProps) => {
                               },
                         onClick: (e: SyntheticEvent<HTMLElement>) => {
                           if (props.selectable) {
-                            const aaClass = (e.target as HTMLElement).getAttribute(
-                              "data-aa-class"
-                            );
-                            if (aaClass && aaClass.startsWith("Table")) {
-                              e.stopPropagation();
-                              setRowSelected(!selected.has(rowKey), rowKey);
-                            }
+                            e.stopPropagation();
+                            setRowSelected(!selected.has(rowKey), rowKey);
+                          } else if (props.onInteraction) {
+                            e.stopPropagation();
+                            props.onInteraction({
+                              event: "click",
+                              target: "table",
+                              subject: rowKey,
+                            });
                           }
                         },
                         items: columnOrder.reduce(
@@ -811,6 +824,15 @@ export const Table = (props: ITableProps) => {
                                           rowKey,
                                           truncate,
                                           onInteraction: props.onInteraction,
+                                          textSelectable: get(
+                                            props,
+                                            [
+                                              "columns",
+                                              columnKey,
+                                              "textSelectable",
+                                            ],
+                                            false
+                                          ),
                                         }}
                                       />
                                     ),
@@ -824,6 +846,9 @@ export const Table = (props: ITableProps) => {
                                           cell
                                         ))) && {
                                       accessibility: gridCellWithFocusableElementBehavior,
+                                    }),
+                                    ...(!(get(cell, "type") === "button") && {
+                                      variables: { pointerEvents: "none" },
                                     }),
                                   });
                                   break;

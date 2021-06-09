@@ -13,6 +13,7 @@ export interface IPhrasingProps {
   locale: TLocale;
   iconStyles?: Pick<IIconProps, "styles">;
   truncate?: boolean;
+  textSelectable?: boolean;
 }
 
 export const phrasingHasFocusableElements = (
@@ -48,12 +49,13 @@ const defaultIconStyles = (truncate: boolean) => ({
   ...(truncate ? { flex: "0 0 auto" } : { transform: "translateY(-0.1em)" }),
 });
 
-const defaultTextStyles = (truncate: boolean) => ({
+const defaultTextStyles = (truncate: boolean, textSelectable: boolean) => ({
   ...(truncate && {
     flex: "0 1 auto",
     overflow: "hidden",
     textOverflow: "ellipsis",
   }),
+  ...(textSelectable && { pointerEvents: "all" as "all", cursor: "text" }),
 });
 
 const PhrasingGroup = ({
@@ -61,6 +63,7 @@ const PhrasingGroup = ({
   locale,
   iconStyles,
   truncate = false,
+  textSelectable = false,
 }: IPhrasingProps) => {
   const phrasingElements = Array.isArray(phrasingItems) ? (
     phrasingItems.map((phrasingItem, i) => {
@@ -82,7 +85,10 @@ const PhrasingGroup = ({
           <Text
             {...{
               content: getText(locale, phrasingItem as TTextObject),
-              styles: { ...defaultTextStyles(truncate), ...styles },
+              styles: {
+                ...defaultTextStyles(truncate, textSelectable),
+                ...styles,
+              },
             }}
           />
         );
@@ -92,7 +98,7 @@ const PhrasingGroup = ({
     <Text
       {...{
         content: getText(locale, phrasingItems as TTextObject),
-        styles: defaultTextStyles(truncate),
+        styles: defaultTextStyles(truncate, textSelectable),
       }}
     />
   );
