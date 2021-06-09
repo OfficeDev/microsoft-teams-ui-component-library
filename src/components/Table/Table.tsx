@@ -65,6 +65,7 @@ import { TTranslations, getText, getAllText } from "../../translations";
 import Phrasing, {
   phrasingHasFocusableElements,
   getPhrasingTextContent,
+  getAllPhrasingTextContent,
 } from "../../lib/Phrasing";
 
 export type columnKey = string;
@@ -117,8 +118,7 @@ export interface ICellImageAvatarContent
 export type TCellContent =
   | TPhrasingContent
   | ICellButtonContent
-  | TCellAvatarContent
-  | TTextObject;
+  | TCellAvatarContent;
 
 /**
  * A collection of data to display for a row, keyed by the column ID except for `actions`, which
@@ -240,6 +240,7 @@ interface ICellContentProps {
   cell: TCellContent;
   onInteraction: ((interaction: TTableInteraction) => void) | undefined;
   rowKey: rowKey;
+  truncate: boolean;
 }
 
 const cellIconContentStyles = { marginTop: "-.25rem", marginBottom: "-.25rem" };
@@ -248,20 +249,10 @@ const CellContent = ({
   locale,
   cell,
   onInteraction,
+  truncate,
   rowKey,
 }: ICellContentProps) => {
   if (!cell) return null;
-  if (Array.isArray(cell)) {
-    return (
-      <Phrasing
-        {...{
-          content: cell as TPhrasingContent,
-          iconStyles: cellIconContentStyles,
-          locale,
-        }}
-      />
-    );
-  }
   if (get(cell, "type") === "button") {
     const buttonCell = cell as ICellButtonContent;
     const textContent = getText(locale, buttonCell.content);
@@ -323,15 +314,34 @@ const CellContent = ({
       </Flex>
     );
   } else {
-    return <Text>{getText(locale, cell as TTextObject)}</Text>;
+    return (
+      <Phrasing
+        {...{
+          content: cell as TPhrasingContent,
+          iconStyles: cellIconContentStyles,
+          truncate,
+          locale,
+        }}
+      />
+    );
   }
 };
 
-export const getCellTextContent = (cell: TCellContent): string => {
+export const getAllCellTextContent = (cell: TCellContent): string => {
   if (!cell) return "";
   if (Array.isArray(cell))
-    return getPhrasingTextContent(cell as TPhrasingContent);
+    return getAllPhrasingTextContent(cell as TPhrasingContent);
   else return getAllText(get(cell, "content", cell));
+};
+
+export const getCellTextContent = (
+  locale: TLocale,
+  cell: TCellContent
+): string => {
+  if (!cell) return "";
+  if (Array.isArray(cell))
+    return getPhrasingTextContent(locale, cell as TPhrasingContent);
+  else return getText(locale, get(cell, "content", cell));
 };
 
 /**
@@ -340,6 +350,8 @@ export const getCellTextContent = (cell: TCellContent): string => {
 export const Table = (props: ITableProps) => {
   const rowKeys = Object.keys(props.rows);
   const columnKeys = Object.keys(props.columns);
+  const truncate = !!props.truncate;
+  const selectable = !!props.selectable;
 
   const [sortOrder, setSortOrder] = useState<sortOrder>(defaultSortOrder);
 
@@ -355,11 +367,7 @@ export const Table = (props: ITableProps) => {
       props.rows[rowKey].hasOwnProperty("actions")
     ) >= 0;
 
-  const breakpoints = getBreakpoints(
-    props.columns,
-    hasActions,
-    !!props.selectable
-  );
+  const breakpoints = getBreakpoints(props.columns, hasActions, selectable);
 
   const $tableWrapper = useRef<HTMLDivElement | null>(null);
 
@@ -423,25 +431,6 @@ export const Table = (props: ITableProps) => {
 
   const columnOrder = ["selection", ...columnKeys, "overflow"];
 
-  const rowOrder =
-    sortOrder[0] === defaultSortOrder[0]
-      ? rowKeys
-      : rowKeys.sort((rowKeyA, rowKeyB) => {
-          let rowKeyI = rowKeyA,
-            rowKeyJ = rowKeyB;
-          if (sortOrder[1] === "asc") {
-            rowKeyI = rowKeyB;
-            rowKeyJ = rowKeyA;
-          }
-          return getCellTextContent(
-            props.rows[rowKeyI][sortOrder[0]] as TCellContent
-          ).localeCompare(
-            getCellTextContent(
-              props.rows[rowKeyJ][sortOrder[0]] as TCellContent
-            )
-          );
-        });
-
   const hiddenColumns = new Set(
     columnKeys.filter((columnKey) => !inFlowColumns.has(columnKey))
   );
@@ -466,6 +455,28 @@ export const Table = (props: ITableProps) => {
     <FluentUIThemeConsumer
       render={(globalTheme) => {
         const { t, rtl } = globalTheme.siteVariables;
+
+        const rowOrder =
+          sortOrder[0] === defaultSortOrder[0]
+            ? rowKeys
+            : rowKeys.sort((rowKeyA, rowKeyB) => {
+                let rowKeyI = rowKeyA,
+                  rowKeyJ = rowKeyB;
+                if (sortOrder[1] === "asc") {
+                  rowKeyI = rowKeyB;
+                  rowKeyJ = rowKeyA;
+                }
+                return getCellTextContent(
+                  t.locale,
+                  props.rows[rowKeyI][sortOrder[0]] as TCellContent
+                ).localeCompare(
+                  getCellTextContent(
+                    t.locale,
+                    props.rows[rowKeyJ][sortOrder[0]] as TCellContent
+                  )
+                );
+              });
+
         return (
           <TableTheme globalTheme={globalTheme}>
             <div
@@ -478,7 +489,7 @@ export const Table = (props: ITableProps) => {
                   compact: true,
                   variables: { compactRow: true },
                   styles: {
-                    ...rowWidthStyles(!!props.truncate, false),
+                    ...rowWidthStyles(truncate, false),
                     backgroundColor:
                       globalTheme.siteVariables.colorScheme.default.background2,
                   },
@@ -625,10 +636,7 @@ export const Table = (props: ITableProps) => {
                               ) : (
                                 columnTitle
                               ),
-                              styles: columnWidthStyles(
-                                columnKey,
-                                !!props.truncate
-                              ),
+                              styles: columnWidthStyles(columnKey, truncate),
                               variables: { flush: !!column.sortable },
                               ...(column.sortable
                                 ? {
@@ -654,10 +662,7 @@ export const Table = (props: ITableProps) => {
                     if (includeRow(row))
                       acc.push({
                         key: rowKey,
-                        styles: rowWidthStyles(
-                          !!props.truncate,
-                          !!props.selectable
-                        ),
+                        styles: rowWidthStyles(truncate, selectable),
                         variables: ({
                           colorScheme,
                           theme,
@@ -804,15 +809,14 @@ export const Table = (props: ITableProps) => {
                                         cell={cell as TCellContent}
                                         {...{
                                           rowKey,
-                                          columnKey,
+                                          truncate,
                                           onInteraction: props.onInteraction,
                                         }}
                                       />
                                     ),
-                                    truncateContent: !!props.truncate,
                                     styles: columnWidthStyles(
                                       columnKey,
-                                      !!props.truncate
+                                      truncate
                                     ),
                                     ...((get(cell, "type") === "button" ||
                                       (Array.isArray(cell) &&
@@ -839,14 +843,8 @@ export const Table = (props: ITableProps) => {
                     compactRowHeight: "2.5rem",
                     defaultRowMinHeight: "3rem",
                     defaultRowVerticalPadding: ".8125rem",
-                    ...(props.truncate
-                      ? {
-                          defaultRowHeight: "3rem",
-                        }
-                      : {
-                          defaultRowHeight: "auto",
-                          cellVerticalAlignment: "flex-start",
-                        }),
+                    defaultRowHeight: "auto",
+                    cellVerticalAlignment: "flex-start",
                     // colors
                     backgroundColor:
                       theme === TeamsTheme.HighContrast

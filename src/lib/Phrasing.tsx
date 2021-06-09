@@ -1,17 +1,18 @@
 import React from "react";
-import { Text } from "@fluentui/react-northstar";
+import { Flex, Text } from "@fluentui/react-northstar";
 import Icon, { IIconProps } from "./Icon";
 import { getText, getAllText, TLocale, TTextObject } from "../translations";
 import get from "lodash/get";
 
-export type TPhrasingContent = TPhrasingProps[];
+export type TPhrasingContent = TPhrasingProps[] | TTextObject;
 
 export type TPhrasingProps = IIconProps | TTextObject;
 
 export interface IPhrasingProps {
   content: TPhrasingContent;
   locale: TLocale;
-  iconStyles: Pick<IIconProps, "styles">;
+  iconStyles?: Pick<IIconProps, "styles">;
+  truncate?: boolean;
 }
 
 export const phrasingHasFocusableElements = (
@@ -20,44 +21,91 @@ export const phrasingHasFocusableElements = (
   return false;
 };
 
-export const getPhrasingTextContent = (
+export const getAllPhrasingTextContent = (
   phrasingItems: TPhrasingContent
 ): string =>
-  phrasingItems.reduce((acc: string, phrasingItem) => {
-    if (!phrasingItem) return acc;
-    if (get(phrasingItem, "icon")) return acc;
-    return acc + getAllText(phrasingItem as TTextObject);
-  }, "");
+  Array.isArray(phrasingItems)
+    ? phrasingItems.reduce((acc: string, phrasingItem) => {
+        if (!phrasingItem) return acc;
+        if (get(phrasingItem, "icon")) return acc;
+        return acc + getAllText(phrasingItem as TTextObject);
+      }, "")
+    : getAllText(phrasingItems as TTextObject);
+
+export const getPhrasingTextContent = (
+  locale: TLocale,
+  phrasingItems: TPhrasingContent
+): string =>
+  Array.isArray(phrasingItems)
+    ? phrasingItems.reduce((acc: string, phrasingItem) => {
+        if (!phrasingItem) return acc;
+        if (get(phrasingItem, "icon")) return acc;
+        return acc + getText(locale, phrasingItem as TTextObject);
+      }, "")
+    : getText(locale, phrasingItems as TTextObject);
+
+const defaultIconStyles = (truncate: boolean) => ({
+  ...(truncate ? { flex: "0 0 auto" } : { transform: "translateY(-0.1em)" }),
+});
+
+const defaultTextStyles = (truncate: boolean) => ({
+  ...(truncate && {
+    flex: "0 1 auto",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+  }),
+});
 
 const PhrasingGroup = ({
   content: phrasingItems,
   locale,
   iconStyles,
+  truncate = false,
 }: IPhrasingProps) => {
-  return (
-    <>
-      {phrasingItems.map((phrasingItem, i) => {
-        const styles = i === 0 ? {} : { marginLeft: ".5rem" };
-        if (!phrasingItem) return null;
-        if (get(phrasingItem, "icon")) {
-          return (
-            <Icon
-              {...(phrasingItem as IIconProps)}
-              styles={{ ...iconStyles, ...styles }}
-            />
-          );
-        } else {
-          return (
-            <Text
-              {...{
-                content: getText(locale, phrasingItem as TTextObject),
-                styles,
-              }}
-            />
-          );
-        }
-      })}
-    </>
+  const phrasingElements = Array.isArray(phrasingItems) ? (
+    phrasingItems.map((phrasingItem, i) => {
+      const styles = i === 0 ? {} : { marginLeft: ".5rem" };
+      if (!phrasingItem) return null;
+      if (get(phrasingItem, "icon")) {
+        return (
+          <Icon
+            {...(phrasingItem as IIconProps)}
+            styles={{
+              ...defaultIconStyles(truncate),
+              ...iconStyles,
+              ...styles,
+            }}
+          />
+        );
+      } else {
+        return (
+          <Text
+            {...{
+              content: getText(locale, phrasingItem as TTextObject),
+              styles: { ...defaultTextStyles(truncate), ...styles },
+            }}
+          />
+        );
+      }
+    })
+  ) : (
+    <Text
+      {...{
+        content: getText(locale, phrasingItems as TTextObject),
+        styles: defaultTextStyles(truncate),
+      }}
+    />
+  );
+
+  return truncate ? (
+    <Flex
+      vAlign="center"
+      wrap={false}
+      children={phrasingElements}
+      styles={{ whiteSpace: "nowrap" }}
+    />
+  ) : (
+    <React.Fragment children={phrasingElements} />
   );
 };
 

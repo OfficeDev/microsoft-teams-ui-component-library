@@ -36,6 +36,7 @@ import {
 
 import { getText, TTextObject, TTranslations } from "../../translations";
 import { IFormProps, IFormState, TFormErrors } from "./Form";
+import Phrasing, { TPhrasingContent } from "../../lib/Phrasing";
 
 /**
  * Properties for each option for Enumerable inputs (radio buttons, checkboxes, dropdowns).
@@ -272,7 +273,7 @@ export interface ISection {
   /**
    * The title of the section, rendered as an `h#` element.
    */
-  title?: TTextObject;
+  title?: TPhrasingContent;
   /**
    * Text content of the section rendered before the input groups as a `p` element.
    */
@@ -805,7 +806,7 @@ const FormSection = (props: IFormSectionProps | IFormHeaderSectionProps) => {
           weight={header ? "bold" : "semibold"}
           size={header ? "large" : "medium"}
         >
-          {getText(t.locale, section.title)}
+          <Phrasing content={section.title} locale={t.locale} />
         </Text>
       )}
       {section.preface && (

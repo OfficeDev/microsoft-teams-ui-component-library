@@ -2,7 +2,7 @@ import React from "react";
 import { object, boolean } from "@storybook/addon-knobs";
 import { actions } from "@storybook/addon-actions";
 
-import { EButtonVariants, Table, TSortable } from "../src";
+import { EButtonVariants, Table, TSortable, ICellButtonContent } from "../src";
 
 export default {
   title: "Components/Table",
@@ -48,7 +48,7 @@ export const KitchenSink = () => {
           icon: "ArrowRight",
           iconPosition: "after",
           variant: EButtonVariants.primary,
-        },
+        } as ICellButtonContent,
         actions: {
           share: { title: "Share", icon: "ShareGeneric" },
           manage: { title: "Edit", icon: "Edit" },
@@ -64,7 +64,7 @@ export const KitchenSink = () => {
           content: "Open",
           icon: "ArrowRight",
           iconPosition: "after",
-        },
+        } as ICellButtonContent,
         actions: {
           share: { title: "Share", icon: "ShareGeneric" },
           manage: { title: "Edit", icon: "Edit" },
@@ -83,7 +83,7 @@ export const KitchenSink = () => {
           icon: "ArrowRight",
           iconPosition: "after",
           variant: EButtonVariants.tinted,
-        },
+        } as ICellButtonContent,
         actions: {
           share: { title: "Share", icon: "ShareGeneric" },
           manage: { title: "Edit", icon: "Edit" },
@@ -99,7 +99,7 @@ export const KitchenSink = () => {
           actionId: "open",
           content: "Open",
           variant: EButtonVariants.text,
-        },
+        } as ICellButtonContent,
       },
       r5: {
         c1: "Beth Davies",
@@ -113,7 +113,7 @@ export const KitchenSink = () => {
           iconPosition: "after",
           variant: EButtonVariants.text,
           iconOnly: true,
-        },
+        } as ICellButtonContent,
         actions: {
           share: { title: "Share", icon: "ShareGeneric" },
           manage: { title: "Edit", icon: "Edit" },
@@ -125,7 +125,7 @@ export const KitchenSink = () => {
   return (
     <Table
       truncate={boolean("Truncate", false, tableKnobGroupID)}
-      selectable={boolean("Selectable", true, tableKnobGroupID)}
+      selectable={boolean("Selectable", false, tableKnobGroupID)}
       {...object("Configuration", tableConfig, tableKnobGroupID)}
       {...eventsFromNames}
     />
