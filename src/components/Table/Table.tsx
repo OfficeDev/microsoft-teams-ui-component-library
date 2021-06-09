@@ -266,13 +266,15 @@ const CellContent = ({
       ...(buttonCell.disabled && { disabled: true }),
       ...(buttonCell.iconOnly ? { iconOnly: true } : { content: textContent }),
       ...(onInteraction && {
-        onClick: () =>
+        onClick: (e: SyntheticEvent<HTMLElement>) => {
+          e.stopPropagation();
           onInteraction({
             event: "click",
             target: "table",
             subject: rowKey,
             action: buttonCell.actionId,
-          }),
+          });
+        },
       }),
       ...(buttonCell.icon && { icon: <Icon icon={buttonCell.icon} /> }),
       ...(buttonCell.iconPosition && { iconPosition: buttonCell.iconPosition }),
