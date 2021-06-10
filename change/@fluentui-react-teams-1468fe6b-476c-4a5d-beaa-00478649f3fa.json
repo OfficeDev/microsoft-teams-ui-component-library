@@ -1,7 +1,0 @@
-{
-  "type": "prerelease",
-  "comment": "Experimental pattern extensions: Flow content, icons with tooltip content, avatar API adjustment.",
-  "packageName": "@fluentui/react-teams",
-  "email": "v-wishow@microsoft.com",
-  "dependentChangeType": "patch"
-}

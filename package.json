@@ -1,6 +1,6 @@
 {
   "name": "@fluentui/react-teams",
-  "version": "6.0.0-alpha.0",
+  "version": "6.0.0-alpha.1",
   "description": "Teams components in the Fluent UI design language written in React",
   "repository": "https://github.com/OfficeDev/microsoft-teams-ui-component-library.git",
   "license": "MIT",
@@ -15,6 +15,7 @@
     "prepare": "node ./scripts/prepare",
     "lint": "just-scripts lint",
     "release": "beachball publish",
+    "releasealpha": "beachball publish --tag alpha",
     "start": "just-scripts start",
     "test": "just-scripts test"
   },
