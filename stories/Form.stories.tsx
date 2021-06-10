@@ -37,12 +37,12 @@ const kitchenSinkConfig = {
     fa: "لغو",
   },
   headerSection: {
-    title: fake("{{company.catchPhrase}}"),
+    title: [{ icon: "Calendar" }, fake("{{company.catchPhrase}}")],
     preface: fake("{{lorem.sentences}}"),
   },
   sections: [
     {
-      title: fake("{{company.catchPhrase}}"),
+      title: [fake("{{company.catchPhrase}}"), { icon: "Info" }],
       preface: fake("{{lorem.sentence}}"),
       inputBlocks: [
         {

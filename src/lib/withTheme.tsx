@@ -135,6 +135,9 @@ export const teamsNextVariableAssignments = {
         paddingBottom: variables.compactRow
           ? variables.compactRowVerticalPadding
           : variables.defaultRowVerticalPadding,
+        ...(variables.pointerEvents && {
+          pointerEvents: variables.pointerEvents,
+        }),
       }),
     },
     TreeItem: {

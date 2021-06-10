@@ -1,3 +1,8 @@
+import { IIconProps } from "./lib/Icon";
+
+export { TPhrasingContent } from "./lib/Phrasing";
+export { IIconProps, IFocusableIconProps } from "./lib/Icon";
+
 export {
   HVCThemeProvider as Provider,
   IThemeProviderProps,
@@ -69,10 +74,8 @@ export {
   TTableInteraction,
   IRow,
   TCellContent,
-  ICellContent,
-  IAvatarOrnament,
-  IIconOrnament,
   ICellButtonContent,
+  TCellAvatarContent,
 } from "./components/Table/Table";
 export { TSortable, IColumn } from "./components/Table/tableBreakpoints";
 

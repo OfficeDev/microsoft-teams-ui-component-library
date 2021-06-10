@@ -194,6 +194,7 @@ export const ToolbarFilter = (props: IExtendedToolbarFilterProps) => {
 
   return filters.length ? (
     <Popup
+      positionFixed
       {...toolbarMenuProps}
       open={open}
       onOpenChange={onOpenChange}
