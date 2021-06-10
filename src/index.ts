@@ -1,4 +1,7 @@
+import { IIconProps } from "./lib/Icon";
+
 export { TPhrasingContent } from "./lib/Phrasing";
+export { IIconProps, IFocusableIconProps } from "./lib/Icon";
 
 export {
   HVCThemeProvider as Provider,

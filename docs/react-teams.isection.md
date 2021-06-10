@@ -17,5 +17,5 @@ export interface ISection
 |  --- | --- | --- |
 |  [inputBlocks?](./react-teams.isection.inputblocks.md) | ([TInputBlock](./react-teams.tinputblock.md) \| [IInlineInputsBlock](./react-teams.iinlineinputsblock.md)<!-- -->)\[\] | <i>(Optional)</i> The input blocks to render in this section, which can either be a block with an individual input, or a block with a set of inline inputs. |
 |  [preface?](./react-teams.isection.preface.md) | [TTextObject](./react-teams.ttextobject.md) | <i>(Optional)</i> Text content of the section rendered before the input groups as a <code>p</code> element. |
-|  [title?](./react-teams.isection.title.md) | [TTextObject](./react-teams.ttextobject.md) | <i>(Optional)</i> The title of the section, rendered as an <code>h#</code> element. |
+|  [title?](./react-teams.isection.title.md) | [TPhrasingContent](./react-teams.tphrasingcontent.md) | <i>(Optional)</i> The title of the section, rendered as an <code>h#</code> element. |
 

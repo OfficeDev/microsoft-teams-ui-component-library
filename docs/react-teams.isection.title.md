@@ -9,5 +9,5 @@ The title of the section, rendered as an `h#` element.
 <b>Signature:</b>
 
 ```typescript
-title?: TTextObject;
+title?: TPhrasingContent;
 ```
