@@ -26,6 +26,7 @@ import {
   dialogBehavior,
   gridNestedBehavior,
   gridCellWithFocusableElementBehavior,
+  gridCellMultipleFocusableBehavior,
   ButtonProps,
 } from "@fluentui/react-northstar";
 
@@ -842,16 +843,18 @@ export const Table = (props: ITableProps) => {
                                       columnKey,
                                       truncate
                                     ),
-                                    ...((get(cell, "type") === "button" ||
-                                      (Array.isArray(cell) &&
-                                        phrasingHasFocusableElements(
-                                          cell
-                                        ))) && {
-                                      accessibility: gridCellWithFocusableElementBehavior,
-                                    }),
-                                    ...(!(get(cell, "type") === "button") && {
-                                      variables: { pointerEvents: "none" },
-                                    }),
+                                    ...(get(cell, "type") === "button" ||
+                                    (Array.isArray(cell) &&
+                                      phrasingHasFocusableElements(cell))
+                                      ? {
+                                          accessibility:
+                                            get(cell, "type") === "button"
+                                              ? gridCellWithFocusableElementBehavior
+                                              : gridCellMultipleFocusableBehavior,
+                                        }
+                                      : {
+                                          variables: { pointerEvents: "none" },
+                                        }),
                                   });
                                   break;
                               }

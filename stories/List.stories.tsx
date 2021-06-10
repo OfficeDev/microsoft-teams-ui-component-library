@@ -87,7 +87,7 @@ const listConfig = {
       },
       c2: [fake("{{address.city}}"), { icon: "Location" }],
       c3: [
-        { icon: "Info" },
+        { icon: "Info", tooltip: { content: fake("{{vehicle.color}}") } },
         "Security engineer: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras in ultricies mi. Sed aliquet odio et magna maximus, et aliquam ipsum faucibus. Sed pulvinar vel nibh eget scelerisque. Vestibulum ornare id felis ut feugiat. Ut vulputate ante non odio condimentum, eget dignissim erat tincidunt. Etiam sodales lobortis viverra. Sed gravida nisi at nisi ornare, non maximus nisi elementum.",
       ],
       actions: {

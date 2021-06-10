@@ -1,25 +1,35 @@
 import React from "react";
 import { Flex, Text } from "@fluentui/react-northstar";
-import Icon, { IIconProps } from "./Icon";
+import { SvgIconProps } from "@fluentui/react-icons-northstar";
+import Icon, { FocusableIcon, IFocusableIconProps, IIconProps } from "./Icon";
 import { getText, getAllText, TLocale, TTextObject } from "../translations";
 import get from "lodash/get";
 
 export type TPhrasingContent = TPhrasingProps[] | TTextObject;
 
-export type TPhrasingProps = IIconProps | TTextObject;
+export type TPhrasingProps = IIconProps | IFocusableIconProps | TTextObject;
 
 export interface IPhrasingProps {
   content: TPhrasingContent;
   locale: TLocale;
-  iconStyles?: Pick<IIconProps, "styles">;
   truncate?: boolean;
   textSelectable?: boolean;
+}
+
+interface IPhrasingComponentProps extends IPhrasingProps {
+  iconStyles?: Pick<SvgIconProps, "styles">;
 }
 
 export const phrasingHasFocusableElements = (
   phrasingItems: TPhrasingContent
 ) => {
-  return false;
+  return (
+    Array.isArray(phrasingItems) &&
+    phrasingItems.findIndex(
+      (phrasingItem: TPhrasingProps) =>
+        phrasingItem && phrasingItem.hasOwnProperty("tooltip")
+    ) >= 0
+  );
 };
 
 export const getAllPhrasingTextContent = (
@@ -64,22 +74,32 @@ const PhrasingGroup = ({
   iconStyles,
   truncate = false,
   textSelectable = false,
-}: IPhrasingProps) => {
+}: IPhrasingComponentProps) => {
   const phrasingElements = Array.isArray(phrasingItems) ? (
     phrasingItems.map((phrasingItem, i) => {
       const styles = i === 0 ? {} : { marginLeft: ".5rem" };
       if (!phrasingItem) return null;
       if (get(phrasingItem, "icon")) {
-        return (
-          <Icon
-            {...(phrasingItem as IIconProps)}
-            styles={{
-              ...defaultIconStyles(truncate),
-              ...iconStyles,
-              ...styles,
-            }}
-          />
-        );
+        const finalStyles = {
+          ...defaultIconStyles(truncate),
+          ...iconStyles,
+          ...styles,
+        };
+        if (phrasingItem.hasOwnProperty("tooltip")) {
+          return (
+            <FocusableIcon
+              {...(phrasingItem as IFocusableIconProps)}
+              {...{ locale, styles: finalStyles }}
+            />
+          );
+        } else {
+          return (
+            <Icon
+              {...(phrasingItem as IIconProps)}
+              {...{ styles: finalStyles }}
+            />
+          );
+        }
       } else {
         return (
           <Text
