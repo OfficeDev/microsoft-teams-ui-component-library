@@ -5,7 +5,6 @@ name: Unrelease
 
 on:
   workflow_dispatch:
-    branches: [alpha]
 
 jobs:
   build:
