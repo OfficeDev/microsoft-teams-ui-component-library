@@ -7,6 +7,7 @@ export * from "./BarHorizontal";
 export * from "./BarHorizontalStacked";
 export * from "./Pie";
 export * from "./Doughnut";
+export * from "./Gauge";
 export * from "./ErrorState";
 export * from "./EmptyState";
 export * from "./Bubble";

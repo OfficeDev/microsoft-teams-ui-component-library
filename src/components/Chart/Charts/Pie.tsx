@@ -19,11 +19,15 @@ export const PieChart = ({
   data,
   siteVariables,
   cutoutPercentage,
+  rotation,
+  circumference,
 }: {
   title: string;
   data: IChartData;
   siteVariables: SiteVariablesPrepared;
   cutoutPercentage?: number;
+  rotation?: number;
+  circumference?: number;
 }) => {
   if (data && data.datasets && data.datasets[0].data.length > 6) {
     data.datasets[0].data = data.datasets[0].data.slice(0, 6);
@@ -112,6 +116,12 @@ export const PieChart = ({
 
     if (cutoutPercentage) {
       config.options.cutoutPercentage = cutoutPercentage;
+    }
+    if (rotation) {
+      config.options.rotation = rotation;
+    }
+    if (circumference) {
+      config.options.circumference = circumference;
     }
     // Pie chart custom settings
     config.options.tooltips.callbacks.label = (tooltipItem: any, data: any) =>
