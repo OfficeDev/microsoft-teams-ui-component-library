@@ -642,6 +642,34 @@ const dataVizWidgets = [
     size: EWidgetSize.Single,
     link: linkExample,
   } as IWidget,
+  {
+    id: "w16",
+    title: "Gauge chart sample",
+    size: EWidgetSize.Single,
+    link: linkExample,
+    body: [
+      {
+        id: "1",
+        title: "",
+        content: {
+          type: "chart",
+          chart: {
+            title: "Gauge chart sample",
+            type: EChartTypes.Gauge,
+            data: {
+              labels: ["Jan", "Feb"],
+              datasets: [
+                {
+                  label: "Watches",
+                  data: [2000, 1600],
+                },
+              ],
+            },
+          },
+        },
+      },
+    ],
+  } as IWidget,
 ];
 
 const dataVizConfig = {

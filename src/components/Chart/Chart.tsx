@@ -12,6 +12,7 @@ import {
   LineChart,
   LineAreaChart,
   DoughnutChart,
+  GaugeChart,
   LineStackedChart,
   BarStackedChart,
   ChartEmptyState,
@@ -35,6 +36,7 @@ const CHARTS = {
   [EChartTypes.BarHorizontalStacked]: BarHorizontalStackedChart,
   [EChartTypes.Pie]: PieChart,
   [EChartTypes.Doughnut]: DoughnutChart,
+  [EChartTypes.Gauge]: GaugeChart,
   [EChartTypes.Bubble]: BubbleChart,
 };
 

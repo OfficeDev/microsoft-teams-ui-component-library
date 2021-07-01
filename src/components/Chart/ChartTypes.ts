@@ -60,6 +60,7 @@ export enum EChartTypes {
   BarHorizontalStacked = "barHorizontalStacked",
   Pie = "pie",
   Doughnut = "doughnut",
+  Gauge = "gauge",
   Bubble = "bubble",
 }
 

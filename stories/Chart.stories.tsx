@@ -332,6 +332,29 @@ export const DoughnutChart = () => {
   );
 };
 
+const gaugeKnobGroupID = "Gauge chart";
+
+export const GaugeChart = () => {
+  const dataVizProps = {
+    title: { "en-US": "Gauge chart sample", fa: "نمونه نمودار دونات" },
+    type: EChartTypes.Gauge,
+    data: {
+      labels: months.slice(0, 2),
+      datasets: [
+        {
+          label: fake("{{commerce.product}}"),
+          data: [2000, 1600],
+        },
+      ],
+    },
+  };
+  return (
+    <Container>
+      <Chart {...object("Configuration", dataVizProps, gaugeKnobGroupID)} />
+    </Container>
+  );
+};
+
 const bubbleKnobGroupID = "Bubble chart";
 
 export const GroupedBubbleChart = () => {
