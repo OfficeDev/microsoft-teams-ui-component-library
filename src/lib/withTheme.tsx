@@ -371,7 +371,12 @@ export const HVCThemeProvider = ({
       </style>
       <svg
         viewBox="0 0 1 1"
-        style={{ position: "absolute", left: "-9999px", top: "-9999px" }}
+        style={{
+          position: "absolute",
+          left: "-9999px",
+          top: "-9999px",
+          pointerEvents: "none",
+        }}
         role="none"
       >
         <defs>
