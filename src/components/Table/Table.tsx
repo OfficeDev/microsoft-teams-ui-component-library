@@ -723,6 +723,9 @@ export const Table = (props: ITableProps) => {
                                             text
                                             aria-label="More actions"
                                             styles={{ color: "currentColor" }}
+                                            onClick={(
+                                              e: SyntheticEvent<HTMLElement>
+                                            ) => e.stopPropagation()}
                                           />
                                         }
                                         content={
@@ -738,15 +741,21 @@ export const Table = (props: ITableProps) => {
                                                           outline
                                                         />
                                                       ),
-                                                      content: "Details",
+                                                      content: t["details"],
                                                       ...(props.onInteraction && {
-                                                        onClick: () =>
+                                                        onClick: (
+                                                          e: SyntheticEvent<
+                                                            HTMLElement
+                                                          >
+                                                        ) => {
+                                                          e.stopPropagation();
                                                           props.onInteraction!({
                                                             event: "click",
                                                             target: "table",
                                                             subject: rowKey,
                                                             action: rowActionKey,
-                                                          }),
+                                                          });
+                                                        },
                                                       }),
                                                     };
                                                   default:
@@ -765,13 +774,19 @@ export const Table = (props: ITableProps) => {
                                                         rowActionKey
                                                       ].title,
                                                       ...(props.onInteraction && {
-                                                        onClick: () =>
+                                                        onClick: (
+                                                          e: SyntheticEvent<
+                                                            HTMLElement
+                                                          >
+                                                        ) => {
+                                                          e.stopPropagation();
                                                           props.onInteraction!({
                                                             event: "click",
                                                             target: "table",
                                                             subject: rowKey,
                                                             action: rowActionKey,
-                                                          }),
+                                                          });
+                                                        },
                                                       }),
                                                     };
                                                 }

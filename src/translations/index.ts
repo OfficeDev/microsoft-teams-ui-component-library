@@ -137,5 +137,6 @@ export default {
     "hide widget": "Hide widget",
     "view more": "View more",
     "edit dashboard": "Edit dashboard",
+    details: "Details",
   } as TTranslations,
 };
