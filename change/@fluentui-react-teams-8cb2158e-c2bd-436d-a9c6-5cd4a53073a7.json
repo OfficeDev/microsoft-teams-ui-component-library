@@ -1,7 +1,0 @@
-{
-  "type": "prerelease",
-  "comment": "Fix Table and defs SVG pointer events issues. Resolves #86.",
-  "packageName": "@fluentui/react-teams",
-  "email": "willshown@microsoft.com",
-  "dependentChangeType": "patch"
-}
