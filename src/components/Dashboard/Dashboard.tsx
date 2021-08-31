@@ -184,6 +184,7 @@ export function Dashboard({
                 }
               }}
             />
+            <Box styles={{ height: "1.25rem" }} role="presentation" />
             <Sidebar
               open={sidebarOpen}
               onClose={closeSidebar}

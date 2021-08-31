@@ -562,7 +562,7 @@ export const Board = (props: IBoardProps) => {
             style={{
               display: "flex",
               flexDirection: "column",
-              height: "calc(100vh - 1.25rem)",
+              height: "100vh",
             }}
           >
             <Flex
@@ -588,6 +588,7 @@ export const Board = (props: IBoardProps) => {
                   if (subject === "add_column") setAddingLane(true);
                 }}
               />
+              <Box styles={{ height: "1.25rem" }} role="presentation" />
               {Object.keys(arrangedLanes).length > 0 || addingLane ? (
                 <BoardStandalone
                   {...{

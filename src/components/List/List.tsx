@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import pick from "lodash/pick";
-import { Box } from "@fluentui/react-northstar";
+import { Box, Flex } from "@fluentui/react-northstar";
 import {
   Table,
   ITableProps,
@@ -267,6 +267,7 @@ export const List = (props: IListProps) => {
               aria-controls="fluentui-teams__list-content"
               aria-label="List content controls"
             />
+            <Box styles={{ height: "1.25rem" }} role="presentation" />
             {Object.keys(props.rows).length > 0 ? (
               <Table
                 {...tableProps}
@@ -276,7 +277,7 @@ export const List = (props: IListProps) => {
                 aria-label="List content"
               />
             ) : (
-              <Box styles={{ height: "calc(100vh - 4.25rem)" }}>
+              <Flex column styles={{ height: "calc(100vh - 4.25rem)" }}>
                 <Communication
                   {...(props.emptyState || {
                     option: CommunicationOptions.Empty,
@@ -287,7 +288,7 @@ export const List = (props: IListProps) => {
                   })}
                   onInteraction={props.onInteraction}
                 />
-              </Box>
+              </Flex>
             )}
           </>
         );

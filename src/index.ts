@@ -48,6 +48,7 @@ export {
   ICommunicationFieldsWithThemedImage,
   ICommunicationImage,
   ICommunicationThemedImage,
+  TCommunicationInteraction,
 } from "./components/Communication";
 
 export {
