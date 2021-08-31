@@ -341,6 +341,8 @@ export const HVCThemeProvider = ({
         backgroundColor:
           theme.siteVariables &&
           theme.siteVariables.colorScheme.default.background2,
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       <style>

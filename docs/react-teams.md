@@ -108,6 +108,7 @@
 |  [TCellAvatarContent](./react-teams.tcellavatarcontent.md) | Content for a table cell can be a name with an avatar. The avatar preceeds the name in the inline direction and the name labels the avatar. |
 |  [TCellContent](./react-teams.tcellcontent.md) | The content for a table cell |
 |  [TCommunicationFields](./react-teams.tcommunicationfields.md) |  |
+|  [TCommunicationInteraction](./react-teams.tcommunicationinteraction.md) | The interaction payload emitted by this component will only come from click interactions on any action buttons specified in the props. |
 |  [TCommunicationProps](./react-teams.tcommunicationprops.md) | The Communication component can be used to render empty state messages and other combinations of illustration, coaching text, and actions. Designs for this component are available in the \[Empty state page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A4042). |
 |  [TDashboardInteraction](./react-teams.tdashboardinteraction.md) | A Dashboard will emit onInteraction payloads when the user updates any preferences. |
 |  [TFormErrors](./react-teams.tformerrors.md) | A collection of error messages associated with inputs, keyed by input ID. |

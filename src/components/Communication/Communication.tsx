@@ -115,7 +115,7 @@ export function Communication({
             hAlign="center"
             styles={{
               width: "100%",
-              height: "100vh",
+              flex: "1 1 100vh",
             }}
           >
             <Flex
