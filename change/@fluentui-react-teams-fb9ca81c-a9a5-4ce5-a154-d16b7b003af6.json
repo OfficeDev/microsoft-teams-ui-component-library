@@ -1,7 +1,0 @@
-{
-  "type": "prerelease",
-  "comment": "Fix missing Communication type and adjust layout.",
-  "packageName": "@fluentui/react-teams",
-  "email": "willshown@microsoft.com",
-  "dependentChangeType": "patch"
-}
