@@ -115,7 +115,9 @@ export function Communication({
             hAlign="center"
             styles={{
               width: "100%",
-              flex: "1 1 100vh",
+              flex: `1 1 ${
+                globalTheme.siteVariables.flexHeight ? "100%" : "100vh"
+              }`,
             }}
           >
             <Flex
