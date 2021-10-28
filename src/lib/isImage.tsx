@@ -8,7 +8,7 @@ const isImage = (url: string) =>
     image.onerror = reject;
   });
 
-export const isImageOrNot = (input: string) =>
+export const isImageOrNot = (input: string): Promise<void> =>
   new Promise((resolve) => {
     if (/(jpg|gif|png|jpeg|svg|webp)$/i.test(input)) {
       isImage(input).then(
