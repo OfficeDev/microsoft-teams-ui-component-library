@@ -79,6 +79,7 @@ export interface IListProps extends ITableProps {
  */
 export const List = (props: IListProps) => {
   const tableProps = pick(props, [
+    "label",
     "columns",
     "rows",
     "selectable",
@@ -274,7 +275,6 @@ export const List = (props: IListProps) => {
                 {...{ onSelectedChange, filterBy }}
                 aria-live="polite"
                 id="fluentui-teams__list-content"
-                aria-label="List content"
               />
             ) : (
               <Flex column styles={{ height: "calc(100vh - 4.25rem)" }}>

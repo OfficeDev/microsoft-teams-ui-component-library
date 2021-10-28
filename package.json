@@ -24,8 +24,8 @@
     "@fluentui/react-icons-northstar": "^0.56.0",
     "chart.js": "^2.9.4",
     "classnames": "2.x",
-    "lodash": "4.x",
     "immer": "^9.0.1",
+    "lodash": "4.x",
     "react-beautiful-dnd": "^13.0.0",
     "react-perfect-scrollbar": "^1.5.8"
   },
@@ -86,7 +86,7 @@
     "ts-loader": "^8.0.1",
     "ts-node": "^7.0.0",
     "tslib": "^2.0.0",
-    "typescript": "^3.9.7",
+    "typescript": "^4.4.4",
     "webpack": "~4.43.0"
   },
   "files": [

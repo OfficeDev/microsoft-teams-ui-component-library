@@ -148,6 +148,10 @@ export type TTableInteraction = {
  */
 export interface ITableProps extends PropsOfElement<"div"> {
   /**
+   * The title summary, or label of the table, announced for screen readers but hidden for other users.
+   */
+  label: string;
+  /**
    * A collection of columns to display, keyed by column ID.
    */
   columns: { [columnKey: string]: IColumn };
@@ -498,6 +502,7 @@ export const Table = (props: ITableProps) => {
               style={{ width: "100%", overflowX: "auto" }}
             >
               <FluentUITable
+                aria-label={props.label}
                 header={{
                   key: "header",
                   compact: true,
@@ -523,7 +528,8 @@ export const Table = (props: ITableProps) => {
                           case "selection":
                             acc.push({
                               key: "header__selection",
-                              accessibility: gridCellWithFocusableElementBehavior,
+                              accessibility:
+                                gridCellWithFocusableElementBehavior,
                               content: (
                                 <Checkbox
                                   aria-label="Select all"
@@ -556,9 +562,8 @@ export const Table = (props: ITableProps) => {
                                 <Icon icon={column.icon} />
                                 <Text
                                   style={{
-                                    [rtl
-                                      ? "marginRight"
-                                      : "marginLeft"]: ".5rem",
+                                    [rtl ? "marginRight" : "marginLeft"]:
+                                      ".5rem",
                                   }}
                                 >
                                   {getText(t.locale, column.title)}
@@ -654,7 +659,8 @@ export const Table = (props: ITableProps) => {
                               variables: { flush: !!column.sortable },
                               ...(column.sortable
                                 ? {
-                                    accessibility: gridCellWithFocusableElementBehavior,
+                                    accessibility:
+                                      gridCellWithFocusableElementBehavior,
                                     ...ariaSort({ sortOrder, columnKey }),
                                   }
                                 : {}),
@@ -669,9 +675,8 @@ export const Table = (props: ITableProps) => {
                 rows={rowOrder.reduce(
                   (acc: ShorthandCollection<TableRowProps>, rowKey: rowKey) => {
                     const row = props.rows[rowKey];
-                    const rowActionKeys = (hiddenColumns.size
-                      ? ["__details__"]
-                      : []
+                    const rowActionKeys = (
+                      hiddenColumns.size ? ["__details__"] : []
                     ).concat(row.actions ? Object.keys(row.actions!) : []);
                     if (includeRow(row))
                       acc.push({
@@ -744,16 +749,15 @@ export const Table = (props: ITableProps) => {
                                                       content: t["details"],
                                                       ...(props.onInteraction && {
                                                         onClick: (
-                                                          e: SyntheticEvent<
-                                                            HTMLElement
-                                                          >
+                                                          e: SyntheticEvent<HTMLElement>
                                                         ) => {
                                                           e.stopPropagation();
                                                           props.onInteraction!({
                                                             event: "click",
                                                             target: "table",
                                                             subject: rowKey,
-                                                            action: rowActionKey,
+                                                            action:
+                                                              rowActionKey,
                                                           });
                                                         },
                                                       }),
@@ -770,21 +774,21 @@ export const Table = (props: ITableProps) => {
                                                           }
                                                         />
                                                       ),
-                                                      content: row.actions![
-                                                        rowActionKey
-                                                      ].title,
+                                                      content:
+                                                        row.actions![
+                                                          rowActionKey
+                                                        ].title,
                                                       ...(props.onInteraction && {
                                                         onClick: (
-                                                          e: SyntheticEvent<
-                                                            HTMLElement
-                                                          >
+                                                          e: SyntheticEvent<HTMLElement>
                                                         ) => {
                                                           e.stopPropagation();
                                                           props.onInteraction!({
                                                             event: "click",
                                                             target: "table",
                                                             subject: rowKey,
-                                                            action: rowActionKey,
+                                                            action:
+                                                              rowActionKey,
                                                           });
                                                         },
                                                       }),
@@ -804,7 +808,8 @@ export const Table = (props: ITableProps) => {
                                       ""
                                     ),
                                     styles: accessoryStyles,
-                                    accessibility: gridCellWithFocusableElementBehavior,
+                                    accessibility:
+                                      gridCellWithFocusableElementBehavior,
                                   });
                                   break;
                                 case "selection":
@@ -826,7 +831,8 @@ export const Table = (props: ITableProps) => {
                                         }}
                                       />
                                     ),
-                                    accessibility: gridCellWithFocusableElementBehavior,
+                                    accessibility:
+                                      gridCellWithFocusableElementBehavior,
                                     styles: accessoryStyles,
                                   });
                                   break;
