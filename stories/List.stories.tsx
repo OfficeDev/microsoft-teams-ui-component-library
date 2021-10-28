@@ -22,6 +22,7 @@ const fake = (template: string) => {
 };
 
 const listConfig = {
+  label: "Comprehensive demonstration of the List component",
   find: true,
   filters: ["c2", "c3"],
   emptySelectionActionGroups: {

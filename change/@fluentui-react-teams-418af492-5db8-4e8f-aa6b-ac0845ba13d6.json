@@ -1,6 +1,6 @@
 {
   "type": "prerelease",
-  "comment": "Upgrade yarn.lock.",
+  "comment": "Add label prop to Table and List.",
   "packageName": "@fluentui/react-teams",
   "email": "willshown@microsoft.com",
   "dependentChangeType": "patch"
