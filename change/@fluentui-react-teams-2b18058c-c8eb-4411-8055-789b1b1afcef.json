@@ -1,6 +1,6 @@
 {
   "type": "prerelease",
-  "comment": "Allow theme provider to have flexible height.",
+  "comment": "Upgrade yarn.lock.",
   "packageName": "@fluentui/react-teams",
   "email": "willshown@microsoft.com",
   "dependentChangeType": "patch"
