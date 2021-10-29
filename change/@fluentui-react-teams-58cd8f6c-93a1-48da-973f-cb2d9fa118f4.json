@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "Updating lodash version due to security flaws in older version (#100)",
-  "packageName": "@fluentui/react-teams",
-  "email": "willshown@microsoft.com",
-  "dependentChangeType": "patch"
-}
