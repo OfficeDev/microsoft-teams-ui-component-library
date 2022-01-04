@@ -16,6 +16,7 @@ import { Chart, IChartProps } from "../Chart/Chart";
 import { Placeholder } from "./Placeholder";
 import { TDashboardInteraction } from "./Dashboard";
 import { getText, TTextObject, TTranslations } from "../../translations";
+import { DescriptionList, IDescriptionListProps } from "./DescriptionList";
 
 /**
  * The widget’s target size in the Dashboard’s grid layout.
@@ -182,6 +183,15 @@ export interface IChartWidgetContent {
 }
 
 /**
+ * A description list widget
+ * @public
+ */
+export interface IDescriptionListWidgetContent
+  extends Omit<IDescriptionListProps, "t"> {
+  type: "dl" | string;
+}
+
+/**
  * A placeholder widget
  * @internal
  */
@@ -194,7 +204,10 @@ interface IPlaceholderWidgetContent {
  * Widget content specifies a type, then a payload with a special key depending on the type of widget.
  * @public
  */
-export type TWidgetContent = IChartWidgetContent | IPlaceholderWidgetContent;
+export type TWidgetContent =
+  | IChartWidgetContent
+  | IDescriptionListWidgetContent
+  | IPlaceholderWidgetContent;
 
 /**
  * A piece of content to make available in the widget.
@@ -270,6 +283,13 @@ export const WidgetBody = ({
                   case "chart":
                     return (
                       <Chart {...(content as IChartWidgetContent).chart} />
+                    );
+                  case "dl":
+                    return (
+                      <DescriptionList
+                        t={t}
+                        list={(content as IDescriptionListWidgetContent).list}
+                      />
                     );
                   case "placeholder":
                     return (
