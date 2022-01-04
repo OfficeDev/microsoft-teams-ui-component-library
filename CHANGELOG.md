@@ -1,8 +1,16 @@
 # Change Log - @fluentui/react-teams
 
-This log was last generated on Thu, 03 Jun 2021 06:51:54 GMT and should not be manually modified.
+This log was last generated on Fri, 29 Oct 2021 22:02:34 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 6.0.0
+
+Fri, 29 Oct 2021 22:02:34 GMT
+
+### Minor changes
+
+- Updating lodash version due to security flaws in older version (#100) (willshown@microsoft.com)
 
 ## 5.3.0
 

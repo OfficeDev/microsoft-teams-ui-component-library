@@ -638,9 +638,23 @@ const dataVizWidgets = [
   } as IWidget,
   {
     id: "w15",
-    title: "Card 6",
+    title: "Description list",
     size: EWidgetSize.Single,
     link: linkExample,
+    body: [
+      {
+        id: "1",
+        title: "",
+        content: {
+          type: "dl",
+          list: [
+            { label: "Median days used per month", value: "2" },
+            { label: "% of 5+ days usage", value: "38.2%" },
+            { label: "DAU / MAU", value: "24.3%" },
+          ],
+        },
+      },
+    ],
   } as IWidget,
 ];
 
