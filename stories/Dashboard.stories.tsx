@@ -211,7 +211,10 @@ const dataVizWidgets = [
     id: "w2",
     title: "Doughnut chart sample",
     size: EWidgetSize.Single,
-    link: linkExample,
+    link: {
+      title: "More about doughnuts",
+      actionId: "more-info",
+    },
     body: [
       {
         id: "1",

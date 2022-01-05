@@ -12,6 +12,7 @@ import {
   WidgetTitle,
   WidgetBody,
   WidgetFooter,
+  IDashboardInteractionWidgetButton,
 } from "./DashboardWidget";
 import { DashboardTheme } from "./DashboardTheme";
 import { Sidebar } from "./Sidebar";
@@ -66,7 +67,8 @@ export interface IDashboardPreferences {
  */
 export type TDashboardInteraction =
   | IDashboardInteractionUpdatePreferences
-  | IDashboardInteractionWidgetAction;
+  | IDashboardInteractionWidgetAction
+  | IDashboardInteractionWidgetButton;
 
 /**
  * The preferences update payload carries the preferences the developer should store for the user,
@@ -252,7 +254,7 @@ export function Dashboard({
                         />
                         {link && (
                           <WidgetFooter
-                            {...{ link, t, rtl }}
+                            {...{ link, t, rtl, id, onInteraction }}
                             siteVariables={globalTheme.siteVariables}
                           />
                         )}
