@@ -9,7 +9,7 @@ A Dashboard will emit onInteraction payloads when the user updates any preferenc
 <b>Signature:</b>
 
 ```typescript
-export declare type TDashboardInteraction = IDashboardInteractionUpdatePreferences | IDashboardInteractionWidgetAction;
+export declare type TDashboardInteraction = IDashboardInteractionUpdatePreferences | IDashboardInteractionWidgetAction | IDashboardInteractionWidgetButton;
 ```
 <b>References:</b> [IDashboardInteractionUpdatePreferences](./react-teams.idashboardinteractionupdatepreferences.md)
 
