@@ -1,6 +1,6 @@
 {
   "type": "prerelease",
-  "comment": "Add blockOnly option to Dashboard.",
+  "comment": "Add button variation to widgets.",
   "packageName": "@fluentui/react-teams",
   "email": "willshown@microsoft.com",
   "dependentChangeType": "patch"

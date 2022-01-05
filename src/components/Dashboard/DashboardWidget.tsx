@@ -10,6 +10,7 @@ import {
   Menu,
   ArrowRightIcon,
   ArrowLeftIcon,
+  Button,
 } from "@fluentui/react-northstar";
 import { DashboardCallout, IWidgetAction } from "./DashboardCallout";
 import { Chart, IChartProps } from "../Chart/Chart";
@@ -73,7 +74,7 @@ export interface IWidget {
   /**
    * A link to render at the end of the widget’s content.
    */
-  link?: IWidgetLink;
+  link?: IWidgetLink | IWidgetButton;
 }
 
 export const Widget = ({
@@ -317,39 +318,92 @@ export interface IWidgetLink {
   href: string;
 }
 
+/**
+ * @public
+ */
+export interface IWidgetButton {
+  title?: TTextObject;
+  actionId: string;
+}
+
+/**
+ * @public
+ */
+export interface IDashboardInteractionWidgetButton {
+  event: "click";
+  target: "widget";
+  widget: string;
+  subject: string;
+}
+
 export const WidgetFooter = ({
+  id,
   link,
   siteVariables,
   t,
   rtl,
+  onInteraction,
 }: {
-  link: IWidgetLink;
+  id: string;
+  link: IWidgetLink | IWidgetButton;
   siteVariables: SiteVariablesPrepared;
   t: TTranslations;
   rtl: boolean;
+  onInteraction?: (interaction: TDashboardInteraction) => void;
 }) => (
   <Card.Footer fitted>
     <Flex space="between" vAlign="center">
-      <Text
-        as="a"
-        href={link.href}
-        target="_blank"
-        size="small"
-        color="brand"
-        styles={{
-          textDecoration: "none",
-          "&:focus": {
-            outlineColor: siteVariables.colorScheme.default.foregroundActive,
-          },
-        }}
-      >
-        {link.title ? getText(t.locale, link.title) : t["view more"]}
-        {rtl ? (
-          <ArrowLeftIcon size="small" styles={{ margin: "0 .4rem" }} />
-        ) : (
-          <ArrowRightIcon size="small" styles={{ margin: "0 .4rem" }} />
-        )}
-      </Text>
+      {link.hasOwnProperty("href") ? (
+        <Text
+          as="a"
+          href={(link as IWidgetLink).href}
+          target="_blank"
+          size="small"
+          color="brand"
+          styles={{
+            textDecoration: "none",
+            "&:focus": {
+              outlineColor: siteVariables.colorScheme.default.foregroundActive,
+            },
+          }}
+        >
+          {link.title ? getText(t.locale, link.title) : t["view more"]}
+          {rtl ? (
+            <ArrowLeftIcon size="small" styles={{ margin: "0 .4rem" }} />
+          ) : (
+            <ArrowRightIcon size="small" styles={{ margin: "0 .4rem" }} />
+          )}
+        </Text>
+      ) : link.hasOwnProperty("actionId") ? (
+        <>
+          <Button
+            text
+            size="small"
+            content={
+              <Text color="brand">
+                {link.title ? getText(t.locale, link.title) : t["view more"]}
+                {rtl ? (
+                  <ArrowLeftIcon size="small" styles={{ margin: "0 .4rem" }} />
+                ) : (
+                  <ArrowRightIcon size="small" styles={{ margin: "0 .4rem" }} />
+                )}
+              </Text>
+            }
+            onClick={() =>
+              onInteraction &&
+              onInteraction({
+                event: "click",
+                target: "widget",
+                widget: id,
+                subject: (link as IWidgetButton).actionId,
+              })
+            }
+            variables={({ colorScheme }: SiteVariablesPrepared) => ({
+              color: colorScheme.brand.foreground,
+            })}
+          />
+        </>
+      ) : null}
     </Flex>
   </Card.Footer>
 );
