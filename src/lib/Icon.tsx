@@ -9,7 +9,7 @@ import {
 } from "@fluentui/react-northstar";
 import { getText, TLocale, TTextObject } from "../translations";
 
-const Icons = (FluentUIIcons as unknown) as {
+const Icons = FluentUIIcons as unknown as {
   [iconName: string]: FunctionComponent<
     HTMLAttributes<HTMLSpanElement> & SvgIconProps
   >;
@@ -19,6 +19,10 @@ export interface ITooltipProps {
   content: TTextObject;
 }
 
+/**
+ * An icon.
+ * @public
+ */
 export interface IIconProps {
   icon?: string;
 }
@@ -27,6 +31,10 @@ interface IIconComponentProps
   extends IIconProps,
     Pick<SvgIconProps, "styles"> {}
 
+/**
+ * An icon which invokes a tooltip when focused.
+ * @public
+ */
 export interface IFocusableIconProps extends IIconProps {
   tooltip: ITooltipProps;
 }

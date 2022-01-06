@@ -4,6 +4,8 @@
 
 ## TPhrasingContent type
 
+An ordered collection of elements that render inline as content.
+
 <b>Signature:</b>
 
 ```typescript

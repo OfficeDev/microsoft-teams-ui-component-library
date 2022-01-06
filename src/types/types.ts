@@ -58,6 +58,7 @@ export type TUsers = {
  * Otherwise this string should be used to identify a component’s intention; user preferences
  * and potentially other properties will be saved to and loaded from the local storage for a user’s
  * client by this key.
+ * @public
  */
 export type TCacheKey = string | undefined;
 
@@ -79,6 +80,7 @@ export enum DialogVariant {
 
 /**
  * The stylistic variants available to the buttons used by these components.
+ * @public
  */
 export enum EButtonVariants {
   default = "default",
@@ -89,6 +91,7 @@ export enum EButtonVariants {
 
 /**
  * The stylistic variants available to the avatars used by these components.
+ * @public
  */
 
 export enum EAvatarVariant {

@@ -56,11 +56,11 @@
 |  [IEnumerableInputOption](./react-teams.ienumerableinputoption.md) | Properties for each option for Enumerable inputs (radio buttons, checkboxes, dropdowns). |
 |  [IEnumerableMultipleInputBase](./react-teams.ienumerablemultipleinputbase.md) | Properties shared by enumerable inputs supporting multiple selections (checkboxes, multiple-select dropdowns). |
 |  [IEnumerableSingletonInputBase](./react-teams.ienumerablesingletoninputbase.md) | Properties shared by singleton enumerable inputs (radio buttons, single-select dropdowns). |
-|  [IFocusableIconProps](./react-teams.ifocusableiconprops.md) |  |
+|  [IFocusableIconProps](./react-teams.ifocusableiconprops.md) | An icon which invokes a tooltip when focused. |
 |  [IFormProps](./react-teams.iformprops.md) | The Form component can be used to render an interactive Form. Designs for this component are available in the \[Forms page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=5271%3A221958). |
 |  [IFormState](./react-teams.iformstate.md) | A collection of input values, keyed by input ID. If the input is a block of checkboxes or a dropdown with multiple selection, the value will be an array of option IDs. |
 |  [IFormWizardStepProps](./react-teams.iformwizardstepprops.md) | A Form which is a step in a Wizard has the same inputs as Form with an additional option to override the text of the Wizard’s back button for the current step. |
-|  [IIconProps](./react-teams.iiconprops.md) |  |
+|  [IIconProps](./react-teams.iiconprops.md) | An icon. |
 |  [IInlineInputsBlock](./react-teams.iinlineinputsblock.md) | A block containing a set of one or more text inputs or dropdowns. |
 |  [IListProps](./react-teams.ilistprops.md) | The List component can be used to display a list of items as a table which can be sorted, filtered, and searched.. Designs for this component are available in the \[List page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A3790). |
 |  [IMultilineTextInput](./react-teams.imultilinetextinput.md) | A multi-line text field. |
@@ -117,7 +117,7 @@
 |  [TInputBlock](./react-teams.tinputblock.md) | A block with a single input which occupies the full width of the form. |
 |  [TListInteraction](./react-teams.tlistinteraction.md) | List interactions are proxied from the Table, the Toolbar, or the empty state Communication component. All are clicks on actions. |
 |  [TLocale](./react-teams.tlocale.md) | A locale as an \[IETF BCP 47 language tag\](https://tools.ietf.org/rfc/bcp/bcp47.txt). |
-|  [TPhrasingContent](./react-teams.tphrasingcontent.md) |  |
+|  [TPhrasingContent](./react-teams.tphrasingcontent.md) | An ordered collection of elements that render inline as content. |
 |  [TSortable](./react-teams.tsortable.md) | Currently only alphabetical sort is available. |
 |  [TTableInteraction](./react-teams.ttableinteraction.md) | An interaction payload emitted by Table. |
 |  [TTextObject](./react-teams.ttextobject.md) | Text content to display. When the preferred locale is not available, the plain string or the only available locale will be used instead. |

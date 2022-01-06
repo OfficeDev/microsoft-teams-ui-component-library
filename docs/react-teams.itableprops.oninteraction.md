@@ -4,7 +4,7 @@
 
 ## ITableProps.onInteraction property
 
-An interaction handler for the Table. Interactions are triggered when the user clicks on an action in a row, a button in a table cell, or anywhere in a row if `selectable` is \`<!-- -->false. If the Table is not rendered on its own, this may be proxied from its parent component, e.g. the parent List.
+An interaction handler for the Table. Interactions are triggered when the user clicks on an action in a row, a button in a table cell, or anywhere in a row if `selectable` is `false`<!-- -->. If the Table is not rendered on its own, this may be proxied from its parent component, e.g. the parent List.
 
 <b>Signature:</b>
 

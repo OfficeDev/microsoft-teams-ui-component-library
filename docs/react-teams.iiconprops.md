@@ -4,6 +4,8 @@
 
 ## IIconProps interface
 
+An icon.
+
 <b>Signature:</b>
 
 ```typescript
