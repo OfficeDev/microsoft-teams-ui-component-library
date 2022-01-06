@@ -230,11 +230,12 @@ export function Dashboard({
                     }: IWidget,
                     key: number
                   ) =>
-                    get(
-                      preferencesState,
-                      `widgetSettings.${id}.display`,
-                      true
-                    ) && (
+                    (blockOnly ||
+                      get(
+                        preferencesState,
+                        `widgetSettings.${id}.display`,
+                        true
+                      )) && (
                       <Widget key={key} size={size}>
                         <WidgetTitle
                           {...{
@@ -244,7 +245,7 @@ export function Dashboard({
                             globalTheme,
                             widgetActionGroup,
                             onInteraction,
-                            hideWidget,
+                            hideWidget: blockOnly ? null : hideWidget,
                             t,
                           }}
                         />

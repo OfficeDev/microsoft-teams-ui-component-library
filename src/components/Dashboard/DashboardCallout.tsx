@@ -45,7 +45,7 @@ interface IDashboardCallout {
   menuProps: any;
   globalTheme: ThemePrepared;
   widgetActionGroup?: IWidgetAction[];
-  hideWidget: (widgetId: string) => void;
+  hideWidget: null | ((widgetId: string) => void);
   t: TTranslations;
   onInteraction?: (interaction: TDashboardInteraction) => void;
 }
@@ -118,65 +118,68 @@ export const DashboardCallout = ({
     id: "hide_widget",
     content: t["hide widget"],
     icon: <EyeSlashIcon />,
-    onClick: () => hideWidget(widgetId),
+    onClick: () => hideWidget && hideWidget(widgetId),
   };
 
   return (
     <FluentUIThemeProvider theme={theme}>
-      <Popup
-        {...menuProps}
-        open={open}
-        onOpenChange={onOpenChange}
-        trigger={
-          <Button
-            text
-            iconOnly
-            aria-label={t["more"]}
-            icon={<MoreIcon />}
-            styles={{
-              margin: "0 -0.35rem",
-            }}
-          />
-        }
-        content={{
-          styles: { width: "12.5rem" },
-          content: (
-            <Menu
-              items={
-                widgetActionGroup
-                  ? [
-                      ...widgetActionGroup.map(
-                        ({ id, icon, title }: IWidgetAction) => {
-                          return {
-                            key: id,
-                            icon: <Icon icon={icon} />,
-                            content: getText(t.locale, title),
-                            ...(onInteraction && {
-                              onClick: () =>
-                                onInteraction({
-                                  event: "click",
-                                  target: "action",
-                                  widget: widgetId,
-                                  action: id,
-                                }),
-                            }),
-                          };
-                        }
-                      ),
-                      { kind: "divider" },
-                      hideWidgetAction,
-                    ]
-                  : [hideWidgetAction]
-              }
-              vertical
+      {(hideWidget || widgetActionGroup) && (
+        <Popup
+          {...menuProps}
+          open={open}
+          onOpenChange={onOpenChange}
+          trigger={
+            <Button
+              text
+              iconOnly
+              aria-label={t["more"]}
+              icon={<MoreIcon />}
+              styles={{
+                margin: "0 -0.35rem",
+              }}
             />
-          ),
-        }}
-        trapFocus={{
-          firstFocusableSelector:
-            ".extended-toolbar__filters-menu__tree [data-is-focusable=true]",
-        }}
-      />
+          }
+          content={{
+            styles: { width: "12.5rem" },
+            content: (
+              <Menu
+                items={
+                  widgetActionGroup
+                    ? [
+                        ...widgetActionGroup.map(
+                          ({ id, icon, title }: IWidgetAction) => {
+                            return {
+                              key: id,
+                              icon: <Icon icon={icon} />,
+                              content: getText(t.locale, title),
+                              ...(onInteraction && {
+                                onClick: () =>
+                                  onInteraction({
+                                    event: "click",
+                                    target: "action",
+                                    widget: widgetId,
+                                    action: id,
+                                  }),
+                              }),
+                            };
+                          }
+                        ),
+                        ...(hideWidget
+                          ? [{ kind: "divider" }, hideWidgetAction]
+                          : []),
+                      ]
+                    : [hideWidgetAction]
+                }
+                vertical
+              />
+            ),
+          }}
+          trapFocus={{
+            firstFocusableSelector:
+              ".extended-toolbar__filters-menu__tree [data-is-focusable=true]",
+          }}
+        />
+      )}
     </FluentUIThemeProvider>
   );
 };

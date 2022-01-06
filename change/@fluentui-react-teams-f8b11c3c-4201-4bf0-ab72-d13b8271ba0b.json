@@ -1,6 +1,6 @@
 {
   "type": "prerelease",
-  "comment": "Add button variation to widgets.",
+  "comment": "Don’t show widget hiding controls in blockOnly.",
   "packageName": "@fluentui/react-teams",
   "email": "willshown@microsoft.com",
   "dependentChangeType": "patch"

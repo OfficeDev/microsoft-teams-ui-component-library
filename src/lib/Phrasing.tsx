@@ -5,6 +5,10 @@ import Icon, { FocusableIcon, IFocusableIconProps, IIconProps } from "./Icon";
 import { getText, getAllText, TLocale, TTextObject } from "../translations";
 import get from "lodash/get";
 
+/**
+ * An ordered collection of elements that render inline as content.
+ * @public
+ */
 export type TPhrasingContent = TPhrasingProps[] | TTextObject;
 
 export type TPhrasingProps = IIconProps | IFocusableIconProps | TTextObject;

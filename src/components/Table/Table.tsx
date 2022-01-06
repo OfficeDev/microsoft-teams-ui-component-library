@@ -77,6 +77,7 @@ export type TSelected = Set<rowKey>;
 
 /**
  * Content for a table cell can be a button. When clicked, buttons emit an Interaction event.
+ * @public
  */
 export interface ICellButtonContent
   extends Pick<ButtonProps, "iconPosition" | "disabled" | "iconOnly"> {
@@ -90,6 +91,7 @@ export interface ICellButtonContent
 /**
  * Content for a table cell can be a name with an avatar. The avatar preceeds the name in the inline
  * direction and the name labels the avatar.
+ * @public
  */
 export type TCellAvatarContent =
   | ICellIconAvatarContent
@@ -97,6 +99,7 @@ export type TCellAvatarContent =
 
 /**
  * Table cells using avatars can specify an icon as the avatar’s visual content.
+ * @public
  */
 export interface ICellIconAvatarContent
   extends Pick<IAvatarProps, "icon" | "variant"> {
@@ -106,6 +109,7 @@ export interface ICellIconAvatarContent
 
 /**
  * Table cells using avatars can specify an image as the avatar’s visual content.
+ * @public
  */
 export interface ICellImageAvatarContent
   extends Pick<IAvatarProps, "image" | "variant"> {
@@ -115,6 +119,7 @@ export interface ICellImageAvatarContent
 
 /**
  * The content for a table cell
+ * @public
  */
 export type TCellContent =
   | TPhrasingContent
@@ -184,7 +189,7 @@ export interface ITableProps extends PropsOfElement<"div"> {
   filterBy?: (row: IRow) => boolean;
   /**
    * An interaction handler for the Table. Interactions are triggered when the user clicks on an
-   * action in a row, a button in a table cell, or anywhere in a row if `selectable` is `false. If
+   * action in a row, a button in a table cell, or anywhere in a row if `selectable` is `false`. If
    * the Table is not rendered on its own, this may be proxied from its parent component, e.g. the
    * parent List.
    */

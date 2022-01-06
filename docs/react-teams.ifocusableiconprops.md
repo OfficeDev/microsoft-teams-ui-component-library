@@ -4,6 +4,8 @@
 
 ## IFocusableIconProps interface
 
+An icon which invokes a tooltip when focused.
+
 <b>Signature:</b>
 
 ```typescript
