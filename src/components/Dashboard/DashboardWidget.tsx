@@ -123,7 +123,7 @@ export const WidgetTitle = ({
   desc?: TTextObject;
   globalTheme: ThemePrepared;
   widgetActionGroup?: IWidgetAction[];
-  hideWidget: (widgetId: string) => void;
+  hideWidget: null | ((widgetId: string) => void);
   t: TTranslations;
   onInteraction?: (interaction: TDashboardInteraction) => void;
 }) => {
