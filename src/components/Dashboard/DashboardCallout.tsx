@@ -165,7 +165,7 @@ export const DashboardCallout = ({
                           }
                         ),
                         ...(hideWidget
-                          ? [, { kind: "divider" }, hideWidgetAction]
+                          ? [{ kind: "divider" }, hideWidgetAction]
                           : []),
                       ]
                     : [hideWidgetAction]
