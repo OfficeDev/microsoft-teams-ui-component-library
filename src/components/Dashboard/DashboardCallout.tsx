@@ -1,17 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 
 import {
   Popup,
   Button,
   MoreIcon,
-  ComponentEventHandler,
-  PopupProps,
   Menu,
   mergeThemes,
   ComponentVariablesInput,
   Provider as FluentUIThemeProvider,
   ThemePrepared,
   EyeSlashIcon,
+  FilterIcon,
 } from "@fluentui/react-northstar";
 
 import { TeamsTheme } from "../../themes";
@@ -40,11 +39,9 @@ export interface IWidgetAction {
 
 interface IDashboardCallout {
   widgetId: string;
-  open: boolean;
-  onOpenChange: ComponentEventHandler<PopupProps>;
-  menuProps: any;
   globalTheme: ThemePrepared;
-  widgetActionGroup?: IWidgetAction[];
+  calloutType?: "overflow" | "filter";
+  widgetCalloutGroup?: IWidgetAction[];
   hideWidget: null | ((widgetId: string) => void);
   t: TTranslations;
   onInteraction?: (interaction: TDashboardInteraction) => void;
@@ -103,16 +100,15 @@ const getLocalTheme = () => {
 
 export const DashboardCallout = ({
   widgetId,
-  open,
-  onOpenChange,
-  menuProps,
   globalTheme,
-  widgetActionGroup,
+  calloutType = "overflow",
+  widgetCalloutGroup,
   hideWidget,
   t,
   onInteraction,
 }: IDashboardCallout) => {
   const theme = mergeThemes(globalTheme, getLocalTheme());
+  const [open, setOpen] = useState(false);
 
   const hideWidgetAction = {
     id: "hide_widget",
@@ -123,17 +119,24 @@ export const DashboardCallout = ({
 
   return (
     <FluentUIThemeProvider theme={theme}>
-      {(hideWidget || widgetActionGroup) && (
+      {(hideWidget || widgetCalloutGroup) && (
         <Popup
-          {...menuProps}
+          offset={[0, 0]}
+          position="below"
           open={open}
-          onOpenChange={onOpenChange}
+          onOpenChange={(_, props) => setOpen(!!props?.open)}
           trigger={
             <Button
               text
               iconOnly
               aria-label={t["more"]}
-              icon={<MoreIcon />}
+              icon={
+                calloutType === "filter" ? (
+                  <FilterIcon outline />
+                ) : (
+                  <MoreIcon outline />
+                )
+              }
               styles={{
                 margin: "0 -0.35rem",
               }}
@@ -144,14 +147,14 @@ export const DashboardCallout = ({
             content: (
               <Menu
                 items={
-                  widgetActionGroup
+                  widgetCalloutGroup
                     ? [
-                        ...widgetActionGroup.map(
+                        ...widgetCalloutGroup.map(
                           ({ id, icon, title }: IWidgetAction) => {
                             return {
                               key: id,
-                              icon: <Icon icon={icon} />,
                               content: getText(t.locale, title),
+                              ...(icon && { icon: <Icon icon={icon} /> }),
                               ...(onInteraction && {
                                 onClick: () =>
                                   onInteraction({

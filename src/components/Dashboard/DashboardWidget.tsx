@@ -1,22 +1,22 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import {
   Flex,
   Card,
   Text,
   Box,
-  ThemePrepared,
   SiteVariablesPrepared,
   tabListBehavior,
   Menu,
   ArrowRightIcon,
   ArrowLeftIcon,
   Button,
+  ProviderConsumer as FluentUIThemeConsumer,
 } from "@fluentui/react-northstar";
 import { DashboardCallout, IWidgetAction } from "./DashboardCallout";
 import { Chart, IChartProps } from "../Chart/Chart";
 import { Placeholder } from "./Placeholder";
 import { TDashboardInteraction } from "./Dashboard";
-import { getText, TTextObject, TTranslations } from "../../translations";
+import { getText, TTextObject } from "../../translations";
 import { DescriptionList, IDescriptionListProps } from "./DescriptionList";
 
 /**
@@ -68,6 +68,10 @@ export interface IWidget {
    */
   widgetActionGroup?: IWidgetAction[];
   /**
+   * A collection of filters available in the widget’s filter menu.
+   */
+  widgetFilterGroup?: Omit<IWidgetAction, "icon">[];
+  /**
    * The content to make available in the widget.
    */
   body?: IWidgetBodyContent[];
@@ -76,103 +80,6 @@ export interface IWidget {
    */
   link?: IWidgetLink | IWidgetButton;
 }
-
-export const Widget = ({
-  children,
-  size,
-}: {
-  children: ReactNode;
-  size: EWidgetSize;
-}) => {
-  const cardStyle = {
-    gridColumnEnd: "auto",
-    gridRowEnd: "auto",
-    "@media (max-width: 842px)": {
-      gridColumnEnd: "span 3",
-    },
-  };
-  if (size === EWidgetSize.Double) {
-    cardStyle.gridColumnEnd = "span 2";
-  }
-  if (size === EWidgetSize.Box) {
-    cardStyle.gridColumnEnd = "span 2";
-    cardStyle.gridRowEnd = "span 2";
-  }
-  if (size === EWidgetSize.Triple) {
-    cardStyle.gridColumnEnd = "span 3";
-  }
-  return (
-    <Card styles={cardStyle} fluid>
-      {children}
-    </Card>
-  );
-};
-
-export const WidgetTitle = ({
-  widgetId,
-  title,
-  desc,
-  globalTheme,
-  widgetActionGroup,
-  hideWidget,
-  t,
-  onInteraction,
-}: {
-  widgetId: string;
-  title: TTextObject;
-  desc?: TTextObject;
-  globalTheme: ThemePrepared;
-  widgetActionGroup?: IWidgetAction[];
-  hideWidget: null | ((widgetId: string) => void);
-  t: TTranslations;
-  onInteraction?: (interaction: TDashboardInteraction) => void;
-}) => {
-  const [calloutOpen, setCalloutOpen] = React.useState(false);
-  return (
-    <Card.Header>
-      <Flex gap="gap.small" space="between" style={{ minHeight: "2rem" }}>
-        <Flex gap="gap.small" column>
-          <Text
-            content={getText(t.locale, title)}
-            style={{ margin: 0 }}
-            weight="bold"
-          />
-          {desc && <Text content={getText(t.locale, desc)} size="small" />}
-        </Flex>
-        <DashboardCallout
-          open={calloutOpen}
-          onOpenChange={({ currentTarget }, props) => {
-            const open = !!props?.open;
-            setCalloutOpen(open);
-          }}
-          menuProps={{
-            offset: [0, 0],
-            position: "below",
-          }}
-          {...{
-            widgetId,
-            globalTheme,
-            widgetActionGroup,
-            hideWidget,
-            t,
-            onInteraction,
-          }}
-        />
-      </Flex>
-    </Card.Header>
-  );
-};
-
-const EmptyState = ({ borderColor }: { borderColor: string }) => {
-  return (
-    <Box
-      styles={{
-        height: "100%",
-        border: `1px dashed ${borderColor}`,
-      }}
-    />
-  );
-};
 
 /**
  * A chart widget
@@ -230,86 +137,6 @@ export interface IWidgetBodyContent {
   content: TWidgetContent;
 }
 
-export const WidgetBody = ({
-  body,
-  siteVariables,
-  t,
-}: {
-  body?: IWidgetBodyContent[];
-  siteVariables: SiteVariablesPrepared;
-  t: TTranslations;
-}) => {
-  const [activeTabId, setActiveTabId] = React.useState(0);
-  return (
-    <Card.Body
-      style={{
-        marginBottom: "0.75rem",
-        height: "100%",
-        overflow: "hidden",
-      }}
-      fitted
-    >
-      {body ? (
-        <>
-          {body.length > 1 && (
-            <Menu
-              style={{
-                border: "none",
-                background: "none",
-                marginBottom: "1.25rem",
-              }}
-              items={Array.from(body, ({ id, title }) =>
-                Object.assign({ key: id, content: getText(t.locale, title) })
-              )}
-              activeIndex={activeTabId}
-              onItemClick={({ currentTarget }, props) =>
-                setActiveTabId(props && props.index ? props.index : 0)
-              }
-              accessibility={tabListBehavior}
-              underlined
-              primary
-            />
-          )}
-          {body.map(({ id, content }, i) => (
-            <Flex
-              key={id}
-              styles={{
-                height: "100%",
-                display: activeTabId === i ? "flex" : "none",
-              }}
-              column
-            >
-              {(() => {
-                switch (content.type) {
-                  case "chart":
-                    return (
-                      <Chart {...(content as IChartWidgetContent).chart} />
-                    );
-                  case "dl":
-                    return (
-                      <DescriptionList
-                        t={t}
-                        list={(content as IDescriptionListWidgetContent).list}
-                      />
-                    );
-                  case "placeholder":
-                    return (
-                      <Placeholder
-                        message={(content as IPlaceholderWidgetContent).message}
-                      />
-                    );
-                }
-              })()}
-            </Flex>
-          ))}
-        </>
-      ) : (
-        <EmptyState borderColor={siteVariables.colors.grey["300"]} />
-      )}
-    </Card.Body>
-  );
-};
-
 /**
  * @public
  */
@@ -336,74 +163,263 @@ export interface IDashboardInteractionWidgetButton {
   subject: string;
 }
 
-export const WidgetFooter = ({
-  id,
+export const Widget = ({
+  widgetId,
+  size,
+  body,
   link,
-  siteVariables,
-  t,
-  rtl,
+  title,
+  desc,
+  widgetActionGroup,
+  widgetFilterGroup,
+  hideWidget,
   onInteraction,
 }: {
-  id: string;
-  link: IWidgetLink | IWidgetButton;
-  siteVariables: SiteVariablesPrepared;
-  t: TTranslations;
-  rtl: boolean;
+  size: EWidgetSize;
+  body?: IWidgetBodyContent[];
+  widgetId: string;
+  title: TTextObject;
+  link?: IWidgetLink | IWidgetButton;
+  desc?: TTextObject;
+  widgetActionGroup?: IWidgetAction[];
+  widgetFilterGroup?: Omit<IWidgetAction, "icon">[];
+  hideWidget: null | ((widgetId: string) => void);
   onInteraction?: (interaction: TDashboardInteraction) => void;
-}) => (
-  <Card.Footer fitted>
-    <Flex space="between" vAlign="center">
-      {link.hasOwnProperty("href") ? (
-        <Text
-          as="a"
-          href={(link as IWidgetLink).href}
-          target="_blank"
-          size="small"
-          color="brand"
-          styles={{
-            textDecoration: "none",
-            "&:focus": {
-              outlineColor: siteVariables.colorScheme.default.foregroundActive,
-            },
-          }}
-        >
-          {link.title ? getText(t.locale, link.title) : t["view more"]}
-          {rtl ? (
-            <ArrowLeftIcon size="small" styles={{ margin: "0 .4rem" }} />
-          ) : (
-            <ArrowRightIcon size="small" styles={{ margin: "0 .4rem" }} />
-          )}
-        </Text>
-      ) : link.hasOwnProperty("actionId") ? (
-        <>
-          <Button
-            text
-            size="small"
-            content={
-              <Text color="brand">
-                {link.title ? getText(t.locale, link.title) : t["view more"]}
-                {rtl ? (
-                  <ArrowLeftIcon size="small" styles={{ margin: "0 .4rem" }} />
+}) => {
+  const cardStyle = {
+    gridColumnEnd: "auto",
+    gridRowEnd: "auto",
+    "@media (max-width: 842px)": {
+      gridColumnEnd: "span 3",
+    },
+  };
+  if (size === EWidgetSize.Double) {
+    cardStyle.gridColumnEnd = "span 2";
+  }
+  if (size === EWidgetSize.Box) {
+    cardStyle.gridColumnEnd = "span 2";
+    cardStyle.gridRowEnd = "span 2";
+  }
+  if (size === EWidgetSize.Triple) {
+    cardStyle.gridColumnEnd = "span 3";
+  }
+
+  const [activeTabId, setActiveTabId] = React.useState(0);
+
+  return (
+    <Card styles={cardStyle} fluid>
+      <FluentUIThemeConsumer
+        render={(globalTheme) => {
+          const { t, rtl } = globalTheme.siteVariables;
+          return (
+            <>
+              <Card.Header>
+                <Flex gap="gap.small" style={{ minHeight: "2rem" }}>
+                  <Flex gap="gap.small" column>
+                    <Text
+                      content={getText(t.locale, title)}
+                      style={{ margin: 0 }}
+                      weight="bold"
+                    />
+                    {desc && (
+                      <Text content={getText(t.locale, desc)} size="small" />
+                    )}
+                  </Flex>
+                  <Box role="none" styles={{ flex: "1 0 0" }} />
+                  <DashboardCallout
+                    {...{
+                      widgetId,
+                      globalTheme,
+                      widgetCalloutGroup: widgetActionGroup,
+                      hideWidget,
+                      t,
+                      onInteraction,
+                    }}
+                  />
+                  <DashboardCallout
+                    {...{
+                      widgetId,
+                      globalTheme,
+                      calloutType: "filter",
+                      widgetCalloutGroup: widgetFilterGroup,
+                      hideWidget: null,
+                      t,
+                      onInteraction,
+                    }}
+                  />
+                </Flex>
+              </Card.Header>
+              <Card.Body
+                style={{
+                  marginBottom: "0.75rem",
+                  height: "100%",
+                  overflow: "hidden",
+                }}
+                fitted
+              >
+                {body ? (
+                  <>
+                    {body.length > 1 && (
+                      <Menu
+                        style={{
+                          border: "none",
+                          background: "none",
+                          marginBottom: "1.25rem",
+                        }}
+                        items={Array.from(body, ({ id, title }) =>
+                          Object.assign({
+                            key: id,
+                            content: getText(t.locale, title),
+                          })
+                        )}
+                        activeIndex={activeTabId}
+                        onItemClick={({ currentTarget }, props) =>
+                          setActiveTabId(props && props.index ? props.index : 0)
+                        }
+                        accessibility={tabListBehavior}
+                        underlined
+                        primary
+                      />
+                    )}
+                    {body.map(({ id, content }, i) => (
+                      <Flex
+                        key={id}
+                        styles={{
+                          height: "100%",
+                          display: activeTabId === i ? "flex" : "none",
+                        }}
+                        column
+                      >
+                        {(() => {
+                          switch (content.type) {
+                            case "chart":
+                              return (
+                                <Chart
+                                  {...(content as IChartWidgetContent).chart}
+                                />
+                              );
+                            case "dl":
+                              return (
+                                <DescriptionList
+                                  t={t}
+                                  list={
+                                    (content as IDescriptionListWidgetContent)
+                                      .list
+                                  }
+                                />
+                              );
+                            case "placeholder":
+                              return (
+                                <Placeholder
+                                  message={
+                                    (content as IPlaceholderWidgetContent)
+                                      .message
+                                  }
+                                />
+                              );
+                          }
+                        })()}
+                      </Flex>
+                    ))}
+                  </>
                 ) : (
-                  <ArrowRightIcon size="small" styles={{ margin: "0 .4rem" }} />
+                  <EmptyState
+                    borderColor={globalTheme.siteVariables.colors.grey["300"]}
+                  />
                 )}
-              </Text>
-            }
-            onClick={() =>
-              onInteraction &&
-              onInteraction({
-                event: "click",
-                target: "widget",
-                widget: id,
-                subject: (link as IWidgetButton).actionId,
-              })
-            }
-            variables={({ colorScheme }: SiteVariablesPrepared) => ({
-              color: colorScheme.brand.foreground,
-            })}
-          />
-        </>
-      ) : null}
-    </Flex>
-  </Card.Footer>
-);
+              </Card.Body>
+              {link && (
+                <Card.Footer fitted>
+                  <Flex space="between" vAlign="center">
+                    {link.hasOwnProperty("href") ? (
+                      <Text
+                        as="a"
+                        href={(link as IWidgetLink).href}
+                        target="_blank"
+                        size="small"
+                        color="brand"
+                        styles={{
+                          textDecoration: "none",
+                          "&:focus": {
+                            outlineColor:
+                              globalTheme.siteVariables.colorScheme.default
+                                .foregroundActive,
+                          },
+                        }}
+                      >
+                        {link.title
+                          ? getText(t.locale, link.title)
+                          : t["view more"]}
+                        {rtl ? (
+                          <ArrowLeftIcon
+                            size="small"
+                            styles={{ margin: "0 .4rem" }}
+                          />
+                        ) : (
+                          <ArrowRightIcon
+                            size="small"
+                            styles={{ margin: "0 .4rem" }}
+                          />
+                        )}
+                      </Text>
+                    ) : link.hasOwnProperty("actionId") ? (
+                      <>
+                        <Button
+                          text
+                          size="small"
+                          content={
+                            <Text color="brand">
+                              {link.title
+                                ? getText(t.locale, link.title)
+                                : t["view more"]}
+                              {rtl ? (
+                                <ArrowLeftIcon
+                                  size="small"
+                                  styles={{ margin: "0 .4rem" }}
+                                />
+                              ) : (
+                                <ArrowRightIcon
+                                  size="small"
+                                  styles={{ margin: "0 .4rem" }}
+                                />
+                              )}
+                            </Text>
+                          }
+                          onClick={() =>
+                            onInteraction &&
+                            onInteraction({
+                              event: "click",
+                              target: "widget",
+                              widget: widgetId,
+                              subject: (link as IWidgetButton).actionId,
+                            })
+                          }
+                          variables={({
+                            colorScheme,
+                          }: SiteVariablesPrepared) => ({
+                            color: colorScheme.brand.foreground,
+                          })}
+                        />
+                      </>
+                    ) : null}
+                  </Flex>
+                </Card.Footer>
+              )}
+            </>
+          );
+        }}
+      />
+    </Card>
+  );
+};
+
+const EmptyState = ({ borderColor }: { borderColor: string }) => {
+  return (
+    <Box
+      styles={{
+        height: "100%",
+        border: `1px dashed ${borderColor}`,
+      }}
+    />
+  );
+};
