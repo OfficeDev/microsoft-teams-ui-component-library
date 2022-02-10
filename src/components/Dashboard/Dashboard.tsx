@@ -222,8 +222,10 @@ export function Dashboard({
                       desc,
                       widgetActionGroup,
                       widgetFilterGroup,
+                      initialFilter,
                       size,
                       body,
+                      bodyByFilter,
                       link,
                     }: IWidget,
                     key: number
@@ -240,12 +242,14 @@ export function Dashboard({
                           size,
                           title,
                           desc,
-                          widgetId: id,
+                          id,
                           widgetActionGroup,
                           widgetFilterGroup,
+                          initialFilter,
                           onInteraction,
-                          hideWidget: blockOnly ? null : hideWidget,
+                          ...(!blockOnly && { hideWidget }),
                           body,
+                          bodyByFilter,
                           link,
                         }}
                       />

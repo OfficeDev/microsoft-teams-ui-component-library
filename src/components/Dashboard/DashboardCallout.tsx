@@ -11,6 +11,7 @@ import {
   ThemePrepared,
   EyeSlashIcon,
   FilterIcon,
+  AcceptIcon,
 } from "@fluentui/react-northstar";
 
 import { TeamsTheme } from "../../themes";
@@ -42,7 +43,9 @@ interface IDashboardCallout {
   globalTheme: ThemePrepared;
   calloutType?: "overflow" | "filter";
   widgetCalloutGroup?: IWidgetAction[];
-  hideWidget: null | ((widgetId: string) => void);
+  hideWidget?: (widgetId: string) => void;
+  setActiveFilter?: (filterId: string) => void;
+  activeFilter?: string;
   t: TTranslations;
   onInteraction?: (interaction: TDashboardInteraction) => void;
 }
@@ -104,6 +107,8 @@ export const DashboardCallout = ({
   calloutType = "overflow",
   widgetCalloutGroup,
   hideWidget,
+  setActiveFilter,
+  activeFilter,
   t,
   onInteraction,
 }: IDashboardCallout) => {
@@ -116,6 +121,48 @@ export const DashboardCallout = ({
     icon: <EyeSlashIcon />,
     onClick: () => hideWidget && hideWidget(widgetId),
   };
+
+  const menuItems =
+    calloutType === "filter"
+      ? widgetCalloutGroup
+        ? widgetCalloutGroup.map(({ id, title }) => {
+            const selected = activeFilter === id;
+            return {
+              key: id,
+              role: "option",
+              "aria-selected": selected,
+              content: getText(t.locale, title),
+              icon: (
+                <AcceptIcon
+                  outline
+                  styles={{ visibility: selected ? "visible" : "hidden" }}
+                />
+              ),
+              onClick: () => setActiveFilter && setActiveFilter(id),
+            };
+          })
+        : []
+      : widgetCalloutGroup
+      ? [
+          ...widgetCalloutGroup.map(({ id, icon, title }: IWidgetAction) => {
+            return {
+              key: id,
+              content: getText(t.locale, title),
+              ...(icon && { icon: <Icon icon={icon} /> }),
+              ...(onInteraction && {
+                onClick: () =>
+                  onInteraction({
+                    event: "click",
+                    target: "action",
+                    widget: widgetId,
+                    action: id,
+                  }),
+              }),
+            };
+          }),
+          ...(hideWidget ? [{ kind: "divider" }, hideWidgetAction] : []),
+        ]
+      : [hideWidgetAction];
 
   return (
     <FluentUIThemeProvider theme={theme}>
@@ -144,38 +191,7 @@ export const DashboardCallout = ({
           }
           content={{
             styles: { width: "12.5rem" },
-            content: (
-              <Menu
-                items={
-                  widgetCalloutGroup
-                    ? [
-                        ...widgetCalloutGroup.map(
-                          ({ id, icon, title }: IWidgetAction) => {
-                            return {
-                              key: id,
-                              content: getText(t.locale, title),
-                              ...(icon && { icon: <Icon icon={icon} /> }),
-                              ...(onInteraction && {
-                                onClick: () =>
-                                  onInteraction({
-                                    event: "click",
-                                    target: "action",
-                                    widget: widgetId,
-                                    action: id,
-                                  }),
-                              }),
-                            };
-                          }
-                        ),
-                        ...(hideWidget
-                          ? [{ kind: "divider" }, hideWidgetAction]
-                          : []),
-                      ]
-                    : [hideWidgetAction]
-                }
-                vertical
-              />
-            ),
+            content: <Menu items={menuItems} vertical />,
           }}
           trapFocus={{
             firstFocusableSelector:

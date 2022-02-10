@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Flex,
   Card,
@@ -68,17 +68,33 @@ export interface IWidget {
    */
   widgetActionGroup?: IWidgetAction[];
   /**
-   * A collection of filters available in the widget’s filter menu.
+   * A collection of filters available in the widget’s filter menu. This must be paired with `bodyByFilter` to display.
    */
   widgetFilterGroup?: Omit<IWidgetAction, "icon">[];
+  /**
+   * The initial filter’s id to apply. If this is not specified, and both `widgetFilterGroup` and `bodyByFilter` are, then the initial filter resolves to the first in `widgetFilterGroup`.
+   */
+  initialFilter?: string;
   /**
    * The content to make available in the widget.
    */
   body?: IWidgetBodyContent[];
   /**
+   * The content to make available in the widget based on which filter is active, by id. This must be paired with `widgetFilterGroup` to display, otherwise `body` is used. `body` is also displayed when `bodyByFilter` does not have a value for a given filter id.
+   */
+  bodyByFilter?: Record<string, IWidgetBodyContent[]>;
+  /**
    * A link to render at the end of the widget’s content.
    */
   link?: IWidgetLink | IWidgetButton;
+  /**
+   * @internal
+   */
+  onInteraction?: (interaction: TDashboardInteraction) => void;
+  /**
+   * @internal
+   */
+  hideWidget?: (widgetId: string) => void;
 }
 
 /**
@@ -164,28 +180,19 @@ export interface IDashboardInteractionWidgetButton {
 }
 
 export const Widget = ({
-  widgetId,
+  id,
   size,
   body,
+  bodyByFilter,
   link,
   title,
   desc,
   widgetActionGroup,
   widgetFilterGroup,
+  initialFilter,
   hideWidget,
   onInteraction,
-}: {
-  size: EWidgetSize;
-  body?: IWidgetBodyContent[];
-  widgetId: string;
-  title: TTextObject;
-  link?: IWidgetLink | IWidgetButton;
-  desc?: TTextObject;
-  widgetActionGroup?: IWidgetAction[];
-  widgetFilterGroup?: Omit<IWidgetAction, "icon">[];
-  hideWidget: null | ((widgetId: string) => void);
-  onInteraction?: (interaction: TDashboardInteraction) => void;
-}) => {
+}: IWidget) => {
   const cardStyle = {
     gridColumnEnd: "auto",
     gridRowEnd: "auto",
@@ -204,7 +211,17 @@ export const Widget = ({
     cardStyle.gridColumnEnd = "span 3";
   }
 
-  const [activeTabId, setActiveTabId] = React.useState(0);
+  const [activeTabId, setActiveTabId] = useState(0);
+  const [activeFilter, setActiveFilter] = useState(
+    widgetFilterGroup && bodyByFilter
+      ? initialFilter || widgetFilterGroup[0].id
+      : null
+  );
+
+  const activeBody =
+    (activeFilter && bodyByFilter && bodyByFilter[activeFilter]) || body;
+
+  debugger;
 
   return (
     <Card styles={cardStyle} fluid>
@@ -226,23 +243,26 @@ export const Widget = ({
                     )}
                   </Flex>
                   <Box role="none" styles={{ flex: "1 0 0" }} />
+                  {activeFilter && (
+                    <DashboardCallout
+                      {...{
+                        widgetId: id,
+                        globalTheme,
+                        calloutType: "filter",
+                        widgetCalloutGroup: widgetFilterGroup,
+                        setActiveFilter,
+                        activeFilter,
+                        t,
+                        onInteraction,
+                      }}
+                    />
+                  )}
                   <DashboardCallout
                     {...{
-                      widgetId,
+                      widgetId: id,
                       globalTheme,
                       widgetCalloutGroup: widgetActionGroup,
                       hideWidget,
-                      t,
-                      onInteraction,
-                    }}
-                  />
-                  <DashboardCallout
-                    {...{
-                      widgetId,
-                      globalTheme,
-                      calloutType: "filter",
-                      widgetCalloutGroup: widgetFilterGroup,
-                      hideWidget: null,
                       t,
                       onInteraction,
                     }}
@@ -257,16 +277,16 @@ export const Widget = ({
                 }}
                 fitted
               >
-                {body ? (
+                {activeBody ? (
                   <>
-                    {body.length > 1 && (
+                    {activeBody.length > 1 && (
                       <Menu
                         style={{
                           border: "none",
                           background: "none",
                           marginBottom: "1.25rem",
                         }}
-                        items={Array.from(body, ({ id, title }) =>
+                        items={Array.from(activeBody, ({ id, title }) =>
                           Object.assign({
                             key: id,
                             content: getText(t.locale, title),
@@ -281,7 +301,7 @@ export const Widget = ({
                         primary
                       />
                     )}
-                    {body.map(({ id, content }, i) => (
+                    {activeBody.map(({ id, content }, i) => (
                       <Flex
                         key={id}
                         styles={{
@@ -295,6 +315,9 @@ export const Widget = ({
                             case "chart":
                               return (
                                 <Chart
+                                  key={`widget-chart__${
+                                    activeFilter || ""
+                                  }__${i}`}
                                   {...(content as IChartWidgetContent).chart}
                                 />
                               );
@@ -390,7 +413,7 @@ export const Widget = ({
                             onInteraction({
                               event: "click",
                               target: "widget",
-                              widget: widgetId,
+                              widget: id,
                               subject: (link as IWidgetButton).actionId,
                             })
                           }
