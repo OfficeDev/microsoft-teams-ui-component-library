@@ -17,10 +17,13 @@ export interface IWidget
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [body?](./react-teams.iwidget.body.md) | [IWidgetBodyContent](./react-teams.iwidgetbodycontent.md)<!-- -->\[\] | <i>(Optional)</i> The content to make available in the widget. |
+|  [bodyByFilter?](./react-teams.iwidget.bodybyfilter.md) | Record&lt;string, [IWidgetBodyContent](./react-teams.iwidgetbodycontent.md)<!-- -->\[\]&gt; | <i>(Optional)</i> The content to make available in the widget based on which filter is active, by id. This must be paired with <code>widgetFilterGroup</code> to display, otherwise <code>body</code> is used. <code>body</code> is also displayed when <code>bodyByFilter</code> does not have a value for a given filter id. |
 |  [desc?](./react-teams.iwidget.desc.md) | [TTextObject](./react-teams.ttextobject.md) | <i>(Optional)</i> Text rendered in boxy test style below the title. |
 |  [id](./react-teams.iwidget.id.md) | string | A unique ID for the widget. |
+|  [initialFilter?](./react-teams.iwidget.initialfilter.md) | string | <i>(Optional)</i> The initial filter’s id to apply. If this is not specified, and both <code>widgetFilterGroup</code> and <code>bodyByFilter</code> are, then the initial filter resolves to the first in <code>widgetFilterGroup</code>. |
 |  [link?](./react-teams.iwidget.link.md) | [IWidgetLink](./react-teams.iwidgetlink.md) \| IWidgetButton | <i>(Optional)</i> A link to render at the end of the widget’s content. |
 |  [size](./react-teams.iwidget.size.md) | [EWidgetSize](./react-teams.ewidgetsize.md) | The widget’s target size. |
 |  [title](./react-teams.iwidget.title.md) | [TTextObject](./react-teams.ttextobject.md) | The title of the widget, rendered in a header style. |
 |  [widgetActionGroup?](./react-teams.iwidget.widgetactiongroup.md) | [IWidgetAction](./react-teams.iwidgetaction.md)<!-- -->\[\] | <i>(Optional)</i> A collection of actions available in the widget’s overflow menu. |
+|  [widgetFilterGroup?](./react-teams.iwidget.widgetfiltergroup.md) | Omit&lt;[IWidgetAction](./react-teams.iwidgetaction.md)<!-- -->, "icon"&gt;\[\] | <i>(Optional)</i> A collection of filters available in the widget’s filter menu. This must be paired with <code>bodyByFilter</code> to display. |
 
