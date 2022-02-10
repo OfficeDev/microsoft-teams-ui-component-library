@@ -9,9 +9,6 @@ import {
 import {
   IWidget,
   Widget,
-  WidgetTitle,
-  WidgetBody,
-  WidgetFooter,
   IDashboardInteractionWidgetButton,
 } from "./DashboardWidget";
 import { DashboardTheme } from "./DashboardTheme";
@@ -169,7 +166,7 @@ export function Dashboard({
   return (
     <FluentUIThemeConsumer
       render={(globalTheme) => {
-        const { t, rtl } = globalTheme.siteVariables;
+        const { t } = globalTheme.siteVariables;
         return (
           <DashboardTheme globalTheme={globalTheme}>
             {!blockOnly && (
@@ -224,8 +221,11 @@ export function Dashboard({
                       title,
                       desc,
                       widgetActionGroup,
+                      widgetFilterGroup,
+                      initialFilter,
                       size,
                       body,
+                      bodyByFilter,
                       link,
                     }: IWidget,
                     key: number
@@ -236,30 +236,23 @@ export function Dashboard({
                         `widgetSettings.${id}.display`,
                         true
                       )) && (
-                      <Widget key={key} size={size}>
-                        <WidgetTitle
-                          {...{
-                            widgetId: id,
-                            title,
-                            desc,
-                            globalTheme,
-                            widgetActionGroup,
-                            onInteraction,
-                            hideWidget: blockOnly ? null : hideWidget,
-                            t,
-                          }}
-                        />
-                        <WidgetBody
-                          {...{ body, t }}
-                          siteVariables={globalTheme.siteVariables}
-                        />
-                        {link && (
-                          <WidgetFooter
-                            {...{ link, t, rtl, id, onInteraction }}
-                            siteVariables={globalTheme.siteVariables}
-                          />
-                        )}
-                      </Widget>
+                      <Widget
+                        {...{
+                          key,
+                          size,
+                          title,
+                          desc,
+                          id,
+                          widgetActionGroup,
+                          widgetFilterGroup,
+                          initialFilter,
+                          onInteraction,
+                          ...(!blockOnly && { hideWidget }),
+                          body,
+                          bodyByFilter,
+                          link,
+                        }}
+                      />
                     )
                 )}
             </Box>

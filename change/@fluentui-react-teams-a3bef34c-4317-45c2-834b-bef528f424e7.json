@@ -1,6 +1,6 @@
 {
   "type": "prerelease",
-  "comment": "Don’t show widget hiding controls in blockOnly.",
+  "comment": "Implement widget body filtering.",
   "packageName": "@fluentui/react-teams",
   "email": "willshown@microsoft.com",
   "dependentChangeType": "patch"
