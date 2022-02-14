@@ -130,9 +130,10 @@ export const BubbleChart = ({
     }
 
     function removeDataPointsHoverStates() {
-      if (selectedIndex > -1) {
-        meta().controller.removeHoverStyle(
-          meta().data[selectedIndex],
+      const datasetMeta = meta();
+      if (selectedIndex > -1 && datasetMeta.data[selectedIndex]) {
+        datasetMeta.controller.removeHoverStyle(
+          datasetMeta.data[selectedIndex],
           0,
           selectedIndex
         );
@@ -140,11 +141,13 @@ export const BubbleChart = ({
     }
 
     function hoverDataPoint(pointID: number) {
-      meta().controller.setHoverStyle(
-        meta().data[pointID],
-        selectedDataSet,
-        pointID
-      );
+      const datasetMeta = meta();
+      if (datasetMeta.data[pointID])
+        datasetMeta.controller.setHoverStyle(
+          datasetMeta.data[pointID],
+          selectedDataSet,
+          pointID
+        );
     }
 
     function showFocusedDataPoint() {
@@ -166,9 +169,8 @@ export const BubbleChart = ({
     function resetChartStates() {
       removeDataPointsHoverStates();
       const activeElements = chart.tooltip._active;
-      const requestedElem = chart.getDatasetMeta(selectedDataSet).data[
-        selectedIndex
-      ];
+      const requestedElem =
+        chart.getDatasetMeta(selectedDataSet).data[selectedIndex];
       activeElements.find((v: any, i: number) => {
         if (requestedElem._index === v._index) {
           activeElements.splice(i, 1);
@@ -203,14 +205,15 @@ export const BubbleChart = ({
 
     function changeFocus(e: KeyboardEvent) {
       removeDataPointsHoverStates();
+      const datasetMeta = meta();
       switch (e.key) {
         case "ArrowRight":
           e.preventDefault();
-          selectedIndex = (selectedIndex + 1) % meta().data.length;
+          selectedIndex = (selectedIndex + 1) % datasetMeta.data.length;
           break;
         case "ArrowLeft":
           e.preventDefault();
-          selectedIndex = (selectedIndex || meta().data.length) - 1;
+          selectedIndex = (selectedIndex || datasetMeta.data.length) - 1;
           break;
         case "ArrowUp":
         case "ArrowDown":
@@ -221,11 +224,9 @@ export const BubbleChart = ({
               (dataset) => dataset.data[selectedIndex]
             );
             // Sort an array to define next available number
-            const sorted = ([
-              ...Array.from(new Set(values)),
-            ] as IBubbleChartData[]).sort(
-              (a: IBubbleChartData, b: IBubbleChartData) => a.y - b.y
-            );
+            const sorted = (
+              [...Array.from(new Set(values))] as IBubbleChartData[]
+            ).sort((a: IBubbleChartData, b: IBubbleChartData) => a.y - b.y);
             let nextValue =
               sorted[
                 sorted.findIndex((v) => v === values[selectedDataSet]) +
@@ -244,7 +245,7 @@ export const BubbleChart = ({
               );
             }
             selectedDataSet = nextDataSet;
-            selectedIndex = selectedIndex % meta().data.length;
+            selectedIndex = selectedIndex % datasetMeta.data.length;
           }
           break;
       }
@@ -291,8 +292,8 @@ export const BubbleChart = ({
 
   function onLegendClick(datasetIndex: number) {
     if (!chartRef.current) return;
-    chartRef.current.data.datasets![datasetIndex].hidden = !chartRef.current
-      .data.datasets![datasetIndex].hidden;
+    chartRef.current.data.datasets![datasetIndex].hidden =
+      !chartRef.current.data.datasets![datasetIndex].hidden;
     chartRef.current.update();
   }
 

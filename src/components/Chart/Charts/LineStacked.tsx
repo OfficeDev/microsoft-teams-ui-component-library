@@ -158,9 +158,10 @@ export const LineStackedChart = ({
     }
 
     function removeDataPointsHoverStates() {
-      if (selectedIndex > -1) {
-        meta().controller.removeHoverStyle(
-          meta().data[selectedIndex],
+      const datasetMeta = meta();
+      if (selectedIndex > -1 && datasetMeta.data[selectedIndex]) {
+        datasetMeta.controller.removeHoverStyle(
+          datasetMeta.data[selectedIndex],
           0,
           selectedIndex
         );
@@ -168,11 +169,13 @@ export const LineStackedChart = ({
     }
 
     function hoverDataPoint(pointID: number) {
-      meta().controller.setHoverStyle(
-        meta().data[pointID],
-        selectedDataSet,
-        pointID
-      );
+      const datasetMeta = meta();
+      if (datasetMeta.data[pointID])
+        datasetMeta.controller.setHoverStyle(
+          datasetMeta.data[pointID],
+          selectedDataSet,
+          pointID
+        );
     }
 
     function showFocusedDataPoint() {
@@ -194,9 +197,8 @@ export const LineStackedChart = ({
     function resetChartStates() {
       removeDataPointsHoverStates();
       const activeElements = chart.tooltip._active;
-      const requestedElem = chart.getDatasetMeta(selectedDataSet).data[
-        selectedIndex
-      ];
+      const requestedElem =
+        chart.getDatasetMeta(selectedDataSet).data[selectedIndex];
       activeElements.find((v: any, i: number) => {
         if (requestedElem._index === v._index) {
           activeElements.splice(i, 1);
@@ -231,14 +233,15 @@ export const LineStackedChart = ({
 
     function changeFocus(e: KeyboardEvent) {
       removeDataPointsHoverStates();
+      const datasetMeta = meta();
       switch (e.key) {
         case "ArrowRight":
           e.preventDefault();
-          selectedIndex = (selectedIndex + 1) % meta().data.length;
+          selectedIndex = (selectedIndex + 1) % datasetMeta.data.length;
           break;
         case "ArrowLeft":
           e.preventDefault();
-          selectedIndex = (selectedIndex || meta().data.length) - 1;
+          selectedIndex = (selectedIndex || datasetMeta.data.length) - 1;
           break;
         case "ArrowUp":
           e.preventDefault();
@@ -302,8 +305,8 @@ export const LineStackedChart = ({
 
   function onLegendClick(datasetIndex: number) {
     if (!chartRef.current) return;
-    chartRef.current.data.datasets![datasetIndex].hidden = !chartRef.current
-      .data.datasets![datasetIndex].hidden;
+    chartRef.current.data.datasets![datasetIndex].hidden =
+      !chartRef.current.data.datasets![datasetIndex].hidden;
     chartRef.current.update();
   }
 
