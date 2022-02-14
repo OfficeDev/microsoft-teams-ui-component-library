@@ -1,0 +1,7 @@
+{
+  "type": "prerelease",
+  "comment": "Check against falsiness of data point before setting styles.",
+  "packageName": "@fluentui/react-teams",
+  "email": "willshown@microsoft.com",
+  "dependentChangeType": "patch"
+}
