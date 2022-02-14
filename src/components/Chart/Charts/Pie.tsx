@@ -156,9 +156,10 @@ export const PieChart = ({
     }
 
     function removeDataPointsHoverStates() {
-      if (selectedIndex > -1) {
-        meta().controller.removeHoverStyle(
-          meta().data[selectedIndex],
+      const datasetMeta = meta();
+      if (selectedIndex > -1 && datasetMeta.data[selectedIndex]) {
+        datasetMeta.controller.removeHoverStyle(
+          datasetMeta.data[selectedIndex],
           0,
           selectedIndex
         );
@@ -166,11 +167,13 @@ export const PieChart = ({
     }
 
     function hoverDataPoint(pointID: number) {
-      meta().controller.setHoverStyle(
-        meta().data[pointID],
-        selectedDataSet,
-        pointID
-      );
+      const datasetMeta = meta();
+      if (datasetMeta.data[pointID])
+        datasetMeta.controller.setHoverStyle(
+          datasetMeta.data[pointID],
+          selectedDataSet,
+          pointID
+        );
     }
 
     function showFocusedDataPoint() {
@@ -192,9 +195,8 @@ export const PieChart = ({
     function resetChartStates() {
       removeDataPointsHoverStates();
       const activeElements = chart.tooltip._active;
-      const requestedElem = chart.getDatasetMeta(selectedDataSet).data[
-        selectedIndex
-      ];
+      const requestedElem =
+        chart.getDatasetMeta(selectedDataSet).data[selectedIndex];
       activeElements.find((v: any, i: number) => {
         if (requestedElem._index === v._index) {
           activeElements.splice(i, 1);
@@ -229,16 +231,17 @@ export const PieChart = ({
 
     function changeFocus(e: KeyboardEvent) {
       removeDataPointsHoverStates();
+      const datasetMeta = meta();
       switch (e.key) {
         case "ArrowRight":
         case "ArrowUp":
           e.preventDefault();
-          selectedIndex = (selectedIndex + 1) % meta().data.length;
+          selectedIndex = (selectedIndex + 1) % datasetMeta.data.length;
           break;
         case "ArrowLeft":
         case "ArrowDown":
           e.preventDefault();
-          selectedIndex = (selectedIndex || meta().data.length) - 1;
+          selectedIndex = (selectedIndex || datasetMeta.data.length) - 1;
           break;
       }
 

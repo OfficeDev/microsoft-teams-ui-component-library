@@ -221,8 +221,6 @@ export const Widget = ({
   const activeBody =
     (activeFilter && bodyByFilter && bodyByFilter[activeFilter]) || body;
 
-  debugger;
-
   return (
     <Card styles={cardStyle} fluid>
       <FluentUIThemeConsumer
