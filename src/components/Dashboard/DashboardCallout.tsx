@@ -138,7 +138,10 @@ export const DashboardCallout = ({
                   styles={{ visibility: selected ? "visible" : "hidden" }}
                 />
               ),
-              onClick: () => setActiveFilter && setActiveFilter(id),
+              onClick: () => {
+                setActiveFilter && setActiveFilter(id);
+                setOpen(false);
+              },
             };
           })
         : []
@@ -150,13 +153,15 @@ export const DashboardCallout = ({
               content: getText(t.locale, title),
               ...(icon && { icon: <Icon icon={icon} /> }),
               ...(onInteraction && {
-                onClick: () =>
+                onClick: () => {
                   onInteraction({
                     event: "click",
                     target: "action",
                     widget: widgetId,
                     action: id,
-                  }),
+                  });
+                  setOpen(false);
+                },
               }),
             };
           }),
