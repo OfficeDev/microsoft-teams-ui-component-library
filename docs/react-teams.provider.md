@@ -8,5 +8,5 @@
 <b>Signature:</b>
 
 ```typescript
-HVCThemeProvider: ({ children, lang, themeName, translations, }: IThemeProviderProps) => JSX.Element
+HVCThemeProvider: ({ children, lang, themeName, translations, flexHeight, }: IThemeProviderProps) => JSX.Element
 ```

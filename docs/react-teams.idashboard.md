@@ -16,6 +16,7 @@ export interface IDashboard
 
 |  Property | Type | Description |
 |  --- | --- | --- |
+|  [blockOnly?](./react-teams.idashboard.blockonly.md) | boolean | <i>(Optional)</i> Whether the Dashboard should render as just a block element. This will disable the toolbar and sidebar from which the user could control which widgets display. |
 |  [cacheKey?](./react-teams.idashboard.cachekey.md) | [TCacheKey](./react-teams.tcachekey.md) | <i>(Optional)</i> Set this <code>cacheKey</code> to save user’s preferences on their local clients. |
 |  [onInteraction?](./react-teams.idashboard.oninteraction.md) | (interaction: [TDashboardInteraction](./react-teams.tdashboardinteraction.md)<!-- -->) =&gt; void | <i>(Optional)</i> A Dashboard will emit onInteraction payloads when the user updates any preferences. |
 |  [preferences?](./react-teams.idashboard.preferences.md) | IDashboardPreferences | <i>(Optional)</i> Any initial preferences that should be set for this user, in case you save users’ preferences remotely. |

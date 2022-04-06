@@ -141,7 +141,6 @@ export const ToolbarTheme = ({ globalTheme, children }: IToolbarThemeProps) => {
         position: "sticky",
         display: "grid",
         top: 0,
-        marginBottom: "1.25rem",
         boxShadow: globalTheme.siteVariables.colorScheme.elevations[8],
         zIndex: 999,
       }}

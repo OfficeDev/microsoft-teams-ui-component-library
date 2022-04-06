@@ -26,6 +26,7 @@ import {
   dialogBehavior,
   gridNestedBehavior,
   gridCellWithFocusableElementBehavior,
+  gridCellMultipleFocusableBehavior,
   ButtonProps,
 } from "@fluentui/react-northstar";
 
@@ -40,7 +41,7 @@ import {
 
 import { SiteVariablesPrepared } from "@fluentui/styles";
 
-import Icon, { IIconProps } from "../../lib/Icon";
+import Icon from "../../lib/Icon";
 import Avatar, { IAvatarProps } from "../../lib/Avatar";
 
 import { TableTheme } from "./TableTheme";
@@ -58,9 +59,15 @@ import {
   TTextObject,
   TLocale,
   EButtonVariants,
+  TPhrasingContent,
 } from "../..";
 import { TeamsTheme } from "../../themes";
-import { TTranslations, getText } from "../../translations";
+import { TTranslations, getText, getAllText } from "../../translations";
+import Phrasing, {
+  phrasingHasFocusableElements,
+  getPhrasingTextContent,
+  getAllPhrasingTextContent,
+} from "../../lib/Phrasing";
 
 export type columnKey = string;
 export type rowKey = string;
@@ -68,33 +75,9 @@ type sortOrder = [columnKey | "__rowKey__", "asc" | "desc"];
 
 export type TSelected = Set<rowKey>;
 
-export interface IIconOrnament extends IIconProps {
-  type: "icon";
-}
-
-export interface IAvatarOrnament
-  extends Pick<IAvatarProps, "image" | "variant"> {
-  type: "avatar";
-  name: TTextObject;
-}
-
-/**
- * Table cell content ornaments can be avatars or icons.
- */
-export type TContentOrnament = IAvatarOrnament | IIconOrnament;
-
-/**
- * Content for a table cell can specify optional elements to display before and after the cell’s
- * text content.
- */
-export interface ICellContent {
-  before?: TContentOrnament;
-  content: TTextObject;
-  after?: TContentOrnament;
-}
-
 /**
  * Content for a table cell can be a button. When clicked, buttons emit an Interaction event.
+ * @public
  */
 export interface ICellButtonContent
   extends Pick<ButtonProps, "iconPosition" | "disabled" | "iconOnly"> {
@@ -106,9 +89,42 @@ export interface ICellButtonContent
 }
 
 /**
- * The content for a table cell
+ * Content for a table cell can be a name with an avatar. The avatar preceeds the name in the inline
+ * direction and the name labels the avatar.
+ * @public
  */
-export type TCellContent = TTextObject | ICellContent | ICellButtonContent;
+export type TCellAvatarContent =
+  | ICellIconAvatarContent
+  | ICellImageAvatarContent;
+
+/**
+ * Table cells using avatars can specify an icon as the avatar’s visual content.
+ * @public
+ */
+export interface ICellIconAvatarContent
+  extends Pick<IAvatarProps, "icon" | "variant"> {
+  type: "avatar";
+  content: TTextObject;
+}
+
+/**
+ * Table cells using avatars can specify an image as the avatar’s visual content.
+ * @public
+ */
+export interface ICellImageAvatarContent
+  extends Pick<IAvatarProps, "image" | "variant"> {
+  type: "avatar";
+  content: TTextObject;
+}
+
+/**
+ * The content for a table cell
+ * @public
+ */
+export type TCellContent =
+  | TPhrasingContent
+  | ICellButtonContent
+  | TCellAvatarContent;
 
 /**
  * A collection of data to display for a row, keyed by the column ID except for `actions`, which
@@ -128,7 +144,7 @@ export type TTableInteraction = {
   event: "click";
   target: "table";
   subject: rowKey | rowKey[];
-  action: actionKey;
+  action?: actionKey;
 };
 
 /**
@@ -136,6 +152,10 @@ export type TTableInteraction = {
  * @public
  */
 export interface ITableProps extends PropsOfElement<"div"> {
+  /**
+   * The title summary, or label of the table, announced for screen readers but hidden for other users.
+   */
+  label: string;
   /**
    * A collection of columns to display, keyed by column ID.
    */
@@ -151,7 +171,8 @@ export interface ITableProps extends PropsOfElement<"div"> {
   truncate?: boolean;
   /**
    * Whether the user can select rows. In the context of a List component, this supplies any actions
-   * all rows have in common in the Toolbar instance above the Table.
+   * all rows have in common in the Toolbar instance above the Table. If this is false, the Table
+   * will call `onInteraction` any time the user clicks on a row.
    */
   selectable?: boolean;
   /**
@@ -168,8 +189,9 @@ export interface ITableProps extends PropsOfElement<"div"> {
   filterBy?: (row: IRow) => boolean;
   /**
    * An interaction handler for the Table. Interactions are triggered when the user clicks on an
-   * action in a row. If the Table is not rendered on its own, this may be proxied from its parent
-   * component, e.g. the parent List.
+   * action in a row, a button in a table cell, or anywhere in a row if `selectable` is `false`. If
+   * the Table is not rendered on its own, this may be proxied from its parent component, e.g. the
+   * parent List.
    */
   onInteraction?: (interaction: TTableInteraction) => void;
 }
@@ -225,36 +247,24 @@ const defaultSortOrder: sortOrder = ["__rowKey__", "desc"];
 
 const passThrough = (arg: any) => arg;
 
-const CellContentOrnament = ({ type, ...props }: TContentOrnament) => {
-  switch (type) {
-    case "avatar":
-      return (
-        <Avatar
-          {...(props as IAvatarProps)}
-          styles={{ margin: "-0.375rem 0 -0.375rem 0" }}
-        />
-      );
-    case "icon":
-      return <Icon {...(props as IIconProps)} />;
-    default:
-      return null;
-  }
-};
-
 interface ICellContentProps {
   locale: TLocale;
-  rtl: boolean;
   cell: TCellContent;
   onInteraction: ((interaction: TTableInteraction) => void) | undefined;
   rowKey: rowKey;
+  truncate: boolean;
+  textSelectable: boolean;
 }
+
+const cellIconContentStyles = { marginTop: "-.25rem", marginBottom: "-.25rem" };
 
 const CellContent = ({
   locale,
-  rtl,
   cell,
   onInteraction,
+  truncate,
   rowKey,
+  textSelectable,
 }: ICellContentProps) => {
   if (!cell) return null;
   if (get(cell, "type") === "button") {
@@ -266,13 +276,15 @@ const CellContent = ({
       ...(buttonCell.disabled && { disabled: true }),
       ...(buttonCell.iconOnly ? { iconOnly: true } : { content: textContent }),
       ...(onInteraction && {
-        onClick: () =>
+        onClick: (e: SyntheticEvent<HTMLElement>) => {
+          e.stopPropagation();
           onInteraction({
             event: "click",
             target: "table",
             subject: rowKey,
             action: buttonCell.actionId,
-          }),
+          });
+        },
       }),
       ...(buttonCell.icon && { icon: <Icon icon={buttonCell.icon} /> }),
       ...(buttonCell.iconPosition && { iconPosition: buttonCell.iconPosition }),
@@ -302,49 +314,57 @@ const CellContent = ({
     }
     return <Button {...props} />;
   }
-  if (cell.hasOwnProperty("content")) {
-    const ornamentedCell = cell as ICellContent;
+  if (get(cell, "type") === "avatar") {
+    const avatarCell = cell as TCellAvatarContent;
+    const name = getText(locale, avatarCell.content);
+    const image = get(cell, "image");
+    const icon = get(cell, "icon");
     return (
       <Flex vAlign="center">
-        {ornamentedCell.before && (
-          <CellContentOrnament
-            {...ornamentedCell.before}
-            {...(ornamentedCell.before.hasOwnProperty("name") && {
-              name: getText(
-                locale,
-                (ornamentedCell.before as IAvatarOrnament).name
-              ),
-            })}
-          />
-        )}
+        <Avatar
+          {...{ name, variant: avatarCell.variant }}
+          {...(image ? { image } : icon && { icon })}
+          styles={{ margin: "-0.375rem 0 -0.375rem 0" }}
+        />
         <Text
           styles={{
-            marginLeft: ornamentedCell.hasOwnProperty(rtl ? "after" : "before")
-              ? ".5rem"
-              : 0,
-            marginRight: ornamentedCell.hasOwnProperty(rtl ? "before" : "after")
-              ? ".5rem"
-              : 0,
+            marginLeft: ".5rem",
+            ...(textSelectable && { pointerEvents: "all", cursor: "text" }),
           }}
-        >
-          {getText(locale, ornamentedCell.content)}
-        </Text>
-        {ornamentedCell.after && (
-          <CellContentOrnament
-            {...ornamentedCell.after}
-            {...(ornamentedCell.after.hasOwnProperty("name") && {
-              name: getText(
-                locale,
-                (ornamentedCell.after as IAvatarOrnament).name
-              ),
-            })}
-          />
-        )}
+          content={name}
+        />
       </Flex>
     );
   } else {
-    return <Text>{getText(locale, cell as TTextObject)}</Text>;
+    return (
+      <Phrasing
+        {...{
+          content: cell as TPhrasingContent,
+          iconStyles: cellIconContentStyles,
+          truncate,
+          locale,
+          textSelectable,
+        }}
+      />
+    );
   }
+};
+
+export const getAllCellTextContent = (cell: TCellContent): string => {
+  if (!cell) return "";
+  if (Array.isArray(cell))
+    return getAllPhrasingTextContent(cell as TPhrasingContent);
+  else return getAllText(get(cell, "content", cell));
+};
+
+export const getCellTextContent = (
+  locale: TLocale,
+  cell: TCellContent
+): string => {
+  if (!cell) return "";
+  if (Array.isArray(cell))
+    return getPhrasingTextContent(locale, cell as TPhrasingContent);
+  else return getText(locale, get(cell, "content", cell));
 };
 
 /**
@@ -353,6 +373,8 @@ const CellContent = ({
 export const Table = (props: ITableProps) => {
   const rowKeys = Object.keys(props.rows);
   const columnKeys = Object.keys(props.columns);
+  const truncate = !!props.truncate;
+  const selectable = !!props.selectable;
 
   const [sortOrder, setSortOrder] = useState<sortOrder>(defaultSortOrder);
 
@@ -368,11 +390,7 @@ export const Table = (props: ITableProps) => {
       props.rows[rowKey].hasOwnProperty("actions")
     ) >= 0;
 
-  const breakpoints = getBreakpoints(
-    props.columns,
-    hasActions,
-    !!props.selectable
-  );
+  const breakpoints = getBreakpoints(props.columns, hasActions, selectable);
 
   const $tableWrapper = useRef<HTMLDivElement | null>(null);
 
@@ -436,21 +454,6 @@ export const Table = (props: ITableProps) => {
 
   const columnOrder = ["selection", ...columnKeys, "overflow"];
 
-  const rowOrder =
-    sortOrder[0] === defaultSortOrder[0]
-      ? rowKeys
-      : rowKeys.sort((rowKeyA, rowKeyB) => {
-          let rowKeyI = rowKeyA,
-            rowKeyJ = rowKeyB;
-          if (sortOrder[1] === "asc") {
-            rowKeyI = rowKeyB;
-            rowKeyJ = rowKeyA;
-          }
-          return (props.rows[rowKeyI][sortOrder[0]] as string).localeCompare(
-            props.rows[rowKeyJ]![sortOrder[0]] as string
-          );
-        });
-
   const hiddenColumns = new Set(
     columnKeys.filter((columnKey) => !inFlowColumns.has(columnKey))
   );
@@ -475,6 +478,28 @@ export const Table = (props: ITableProps) => {
     <FluentUIThemeConsumer
       render={(globalTheme) => {
         const { t, rtl } = globalTheme.siteVariables;
+
+        const rowOrder =
+          sortOrder[0] === defaultSortOrder[0]
+            ? rowKeys
+            : rowKeys.sort((rowKeyA, rowKeyB) => {
+                let rowKeyI = rowKeyA,
+                  rowKeyJ = rowKeyB;
+                if (sortOrder[1] === "asc") {
+                  rowKeyI = rowKeyB;
+                  rowKeyJ = rowKeyA;
+                }
+                return getCellTextContent(
+                  t.locale,
+                  props.rows[rowKeyI][sortOrder[0]] as TCellContent
+                ).localeCompare(
+                  getCellTextContent(
+                    t.locale,
+                    props.rows[rowKeyJ][sortOrder[0]] as TCellContent
+                  )
+                );
+              });
+
         return (
           <TableTheme globalTheme={globalTheme}>
             <div
@@ -482,12 +507,13 @@ export const Table = (props: ITableProps) => {
               style={{ width: "100%", overflowX: "auto" }}
             >
               <FluentUITable
+                aria-label={props.label}
                 header={{
                   key: "header",
                   compact: true,
                   variables: { compactRow: true },
                   styles: {
-                    ...rowWidthStyles(!!props.truncate, false),
+                    ...rowWidthStyles(truncate, false),
                     backgroundColor:
                       globalTheme.siteVariables.colorScheme.default.background2,
                   },
@@ -507,7 +533,8 @@ export const Table = (props: ITableProps) => {
                           case "selection":
                             acc.push({
                               key: "header__selection",
-                              accessibility: gridCellWithFocusableElementBehavior,
+                              accessibility:
+                                gridCellWithFocusableElementBehavior,
                               content: (
                                 <Checkbox
                                   aria-label="Select all"
@@ -540,9 +567,8 @@ export const Table = (props: ITableProps) => {
                                 <Icon icon={column.icon} />
                                 <Text
                                   style={{
-                                    [rtl
-                                      ? "marginRight"
-                                      : "marginLeft"]: ".5rem",
+                                    [rtl ? "marginRight" : "marginLeft"]:
+                                      ".5rem",
                                   }}
                                 >
                                   {getText(t.locale, column.title)}
@@ -634,14 +660,12 @@ export const Table = (props: ITableProps) => {
                               ) : (
                                 columnTitle
                               ),
-                              styles: columnWidthStyles(
-                                columnKey,
-                                !!props.truncate
-                              ),
+                              styles: columnWidthStyles(columnKey, truncate),
                               variables: { flush: !!column.sortable },
                               ...(column.sortable
                                 ? {
-                                    accessibility: gridCellWithFocusableElementBehavior,
+                                    accessibility:
+                                      gridCellWithFocusableElementBehavior,
                                     ...ariaSort({ sortOrder, columnKey }),
                                   }
                                 : {}),
@@ -656,17 +680,13 @@ export const Table = (props: ITableProps) => {
                 rows={rowOrder.reduce(
                   (acc: ShorthandCollection<TableRowProps>, rowKey: rowKey) => {
                     const row = props.rows[rowKey];
-                    const rowActionKeys = (hiddenColumns.size
-                      ? ["__details__"]
-                      : []
+                    const rowActionKeys = (
+                      hiddenColumns.size ? ["__details__"] : []
                     ).concat(row.actions ? Object.keys(row.actions!) : []);
                     if (includeRow(row))
                       acc.push({
                         key: rowKey,
-                        styles: rowWidthStyles(
-                          !!props.truncate,
-                          !!props.selectable
-                        ),
+                        styles: rowWidthStyles(truncate, selectable),
                         variables: ({
                           colorScheme,
                           theme,
@@ -682,15 +702,17 @@ export const Table = (props: ITableProps) => {
                                 backgroundColor:
                                   colorScheme.default.background2,
                               },
-                        onClickCapture: (e: SyntheticEvent<HTMLElement>) => {
+                        onClick: (e: SyntheticEvent<HTMLElement>) => {
                           if (props.selectable) {
-                            const aaClass = (e.target as HTMLElement).getAttribute(
-                              "data-aa-class"
-                            );
-                            if (aaClass && aaClass.startsWith("Table")) {
-                              e.stopPropagation();
-                              setRowSelected(!selected.has(rowKey), rowKey);
-                            }
+                            e.stopPropagation();
+                            setRowSelected(!selected.has(rowKey), rowKey);
+                          } else if (props.onInteraction) {
+                            e.stopPropagation();
+                            props.onInteraction({
+                              event: "click",
+                              target: "table",
+                              subject: rowKey,
+                            });
                           }
                         },
                         items: columnOrder.reduce(
@@ -711,6 +733,9 @@ export const Table = (props: ITableProps) => {
                                             text
                                             aria-label="More actions"
                                             styles={{ color: "currentColor" }}
+                                            onClick={(
+                                              e: SyntheticEvent<HTMLElement>
+                                            ) => e.stopPropagation()}
                                           />
                                         }
                                         content={
@@ -726,15 +751,20 @@ export const Table = (props: ITableProps) => {
                                                           outline
                                                         />
                                                       ),
-                                                      content: "Details",
+                                                      content: t["details"],
                                                       ...(props.onInteraction && {
-                                                        onClick: () =>
+                                                        onClick: (
+                                                          e: SyntheticEvent<HTMLElement>
+                                                        ) => {
+                                                          e.stopPropagation();
                                                           props.onInteraction!({
                                                             event: "click",
                                                             target: "table",
                                                             subject: rowKey,
-                                                            action: rowActionKey,
-                                                          }),
+                                                            action:
+                                                              rowActionKey,
+                                                          });
+                                                        },
                                                       }),
                                                     };
                                                   default:
@@ -749,17 +779,23 @@ export const Table = (props: ITableProps) => {
                                                           }
                                                         />
                                                       ),
-                                                      content: row.actions![
-                                                        rowActionKey
-                                                      ].title,
+                                                      content:
+                                                        row.actions![
+                                                          rowActionKey
+                                                        ].title,
                                                       ...(props.onInteraction && {
-                                                        onClick: () =>
+                                                        onClick: (
+                                                          e: SyntheticEvent<HTMLElement>
+                                                        ) => {
+                                                          e.stopPropagation();
                                                           props.onInteraction!({
                                                             event: "click",
                                                             target: "table",
                                                             subject: rowKey,
-                                                            action: rowActionKey,
-                                                          }),
+                                                            action:
+                                                              rowActionKey,
+                                                          });
+                                                        },
                                                       }),
                                                     };
                                                 }
@@ -777,7 +813,8 @@ export const Table = (props: ITableProps) => {
                                       ""
                                     ),
                                     styles: accessoryStyles,
-                                    accessibility: gridCellWithFocusableElementBehavior,
+                                    accessibility:
+                                      gridCellWithFocusableElementBehavior,
                                   });
                                   break;
                                 case "selection":
@@ -799,7 +836,8 @@ export const Table = (props: ITableProps) => {
                                         }}
                                       />
                                     ),
-                                    accessibility: gridCellWithFocusableElementBehavior,
+                                    accessibility:
+                                      gridCellWithFocusableElementBehavior,
                                     styles: accessoryStyles,
                                   });
                                   break;
@@ -810,22 +848,39 @@ export const Table = (props: ITableProps) => {
                                     content: (
                                       <CellContent
                                         locale={t.locale}
-                                        rtl={t.rtl}
                                         cell={cell as TCellContent}
                                         {...{
                                           rowKey,
+                                          truncate,
                                           onInteraction: props.onInteraction,
+                                          textSelectable: get(
+                                            props,
+                                            [
+                                              "columns",
+                                              columnKey,
+                                              "textSelectable",
+                                            ],
+                                            false
+                                          ),
                                         }}
                                       />
                                     ),
-                                    truncateContent: !!props.truncate,
                                     styles: columnWidthStyles(
                                       columnKey,
-                                      !!props.truncate
+                                      truncate
                                     ),
-                                    ...(get(cell, "type") === "button" && {
-                                      accessibility: gridCellWithFocusableElementBehavior,
-                                    }),
+                                    ...(get(cell, "type") === "button" ||
+                                    (Array.isArray(cell) &&
+                                      phrasingHasFocusableElements(cell))
+                                      ? {
+                                          accessibility:
+                                            get(cell, "type") === "button"
+                                              ? gridCellWithFocusableElementBehavior
+                                              : gridCellMultipleFocusableBehavior,
+                                        }
+                                      : {
+                                          variables: { pointerEvents: "none" },
+                                        }),
                                   });
                                   break;
                               }
@@ -844,14 +899,8 @@ export const Table = (props: ITableProps) => {
                     compactRowHeight: "2.5rem",
                     defaultRowMinHeight: "3rem",
                     defaultRowVerticalPadding: ".8125rem",
-                    ...(props.truncate
-                      ? {
-                          defaultRowHeight: "3rem",
-                        }
-                      : {
-                          defaultRowHeight: "auto",
-                          cellVerticalAlignment: "flex-start",
-                        }),
+                    defaultRowHeight: "auto",
+                    cellVerticalAlignment: "flex-start",
                     // colors
                     backgroundColor:
                       theme === TeamsTheme.HighContrast

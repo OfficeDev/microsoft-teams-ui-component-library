@@ -3,21 +3,24 @@ import {
   TeamsThemeStylesProps,
 } from "@fluentui/react-northstar";
 
+const avatarContentStyles = {
+  borderColor: "var(--surface-background-color, transparent)",
+  borderRadius: "var(--avatar__border-radius, 9999px)",
+  clipPath: "var(--avatar__clip-path, none)",
+};
+
 export const avatarStyles: ComponentSlotStylesPrepared<
   NonNullable<Partial<TeamsThemeStylesProps["Avatar"]>>,
   any
 > = {
   image: () => {
-    return {
-      borderColor: "var(--surface-background-color, transparent)",
-      borderRadius: "var(--avatar__border-radius, 9999px)",
-      clipPath: "var(--avatar__clip-path, none)",
-    };
+    return avatarContentStyles;
   },
   label: () => {
-    return {
-      borderColor: "var(--surface-background-color, transparent)",
-    };
+    return avatarContentStyles;
+  },
+  icon: () => {
+    return avatarContentStyles;
   },
   root: () => {
     return {

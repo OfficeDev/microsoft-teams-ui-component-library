@@ -2,6 +2,21 @@
   "name": "@fluentui/react-teams",
   "entries": [
     {
+      "date": "Fri, 29 Oct 2021 22:02:34 GMT",
+      "tag": "@fluentui/react-teams_v6.0.0",
+      "version": "6.0.0",
+      "comments": {
+        "minor": [
+          {
+            "comment": "Updating lodash version due to security flaws in older version (#100)",
+            "author": "willshown@microsoft.com",
+            "commit": "b084661467f004f7eeaa5422a2ae416be501845f",
+            "package": "@fluentui/react-teams"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 03 Jun 2021 06:51:54 GMT",
       "tag": "@fluentui/react-teams_v5.3.0",
       "version": "5.3.0",

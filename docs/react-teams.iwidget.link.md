@@ -9,5 +9,5 @@ A link to render at the end of the widget’s content.
 <b>Signature:</b>
 
 ```typescript
-link?: IWidgetLink;
+link?: IWidgetLink | IWidgetButton;
 ```
