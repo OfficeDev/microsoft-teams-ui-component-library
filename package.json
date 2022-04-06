@@ -90,7 +90,8 @@
     "webpack": "~4.43.0"
   },
   "resolutions": {
-    "lodash": "4.17.21"
+    "lodash": "4.17.21",
+    "moment": "2.29.2"
   },
   "files": [
     "lib"
