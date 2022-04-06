@@ -1,5 +1,4 @@
 import { radios, select } from "@storybook/addon-knobs";
-import { StoryFn } from "@storybook/addons";
 import React, { ReactNode } from "react";
 import { HVCThemeProvider } from "./withTheme";
 import { TeamsTheme } from "../themes";
@@ -105,6 +104,8 @@ export const StorybookThemeProvider = ({
   );
 };
 
-export const withStorybookTheme = (storyFn: StoryFn<any>) => (
-  <StorybookThemeProvider>{storyFn()}</StorybookThemeProvider>
+export const withStorybookTheme = (Story: React.FC) => (
+  <StorybookThemeProvider>
+    <Story />
+  </StorybookThemeProvider>
 );
