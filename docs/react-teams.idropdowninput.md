@@ -18,6 +18,6 @@ export interface IDropdownInput extends IEnumerableSingletonInputBase
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [multiple?](./react-teams.idropdowninput.multiple.md) | false | <i>(Optional)</i> |
-|  [type](./react-teams.idropdowninput.type.md) | [EInlineInputType.dropdown](./react-teams.einlineinputtype.dropdown.md) \| [EInputBlockType.dropdown](./react-teams.einputblocktype.dropdown.md) |  |
+|  [type](./react-teams.idropdowninput.type.md) | [EInlineInputType.dropdown](./react-teams.einlineinputtype.md) \| [EInputBlockType.dropdown](./react-teams.einputblocktype.md) |  |
 |  [width?](./react-teams.idropdowninput.width.md) | [EInputWidth](./react-teams.einputwidth.md) | <i>(Optional)</i> |
 
