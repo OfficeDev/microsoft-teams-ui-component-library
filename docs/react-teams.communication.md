@@ -4,6 +4,7 @@
 
 ## Communication() function
 
+Refer to the pull request comments for more examples : (https://github.com/OfficeDev/microsoft-teams-ui-component-library/pull/13#issue-718489008)
 
 <b>Signature:</b>
 
