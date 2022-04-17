@@ -4,7 +4,6 @@ import {
   ProviderConsumer as FluentUIThemeConsumer,
   Loader,
 } from "@fluentui/react-northstar";
-import { ChartTheme } from "./ChartTheme";
 import { IChartData, EChartTypes } from "./ChartTypes";
 import {
   BarChart,
@@ -80,23 +79,21 @@ export function Chart({ title, type, data }: IChartProps) {
       render={(globalTheme) => {
         const { t } = globalTheme.siteVariables;
         return (
-          <ChartTheme globalTheme={globalTheme}>
-            <React.Suspense fallback={<Loader />}>
-              {data ? (
-                data?.datasets.length || data?.labels?.length ? (
-                  <ChartContainer
-                    title={getText(t.locale, title)}
-                    data={data}
-                    siteVariables={globalTheme.siteVariables}
-                  />
-                ) : (
-                  <ChartEmptyState siteVariables={globalTheme.siteVariables} />
-                )
+          <React.Suspense fallback={<Loader />}>
+            {data ? (
+              data?.datasets.length || data?.labels?.length ? (
+                <ChartContainer
+                  title={getText(t.locale, title)}
+                  data={data}
+                  siteVariables={globalTheme.siteVariables}
+                />
               ) : (
-                <ChartErrorState siteVariables={globalTheme.siteVariables} />
-              )}
-            </React.Suspense>
-          </ChartTheme>
+                <ChartEmptyState siteVariables={globalTheme.siteVariables} />
+              )
+            ) : (
+              <ChartErrorState siteVariables={globalTheme.siteVariables} />
+            )}
+          </React.Suspense>
         );
       }}
     />
