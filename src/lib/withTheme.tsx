@@ -345,7 +345,6 @@ export const HVCThemeProvider = ({
           html, body, #root, #root > .ui-provider { 
             width: 100%;
             height: 100%;
-            min-height: 100%; 
           }
           ::-webkit-scrollbar { width: .75rem } 
           ::-webkit-scrollbar-track {
