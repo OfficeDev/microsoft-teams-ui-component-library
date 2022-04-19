@@ -23,13 +23,10 @@ import {
   MenuItem,
   ProviderConsumer as FluentUIThemeConsumer,
   SiteVariablesPrepared,
-} from "@fluentui/react-northstar";
-
-import {
   AddIcon,
   EditIcon,
   TrashCanIcon,
-} from "@fluentui/react-icons-northstar";
+} from "@fluentui/react-northstar";
 
 import { getCode, keyboardKey } from "@fluentui/keyboard-key";
 

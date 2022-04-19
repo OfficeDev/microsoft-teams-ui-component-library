@@ -27,12 +27,10 @@ import {
   Text,
   TextArea,
   AccessibilityDefinition,
-} from "@fluentui/react-northstar";
-import { ICSSInJSStyle } from "@fluentui/styles";
-import {
   ExclamationCircleIcon,
   ExclamationTriangleIcon,
-} from "@fluentui/react-icons-northstar";
+} from "@fluentui/react-northstar";
+import { ICSSInJSStyle } from "@fluentui/styles";
 
 import { getText, TTextObject, TTranslations } from "../../translations";
 import { IFormProps, IFormState, TFormErrors } from "./Form";

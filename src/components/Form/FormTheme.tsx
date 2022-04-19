@@ -5,12 +5,7 @@ import {
   Provider as FluentUIThemeProvider,
 } from "@fluentui/react-northstar";
 
-import {
-  ICSSInJSStyle,
-  SiteVariablesPrepared,
-  ThemeInput,
-  ThemePrepared,
-} from "@fluentui/styles";
+import { ICSSInJSStyle, ThemeInput, ThemePrepared } from "@fluentui/styles";
 
 import { teamsNextVariableAssignments, themes } from "../../lib/withTheme";
 
@@ -58,7 +53,7 @@ const getLocalTheme = (
         }),
       },
       FormLabel: {
-        root: ({ theme }: SiteVariablesPrepared) => ({
+        root: ({ theme }: { theme: ThemePrepared }) => ({
           color: theme.siteVariables.colorScheme.default.foreground1,
           fontSize: ".75rem",
         }),
@@ -67,7 +62,7 @@ const getLocalTheme = (
         input: () => ({ backgroundColor: "var(--input-background)" }),
       },
       InputLabel: {
-        root: ({ theme }: SiteVariablesPrepared) => ({
+        root: ({ theme }: { theme: ThemePrepared }) => ({
           color: theme.siteVariables.colorScheme.default.foreground1,
           fontSize: ".75rem",
         }),
@@ -128,8 +123,7 @@ export const FormTheme = ({
   return (
     <FluentUIThemeProvider
       theme={mergeThemes(
-        mainTheme,
-        teamsNextVariableAssignments,
+        mergeThemes(mainTheme, teamsNextVariableAssignments),
         getLocalTheme(globalTheme.siteVariables.theme, surface)
       )}
       styles={{ ...cssProperties, ...styles }}

@@ -14,14 +14,11 @@ import {
   SiteVariablesPrepared,
   Text,
   gridRowNestedBehavior,
-} from "@fluentui/react-northstar";
-
-import {
   ArrowLeftIcon,
   ArrowRightIcon,
   MoreIcon,
   TrashCanIcon,
-} from "@fluentui/react-icons-northstar";
+} from "@fluentui/react-northstar";
 
 import { ICSSInJSStyle } from "@fluentui/styles";
 

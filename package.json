@@ -30,13 +30,13 @@
     "react-perfect-scrollbar": "^1.5.8"
   },
   "peerDependencies": {
-    "@fluentui/react-northstar": "^0.56.0",
+    "@fluentui/react-northstar": "^0.62.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
-    "@fluentui/react-northstar": "^0.56.0",
+    "@fluentui/react-northstar": "^0.62.0",
     "@microsoft/api-documenter": "^7.12.7",
     "@microsoft/api-extractor": "7.19.4",
     "@storybook/addon-a11y": "^6.3.12",

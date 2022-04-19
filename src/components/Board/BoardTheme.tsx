@@ -122,8 +122,7 @@ export const BoardTheme = ({
   return (
     <FluentUIThemeProvider
       theme={mergeThemes(
-        mainTheme,
-        teamsNextVariableAssignments,
+        mergeThemes(mainTheme, teamsNextVariableAssignments),
         getLocalTheme(globalTheme.siteVariables.theme)
       )}
       style={style}
