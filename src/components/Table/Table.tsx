@@ -370,14 +370,13 @@ export const getCellTextContent = (
 export const Table = (props: ITableProps) => {
   const rowKeys = Object.keys(props.rows);
   const columnKeys = Object.keys(props.columns);
+  const { onSelectedChange } = props;
   const truncate = !!props.truncate;
   const selectable = !!props.selectable;
 
   const [sortOrder, setSortOrder] = useState<sortOrder>(defaultSortOrder);
 
   const [selected, setSelected] = useState<TSelected>(new Set());
-  const propagateSetSelected = (selected: TSelected) =>
-    setSelected((props.onSelectedChange || passThrough)(selected));
 
   const selectedIndeterminate =
     selected.size > 0 && selected.size < rowKeys.length;
@@ -456,11 +455,14 @@ export const Table = (props: ITableProps) => {
   );
 
   const setRowSelected = (rowSelected: boolean, rowKey: rowKey) => {
-    if (rowSelected) propagateSetSelected(new Set(selected.add(rowKey)));
-    else {
-      selected.delete(rowKey);
-      propagateSetSelected(new Set(selected));
+    const nextSelected = new Set(Array.from(selected));
+    if (rowSelected) {
+      nextSelected.add(rowKey);
+    } else {
+      nextSelected.delete(rowKey);
     }
+    setSelected(nextSelected);
+    props.onSelectedChange && props.onSelectedChange(nextSelected);
   };
 
   const includeRow = (row: IRow) =>
@@ -541,11 +543,21 @@ export const Table = (props: ITableProps) => {
                                     indeterminate: selectedIndeterminate,
                                   }}
                                   onChange={(_e, props) => {
-                                    if (props?.checked)
-                                      propagateSetSelected(new Set(rowKeys));
-                                    else if (selectedIndeterminate)
-                                      propagateSetSelected(new Set(rowKeys));
-                                    else propagateSetSelected(new Set());
+                                    if (
+                                      props?.checked ||
+                                      selectedIndeterminate
+                                    ) {
+                                      const nextSelected = new Set(rowKeys);
+                                      setSelected(nextSelected);
+                                      onSelectedChange &&
+                                        onSelectedChange(nextSelected);
+                                    } else {
+                                      const nextSelected =
+                                        new Set() as TSelected;
+                                      setSelected(nextSelected);
+                                      onSelectedChange &&
+                                        onSelectedChange(nextSelected);
+                                    }
                                   }}
                                   styles={{
                                     gridTemplateColumns: "1fr",

@@ -21,7 +21,6 @@
   },
   "dependencies": {
     "@fluentui/keyboard-key": "^0.2.16",
-    "@fluentui/react-icons-northstar": "^0.56.0",
     "chart.js": "^2.9.4",
     "classnames": "2.x",
     "immer": "^9.0.1",
