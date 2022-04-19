@@ -124,7 +124,7 @@ For more information see the [Code of Conduct FAQ](https://opensource.microsoft.
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
 
-[sb]: https://dev-int.teams.microsoft.com/storybook/main/index.html
+[sb]: https://dev.teams.microsoft.com/storybook/main/index.html
 [npm]: https://www.npmjs.com/package/@fluentui/react-teams
 [as]: https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/tab-ui-templates/ts
 [fc]: https://www.figma.com/community/file/916836509871353159/Microsoft-Teams-UI-Kit
