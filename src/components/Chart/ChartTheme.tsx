@@ -34,7 +34,7 @@ const getLocalTheme = () => {
 export const ChartTheme = ({ globalTheme, children }: IChartThemeProps) => {
   const theme = mergeThemes(globalTheme, getLocalTheme());
   return (
-    <FluentUIThemeProvider theme={theme} styles={{ height: "100%" }}>
+    <FluentUIThemeProvider theme={theme} style={{ height: "100%" }}>
       {children}
     </FluentUIThemeProvider>
   );
