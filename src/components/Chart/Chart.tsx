@@ -1,9 +1,6 @@
 import React from "react";
 import ChartJS from "chart.js";
-import {
-  ProviderConsumer as FluentUIThemeConsumer,
-  Loader,
-} from "@fluentui/react-northstar";
+import { ProviderConsumer as FluentUIThemeConsumer } from "@fluentui/react-northstar";
 import { ChartTheme } from "./ChartTheme";
 import { IChartData, EChartTypes } from "./ChartTypes";
 import {
@@ -81,21 +78,19 @@ export function Chart({ title, type, data }: IChartProps) {
         const { t } = globalTheme.siteVariables;
         return (
           <ChartTheme globalTheme={globalTheme}>
-            <React.Suspense fallback={<Loader />}>
-              {data ? (
-                data?.datasets.length || data?.labels?.length ? (
-                  <ChartContainer
-                    title={getText(t.locale, title)}
-                    data={data}
-                    siteVariables={globalTheme.siteVariables}
-                  />
-                ) : (
-                  <ChartEmptyState siteVariables={globalTheme.siteVariables} />
-                )
+            {data ? (
+              data?.datasets.length || data?.labels?.length ? (
+                <ChartContainer
+                  title={getText(t.locale, title)}
+                  data={data}
+                  siteVariables={globalTheme.siteVariables}
+                />
               ) : (
-                <ChartErrorState siteVariables={globalTheme.siteVariables} />
-              )}
-            </React.Suspense>
+                <ChartEmptyState siteVariables={globalTheme.siteVariables} />
+              )
+            ) : (
+              <ChartErrorState siteVariables={globalTheme.siteVariables} />
+            )}
           </ChartTheme>
         );
       }}
