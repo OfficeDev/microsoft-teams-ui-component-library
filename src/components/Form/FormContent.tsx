@@ -27,12 +27,10 @@ import {
   Text,
   TextArea,
   AccessibilityDefinition,
-} from "@fluentui/react-northstar";
-import { ICSSInJSStyle } from "@fluentui/styles";
-import {
   ExclamationCircleIcon,
   ExclamationTriangleIcon,
-} from "@fluentui/react-icons-northstar";
+} from "@fluentui/react-northstar";
+import { ICSSInJSStyle } from "@fluentui/styles";
 
 import { getText, TTextObject, TTranslations } from "../../translations";
 import { IFormProps, IFormState, TFormErrors } from "./Form";
@@ -387,13 +385,10 @@ const DropdownBlock = (
         setFormState(
           produce(formState, (draft) => {
             if (props.multiple) {
-              const values = (get(
-                props,
-                "value",
-                []
-              ) as DropdownItemProps[]).map(
-                (selectedItemProps: DropdownItemProps) =>
-                  get(selectedItemProps, "data-value")
+              const values = (
+                get(props, "value", []) as DropdownItemProps[]
+              ).map((selectedItemProps: DropdownItemProps) =>
+                get(selectedItemProps, "data-value")
               );
               values.length ? (draft[inputId] = values) : delete draft[inputId];
             } else {
@@ -534,11 +529,13 @@ const InlineInputsBlock = ({
                               setFormState(
                                 produce(formState, (draft) => {
                                   if (props.multiple) {
-                                    const values = (get(
-                                      props,
-                                      "value",
-                                      []
-                                    ) as DropdownItemProps[]).map(
+                                    const values = (
+                                      get(
+                                        props,
+                                        "value",
+                                        []
+                                      ) as DropdownItemProps[]
+                                    ).map(
                                       (selectedItemProps: DropdownItemProps) =>
                                         get(selectedItemProps, "data-value")
                                     );
@@ -858,16 +855,17 @@ export const setInitialValue = (
 ) => {
   if (
     field.hasOwnProperty("initialValue") &&
-    (field as
-      | ITextField
-      | IMultilineTextInput
-      | IDropdownInput
-      | IRadioButtonsInput).initialValue
+    (
+      field as
+        | ITextField
+        | IMultilineTextInput
+        | IDropdownInput
+        | IRadioButtonsInput
+    ).initialValue
   )
-    acc[field.inputId] = (field as
-      | ITextField
-      | IDropdownInput
-      | IRadioButtonsInput).initialValue!;
+    acc[field.inputId] = (
+      field as ITextField | IDropdownInput | IRadioButtonsInput
+    ).initialValue!;
   else if (field.hasOwnProperty("initialValues"))
     acc[field.inputId] =
       (field as IDropdownMultipleInput | ICheckboxesInput).initialValues || [];

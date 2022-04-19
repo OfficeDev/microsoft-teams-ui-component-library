@@ -23,13 +23,10 @@ import {
   MenuItem,
   ProviderConsumer as FluentUIThemeConsumer,
   SiteVariablesPrepared,
-} from "@fluentui/react-northstar";
-
-import {
   AddIcon,
   EditIcon,
   TrashCanIcon,
-} from "@fluentui/react-icons-northstar";
+} from "@fluentui/react-northstar";
 
 import { getCode, keyboardKey } from "@fluentui/keyboard-key";
 
@@ -237,9 +234,8 @@ const BoardStandalone = (props: IBoardStandaloneProps) => {
     rtl,
   } = props;
 
-  const [placeholderPosition, setPlaceholderPosition] = useState<
-    TPlaceholderPosition
-  >(null);
+  const [placeholderPosition, setPlaceholderPosition] =
+    useState<TPlaceholderPosition>(null);
 
   const onDragStart = (event: DragStart, provided: ResponderProvided) => {
     const laneKey = event.source.droppableId;

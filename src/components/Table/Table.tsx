@@ -28,16 +28,13 @@ import {
   gridCellWithFocusableElementBehavior,
   gridCellMultipleFocusableBehavior,
   ButtonProps,
-} from "@fluentui/react-northstar";
-
-import {
   ArrowDownIcon,
   ArrowUpIcon,
   AcceptIcon,
   ChevronDownIcon,
   MoreIcon,
   OpenOutsideIcon,
-} from "@fluentui/react-icons-northstar";
+} from "@fluentui/react-northstar";
 
 import { SiteVariablesPrepared } from "@fluentui/styles";
 
