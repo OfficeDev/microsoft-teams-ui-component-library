@@ -7,8 +7,8 @@ import {
   List,
   ProviderConsumer as FluentUIThemeConsumer,
   SiteVariablesPrepared,
+  AcceptIcon,
 } from "@fluentui/react-northstar";
-import { AcceptIcon } from "@fluentui/react-icons-northstar";
 
 import {
   IFormWizardStepProps,

@@ -5,8 +5,8 @@ import {
   Input,
   Tooltip,
   tooltipAsLabelBehavior,
+  SearchIcon,
 } from "@fluentui/react-northstar";
-import { SearchIcon } from "@fluentui/react-icons-northstar";
 
 import { TToolbarLayout } from "./Toolbar";
 import { TTranslations } from "../../translations";
