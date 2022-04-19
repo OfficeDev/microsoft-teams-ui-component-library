@@ -47,7 +47,7 @@ export interface IChartDataSet {
 
 /**
  * Each chart type can be previewed in the [Data visualizations page of the Microsoft Teams UI Kit](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A4091),
- * or in [this library’s Storybook](https://dev-int.teams.microsoft.com/storybook/main/index.html?path=/story/components-charts--line-chart).
+ * or in [this library’s Storybook](https://dev.teams.microsoft.com/storybook/main/index.html?path=/story/components-charts--line-chart).
  * @public
  */
 export enum EChartTypes {

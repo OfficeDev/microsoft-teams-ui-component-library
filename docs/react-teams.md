@@ -11,7 +11,7 @@
 |  [CommunicationOptions](./react-teams.communicationoptions.md) | The illustration, text, and actions (if any) to use by default as the content of this component. |
 |  [EAvatarVariant](./react-teams.eavatarvariant.md) | The stylistic variants available to the avatars used by these components. |
 |  [EButtonVariants](./react-teams.ebuttonvariants.md) | The stylistic variants available to the buttons used by these components. |
-|  [EChartTypes](./react-teams.echarttypes.md) | Each chart type can be previewed in the \[Data visualizations page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A4091), or in \[this library’s Storybook\](https://dev-int.teams.microsoft.com/storybook/main/index.html?path=/story/components-charts--line-chart). |
+|  [EChartTypes](./react-teams.echarttypes.md) | Each chart type can be previewed in the \[Data visualizations page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A4091), or in \[this library’s Storybook\](https://dev.teams.microsoft.com/storybook/main/index.html?path=/story/components-charts--line-chart). |
 |  [EInlineInputType](./react-teams.einlineinputtype.md) | The types of inline inputs. |
 |  [EInputBlockType](./react-teams.einputblocktype.md) | The types of input blocks. |
 |  [EInputWidth](./react-teams.einputwidth.md) | An inline input’s width. |
