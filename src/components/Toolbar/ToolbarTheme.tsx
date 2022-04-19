@@ -130,8 +130,7 @@ export const ToolbarTheme = ({ globalTheme, children }: IToolbarThemeProps) => {
     ? globalTheme
     : themes.teamsTheme;
   const theme = mergeThemes(
-    mainTheme,
-    teamsNextVariableAssignments,
+    mergeThemes(mainTheme, teamsNextVariableAssignments),
     getLocalTheme(globalTheme.siteVariables.theme)
   );
   return (

@@ -6,6 +6,7 @@ import {
   Button,
   Tooltip,
   tooltipAsLabelBehavior,
+  ComponentSlotStyle,
 } from "@fluentui/react-northstar";
 import { getText, TLocale, TTextObject } from "../translations";
 
@@ -58,7 +59,13 @@ export const FocusableIcon = ({
       trigger={
         <Button
           text
-          styles={{ ...styles, padding: "0.0625rem", height: "auto" }}
+          styles={
+            {
+              ...styles,
+              padding: "0.0625rem",
+              height: "auto",
+            } as ComponentSlotStyle
+          }
         >
           <Icon {...iconProps} />
         </Button>

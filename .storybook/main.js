@@ -10,9 +10,9 @@ module.exports = {
     // so the Docs tab is just a blank page.
     // Keeping the plugin here because we probably should have docs...
     // "@storybook/addon-docs",
-    "@storybook/addon-viewport/register",
-    "@storybook/addon-a11y/register",
-    "@storybook/addon-knobs/register",
+    "@storybook/addon-viewport",
+    "@storybook/addon-a11y",
+    "@storybook/addon-knobs",
     "@storybook/theming",
     "storybook-addon-designs",
   ],

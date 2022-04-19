@@ -87,8 +87,7 @@ export const TableTheme = ({ globalTheme, children }: ITableThemeProps) => {
   return (
     <FluentUIThemeProvider
       theme={mergeThemes(
-        mainTheme,
-        teamsNextVariableAssignments,
+        mergeThemes(mainTheme, teamsNextVariableAssignments),
         getLocalTheme(globalTheme.siteVariables.theme)
       )}
     >

@@ -151,18 +151,15 @@ export const teamsNextVariableAssignments = {
 
 export const themes: { [themeKey: string]: ThemeInput<any> } = {
   [TeamsTheme.Default]: mergeThemes(
-    teamsTheme,
-    teamsNextVariableAssignments,
+    mergeThemes(teamsTheme, teamsNextVariableAssignments),
     defaultV2ThemeOverrides
   ),
   [TeamsTheme.Dark]: mergeThemes(
-    teamsDarkTheme,
-    teamsNextVariableAssignments,
+    mergeThemes(teamsDarkTheme, teamsNextVariableAssignments),
     darkV2ThemeOverrides
   ),
   [TeamsTheme.HighContrast]: mergeThemes(
-    teamsHighContrastTheme,
-    teamsNextVariableAssignments,
+    mergeThemes(teamsHighContrastTheme, teamsNextVariableAssignments),
     highContrastThemeOverrides
   ),
 };
