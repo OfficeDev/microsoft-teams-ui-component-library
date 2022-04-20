@@ -1,5 +1,5 @@
 # Build project and storybook
-# Deploy Storybook to dev-int.teams.microsoft.com/branch/x
+# Deploy Storybook to dev.teams.microsoft.com/branch/x
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
 pool:

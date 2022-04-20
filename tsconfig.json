@@ -10,7 +10,8 @@
     "declaration": true,
     "declarationMap": true,
     "outDir": "lib",
-    "sourceMap": true
+    "sourceMap": true,
+    "skipLibCheck": true
   },
   "include": ["src"]
 }

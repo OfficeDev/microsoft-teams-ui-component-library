@@ -10,13 +10,14 @@ import {
   Flex,
   Input,
   Text,
+  CloseIcon,
+  SearchIcon,
 } from "@fluentui/react-northstar";
 
 import CustomScrollArea from "react-perfect-scrollbar";
 
 import { getText, TTranslations } from "../../translations";
 
-import { CloseIcon, SearchIcon } from "@fluentui/react-icons-northstar";
 import { IWidget } from "./DashboardWidget";
 import { IDashboardPreferences } from "./Dashboard";
 import { SignifiedOverflow } from "../../lib/SignifiedOverflow";

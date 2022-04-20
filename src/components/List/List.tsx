@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import pick from "lodash/pick";
-import { Box } from "@fluentui/react-northstar";
+import { Box, Flex } from "@fluentui/react-northstar";
 import {
   Table,
   ITableProps,
@@ -9,6 +9,9 @@ import {
   columnKey,
   rowKey,
   IRow,
+  getCellTextContent,
+  TCellContent,
+  getAllCellTextContent,
 } from "../Table/Table";
 import {
   Toolbar,
@@ -76,6 +79,7 @@ export interface IListProps extends ITableProps {
  */
 export const List = (props: IListProps) => {
   const tableProps = pick(props, [
+    "label",
     "columns",
     "rows",
     "selectable",
@@ -168,34 +172,6 @@ export const List = (props: IListProps) => {
 
   const filterMap: { [filterId: string]: [columnKey, string] } = {};
 
-  const filters = ((): TFilters => {
-    return props.filters
-      ? props.filters.reduce((acc: TFilters, columnKey, c) => {
-          acc[c] = {
-            id: `f${c}`,
-            title: props.columns[columnKey].title,
-            items: Array.from(
-              Object.keys(props.rows).reduce(
-                (acc: Set<string>, rowKey: rowKey) => {
-                  acc.add(props.rows[rowKey][columnKey] as string);
-                  return acc;
-                },
-                new Set()
-              )
-            ).map((title, v) => {
-              const id = `f${c}f${v}`;
-              filterMap[id] = [columnKey, title];
-              return {
-                id,
-                title,
-              };
-            }),
-          };
-          return acc;
-        }, [])
-      : [];
-  })();
-
   const [findQuery, setFindQuery] = useState<RegExp | string | null>(null);
   const onFindQueryChange = (query: string): string => {
     if (query.length > 0) {
@@ -214,7 +190,9 @@ export const List = (props: IListProps) => {
       return (
         selectedFilters.findIndex((filterId) => {
           const [columnKey, value] = filterMap[filterId];
-          return row[columnKey] === value;
+          return getAllCellTextContent(row[columnKey] as TCellContent).includes(
+            value
+          );
         }) > -1
       );
     }
@@ -224,7 +202,7 @@ export const List = (props: IListProps) => {
     if (findQuery) {
       return (
         Object.keys(row).findIndex((columnKey) => {
-          const value = JSON.stringify(row[columnKey]);
+          const value = getAllCellTextContent(row[columnKey] as TCellContent);
           return typeof findQuery === "string"
             ? value.includes(findQuery)
             : findQuery.test(value);
@@ -240,32 +218,66 @@ export const List = (props: IListProps) => {
   // Return value
 
   return (
-    <>
-      <Toolbar
-        {...toolbarProps}
-        {...{
-          actionGroups,
-          filters,
-          onSelectedFiltersChange,
-          onFindQueryChange,
-        }}
-        aria-controls="fluentui-teams__list-content"
-        aria-label="List content controls"
-      />
-      {Object.keys(props.rows).length > 0 ? (
-        <Table
-          {...tableProps}
-          {...{ onSelectedChange, filterBy }}
-          aria-live="polite"
-          id="fluentui-teams__list-content"
-          aria-label="List content"
-        />
-      ) : (
-        <FluentUIThemeConsumer
-          render={(globalTheme) => {
-            const { t } = globalTheme.siteVariables;
-            return (
-              <Box styles={{ height: "calc(100vh - 4.25rem)" }}>
+    <FluentUIThemeConsumer
+      render={(globalTheme) => {
+        const { t } = globalTheme.siteVariables;
+
+        const filters = ((): TFilters => {
+          return props.filters
+            ? props.filters.reduce((acc: TFilters, columnKey, c) => {
+                acc[c] = {
+                  id: `f${c}`,
+                  title: props.columns[columnKey].title,
+                  items: Array.from(
+                    Object.keys(props.rows).reduce(
+                      (acc: Set<string>, rowKey: rowKey) => {
+                        acc.add(
+                          getCellTextContent(
+                            t.locale,
+                            props.rows[rowKey][columnKey] as TCellContent
+                          )
+                        );
+                        return acc;
+                      },
+                      new Set()
+                    )
+                  ).map((title, v) => {
+                    const id = `f${c}f${v}`;
+                    filterMap[id] = [columnKey, title];
+                    return {
+                      id,
+                      title,
+                    };
+                  }),
+                };
+                return acc;
+              }, [])
+            : [];
+        })();
+
+        return (
+          <>
+            <Toolbar
+              {...toolbarProps}
+              {...{
+                actionGroups,
+                filters,
+                onSelectedFiltersChange,
+                onFindQueryChange,
+              }}
+              aria-controls="fluentui-teams__list-content"
+              aria-label="List content controls"
+            />
+            <Box styles={{ height: "1.25rem" }} role="presentation" />
+            {Object.keys(props.rows).length > 0 ? (
+              <Table
+                {...tableProps}
+                {...{ onSelectedChange, filterBy }}
+                aria-live="polite"
+                id="fluentui-teams__list-content"
+              />
+            ) : (
+              <Flex column styles={{ height: "calc(100vh - 4.25rem)" }}>
                 <Communication
                   {...(props.emptyState || {
                     option: CommunicationOptions.Empty,
@@ -276,11 +288,11 @@ export const List = (props: IListProps) => {
                   })}
                   onInteraction={props.onInteraction}
                 />
-              </Box>
-            );
-          }}
-        />
-      )}
-    </>
+              </Flex>
+            )}
+          </>
+        );
+      }}
+    />
   );
 };

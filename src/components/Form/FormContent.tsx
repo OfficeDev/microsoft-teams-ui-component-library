@@ -27,15 +27,14 @@ import {
   Text,
   TextArea,
   AccessibilityDefinition,
-} from "@fluentui/react-northstar";
-import { ICSSInJSStyle } from "@fluentui/styles";
-import {
   ExclamationCircleIcon,
   ExclamationTriangleIcon,
-} from "@fluentui/react-icons-northstar";
+} from "@fluentui/react-northstar";
+import { ICSSInJSStyle } from "@fluentui/styles";
 
 import { getText, TTextObject, TTranslations } from "../../translations";
 import { IFormProps, IFormState, TFormErrors } from "./Form";
+import Phrasing, { TPhrasingContent } from "../../lib/Phrasing";
 
 /**
  * Properties for each option for Enumerable inputs (radio buttons, checkboxes, dropdowns).
@@ -272,7 +271,7 @@ export interface ISection {
   /**
    * The title of the section, rendered as an `h#` element.
    */
-  title?: TTextObject;
+  title?: TPhrasingContent;
   /**
    * Text content of the section rendered before the input groups as a `p` element.
    */
@@ -386,13 +385,10 @@ const DropdownBlock = (
         setFormState(
           produce(formState, (draft) => {
             if (props.multiple) {
-              const values = (get(
-                props,
-                "value",
-                []
-              ) as DropdownItemProps[]).map(
-                (selectedItemProps: DropdownItemProps) =>
-                  get(selectedItemProps, "data-value")
+              const values = (
+                get(props, "value", []) as DropdownItemProps[]
+              ).map((selectedItemProps: DropdownItemProps) =>
+                get(selectedItemProps, "data-value")
               );
               values.length ? (draft[inputId] = values) : delete draft[inputId];
             } else {
@@ -533,11 +529,13 @@ const InlineInputsBlock = ({
                               setFormState(
                                 produce(formState, (draft) => {
                                   if (props.multiple) {
-                                    const values = (get(
-                                      props,
-                                      "value",
-                                      []
-                                    ) as DropdownItemProps[]).map(
+                                    const values = (
+                                      get(
+                                        props,
+                                        "value",
+                                        []
+                                      ) as DropdownItemProps[]
+                                    ).map(
                                       (selectedItemProps: DropdownItemProps) =>
                                         get(selectedItemProps, "data-value")
                                     );
@@ -805,7 +803,7 @@ const FormSection = (props: IFormSectionProps | IFormHeaderSectionProps) => {
           weight={header ? "bold" : "semibold"}
           size={header ? "large" : "medium"}
         >
-          {getText(t.locale, section.title)}
+          <Phrasing content={section.title} locale={t.locale} />
         </Text>
       )}
       {section.preface && (
@@ -857,16 +855,17 @@ export const setInitialValue = (
 ) => {
   if (
     field.hasOwnProperty("initialValue") &&
-    (field as
-      | ITextField
-      | IMultilineTextInput
-      | IDropdownInput
-      | IRadioButtonsInput).initialValue
+    (
+      field as
+        | ITextField
+        | IMultilineTextInput
+        | IDropdownInput
+        | IRadioButtonsInput
+    ).initialValue
   )
-    acc[field.inputId] = (field as
-      | ITextField
-      | IDropdownInput
-      | IRadioButtonsInput).initialValue!;
+    acc[field.inputId] = (
+      field as ITextField | IDropdownInput | IRadioButtonsInput
+    ).initialValue!;
   else if (field.hasOwnProperty("initialValues"))
     acc[field.inputId] =
       (field as IDropdownMultipleInput | ICheckboxesInput).initialValues || [];

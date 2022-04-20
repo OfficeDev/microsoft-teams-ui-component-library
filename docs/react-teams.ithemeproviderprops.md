@@ -4,7 +4,7 @@
 
 ## IThemeProviderProps interface
 
-The Provider’s props configure how these components should be rendered: the color palette to use as `themeName`<!-- -->, the language as `lang`<!-- -->, and any languages to make available through `translations`<!-- -->. Its children should be a single component from this library.
+The Provider’s props configure how these components should be rendered: the color palette to use as `themeName`<!-- -->, the language as `lang`<!-- -->, and any languages to make available through `translations`<!-- -->. Its children should be a single component from this library. `flexHeight` tells the provider and its children to expect to have a flexible height instead of filling the viewport.
 
 <b>Signature:</b>
 
@@ -17,6 +17,7 @@ export interface IThemeProviderProps
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [children](./react-teams.ithemeproviderprops.children.md) | ReactNode |  |
+|  [flexHeight?](./react-teams.ithemeproviderprops.flexheight.md) | boolean | <i>(Optional)</i> |
 |  [lang](./react-teams.ithemeproviderprops.lang.md) | [TLocale](./react-teams.tlocale.md) |  |
 |  [themeName](./react-teams.ithemeproviderprops.themename.md) | TeamsTheme \| IThemeTeamsClient |  |
 |  [translations?](./react-teams.ithemeproviderprops.translations.md) | { \[locale: string\]: [TTranslations](./react-teams.ttranslations.md)<!-- -->; } | <i>(Optional)</i> |

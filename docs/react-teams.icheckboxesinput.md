@@ -17,5 +17,5 @@ export interface ICheckboxesInput extends IEnumerableMultipleInputBase
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [type](./react-teams.icheckboxesinput.type.md) | [EInputBlockType.checkboxes](./react-teams.einputblocktype.checkboxes.md) |  |
+|  [type](./react-teams.icheckboxesinput.type.md) | [EInputBlockType.checkboxes](./react-teams.einputblocktype.md) |  |
 

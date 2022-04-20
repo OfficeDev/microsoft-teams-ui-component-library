@@ -30,6 +30,12 @@ export interface IColumn {
    */
   hideable?: boolean;
   /**
+   * Whether text content in this column should be selectable, i.e. any text will prevent click from
+   * being triggered on any parent elements.
+   * @defaultValue `false`
+   */
+  textSelectable?: boolean;
+  /**
    * Columns with a lower `hidePriority` are hidden before columns with a higher `hidePriority`.
    * @defaultValue `Infinity`
    */

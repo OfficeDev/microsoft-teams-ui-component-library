@@ -129,89 +129,168 @@ const dataVizWidgets = [
     title: "Line Chart",
     desc: "Last updated Monday, April 4 at 11:15 AM (PT)",
     widgetActionGroup: calloutItemsExample,
-    size: EWidgetSize.Double,
-    body: [
-      {
-        id: "t1",
-        title: "Tab 1",
-        content: {
-          type: "chart",
-          chart: {
-            title: "Line chart sample",
-            type: EChartTypes.Line,
-            data: {
-              labels: ["Jan", "Feb", "March", "April", "May"],
-              datasets: [
-                {
-                  label: "Tablets",
-                  data: [860, 6700, 3100, 2012, 1930],
-                },
-                {
-                  label: "Phones",
-                  data: [100, 1600, 180, 3049, 3596],
-                },
-                {
-                  label: "Laptops",
-                  data: [1860, 7700, 4100, 3012, 2930],
-                },
-                {
-                  label: "Watches",
-                  data: [200, 3600, 480, 5049, 4596],
-                },
-                {
-                  label: "TVs",
-                  data: [960, 8700, 5100, 5012, 3930],
-                },
-                {
-                  label: "Displays",
-                  data: [1000, 4600, 480, 4049, 3596],
-                },
-              ],
-            },
-          },
-        },
-      },
-      {
-        id: "t2",
-        title: "Tab 2",
-        content: {
-          type: "chart",
-          chart: {
-            title: "Area chart sample",
-            type: EChartTypes.LineStacked,
-            data: {
-              labels: ["Jan", "Feb", "March", "April", "May"],
-              datasets: [
-                {
-                  label: "Laptops",
-                  data: [1860, 7700, 4100, 3012, 2930],
-                },
-                {
-                  label: "Watches",
-                  data: [200, 3600, 480, 5049, 4596],
-                },
-                {
-                  label: "TVs",
-                  data: [960, 8700, 5100, 5012, 3930],
-                },
-              ],
-            },
-          },
-        },
-      },
-      {
-        id: "t3",
-        title: "Tab 3",
-        content: { type: "placeholder", message: "Content #3" },
-      },
+    widgetFilterGroup: [
+      { id: "full", title: { "en-US": "Full", fa: "کامل" } },
+      { id: "abbreviated", title: { "en-US": "Abbreviated", fa: "به اختصار" } },
     ],
+    size: EWidgetSize.Double,
+    bodyByFilter: {
+      full: [
+        {
+          id: "t1",
+          title: "Tab 1",
+          content: {
+            type: "chart",
+            chart: {
+              title: "Line chart sample",
+              type: EChartTypes.Line,
+              data: {
+                labels: ["Jan", "Feb", "March", "April", "May"],
+                datasets: [
+                  {
+                    label: "Tablets",
+                    data: [860, 6700, 3100, 2012, 1930],
+                  },
+                  {
+                    label: "Phones",
+                    data: [100, 1600, 180, 3049, 3596],
+                  },
+                  {
+                    label: "Laptops",
+                    data: [1860, 7700, 4100, 3012, 2930],
+                  },
+                  {
+                    label: "Watches",
+                    data: [200, 3600, 480, 5049, 4596],
+                  },
+                  {
+                    label: "TVs",
+                    data: [960, 8700, 5100, 5012, 3930],
+                  },
+                  {
+                    label: "Displays",
+                    data: [1000, 4600, 480, 4049, 3596],
+                  },
+                ],
+              },
+            },
+          },
+        },
+        {
+          id: "t2",
+          title: "Tab 2",
+          content: {
+            type: "chart",
+            chart: {
+              title: "Area chart sample",
+              type: EChartTypes.LineStacked,
+              data: {
+                labels: ["Jan", "Feb", "March", "April", "May"],
+                datasets: [
+                  {
+                    label: "Laptops",
+                    data: [1860, 7700, 4100, 3012, 2930],
+                  },
+                  {
+                    label: "Watches",
+                    data: [200, 3600, 480, 5049, 4596],
+                  },
+                  {
+                    label: "TVs",
+                    data: [960, 8700, 5100, 5012, 3930],
+                  },
+                ],
+              },
+            },
+          },
+        },
+        {
+          id: "t3",
+          title: "Tab 3",
+          content: { type: "placeholder", message: "Content #3" },
+        },
+      ],
+      abbreviated: [
+        {
+          id: "t1",
+          title: "Tab 1",
+          content: {
+            type: "chart",
+            chart: {
+              title: "Line chart sample",
+              type: EChartTypes.Line,
+              data: {
+                labels: ["Jan", "Feb", "March"],
+                datasets: [
+                  {
+                    label: "Tablets",
+                    data: [860, 6700, 3100],
+                  },
+                  {
+                    label: "Phones",
+                    data: [100, 1600, 180],
+                  },
+                  {
+                    label: "Laptops",
+                    data: [1860, 7700, 4100],
+                  },
+                  {
+                    label: "Watches",
+                    data: [200, 3600, 480],
+                  },
+                  {
+                    label: "TVs",
+                    data: [960, 8700, 5100],
+                  },
+                  {
+                    label: "Displays",
+                    data: [1000, 4600, 480],
+                  },
+                ],
+              },
+            },
+          },
+        },
+        {
+          id: "t2",
+          title: "Tab 2",
+          content: {
+            type: "chart",
+            chart: {
+              title: "Area chart sample",
+              type: EChartTypes.LineStacked,
+              data: {
+                labels: ["Jan", "Feb", "March"],
+                datasets: [
+                  {
+                    label: "Laptops",
+                    data: [1860, 7700, 4100],
+                  },
+                  {
+                    label: "Watches",
+                    data: [200, 3600, 480],
+                  },
+                  {
+                    label: "TVs",
+                    data: [960, 8700, 5100],
+                  },
+                ],
+              },
+            },
+          },
+        },
+      ],
+    },
     link: linkExample,
   },
   {
     id: "w2",
     title: "Doughnut chart sample",
     size: EWidgetSize.Single,
-    link: linkExample,
+    link: {
+      title: "More about doughnuts",
+      actionId: "more-info",
+    },
     body: [
       {
         id: "1",
@@ -638,9 +717,23 @@ const dataVizWidgets = [
   } as IWidget,
   {
     id: "w15",
-    title: "Card 6",
+    title: "Description list",
     size: EWidgetSize.Single,
     link: linkExample,
+    body: [
+      {
+        id: "1",
+        title: "",
+        content: {
+          type: "dl",
+          list: [
+            { label: "Median days used per month", value: "2" },
+            { label: "% of 5+ days usage", value: "38.2%" },
+            { label: "DAU / MAU", value: "24.3%" },
+          ],
+        },
+      },
+    ],
   } as IWidget,
 ];
 

@@ -11,5 +11,5 @@ List interactions are proxied from the Table, the Toolbar, or the empty state Co
 ```typescript
 export declare type TListInteraction = TTableInteraction | TToolbarInteraction | TCommunicationInteraction;
 ```
-<b>References:</b> [TTableInteraction](./react-teams.ttableinteraction.md)<!-- -->, [TToolbarInteraction](./react-teams.ttoolbarinteraction.md)
+<b>References:</b> [TTableInteraction](./react-teams.ttableinteraction.md)<!-- -->, [TToolbarInteraction](./react-teams.ttoolbarinteraction.md)<!-- -->, [TCommunicationInteraction](./react-teams.tcommunicationinteraction.md)
 

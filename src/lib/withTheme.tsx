@@ -7,7 +7,6 @@ import {
   teamsDarkTheme,
   teamsHighContrastTheme,
   ComponentVariablesInput,
-  ThemePrepared,
 } from "@fluentui/react-northstar";
 
 import { ComponentVariablesObject, ThemeInput } from "@fluentui/styles";
@@ -34,7 +33,8 @@ export enum IThemeTeamsClient {
 /**
  * The Provider’s props configure how these components should be rendered: the color palette to use
  * as `themeName`, the language as `lang`, and any languages to make available through
- * `translations`. Its children should be a single component from this library.
+ * `translations`. Its children should be a single component from this library. `flexHeight` tells
+ * the provider and its children to expect to have a flexible height instead of filling the viewport.
  *
  * @public
  */
@@ -43,6 +43,7 @@ export interface IThemeProviderProps {
   lang: TLocale;
   themeName: TeamsTheme | IThemeTeamsClient;
   translations?: { [locale: string]: TTranslations };
+  flexHeight?: boolean;
 }
 
 export const teamsNextVariableAssignments = {
@@ -135,6 +136,9 @@ export const teamsNextVariableAssignments = {
         paddingBottom: variables.compactRow
           ? variables.compactRowVerticalPadding
           : variables.defaultRowVerticalPadding,
+        ...(variables.pointerEvents && {
+          pointerEvents: variables.pointerEvents,
+        }),
       }),
     },
     TreeItem: {
@@ -147,18 +151,15 @@ export const teamsNextVariableAssignments = {
 
 export const themes: { [themeKey: string]: ThemeInput<any> } = {
   [TeamsTheme.Default]: mergeThemes(
-    teamsTheme,
-    teamsNextVariableAssignments,
+    mergeThemes(teamsTheme, teamsNextVariableAssignments),
     defaultV2ThemeOverrides
   ),
   [TeamsTheme.Dark]: mergeThemes(
-    teamsDarkTheme,
-    teamsNextVariableAssignments,
+    mergeThemes(teamsDarkTheme, teamsNextVariableAssignments),
     darkV2ThemeOverrides
   ),
   [TeamsTheme.HighContrast]: mergeThemes(
-    teamsHighContrastTheme,
-    teamsNextVariableAssignments,
+    mergeThemes(teamsHighContrastTheme, teamsNextVariableAssignments),
     highContrastThemeOverrides
   ),
 };
@@ -171,6 +172,7 @@ export const HVCThemeProvider = ({
   lang,
   themeName,
   translations,
+  flexHeight,
 }: IThemeProviderProps) => {
   // [v-wishow] todo: translations will (presumably) eventually need to be loaded asynchronously
 
@@ -190,6 +192,7 @@ export const HVCThemeProvider = ({
   const rtl = lang === "fa";
 
   if (theme.siteVariables) {
+    theme.siteVariables.flexHeight = flexHeight;
     theme.siteVariables.lang = lang;
     theme.siteVariables.rtl = rtl;
     theme.siteVariables.t =
@@ -338,6 +341,9 @@ export const HVCThemeProvider = ({
         backgroundColor:
           theme.siteVariables &&
           theme.siteVariables.colorScheme.default.background2,
+        display: "flex",
+        flexDirection: "column",
+        flex: `1 1 ${flexHeight ? "100%" : "100vh"}`,
       }}
     >
       <style>
@@ -368,7 +374,12 @@ export const HVCThemeProvider = ({
       </style>
       <svg
         viewBox="0 0 1 1"
-        style={{ position: "absolute", left: "-9999px", top: "-9999px" }}
+        style={{
+          position: "absolute",
+          left: "-9999px",
+          top: "-9999px",
+          pointerEvents: "none",
+        }}
         role="none"
       >
         <defs>

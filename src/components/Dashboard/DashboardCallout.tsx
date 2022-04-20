@@ -1,17 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 
 import {
   Popup,
   Button,
   MoreIcon,
-  ComponentEventHandler,
-  PopupProps,
   Menu,
   mergeThemes,
   ComponentVariablesInput,
   Provider as FluentUIThemeProvider,
   ThemePrepared,
   EyeSlashIcon,
+  FilterIcon,
+  AcceptIcon,
 } from "@fluentui/react-northstar";
 
 import { TeamsTheme } from "../../themes";
@@ -40,12 +40,12 @@ export interface IWidgetAction {
 
 interface IDashboardCallout {
   widgetId: string;
-  open: boolean;
-  onOpenChange: ComponentEventHandler<PopupProps>;
-  menuProps: any;
   globalTheme: ThemePrepared;
-  widgetActionGroup?: IWidgetAction[];
-  hideWidget: (widgetId: string) => void;
+  calloutType?: "overflow" | "filter";
+  widgetCalloutGroup?: IWidgetAction[];
+  hideWidget?: (widgetId: string) => void;
+  setActiveFilter?: (filterId: string) => void;
+  activeFilter?: string;
   t: TTranslations;
   onInteraction?: (interaction: TDashboardInteraction) => void;
 }
@@ -103,80 +103,107 @@ const getLocalTheme = () => {
 
 export const DashboardCallout = ({
   widgetId,
-  open,
-  onOpenChange,
-  menuProps,
   globalTheme,
-  widgetActionGroup,
+  calloutType = "overflow",
+  widgetCalloutGroup,
   hideWidget,
+  setActiveFilter,
+  activeFilter,
   t,
   onInteraction,
 }: IDashboardCallout) => {
   const theme = mergeThemes(globalTheme, getLocalTheme());
+  const [open, setOpen] = useState(false);
 
   const hideWidgetAction = {
     id: "hide_widget",
     content: t["hide widget"],
     icon: <EyeSlashIcon />,
-    onClick: () => hideWidget(widgetId),
+    onClick: () => hideWidget && hideWidget(widgetId),
   };
+
+  const menuItems =
+    calloutType === "filter"
+      ? widgetCalloutGroup
+        ? widgetCalloutGroup.map(({ id, title }) => {
+            const selected = activeFilter === id;
+            return {
+              key: id,
+              role: "option",
+              "aria-selected": selected,
+              content: getText(t.locale, title),
+              icon: (
+                <AcceptIcon
+                  outline
+                  styles={{ visibility: selected ? "visible" : "hidden" }}
+                />
+              ),
+              onClick: () => {
+                setActiveFilter && setActiveFilter(id);
+                setOpen(false);
+              },
+            };
+          })
+        : []
+      : widgetCalloutGroup
+      ? [
+          ...widgetCalloutGroup.map(({ id, icon, title }: IWidgetAction) => {
+            return {
+              key: id,
+              content: getText(t.locale, title),
+              ...(icon && { icon: <Icon icon={icon} /> }),
+              ...(onInteraction && {
+                onClick: () => {
+                  onInteraction({
+                    event: "click",
+                    target: "action",
+                    widget: widgetId,
+                    action: id,
+                  });
+                  setOpen(false);
+                },
+              }),
+            };
+          }),
+          ...(hideWidget ? [{ kind: "divider" }, hideWidgetAction] : []),
+        ]
+      : [hideWidgetAction];
 
   return (
     <FluentUIThemeProvider theme={theme}>
-      <Popup
-        {...menuProps}
-        open={open}
-        onOpenChange={onOpenChange}
-        trigger={
-          <Button
-            text
-            iconOnly
-            aria-label={t["more"]}
-            icon={<MoreIcon />}
-            styles={{
-              margin: "0 -0.35rem",
-            }}
-          />
-        }
-        content={{
-          styles: { width: "12.5rem" },
-          content: (
-            <Menu
-              items={
-                widgetActionGroup
-                  ? [
-                      ...widgetActionGroup.map(
-                        ({ id, icon, title }: IWidgetAction) => {
-                          return {
-                            key: id,
-                            icon: <Icon icon={icon} />,
-                            content: getText(t.locale, title),
-                            ...(onInteraction && {
-                              onClick: () =>
-                                onInteraction({
-                                  event: "click",
-                                  target: "action",
-                                  widget: widgetId,
-                                  action: id,
-                                }),
-                            }),
-                          };
-                        }
-                      ),
-                      { kind: "divider" },
-                      hideWidgetAction,
-                    ]
-                  : [hideWidgetAction]
+      {(hideWidget || widgetCalloutGroup) && (
+        <Popup
+          offset={[0, 0]}
+          position="below"
+          open={open}
+          onOpenChange={(_, props) => setOpen(!!props?.open)}
+          trigger={
+            <Button
+              text
+              iconOnly
+              aria-label={t["more"]}
+              icon={
+                calloutType === "filter" ? (
+                  <FilterIcon outline />
+                ) : (
+                  <MoreIcon outline />
+                )
               }
-              vertical
+              styles={{
+                margin: "0 -0.35rem",
+              }}
             />
-          ),
-        }}
-        trapFocus={{
-          firstFocusableSelector:
-            ".extended-toolbar__filters-menu__tree [data-is-focusable=true]",
-        }}
-      />
+          }
+          content={{
+            styles: { width: "12.5rem" },
+            content: <Menu items={menuItems} vertical />,
+          }}
+          trapFocus={{
+            firstFocusableSelector:
+              ".extended-toolbar__filters-menu__tree [data-is-focusable=true]",
+          }}
+        />
+      )}
     </FluentUIThemeProvider>
   );
 };

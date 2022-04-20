@@ -1,3 +1,6 @@
+import isString from "lodash/isString";
+import values from "lodash/values";
+
 /**
  * A locale as an [IETF BCP 47 language tag](https://tools.ietf.org/rfc/bcp/bcp47.txt).
  * @public
@@ -37,14 +40,25 @@ export const interpolate = (
   return template;
 };
 
+export const getAllText = (
+  textObject: TTextObject,
+  ...interpolationArgs: TInterpolationArgs
+): string => {
+  if (!textObject) return "";
+  if (isString(textObject)) return interpolate(textObject, interpolationArgs);
+  else
+    return values(textObject)
+      .map((text) => interpolate(text, interpolationArgs))
+      .join("");
+};
+
 export const getText = (
   currentLocale: TLocale | null | undefined,
   textObject: TTextObject,
   ...interpolationArgs: TInterpolationArgs
 ): string => {
   if (!textObject) return "";
-  if (typeof textObject === "string")
-    return interpolate(textObject, interpolationArgs);
+  if (isString(textObject)) return interpolate(textObject, interpolationArgs);
   if (currentLocale && textObject.hasOwnProperty(currentLocale))
     return interpolate(textObject[currentLocale], interpolationArgs);
   else
@@ -123,5 +137,6 @@ export default {
     "hide widget": "Hide widget",
     "view more": "View more",
     "edit dashboard": "Edit dashboard",
+    details: "Details",
   } as TTranslations,
 };

@@ -17,13 +17,10 @@ import {
   TreeTitleProps,
   TreeItemProps,
   tooltipAsLabelBehavior,
-} from "@fluentui/react-northstar";
-
-import {
   FilterIcon,
   TriangleDownIcon,
   TriangleEndIcon,
-} from "@fluentui/react-icons-northstar";
+} from "@fluentui/react-northstar";
 
 import { ComponentSlotStyle, SiteVariablesPrepared } from "@fluentui/styles";
 
@@ -194,6 +191,7 @@ export const ToolbarFilter = (props: IExtendedToolbarFilterProps) => {
 
   return filters.length ? (
     <Popup
+      positionFixed
       {...toolbarMenuProps}
       open={open}
       onOpenChange={onOpenChange}

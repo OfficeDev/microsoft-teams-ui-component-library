@@ -19,5 +19,5 @@ export declare type TCommunicationProps = {
     onInteraction?: (interaction: TCommunicationInteraction) => void;
 };
 ```
-<b>References:</b> [CommunicationOptions](./react-teams.communicationoptions.md)<!-- -->, [TCommunicationFields](./react-teams.tcommunicationfields.md)
+<b>References:</b> [CommunicationOptions](./react-teams.communicationoptions.md)<!-- -->, [TCommunicationFields](./react-teams.tcommunicationfields.md)<!-- -->, [TCommunicationInteraction](./react-teams.tcommunicationinteraction.md)
 

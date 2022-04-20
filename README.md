@@ -28,9 +28,9 @@ or
 npm i --save @fluentui/react-teams
 ```
 
-### Use TypeScript without `skipLibCheck`
+### Use TypeScript without `any` for these components’ props
 
-Since the components require fairly specific, structured props, development is far easier in projects that use TypeScript. Avoid setting `skipLibCheck: true` in your project’s `tsconfig.json` in order to ensure your content’s types are checked.
+Since the components require fairly specific, structured props, development is far easier in projects that use TypeScript. Avoid typing props passed to these components as `any` in order to ensure your content’s types are checked.
 
 The API’s promises are communicated in the [docs](./docs/react-teams.md), which are derived directly from the type declarations. This library uses [semver](https://semver.org/) to indicate breaking changes in the API, so props that pass a type check will still work for all releases of this library with the same major version.
 
@@ -124,7 +124,7 @@ For more information see the [Code of Conduct FAQ](https://opensource.microsoft.
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
 
-[sb]: https://dev-int.teams.microsoft.com/storybook/main/index.html
+[sb]: https://dev.teams.microsoft.com/storybook/main/index.html
 [npm]: https://www.npmjs.com/package/@fluentui/react-teams
 [as]: https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/tab-ui-templates/ts
 [fc]: https://www.figma.com/community/file/916836509871353159/Microsoft-Teams-UI-Kit
