@@ -348,11 +348,8 @@ export const HVCThemeProvider = ({
     >
       <style>
         {`
-          html, body, #root, #root > .ui-provider { 
-            width: 100%;
-            height: 100%;
-          }
-          ::-webkit-scrollbar { width: .75rem } 
+          html, body, #root, #root > .ui-provider { min-height: 100% }
+          ::-webkit-scrollbar { width: .75rem }
           ::-webkit-scrollbar-track {
             background-color: ${theme.siteVariables?.colorScheme.default.background2};
           }
