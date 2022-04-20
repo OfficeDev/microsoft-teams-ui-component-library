@@ -1,6 +1,6 @@
 {
   "name": "@fluentui/react-teams",
-  "version": "5.3.0",
+  "version": "6.0.0-alpha.17",
   "description": "Teams components in the Fluent UI design language written in React",
   "repository": "https://github.com/OfficeDev/microsoft-teams-ui-component-library.git",
   "license": "MIT",
@@ -10,40 +10,40 @@
     "build": "just-scripts build",
     "postbuild": "api-extractor run --local --verbose && api-documenter markdown --input-folder=temp --output-folder=docs",
     "build:storybook": "just-scripts build:storybook",
-    "change": "beachball change --branch origin/main",
-    "checkchange": "beachball check --branch origin/main",
+    "change": "beachball change --branch origin/latest",
+    "checkchange": "beachball check --branch origin/latest",
     "prepare": "node ./scripts/prepare",
     "lint": "just-scripts lint",
-    "release": "beachball publish --branch origin/main",
+    "release": "beachball publish --branch origin/latest",
+    "releasealpha": "beachball publish --tag alpha",
     "start": "just-scripts start",
     "test": "just-scripts test"
   },
   "dependencies": {
     "@fluentui/keyboard-key": "^0.2.16",
-    "@fluentui/react-icons-northstar": "^0.54.0",
     "chart.js": "^2.9.4",
     "classnames": "2.x",
-    "lodash": "4.17.21",
     "immer": "^9.0.1",
+    "lodash": ">=4.17.21 <5",
     "react-beautiful-dnd": "^13.0.0",
     "react-perfect-scrollbar": "^1.5.8"
   },
   "peerDependencies": {
-    "@fluentui/react-northstar": "^0.54.0",
+    "@fluentui/react-northstar": "^0.62.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
-    "@fluentui/react-northstar": "^0.54.0",
+    "@fluentui/react-northstar": "^0.62.0",
     "@microsoft/api-documenter": "^7.12.7",
-    "@microsoft/api-extractor": "^7.13.1",
-    "@storybook/addon-a11y": "^5.3.19",
+    "@microsoft/api-extractor": "7.19.4",
+    "@storybook/addon-a11y": "^6.3.12",
     "@storybook/addon-actions": "^6.0.26",
-    "@storybook/addon-docs": "^5.3.19",
-    "@storybook/addon-knobs": "^5.3.19",
+    "@storybook/addon-docs": "^6.3.12",
+    "@storybook/addon-knobs": "^6.3.1",
     "@storybook/addon-links": "^6.0.26",
-    "@storybook/addon-viewport": "^5.3.19",
+    "@storybook/addon-viewport": "^6.3.12",
     "@storybook/addons": "^6.1.11",
     "@storybook/cli": "^6.0.26",
     "@storybook/preset-typescript": "^3.0.0",
@@ -85,16 +85,21 @@
     "ts-loader": "^8.0.1",
     "ts-node": "^7.0.0",
     "tslib": "^2.0.0",
-    "typescript": "^3.9.7",
+    "typescript": "^4.4.4",
     "webpack": "~4.43.0"
   },
   "resolutions": {
-    "lodash": "4.17.21"
+    "lodash": "4.17.21",
+    "moment": "2.29.2"
   },
   "files": [
     "lib"
   ],
   "publishConfig": {
     "access": "public"
+  },
+  "beachball": {
+    "branch": "origin/latest",
+    "prerelease-prefix": "alpha"
   }
 }

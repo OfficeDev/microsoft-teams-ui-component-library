@@ -19,11 +19,11 @@ import {
   Text,
   dialogBehavior,
   gridCellWithFocusableElementBehavior,
+  MoreIcon,
+  PaperclipIcon,
 } from "@fluentui/react-northstar";
 
 import { getCode, keyboardKey } from "@fluentui/keyboard-key";
-
-import { MoreIcon, PaperclipIcon } from "@fluentui/react-icons-northstar";
 
 import {
   getText,

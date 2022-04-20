@@ -13,7 +13,7 @@ export declare type TTableInteraction = {
     event: "click";
     target: "table";
     subject: rowKey | rowKey[];
-    action: actionKey;
+    action?: actionKey;
 };
 ```
 <b>References:</b> [actionKey](./react-teams.actionkey.md)

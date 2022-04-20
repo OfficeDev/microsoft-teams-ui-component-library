@@ -23,13 +23,10 @@ import {
   MenuItem,
   ProviderConsumer as FluentUIThemeConsumer,
   SiteVariablesPrepared,
-} from "@fluentui/react-northstar";
-
-import {
   AddIcon,
   EditIcon,
   TrashCanIcon,
-} from "@fluentui/react-icons-northstar";
+} from "@fluentui/react-northstar";
 
 import { getCode, keyboardKey } from "@fluentui/keyboard-key";
 
@@ -237,9 +234,8 @@ const BoardStandalone = (props: IBoardStandaloneProps) => {
     rtl,
   } = props;
 
-  const [placeholderPosition, setPlaceholderPosition] = useState<
-    TPlaceholderPosition
-  >(null);
+  const [placeholderPosition, setPlaceholderPosition] =
+    useState<TPlaceholderPosition>(null);
 
   const onDragStart = (event: DragStart, provided: ResponderProvided) => {
     const laneKey = event.source.droppableId;
@@ -562,7 +558,7 @@ export const Board = (props: IBoardProps) => {
             style={{
               display: "flex",
               flexDirection: "column",
-              height: "calc(100vh - 1.25rem)",
+              height: "100vh",
             }}
           >
             <Flex
@@ -588,6 +584,7 @@ export const Board = (props: IBoardProps) => {
                   if (subject === "add_column") setAddingLane(true);
                 }}
               />
+              <Box styles={{ height: "1.25rem" }} role="presentation" />
               {Object.keys(arrangedLanes).length > 0 || addingLane ? (
                 <BoardStandalone
                   {...{

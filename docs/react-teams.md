@@ -11,7 +11,7 @@
 |  [CommunicationOptions](./react-teams.communicationoptions.md) | The illustration, text, and actions (if any) to use by default as the content of this component. |
 |  [EAvatarVariant](./react-teams.eavatarvariant.md) | The stylistic variants available to the avatars used by these components. |
 |  [EButtonVariants](./react-teams.ebuttonvariants.md) | The stylistic variants available to the buttons used by these components. |
-|  [EChartTypes](./react-teams.echarttypes.md) | Each chart type can be previewed in the \[Data visualizations page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A4091), or in \[this library’s Storybook\](https://dev-int.teams.microsoft.com/storybook/main/index.html?path=/story/components-charts--line-chart). |
+|  [EChartTypes](./react-teams.echarttypes.md) | Each chart type can be previewed in the \[Data visualizations page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A4091), or in \[this library’s Storybook\](https://dev.teams.microsoft.com/storybook/main/index.html?path=/story/components-charts--line-chart). |
 |  [EInlineInputType](./react-teams.einlineinputtype.md) | The types of inline inputs. |
 |  [EInputBlockType](./react-teams.einputblocktype.md) | The types of input blocks. |
 |  [EInputWidth](./react-teams.einputwidth.md) | An inline input’s width. |
@@ -24,13 +24,12 @@
 |  --- | --- |
 |  [Chart\_2({ title, type, data })](./react-teams.chart_2.md) |  |
 |  [Communication({ option, fields, onInteraction, })](./react-teams.communication.md) |  |
-|  [Dashboard({ widgets, preferences, cacheKey, onInteraction, })](./react-teams.dashboard.md) |  |
+|  [Dashboard({ widgets, preferences, cacheKey, onInteraction, blockOnly, })](./react-teams.dashboard.md) |  |
 
 ## Interfaces
 
 |  Interface | Description |
 |  --- | --- |
-|  [IAvatarOrnament](./react-teams.iavatarornament.md) |  |
 |  [IBoardInteractionUpdateItems](./react-teams.iboardinteractionupdateitems.md) | This payload is emitted when the user updates the Board’s items, which occurs when the user creates a new item, deletes an item, or edits an item. |
 |  [IBoardInteractionUpdateLanes](./react-teams.iboardinteractionupdatelanes.md) | This payload is emitted when the user updates the Board’s lanes, which occurs when the user adds or removes a lane, or rearranges the lanes. |
 |  [IBoardItem](./react-teams.iboarditem.md) | An item in a Board component. |
@@ -38,7 +37,6 @@
 |  [IBoardProps](./react-teams.iboardprops.md) | The Board component can be used to render kanban and task board experiences in your app. Designs for this component are available in the \[Task board page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A3840). |
 |  [IBubbleChartData](./react-teams.ibubblechartdata.md) | A vector datum for bubble charts and related types. |
 |  [ICellButtonContent](./react-teams.icellbuttoncontent.md) | Content for a table cell can be a button. When clicked, buttons emit an Interaction event. |
-|  [ICellContent](./react-teams.icellcontent.md) | Content for a table cell can specify optional elements to display before and after the cell’s text content. |
 |  [IChartData](./react-teams.ichartdata.md) | The data to display in this Chart. |
 |  [IChartDataSet](./react-teams.ichartdataset.md) | One set of the Chart’s data. |
 |  [IChartProps](./react-teams.ichartprops.md) | The Chart component can be used to render data visualizations. Designs for this component are available in the \[Data visualizations page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A4091). |
@@ -58,10 +56,11 @@
 |  [IEnumerableInputOption](./react-teams.ienumerableinputoption.md) | Properties for each option for Enumerable inputs (radio buttons, checkboxes, dropdowns). |
 |  [IEnumerableMultipleInputBase](./react-teams.ienumerablemultipleinputbase.md) | Properties shared by enumerable inputs supporting multiple selections (checkboxes, multiple-select dropdowns). |
 |  [IEnumerableSingletonInputBase](./react-teams.ienumerablesingletoninputbase.md) | Properties shared by singleton enumerable inputs (radio buttons, single-select dropdowns). |
+|  [IFocusableIconProps](./react-teams.ifocusableiconprops.md) | An icon which invokes a tooltip when focused. |
 |  [IFormProps](./react-teams.iformprops.md) | The Form component can be used to render an interactive Form. Designs for this component are available in the \[Forms page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=5271%3A221958). |
 |  [IFormState](./react-teams.iformstate.md) | A collection of input values, keyed by input ID. If the input is a block of checkboxes or a dropdown with multiple selection, the value will be an array of option IDs. |
 |  [IFormWizardStepProps](./react-teams.iformwizardstepprops.md) | A Form which is a step in a Wizard has the same inputs as Form with an additional option to override the text of the Wizard’s back button for the current step. |
-|  [IIconOrnament](./react-teams.iiconornament.md) |  |
+|  [IIconProps](./react-teams.iiconprops.md) | An icon. |
 |  [IInlineInputsBlock](./react-teams.iinlineinputsblock.md) | A block containing a set of one or more text inputs or dropdowns. |
 |  [IListProps](./react-teams.ilistprops.md) | The List component can be used to display a list of items as a table which can be sorted, filtered, and searched.. Designs for this component are available in the \[List page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A3790). |
 |  [IMultilineTextInput](./react-teams.imultilinetextinput.md) | A multi-line text field. |
@@ -72,7 +71,7 @@
 |  [ITableProps](./react-teams.itableprops.md) | The Table component is used by the List template as its primary content. |
 |  [ITextField](./react-teams.itextfield.md) | A single-line text field. |
 |  [ITextInputBase](./react-teams.itextinputbase.md) | Properties shared by text inputs (single- and multi-line). |
-|  [IThemeProviderProps](./react-teams.ithemeproviderprops.md) | The Provider’s props configure how these components should be rendered: the color palette to use as <code>themeName</code>, the language as <code>lang</code>, and any languages to make available through <code>translations</code>. Its children should be a single component from this library. |
+|  [IThemeProviderProps](./react-teams.ithemeproviderprops.md) | The Provider’s props configure how these components should be rendered: the color palette to use as <code>themeName</code>, the language as <code>lang</code>, and any languages to make available through <code>translations</code>. Its children should be a single component from this library. <code>flexHeight</code> tells the provider and its children to expect to have a flexible height instead of filling the viewport. |
 |  [IToolbarProps](./react-teams.itoolbarprops.md) | The Toolbar component can be used to render a Toolbar above the main view, which can make actions, find, and filter available. Designs for this component are available in the \[Toolbar page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A4186). |
 |  [IWidget](./react-teams.iwidget.md) | A Dashboard widget is rendered as a card of a certain size, containing the content specified. |
 |  [IWidgetAction](./react-teams.iwidgetaction.md) | An action item displayed in a widget’s overflow menu. |
@@ -106,8 +105,10 @@
 |  [TBoardLane](./react-teams.tboardlane.md) | Board lanes currently only need a <code>title</code>. |
 |  [TBoardLanes](./react-teams.tboardlanes.md) | Each Board lane has a unique key, which is associated with the lane’s configuration. |
 |  [TCacheKey](./react-teams.tcachekey.md) | If undefined, the component should not attempt to save or load properties from local storage. Otherwise this string should be used to identify a component’s intention; user preferences and potentially other properties will be saved to and loaded from the local storage for a user’s client by this key. |
+|  [TCellAvatarContent](./react-teams.tcellavatarcontent.md) | Content for a table cell can be a name with an avatar. The avatar preceeds the name in the inline direction and the name labels the avatar. |
 |  [TCellContent](./react-teams.tcellcontent.md) | The content for a table cell |
 |  [TCommunicationFields](./react-teams.tcommunicationfields.md) |  |
+|  [TCommunicationInteraction](./react-teams.tcommunicationinteraction.md) | The interaction payload emitted by this component will only come from click interactions on any action buttons specified in the props. |
 |  [TCommunicationProps](./react-teams.tcommunicationprops.md) | The Communication component can be used to render empty state messages and other combinations of illustration, coaching text, and actions. Designs for this component are available in the \[Empty state page of the Microsoft Teams UI Kit\](https://www.figma.com/file/EOsbapNvZgEwcA1mShswfh/Microsoft-Teams-UI-Kit-Community?node-id=3789%3A4042). |
 |  [TDashboardInteraction](./react-teams.tdashboardinteraction.md) | A Dashboard will emit onInteraction payloads when the user updates any preferences. |
 |  [TFormErrors](./react-teams.tformerrors.md) | A collection of error messages associated with inputs, keyed by input ID. |
@@ -116,6 +117,7 @@
 |  [TInputBlock](./react-teams.tinputblock.md) | A block with a single input which occupies the full width of the form. |
 |  [TListInteraction](./react-teams.tlistinteraction.md) | List interactions are proxied from the Table, the Toolbar, or the empty state Communication component. All are clicks on actions. |
 |  [TLocale](./react-teams.tlocale.md) | A locale as an \[IETF BCP 47 language tag\](https://tools.ietf.org/rfc/bcp/bcp47.txt). |
+|  [TPhrasingContent](./react-teams.tphrasingcontent.md) | An ordered collection of elements that render inline as content. |
 |  [TSortable](./react-teams.tsortable.md) | Currently only alphabetical sort is available. |
 |  [TTableInteraction](./react-teams.ttableinteraction.md) | An interaction payload emitted by Table. |
 |  [TTextObject](./react-teams.ttextobject.md) | Text content to display. When the preferred locale is not available, the plain string or the only available locale will be used instead. |

@@ -9,9 +9,7 @@ import {
 import {
   IWidget,
   Widget,
-  WidgetTitle,
-  WidgetBody,
-  WidgetFooter,
+  IDashboardInteractionWidgetButton,
 } from "./DashboardWidget";
 import { DashboardTheme } from "./DashboardTheme";
 import { Sidebar } from "./Sidebar";
@@ -40,6 +38,10 @@ export interface IDashboard {
    * A Dashboard will emit onInteraction payloads when the user updates any preferences.
    */
   onInteraction?: (interaction: TDashboardInteraction) => void;
+  /**
+   * Whether the Dashboard should render as just a block element. This will disable the toolbar and sidebar from which the user could control which widgets display.
+   */
+  blockOnly?: boolean;
 }
 
 /**
@@ -62,7 +64,8 @@ export interface IDashboardPreferences {
  */
 export type TDashboardInteraction =
   | IDashboardInteractionUpdatePreferences
-  | IDashboardInteractionWidgetAction;
+  | IDashboardInteractionWidgetAction
+  | IDashboardInteractionWidgetButton;
 
 /**
  * The preferences update payload carries the preferences the developer should store for the user,
@@ -107,6 +110,7 @@ export function Dashboard({
   preferences,
   cacheKey,
   onInteraction,
+  blockOnly,
 }: IDashboard) {
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
   const closeSidebar = () => setSidebarOpen(false);
@@ -130,9 +134,8 @@ export function Dashboard({
     );
   };
 
-  const [preferencesState, setPreferencesState] = useState<
-    IDashboardPreferences
-  >(initializePreferencesState);
+  const [preferencesState, setPreferencesState] =
+    useState<IDashboardPreferences>(initializePreferencesState);
 
   useEffect(() => {
     localStorageKey &&
@@ -163,32 +166,37 @@ export function Dashboard({
   return (
     <FluentUIThemeConsumer
       render={(globalTheme) => {
-        const { t, rtl } = globalTheme.siteVariables;
+        const { t } = globalTheme.siteVariables;
         return (
           <DashboardTheme globalTheme={globalTheme}>
-            <Toolbar
-              {...{
-                actionGroups: {
-                  h1: {
-                    edit: { title: t["edit dashboard"], icon: "Edit" },
-                  },
-                },
-                filters: [],
-                find: false,
-              }}
-              onInteraction={({ action }) => {
-                switch (action) {
-                  case "edit":
-                    setSidebarOpen(true);
-                    break;
-                }
-              }}
-            />
-            <Sidebar
-              open={sidebarOpen}
-              onClose={closeSidebar}
-              {...{ t, widgets, preferencesState, updatePreferences }}
-            />
+            {!blockOnly && (
+              <>
+                <Toolbar
+                  {...{
+                    actionGroups: {
+                      h1: {
+                        edit: { title: t["edit dashboard"], icon: "Edit" },
+                      },
+                    },
+                    filters: [],
+                    find: false,
+                  }}
+                  onInteraction={({ action }) => {
+                    switch (action) {
+                      case "edit":
+                        setSidebarOpen(true);
+                        break;
+                    }
+                  }}
+                />
+                <Box styles={{ height: "1.25rem" }} role="presentation" />
+                <Sidebar
+                  open={sidebarOpen}
+                  onClose={closeSidebar}
+                  {...{ t, widgets, preferencesState, updatePreferences }}
+                />
+              </>
+            )}
             <Box
               styles={{
                 display: "grid",
@@ -213,41 +221,38 @@ export function Dashboard({
                       title,
                       desc,
                       widgetActionGroup,
+                      widgetFilterGroup,
+                      initialFilter,
                       size,
                       body,
+                      bodyByFilter,
                       link,
                     }: IWidget,
                     key: number
                   ) =>
-                    get(
-                      preferencesState,
-                      `widgetSettings.${id}.display`,
-                      true
-                    ) && (
-                      <Widget key={key} size={size}>
-                        <WidgetTitle
-                          {...{
-                            widgetId: id,
-                            title,
-                            desc,
-                            globalTheme,
-                            widgetActionGroup,
-                            onInteraction,
-                            hideWidget,
-                            t,
-                          }}
-                        />
-                        <WidgetBody
-                          {...{ body, t }}
-                          siteVariables={globalTheme.siteVariables}
-                        />
-                        {link && (
-                          <WidgetFooter
-                            {...{ link, t, rtl }}
-                            siteVariables={globalTheme.siteVariables}
-                          />
-                        )}
-                      </Widget>
+                    (blockOnly ||
+                      get(
+                        preferencesState,
+                        `widgetSettings.${id}.display`,
+                        true
+                      )) && (
+                      <Widget
+                        {...{
+                          key,
+                          size,
+                          title,
+                          desc,
+                          id,
+                          widgetActionGroup,
+                          widgetFilterGroup,
+                          initialFilter,
+                          onInteraction,
+                          ...(!blockOnly && { hideWidget }),
+                          body,
+                          bodyByFilter,
+                          link,
+                        }}
+                      />
                     )
                 )}
             </Box>

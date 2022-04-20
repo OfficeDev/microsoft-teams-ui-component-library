@@ -20,5 +20,6 @@ export interface IColumn
 |  [icon?](./react-teams.icolumn.icon.md) | string | <i>(Optional)</i> The icon to display before the column’s title in the header cell. |
 |  [minWidth?](./react-teams.icolumn.minwidth.md) | number | <i>(Optional)</i> The column’s minimum width in pixels. |
 |  [sortable?](./react-teams.icolumn.sortable.md) | [TSortable](./react-teams.tsortable.md) | <i>(Optional)</i> Whether the column is sortable, and if so what sort to make available. |
+|  [textSelectable?](./react-teams.icolumn.textselectable.md) | boolean | <i>(Optional)</i> Whether text content in this column should be selectable, i.e. any text will prevent click from being triggered on any parent elements. |
 |  [title](./react-teams.icolumn.title.md) | [TTextObject](./react-teams.ttextobject.md) | The text content of the column's header cell. |
 

@@ -60,6 +60,7 @@ const storybookT10s = {
     "hide widget": "مخفی کردن ویجت",
     "view more": "بیشتر ببینید",
     "edit dashboard": "داشبورد را ویرایش کنید",
+    details: "جزئیات",
   } as TTranslations,
 };
 
