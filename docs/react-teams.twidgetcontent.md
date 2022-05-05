@@ -9,7 +9,7 @@ Widget content specifies a type, then a payload with a special key depending on 
 <b>Signature:</b>
 
 ```typescript
-export declare type TWidgetContent = IChartWidgetContent | IDescriptionListWidgetContent | IPlaceholderWidgetContent;
+export declare type TWidgetContent = IChartWidgetContent | IDescriptionListWidgetContent | IPlaceholderWidgetContent | ITextWidgetContent;
 ```
 <b>References:</b> [IChartWidgetContent](./react-teams.ichartwidgetcontent.md)
 
