@@ -1,6 +1,6 @@
 {
-  "type": "minor",
-  "comment": "Publish features from alpha tag.",
+  "type": "prerelease",
+  "comment": "Extend widget to permit plain text.",
   "packageName": "@fluentui/react-teams",
   "email": "willshown@microsoft.com",
   "dependentChangeType": "patch"
