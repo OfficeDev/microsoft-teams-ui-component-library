@@ -1,6 +1,6 @@
 {
   "type": "prerelease",
-  "comment": "Fix selection.",
+  "comment": "Extend widget to permit plain text.",
   "packageName": "@fluentui/react-teams",
   "email": "willshown@microsoft.com",
   "dependentChangeType": "patch"

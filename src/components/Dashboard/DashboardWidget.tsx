@@ -116,6 +116,15 @@ export interface IDescriptionListWidgetContent
 }
 
 /**
+ * A plain text widget
+ * @public
+ */
+export interface ITextWidgetContent {
+  type: "text";
+  text: TTextObject;
+}
+
+/**
  * A placeholder widget
  * @internal
  */
@@ -131,7 +140,8 @@ interface IPlaceholderWidgetContent {
 export type TWidgetContent =
   | IChartWidgetContent
   | IDescriptionListWidgetContent
-  | IPlaceholderWidgetContent;
+  | IPlaceholderWidgetContent
+  | ITextWidgetContent;
 
 /**
  * A piece of content to make available in the widget.
@@ -229,8 +239,15 @@ export const Widget = ({
           return (
             <>
               <Card.Header>
-                <Flex gap="gap.small" style={{ minHeight: "2rem" }}>
-                  <Flex gap="gap.small" column>
+                <Flex
+                  gap="gap.small"
+                  styles={{ minHeight: "2rem", marginBlockStart: "-.5rem" }}
+                >
+                  <Flex
+                    gap="gap.small"
+                    column
+                    styles={{ marginBlockStart: ".25rem" }}
+                  >
                     <Text
                       content={getText(t.locale, title)}
                       style={{ margin: 0 }}
@@ -337,6 +354,21 @@ export const Widget = ({
                                       .message
                                   }
                                 />
+                              );
+                            case "text":
+                              return (
+                                <Text
+                                  as="p"
+                                  styles={{
+                                    marginBlockStart: 0,
+                                    marginBlockEnd: 0,
+                                  }}
+                                >
+                                  {getText(
+                                    t.locale,
+                                    (content as ITextWidgetContent).text
+                                  )}
+                                </Text>
                               );
                           }
                         })()}
