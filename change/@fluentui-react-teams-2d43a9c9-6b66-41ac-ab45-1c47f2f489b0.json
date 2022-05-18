@@ -1,6 +1,6 @@
 {
-  "type": "prerelease",
-  "comment": "Upgrade Storybook. Ignore certain types for now.",
+  "type": "patch",
+  "comment": "Release #133, #128 and #127.",
   "packageName": "@fluentui/react-teams",
   "email": "willshown@microsoft.com",
   "dependentChangeType": "patch"
