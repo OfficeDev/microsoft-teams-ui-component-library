@@ -17,5 +17,5 @@ export interface IMultilineTextInput extends ITextInputBase
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [type](./react-teams.imultilinetextinput.type.md) | [EInputBlockType.multilineText](./react-teams.einputblocktype.md) |  |
+|  [type](./react-teams.imultilinetextinput.type.md) | [EInputBlockType.multilineText](./react-teams.einputblocktype.multilinetext.md) |  |
 

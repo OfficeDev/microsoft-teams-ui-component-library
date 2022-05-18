@@ -17,6 +17,6 @@ export interface ITextField extends ITextInputBase
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [type](./react-teams.itextfield.type.md) | [EInlineInputType.text](./react-teams.einlineinputtype.md) |  |
+|  [type](./react-teams.itextfield.type.md) | [EInlineInputType.text](./react-teams.einlineinputtype.text.md) |  |
 |  [width?](./react-teams.itextfield.width.md) | [EInputWidth](./react-teams.einputwidth.md) | <i>(Optional)</i> |
 

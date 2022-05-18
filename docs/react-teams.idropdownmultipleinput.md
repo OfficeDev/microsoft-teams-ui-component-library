@@ -18,6 +18,6 @@ export interface IDropdownMultipleInput extends IEnumerableMultipleInputBase
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [multiple](./react-teams.idropdownmultipleinput.multiple.md) | true |  |
-|  [type](./react-teams.idropdownmultipleinput.type.md) | [EInlineInputType.dropdown](./react-teams.einlineinputtype.md) \| [EInputBlockType.dropdown](./react-teams.einputblocktype.md) |  |
+|  [type](./react-teams.idropdownmultipleinput.type.md) | [EInlineInputType.dropdown](./react-teams.einlineinputtype.dropdown.md) \| [EInputBlockType.dropdown](./react-teams.einputblocktype.dropdown.md) |  |
 |  [width?](./react-teams.idropdownmultipleinput.width.md) | [EInputWidth](./react-teams.einputwidth.md) | <i>(Optional)</i> |
 
