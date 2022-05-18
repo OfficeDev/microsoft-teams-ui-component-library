@@ -1,5 +1,5 @@
 import React from "react";
-import CustomScrollArea from "react-perfect-scrollbar";
+import CustomScrollArea from "../../lib/CustomScrollArea";
 import omit from "lodash/omit";
 
 import {
