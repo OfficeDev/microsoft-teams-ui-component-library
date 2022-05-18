@@ -1,6 +1,6 @@
 {
-  "type": "minor",
-  "comment": "Publish features from alpha tag.",
+  "type": "patch",
+  "comment": "Release #133, #128 and #127.",
   "packageName": "@fluentui/react-teams",
   "email": "willshown@microsoft.com",
   "dependentChangeType": "patch"

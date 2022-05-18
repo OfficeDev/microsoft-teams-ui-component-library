@@ -7,6 +7,7 @@ import { Dashboard, IWidget, EWidgetSize, EChartTypes } from "../src";
 const eventsFromNames = actions("onInteraction");
 
 import { random } from "../src/components/Chart/ChartUtils";
+import { fake } from "faker";
 
 export default {
   title: "UI Templates/Dashboards",
@@ -731,6 +732,22 @@ const dataVizWidgets = [
             { label: "% of 5+ days usage", value: "38.2%" },
             { label: "DAU / MAU", value: "24.3%" },
           ],
+        },
+      },
+    ],
+  } as IWidget,
+  {
+    id: "w16",
+    title: "Text",
+    size: EWidgetSize.Single,
+    link: { href: "#", title: "Learn more" },
+    body: [
+      {
+        id: "1",
+        title: "",
+        content: {
+          type: "text",
+          text: fake("{{lorem.paragraph}}"),
         },
       },
     ],

@@ -17,5 +17,5 @@ export interface IRadioButtonsInput extends IEnumerableSingletonInputBase
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [type](./react-teams.iradiobuttonsinput.type.md) | [EInputBlockType.radioButtons](./react-teams.einputblocktype.md) |  |
+|  [type](./react-teams.iradiobuttonsinput.type.md) | [EInputBlockType.radioButtons](./react-teams.einputblocktype.radiobuttons.md) |  |
 

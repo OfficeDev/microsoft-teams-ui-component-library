@@ -1,6 +1,7 @@
 import { argv } from "just-scripts";
 import path from "path";
 
+// @ts-ignore
 import storybook from "@storybook/react/standalone";
 
 export function startStorybookTask(options?: any) {
