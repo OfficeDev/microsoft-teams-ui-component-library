@@ -41,6 +41,7 @@ const treeItemTitleRenderer: ShorthandRenderFunction<TreeTitleProps> = (
   Component,
   { content, expanded, hasSubtree, ...restProps }
 ) => (
+  // @ts-ignore
   <Component
     expanded={expanded}
     hasSubtree={hasSubtree}

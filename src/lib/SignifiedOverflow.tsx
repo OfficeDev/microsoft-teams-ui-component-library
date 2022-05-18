@@ -1,6 +1,6 @@
 import React from "react";
 import { Box } from "@fluentui/react-northstar";
-import CustomScrollArea from "react-perfect-scrollbar";
+import CustomScrollArea from "./CustomScrollArea";
 
 interface ISignifiedOverflow {
   body: JSX.Element;

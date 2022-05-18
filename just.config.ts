@@ -1,4 +1,5 @@
 import * as util from "util";
+// @ts-ignore
 import _rimraf from "rimraf";
 import {
   task,
