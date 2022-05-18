@@ -1,8 +1,10 @@
 import { radios, select } from "@storybook/addon-knobs";
+import { StoryFn, StoryIdentifier } from "@storybook/addons";
 import React, { ReactNode } from "react";
 import { HVCThemeProvider } from "./withTheme";
 import { TeamsTheme } from "../themes";
 import { TTranslations } from "../translations";
+import { StoryContext } from "@storybook/react";
 
 const storybookT10s = {
   // The Farsi translations here are not certified and are intended for demonstration purposes only at this time.
@@ -104,8 +106,12 @@ export const StorybookThemeProvider = ({
   );
 };
 
-export const withStorybookTheme = (Story: React.FC) => (
+export const withStorybookTheme = (
+  Story: StoryFn<any>,
+  ctx: StoryContext<any, any>,
+  id: StoryIdentifier
+) => (
   <StorybookThemeProvider>
-    <Story />
+    {Story(ctx, id as unknown as any)}
   </StorybookThemeProvider>
 );
