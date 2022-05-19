@@ -8,6 +8,7 @@ trigger:
   branches:
     include:
       - main
+      - alpha
   paths:
     exclude:
       - docs
@@ -16,8 +17,8 @@ trigger:
       - CODE_OF_CONDUCT.md
 
 pool:
-  name: Hosted
-  demands: azureps
+  name: Azure Pipelines
+  vmimage: windows-latest
 
 steps:
   - task: NodeTool@0
