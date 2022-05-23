@@ -56,3 +56,8 @@ steps:
       ScriptPath: scripts/UpdateBlobProperties.ps1
       ScriptArguments: "-StorageAccountName $(StorageAccountName) -ContainerName $(ContainerName) -ResourceGroupName $(ResourceGroupName)"
       azurePowerShellVersion: LatestVersion
+        
+  - template: azure-devops-templates/steps/ServiceTree-Integration.yml@SkypeSpaces-Infra
+    parameters:
+      serviceTreeID: 0d2a05ae-fe20-4dc1-b8dd-d23a9ccdd27a
+      isProduction: true
