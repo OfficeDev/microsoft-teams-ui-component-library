@@ -20,6 +20,12 @@ pool:
   name: Azure Pipelines
   vmimage: windows-latest
 
+resources:
+  repositories:
+    - repository: SkypeSpaces-Infra
+      type: git
+      name: SkypeSpaces-Infra
+
 steps:
   - task: NodeTool@0
     inputs:
