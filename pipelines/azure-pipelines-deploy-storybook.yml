@@ -8,6 +8,7 @@ trigger:
   branches:
     include:
       - main
+      - alpha
   paths:
     exclude:
       - docs
@@ -16,13 +17,19 @@ trigger:
       - CODE_OF_CONDUCT.md
 
 pool:
-  name: Hosted
-  demands: azureps
+  name: Azure Pipelines
+  vmimage: windows-latest
+
+resources:
+  repositories:
+    - repository: SkypeSpaces-Infra
+      type: git
+      name: SkypeSpaces-Infra
 
 steps:
   - task: NodeTool@0
     inputs:
-      versionSpec: '10.x'
+      versionSpec: '14.x'
     displayName: 'Install Node.js'
 
   - script: "yarn"
@@ -55,3 +62,8 @@ steps:
       ScriptPath: scripts/UpdateBlobProperties.ps1
       ScriptArguments: "-StorageAccountName $(StorageAccountName) -ContainerName $(ContainerName) -ResourceGroupName $(ResourceGroupName)"
       azurePowerShellVersion: LatestVersion
+        
+  - template: azure-devops-templates/steps/ServiceTree-Integration.yml@SkypeSpaces-Infra
+    parameters:
+      serviceTreeID: 0d2a05ae-fe20-4dc1-b8dd-d23a9ccdd27a
+      isProduction: true
