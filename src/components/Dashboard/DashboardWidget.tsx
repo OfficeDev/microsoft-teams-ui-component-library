@@ -168,6 +168,7 @@ export interface IWidgetBodyContent {
  */
 export interface IWidgetLink {
   title?: TTextObject;
+  descriptiveLabel?: string;
   href: string;
 }
 
@@ -176,6 +177,7 @@ export interface IWidgetLink {
  */
 export interface IWidgetButton {
   title?: TTextObject;
+  descriptiveLabel?: string;
   actionId: string;
 }
 
@@ -399,6 +401,9 @@ export const Widget = ({
                                 .foregroundActive,
                           },
                         }}
+                        {...(link.descriptiveLabel && {
+                          "aria-label": link.descriptiveLabel,
+                        })}
                       >
                         {link.title
                           ? getText(t.locale, link.title)
@@ -451,6 +456,9 @@ export const Widget = ({
                             colorScheme,
                           }: SiteVariablesPrepared) => ({
                             color: colorScheme.brand.foreground,
+                          })}
+                          {...(link.descriptiveLabel && {
+                            "aria-label": link.descriptiveLabel,
                           })}
                         />
                       </>
