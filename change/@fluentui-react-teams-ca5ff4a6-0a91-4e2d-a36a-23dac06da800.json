@@ -1,0 +1,7 @@
+{
+  "type": "prerelease",
+  "comment": "Add descriptive label option to widget links.",
+  "packageName": "@fluentui/react-teams",
+  "email": "willshown@microsoft.com",
+  "dependentChangeType": "patch"
+}
