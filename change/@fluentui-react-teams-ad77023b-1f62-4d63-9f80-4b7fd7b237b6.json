@@ -1,7 +1,0 @@
-{
-  "type": "prerelease",
-  "comment": "Merge main into alpha.",
-  "packageName": "@fluentui/react-teams",
-  "email": "willshown@microsoft.com",
-  "dependentChangeType": "patch"
-}
