@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, MutableRefObject } from "react";
 import {
   Box,
   SiteVariablesPrepared,
@@ -8,9 +8,10 @@ import {
   Flex,
 } from "@fluentui/react-northstar";
 import { TeamsTheme } from "../../../themes";
-import { IChartPatterns, ILegendItem } from "../ChartTypes";
+import { IChartData, IChartPatterns, ILegendItem } from "../ChartTypes";
 import { legendLabels } from "../ChartPatterns";
 import { getText } from "../../../translations";
+import { visuallyHidden } from "../../../lib/visuallyHidden";
 
 const LabelColorValue = ({
   index,
@@ -159,15 +160,21 @@ const LegendItems = (
 
 export const ChartContainer = ({
   data,
-  children,
+  chartId,
+  chartLabel,
+  canvasRef,
+  containerRef,
   siteVariables,
   chartDataPointColors,
   onLegendClick,
   verticalDataAlignment,
   patterns,
 }: {
-  data: any;
-  children: React.ReactNode;
+  data: IChartData;
+  chartId: string;
+  chartLabel: string;
+  canvasRef: MutableRefObject<HTMLCanvasElement | null>;
+  containerRef: MutableRefObject<HTMLDivElement | null>;
   siteVariables: SiteVariablesPrepared;
   chartDataPointColors: any;
   onLegendClick: (index: number) => void;
@@ -177,25 +184,19 @@ export const ChartContainer = ({
   const [overflowOpen, setOverflowOpen] = useState(false);
   const [overflowItems, setOverflowItems] = useState<number>(0);
   const { theme, colorScheme, t } = siteVariables;
-  let legendItems: ILegendItem[] = LegendItems(
-    data,
-    siteVariables,
-    chartDataPointColors,
-    onLegendClick,
-    verticalDataAlignment,
-    patterns
-  );
 
-  useEffect(() => {
-    legendItems = LegendItems(
-      data,
-      siteVariables,
-      chartDataPointColors,
-      onLegendClick,
-      verticalDataAlignment,
-      patterns
-    );
-  }, [theme, t]);
+  const legendItems: ILegendItem[] = useMemo(
+    () =>
+      LegendItems(
+        data,
+        siteVariables,
+        chartDataPointColors,
+        onLegendClick,
+        verticalDataAlignment,
+        patterns
+      ),
+    [theme, t]
+  );
 
   return (
     <Flex
@@ -213,10 +214,38 @@ export const ChartContainer = ({
           flexGrow: 1,
           backgroundColor: colorScheme.grey.background,
         }}
+        tabIndex={0}
+        ref={containerRef}
       >
-        {children}
+        <canvas
+          id={chartId}
+          ref={canvasRef}
+          tabIndex={-1}
+          style={{
+            userSelect: "none",
+          }}
+          aria-label={chartLabel}
+        />
+        {data.datasets.map((set, setKey) =>
+          (set.data as number[]).map((item: number, itemKey: number) => (
+            // Generated tooltips for screen readers
+            <Box
+              data-tooltip={true}
+              tabIndex={-1}
+              as="p"
+              key={itemKey}
+              id={`${chartId}-tooltip-${setKey}-${itemKey}`}
+              styles={visuallyHidden}
+            >
+              {`${getText(t.locale, set.label)} ${
+                data.labels && Array.isArray(data.labels)
+                  ? getText(t.locale, data.labels[itemKey])
+                  : getText(t.locale, data.labels)
+              }: ${set.data[itemKey]}`}
+            </Box>
+          ))
+        )}
       </Box>
-      {/* Legend should be in differen container to avoid FluentUI window resize issue */}
       <Box>
         <Legend
           aria-label={t["toolbar overflow menu"]}
