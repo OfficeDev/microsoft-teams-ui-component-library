@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useMemo, MutableRefObject } from "react";
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  MutableRefObject,
+  ReactElement,
+} from "react";
 import {
   Box,
   SiteVariablesPrepared,
@@ -11,7 +17,6 @@ import { TeamsTheme } from "../../../themes";
 import { IChartData, IChartPatterns, ILegendItem } from "../ChartTypes";
 import { legendLabels } from "../ChartPatterns";
 import { getText } from "../../../translations";
-import { visuallyHidden } from "../../../lib/visuallyHidden";
 
 const LabelColorValue = ({
   index,
@@ -164,6 +169,7 @@ export const ChartContainer = ({
   chartLabel,
   canvasRef,
   containerRef,
+  tooltipAnnouncements,
   siteVariables,
   chartDataPointColors,
   onLegendClick,
@@ -175,6 +181,7 @@ export const ChartContainer = ({
   chartLabel: string;
   canvasRef: MutableRefObject<HTMLCanvasElement | null>;
   containerRef: MutableRefObject<HTMLDivElement | null>;
+  tooltipAnnouncements: ReactElement[];
   siteVariables: SiteVariablesPrepared;
   chartDataPointColors: any;
   onLegendClick: (index: number) => void;
@@ -226,25 +233,7 @@ export const ChartContainer = ({
           }}
           aria-label={chartLabel}
         />
-        {data.datasets.map((set, setKey) =>
-          (set.data as number[]).map((item: number, itemKey: number) => (
-            // Generated tooltips for screen readers
-            <Box
-              data-tooltip={true}
-              tabIndex={-1}
-              as="p"
-              key={itemKey}
-              id={`${chartId}-tooltip-${setKey}-${itemKey}`}
-              styles={visuallyHidden}
-            >
-              {`${getText(t.locale, set.label)} ${
-                data.labels && Array.isArray(data.labels)
-                  ? getText(t.locale, data.labels[itemKey])
-                  : getText(t.locale, data.labels)
-              }: ${set.data[itemKey]}`}
-            </Box>
-          ))
-        )}
+        {tooltipAnnouncements}
       </Box>
       <Box>
         <Legend

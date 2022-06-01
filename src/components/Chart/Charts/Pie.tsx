@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useRef } from "react";
-import get from "lodash/get";
 import Chart from "chart.js";
-import { SiteVariablesPrepared } from "@fluentui/react-northstar";
+import { Box, SiteVariablesPrepared } from "@fluentui/react-northstar";
 import { TeamsTheme } from "../../../themes";
 import { IChartData } from "../ChartTypes";
 import {
@@ -14,6 +13,9 @@ import {
 import { ChartContainer } from "./ChartContainer";
 import { buildPattern, chartBarDataPointPatterns } from "../ChartPatterns";
 import { getText } from "../../../translations";
+import { visuallyHidden } from "../../../lib/visuallyHidden";
+import get from "lodash/get";
+import flatten from "lodash/flatten";
 
 export const PieChart = ({
   title,
@@ -311,6 +313,26 @@ export const PieChart = ({
       patterns={chartBarDataPointPatterns}
       onLegendClick={onLegendClick}
       verticalDataAlignment
+      tooltipAnnouncements={flatten(
+        data.datasets.map((set, setKey) =>
+          (set.data as number[]).map((item: number, itemKey: number) => (
+            // Generated tooltips for screen readers
+            <Box
+              data-tooltip={true}
+              tabIndex={-1}
+              key={itemKey}
+              id={`${chartId}-tooltip-${setKey}-${itemKey}`}
+              styles={visuallyHidden}
+            >
+              {`${getText(t.locale, set.label)} ${
+                data.labels && Array.isArray(data.labels)
+                  ? getText(t.locale, data.labels[itemKey])
+                  : getText(t.locale, data.labels)
+              }: ${set.data[itemKey]}`}
+            </Box>
+          ))
+        )
+      )}
     />
   );
 };

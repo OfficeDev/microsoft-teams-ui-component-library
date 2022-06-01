@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import Chart from "chart.js";
-import { SiteVariablesPrepared } from "@fluentui/react-northstar";
+import { Box, SiteVariablesPrepared } from "@fluentui/react-northstar";
 import { TeamsTheme } from "../../../themes";
 import { IChartData } from "../ChartTypes";
 import {
@@ -18,6 +18,9 @@ import {
   lineChartPatterns,
 } from "../ChartPatterns";
 import { getText } from "../../../translations";
+import { visuallyHidden } from "../../../lib/visuallyHidden";
+import flatten from "lodash/flatten";
+import get from "lodash/get";
 
 export const LineStackedChart = ({
   title,
@@ -29,13 +32,11 @@ export const LineStackedChart = ({
   siteVariables: SiteVariablesPrepared;
 }) => {
   const { colorScheme, theme, colors, t } = siteVariables;
-  const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
-  const chartRef = React.useRef<Chart | undefined>();
-  const chartId = React.useMemo(
-    () => Math.random().toString(36).substr(2, 9),
-    []
-  );
-  const chartDataPointColors = React.useMemo(
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const chartRef = useRef<Chart | undefined>();
+  const chartId = useMemo(() => Math.random().toString(36).substr(2, 9), []);
+  const chartDataPointColors = useMemo(
     () => [
       colors.brand["600"],
       colors.brand["200"],
@@ -101,7 +102,7 @@ export const LineStackedChart = ({
     let selectedIndex = -1;
     let selectedDataSet = 0;
 
-    if (!canvasRef.current) return;
+    if (!(canvasRef.current && containerRef.current)) return;
     const ctx = canvasRef.current.getContext("2d");
     if (!ctx) return;
     const config: any = chartConfig({ type: "line" });
@@ -187,14 +188,18 @@ export const LineStackedChart = ({
         index: selectedIndex,
         siteVariables,
       });
-      document
-        .getElementById(
-          `${chartId}-tooltip-${selectedDataSet}-${selectedIndex}`
-        )
-        ?.focus();
+      const tooltipAnnoucement = document.getElementById(
+        `${chartId}-tooltip-${selectedDataSet}-${selectedIndex}`
+      );
+      if (tooltipAnnoucement) {
+        tooltipAnnoucement.focus();
+      }
     }
 
-    function resetChartStates() {
+    function resetChartStates(e: FocusEvent) {
+      if (get(e, ["relatedTarget", "dataset", "tooltip"], false)) {
+        return;
+      }
       removeDataPointsHoverStates();
       const activeElements = chart.tooltip._active;
       const requestedElem =
@@ -266,15 +271,18 @@ export const LineStackedChart = ({
       showFocusedDataPoint();
     }
 
-    canvasRef.current.addEventListener("click", removeFocusStyleOnClick);
-    canvasRef.current.addEventListener("keydown", changeFocus);
-    canvasRef.current.addEventListener("focusout", resetChartStates);
+    containerRef.current.addEventListener("click", removeFocusStyleOnClick);
+    containerRef.current.addEventListener("keyup", changeFocus);
+    containerRef.current.addEventListener("focusout", resetChartStates);
     return () => {
       if (!chartRef.current) return;
-      if (canvasRef.current) {
-        canvasRef.current.removeEventListener("click", removeFocusStyleOnClick);
-        canvasRef.current.removeEventListener("keydown", changeFocus);
-        canvasRef.current.removeEventListener("focusout", resetChartStates);
+      if (containerRef.current) {
+        containerRef.current.removeEventListener(
+          "click",
+          removeFocusStyleOnClick
+        );
+        containerRef.current.removeEventListener("keyup", changeFocus);
+        containerRef.current.removeEventListener("focusout", resetChartStates);
       }
       chartRef.current.destroy();
     };
@@ -314,31 +322,32 @@ export const LineStackedChart = ({
     <ChartContainer
       siteVariables={siteVariables}
       data={data}
+      chartId={chartId}
+      chartLabel={title}
+      canvasRef={canvasRef}
+      containerRef={containerRef}
       chartDataPointColors={chartDataPointColors}
       patterns={chartLineStackedDataPointPatterns}
       onLegendClick={onLegendClick}
-    >
-      <canvas
-        id={chartId}
-        ref={canvasRef}
-        tabIndex={0}
-        style={{
-          userSelect: "none",
-        }}
-        aria-label={title}
-      >
-        {data.datasets.map((set, setKey) =>
-          (set.data as number[]).forEach((item: number, itemKey: number) => (
+      tooltipAnnouncements={flatten(
+        data.datasets.map((set, setKey) =>
+          (set.data as number[]).map((item: number, itemKey: number) => (
             // Generated tooltips for screen readers
-            <div key={itemKey} id={`${chartId}-tooltip-${setKey}-${itemKey}`}>
+            <Box
+              data-tooltip={true}
+              tabIndex={-1}
+              styles={visuallyHidden}
+              key={itemKey}
+              id={`${chartId}-tooltip-${setKey}-${itemKey}`}
+            >
               <p>{item}</p>
               <span>
                 {getText(t.locale, set.label)}: {set.data[itemKey]}
               </span>
-            </div>
+            </Box>
           ))
-        )}
-      </canvas>
-    </ChartContainer>
+        )
+      )}
+    />
   );
 };
