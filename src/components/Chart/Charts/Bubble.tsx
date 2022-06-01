@@ -322,17 +322,16 @@ export const BubbleChart = ({
             (item: IBubbleChartData, itemKey: number) => (
               // Generated tooltips for screen readers
               <Box
+                role="none"
                 data-tooltip={true}
                 tabIndex={-1}
                 styles={visuallyHidden}
                 key={itemKey}
                 id={`${chartId}-tooltip-${setKey}-${itemKey}`}
               >
-                <p>{item.x}</p>
-                <span>
-                  {getText(t.locale, set.label)}:{" "}
-                  {(set.data as IBubbleChartData[])[itemKey].y}
-                </span>
+                {`${getText(t.locale, set.label)}: ${
+                  (set.data as IBubbleChartData[])[itemKey].x
+                }, ${(set.data as IBubbleChartData[])[itemKey].y}`}
               </Box>
             )
           )

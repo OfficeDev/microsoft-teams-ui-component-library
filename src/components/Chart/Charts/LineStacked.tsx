@@ -334,16 +334,18 @@ export const LineStackedChart = ({
           (set.data as number[]).map((item: number, itemKey: number) => (
             // Generated tooltips for screen readers
             <Box
+              role="none"
               data-tooltip={true}
               tabIndex={-1}
               styles={visuallyHidden}
               key={itemKey}
               id={`${chartId}-tooltip-${setKey}-${itemKey}`}
             >
-              <p>{item}</p>
-              <span>
-                {getText(t.locale, set.label)}: {set.data[itemKey]}
-              </span>
+              {`${getText(t.locale, set.label)} ${
+                data.labels && Array.isArray(data.labels)
+                  ? getText(t.locale, data.labels[itemKey])
+                  : getText(t.locale, data.labels)
+              }: ${set.data[itemKey]}`}
             </Box>
           ))
         )
