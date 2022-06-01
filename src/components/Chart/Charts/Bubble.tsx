@@ -133,6 +133,12 @@ export const BubbleChart = ({
     function removeDataPointsHoverStates() {
       const datasetMeta = meta();
       if (selectedIndex > -1 && datasetMeta.data[selectedIndex]) {
+        const tooltipAnnoucement = document.getElementById(
+          `${chartId}-tooltip-${selectedDataSet}-${selectedIndex}`
+        );
+        if (tooltipAnnoucement) {
+          tooltipAnnoucement.style.setProperty("display", "none");
+        }
         datasetMeta.controller.removeHoverStyle(
           datasetMeta.data[selectedIndex],
           0,
@@ -164,6 +170,7 @@ export const BubbleChart = ({
         `${chartId}-tooltip-${selectedDataSet}-${selectedIndex}`
       );
       if (tooltipAnnoucement) {
+        tooltipAnnoucement.style.setProperty("display", "block");
         tooltipAnnoucement.focus();
       }
     }
@@ -322,10 +329,9 @@ export const BubbleChart = ({
             (item: IBubbleChartData, itemKey: number) => (
               // Generated tooltips for screen readers
               <Box
-                role="none"
                 data-tooltip={true}
                 tabIndex={-1}
-                styles={visuallyHidden}
+                styles={{ ...visuallyHidden, display: "none" }}
                 key={itemKey}
                 id={`${chartId}-tooltip-${setKey}-${itemKey}`}
               >
