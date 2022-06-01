@@ -15,7 +15,7 @@
     "prepare": "node ./scripts/prepare",
     "lint": "just-scripts lint",
     "release": "beachball publish --branch origin/latest",
-    "releasealpha": "beachball publish --tag alpha",
+    "releasenext": "beachball publish --tag next",
     "start": "just-scripts start",
     "test": "just-scripts test"
   },

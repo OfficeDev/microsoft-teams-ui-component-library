@@ -8,7 +8,7 @@ trigger:
   branches:
     include:
       - main
-      - alpha
+      - next
   paths:
     exclude:
       - docs

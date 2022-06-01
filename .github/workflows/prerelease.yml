@@ -6,7 +6,7 @@ name: Prerelease
 on:
   workflow_dispatch:
   push:
-    branches: [alpha]
+    branches: [next]
 
 jobs:
   build:
@@ -31,6 +31,6 @@ jobs:
       - run: |
           git config user.email "teamsappstudio@microsoft.com"
           git config user.name "Automation"
-      - run: yarn releasealpha -y -n $NPM_TOKEN
+      - run: yarn releasenext -y -n $NPM_TOKEN
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
