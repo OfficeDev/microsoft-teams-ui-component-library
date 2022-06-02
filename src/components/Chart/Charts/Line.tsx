@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import Chart from "chart.js";
-import { SiteVariablesPrepared } from "@fluentui/react-northstar";
+import { Box, SiteVariablesPrepared } from "@fluentui/react-northstar";
 import { IChartData } from "../ChartTypes";
 import {
   tooltipTrigger,
@@ -14,6 +14,9 @@ import { TeamsTheme } from "../../../themes";
 import { ChartContainer } from "./ChartContainer";
 import { lineChartPatterns } from "../ChartPatterns";
 import { getText } from "../../../translations";
+import { visuallyHidden } from "../../../lib/visuallyHidden";
+import flatten from "lodash/flatten";
+import get from "lodash/get";
 
 export const LineChart = ({
   title,
@@ -27,13 +30,11 @@ export const LineChart = ({
   gradients?: boolean;
 }) => {
   const { colorScheme, theme, t } = siteVariables;
-  const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
-  const chartRef = React.useRef<Chart | undefined>();
-  const chartId = React.useMemo(
-    () => Math.random().toString(36).substr(2, 9),
-    []
-  );
-  const chartDataPointColors = React.useMemo(
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const chartRef = useRef<Chart | undefined>();
+  const chartId = useMemo(() => Math.random().toString(36).substr(2, 9), []);
+  const chartDataPointColors = useMemo(
     () => [
       colorScheme.brand.background,
       colorScheme.default.borderHover,
@@ -164,7 +165,7 @@ export const LineChart = ({
     let selectedIndex = -1;
     let selectedDataSet = 0;
 
-    if (!canvasRef.current) return;
+    if (!(canvasRef.current && containerRef.current)) return;
     const ctx = canvasRef.current.getContext("2d");
     if (!ctx) return;
     chartRef.current = new Chart(ctx, {
@@ -207,6 +208,12 @@ export const LineChart = ({
     function removeDataPointsHoverStates() {
       const datasetMeta = meta();
       if (selectedIndex > -1 && datasetMeta.data[selectedIndex]) {
+        const tooltipAnnoucement = document.getElementById(
+          `${chartId}-tooltip-${selectedDataSet}-${selectedIndex}`
+        );
+        if (tooltipAnnoucement) {
+          tooltipAnnoucement.style.setProperty("display", "none");
+        }
         datasetMeta.controller.removeHoverStyle(
           datasetMeta.data[selectedIndex],
           0,
@@ -234,14 +241,19 @@ export const LineChart = ({
         index: selectedIndex,
         siteVariables,
       });
-      document
-        .getElementById(
-          `${chartId}-tooltip-${selectedDataSet}-${selectedIndex}`
-        )
-        ?.focus();
+      const tooltipAnnoucement = document.getElementById(
+        `${chartId}-tooltip-${selectedDataSet}-${selectedIndex}`
+      );
+      if (tooltipAnnoucement) {
+        tooltipAnnoucement.style.setProperty("display", "block");
+        tooltipAnnoucement.focus();
+      }
     }
 
-    function resetChartStates() {
+    function resetChartStates(e: FocusEvent) {
+      if (get(e, ["relatedTarget", "dataset", "tooltip"], false)) {
+        return;
+      }
       removeDataPointsHoverStates();
       const activeElements = chart.tooltip._active;
       const requestedElem =
@@ -321,15 +333,18 @@ export const LineChart = ({
       showFocusedDataPoint();
     }
 
-    canvasRef.current.addEventListener("click", removeFocusStyleOnClick);
-    canvasRef.current.addEventListener("keydown", changeFocus);
-    canvasRef.current.addEventListener("focusout", resetChartStates);
+    containerRef.current.addEventListener("click", removeFocusStyleOnClick);
+    containerRef.current.addEventListener("keyup", changeFocus);
+    containerRef.current.addEventListener("focusout", resetChartStates);
     return () => {
       if (!chartRef.current) return;
-      if (canvasRef.current) {
-        canvasRef.current.removeEventListener("click", removeFocusStyleOnClick);
-        canvasRef.current.removeEventListener("keydown", changeFocus);
-        canvasRef.current.removeEventListener("focusout", resetChartStates);
+      if (containerRef.current) {
+        containerRef.current.removeEventListener(
+          "click",
+          removeFocusStyleOnClick
+        );
+        containerRef.current.removeEventListener("keyup", changeFocus);
+        containerRef.current.removeEventListener("focusout", resetChartStates);
       }
       chartRef.current.destroy();
     };
@@ -370,30 +385,32 @@ export const LineChart = ({
     <ChartContainer
       siteVariables={siteVariables}
       data={data}
+      chartId={chartId}
+      chartLabel={title}
+      canvasRef={canvasRef}
+      containerRef={containerRef}
       chartDataPointColors={chartDataPointColors}
       onLegendClick={onLegendClick}
-    >
-      <canvas
-        id={chartId}
-        ref={canvasRef}
-        tabIndex={0}
-        style={{
-          userSelect: "none",
-        }}
-        aria-label={title}
-      >
-        {data.datasets.map((set, setKey) =>
-          (set.data as number[]).forEach((item: number, itemKey: number) => (
+      tooltipAnnouncements={flatten(
+        data.datasets.map((set, setKey) =>
+          (set.data as number[]).map((item: number, itemKey: number) => (
             // Generated tooltips for screen readers
-            <div key={itemKey} id={`${chartId}-tooltip-${setKey}-${itemKey}`}>
-              <p>{item}</p>
-              <span>
-                {getText(t.locale, set.label)}: {set.data[itemKey]}
-              </span>
-            </div>
+            <Box
+              data-tooltip={true}
+              tabIndex={-1}
+              styles={{ ...visuallyHidden, display: "none" }}
+              key={itemKey}
+              id={`${chartId}-tooltip-${setKey}-${itemKey}`}
+            >
+              {`${getText(t.locale, set.label)} ${
+                data.labels && Array.isArray(data.labels)
+                  ? getText(t.locale, data.labels[itemKey])
+                  : getText(t.locale, data.labels)
+              }: ${set.data[itemKey]}`}
+            </Box>
           ))
-        )}
-      </canvas>
-    </ChartContainer>
+        )
+      )}
+    />
   );
 };
