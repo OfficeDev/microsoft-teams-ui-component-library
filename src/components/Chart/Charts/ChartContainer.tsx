@@ -86,7 +86,7 @@ const LabelColorValue = ({
 const legendItem = ({
   key,
   value,
-  hidden,
+  chartLabel,
   siteVariables,
   chartDataPointColors,
   onLegendClick,
@@ -94,10 +94,10 @@ const legendItem = ({
 }: {
   key: number;
   value: string;
+  chartLabel: string;
   siteVariables: SiteVariablesPrepared;
   chartDataPointColors: any;
   onLegendClick: (key: number) => void;
-  hidden?: boolean;
   patterns?: IChartPatterns;
 }): ILegendItem => {
   const { t } = siteVariables;
@@ -117,6 +117,10 @@ const legendItem = ({
           color: siteVariables.colorScheme.default.foreground2,
           margin: "2px 0",
         }}
+        aria-label={getText(t.locale, t["legend item"], {
+          label: getText(t.locale, value),
+          chart: chartLabel,
+        })}
         text
       >
         <LabelColorValue
@@ -136,6 +140,7 @@ const LegendItems = (
   data: any,
   siteVariables: SiteVariablesPrepared,
   chartDataPointColors: any,
+  chartLabel: string,
   onLegendClick: (index: number) => void,
   verticalDataAlignment?: boolean,
   patterns?: IChartPatterns
@@ -147,6 +152,7 @@ const LegendItems = (
           value: label,
           siteVariables,
           chartDataPointColors,
+          chartLabel,
           onLegendClick,
           patterns,
         })
@@ -155,9 +161,9 @@ const LegendItems = (
         legendItem({
           key,
           value: dataset.label,
-          hidden: dataset.hidden,
           siteVariables,
           chartDataPointColors,
+          chartLabel,
           onLegendClick,
           patterns,
         })
@@ -198,6 +204,7 @@ export const ChartContainer = ({
         data,
         siteVariables,
         chartDataPointColors,
+        chartLabel,
         onLegendClick,
         verticalDataAlignment,
         patterns

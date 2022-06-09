@@ -138,5 +138,6 @@ export default {
     "view more": "View more",
     "edit dashboard": "Edit dashboard",
     details: "Details",
+    "legend item": "Click to toggle the dataset {label} in {chart}",
   } as TTranslations,
 };
