@@ -1,6 +1,6 @@
 {
   "type": "prerelease",
-  "comment": "Cause screen readers to announce tooltip content as the tooltip changes in chart canvases.",
+  "comment": "Add disambiguating labels to legend buttons.",
   "packageName": "@fluentui/react-teams",
   "email": "willshown@microsoft.com",
   "dependentChangeType": "patch"
