@@ -337,24 +337,30 @@ export const LineStackedChart = ({
       patterns={chartLineStackedDataPointPatterns}
       onLegendClick={onLegendClick}
       tooltipAnnouncements={flatten(
-        data.datasets.map((set, setKey) =>
-          (set.data as number[]).map((item: number, itemKey: number) => (
+        data.datasets.map((set, setKey) => {
+          const sum = (set.data as number[]).reduce(
+            (sum: number, item: number) => sum + item,
+            0
+          );
+          return (set.data as number[]).map((item: number, itemKey: number) => (
             // Generated tooltips for screen readers
             <Box
               data-tooltip={true}
               tabIndex={-1}
-              styles={{ ...visuallyHidden, display: "none" }}
               key={itemKey}
               id={`${chartId}-tooltip-${setKey}-${itemKey}`}
+              styles={{ ...visuallyHidden, display: "none" }}
             >
               {`${getText(t.locale, set.label)} ${
                 data.labels && Array.isArray(data.labels)
                   ? getText(t.locale, data.labels[itemKey])
                   : getText(t.locale, data.labels)
-              }: ${set.data[itemKey]}`}
+              }: ${((100 * item) / sum).toFixed(
+                item / sum >= 0.1 ? 0 : 1
+              )}% (${item})`}
             </Box>
-          ))
-        )
+          ));
+        })
       )}
     />
   );

@@ -321,8 +321,12 @@ export const PieChart = ({
       onLegendClick={onLegendClick}
       verticalDataAlignment
       tooltipAnnouncements={flatten(
-        data.datasets.map((set, setKey) =>
-          (set.data as number[]).map((item: number, itemKey: number) => (
+        data.datasets.map((set, setKey) => {
+          const sum = (set.data as number[]).reduce(
+            (sum: number, item: number) => sum + item,
+            0
+          );
+          return (set.data as number[]).map((item: number, itemKey: number) => (
             // Generated tooltips for screen readers
             <Box
               data-tooltip={true}
@@ -335,10 +339,12 @@ export const PieChart = ({
                 data.labels && Array.isArray(data.labels)
                   ? getText(t.locale, data.labels[itemKey])
                   : getText(t.locale, data.labels)
-              }: ${set.data[itemKey]}`}
+              }: ${((100 * item) / sum).toFixed(
+                item / sum >= 0.1 ? 0 : 1
+              )}% (${item})`}
             </Box>
-          ))
-        )
+          ));
+        })
       )}
     />
   );
