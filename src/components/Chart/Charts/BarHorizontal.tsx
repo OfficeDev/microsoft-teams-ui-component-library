@@ -353,7 +353,7 @@ export const BarHorizontalChart = ({
                     data-tooltip={true}
                     tabIndex={-1}
                     key={dataIndex}
-                    id={`${chartId}-tooltip-${dataIndex}-${setIndex}`}
+                    id={`${chartId}-tooltip-${setIndex}-${dataIndex}`}
                     styles={{ ...visuallyHidden, display: "none" }}
                   >
                     {`${getText(t.locale, dataset.label)} ${
